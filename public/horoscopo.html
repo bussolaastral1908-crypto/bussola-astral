@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bússola Astral — Horóscopo Pessoal</title>
+<!-- Astronomy Engine: VSOP87 – cálculos planetários reais, sem API key, sem CORS -->
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2/astronomy.browser.min.js" onerror="console.warn('[BússolaAstral] Astronomy Engine indisponível — modo simplificado ativo')"></script>
+<style>
+:root {
+  --bg: #0d0d1f; --bg2: #12122a; --card: #181830; --card2: #1e1e3a;
+  --border: #2a2a50; --purple: #7c3fe4; --purple2: #9b5cf0; --purple3: #c4a0ff;
+  --gold: #d4a843; --gold2: #f0c060; --green: #4ade80; --yellow: #facc15;
+  --red: #f87171; --blue: #60a5fa; --text: #e8e0f5; --muted: #7878aa;
+  --muted2: #aaaacc; --fire: #fb923c; --earth: #86efac; --air: #7dd3fc; --water: #818cf8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+.topbar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; gap: 20px; position: sticky; top: 0; z-index: 100; }
+.topbar-logo { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, var(--gold), var(--purple2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; white-space: nowrap; }
+.topbar-nav { display: flex; gap: 4px; flex: 1; }
+.topbar-nav a { color: var(--muted2); text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; transition: all 0.2s; }
+.topbar-nav a:hover, .topbar-nav a.active { background: var(--card2); color: var(--text); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--gold)); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; cursor: pointer; }
+.layout { display: grid; grid-template-columns: 270px 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+@media (max-width: 768px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+.sidebar { display: flex; flex-direction: column; gap: 14px; }
+.scard { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.scard-title { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; padding: 12px 16px 8px; border-bottom: 1px solid var(--border); }
+.profile-card { padding: 20px 16px; text-align: center; }
+.profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--purple2)); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 12px; border: 2px solid var(--border); }
+.profile-name { font-size: 1rem; font-weight: 700; color: var(--text); }
+.profile-meta { font-size: 0.78rem; color: var(--muted); margin-top: 4px; line-height: 1.6; }
+.profile-tag { display: inline-block; background: var(--card2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; color: var(--muted2); margin: 2px; }
+.btn-premium { width: 100%; margin-top: 14px; padding: 9px; background: linear-gradient(135deg, #16a34a, #22c55e); border: none; border-radius: 8px; color: white; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+.btn-edit { width: 100%; margin-top: 6px; padding: 7px; background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 0.78rem; cursor: pointer; transition: all 0.2s; }
+.btn-edit:hover { border-color: var(--purple2); color: var(--text); }
+.sky-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-bottom: 1px solid var(--border); }
+.sky-item:last-child { border-bottom: none; }
+.sky-planet-icon { width: 28px; text-align: center; font-size: 1rem; }
+.sky-planet-name { font-size: 0.8rem; font-weight: 600; color: var(--muted2); flex: 1; }
+.sky-position { font-size: 0.78rem; color: var(--text); text-align: right; }
+.sky-deg { color: var(--gold2); font-weight: 700; }
+.sky-sign { color: var(--purple3); font-size: 0.72rem; }
+.aspect-item { padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+.aspect-item:last-child { border-bottom: none; }
+.aspect-name { color: var(--text); font-weight: 500; }
+.aspect-type { font-size: 0.7rem; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+.aspect-trine  { background: rgba(74,222,128,0.1); color: var(--green); }
+.aspect-square { background: rgba(248,113,113,0.1); color: var(--red); }
+.aspect-sextile{ background: rgba(96,165,250,0.1); color: var(--blue); }
+.aspect-opp    { background: rgba(251,146,60,0.1); color: var(--fire); }
+.aspect-conj   { background: rgba(212,168,67,0.1); color: var(--gold); }
+/* Natal chart sidebar */
+.natal-row { display: flex; align-items: center; gap: 8px; padding: 7px 16px; border-bottom: 1px solid var(--border); }
+.natal-row:last-child { border-bottom: none; }
+.natal-sym { width: 22px; text-align: center; font-size: 1rem; color: var(--gold2); flex-shrink: 0; }
+.natal-name { font-size: 0.75rem; color: var(--muted2); flex: 1; }
+.natal-pos { font-size: 0.78rem; color: var(--text); text-align: right; }
+.natal-deg-val { color: var(--gold2); font-weight: 700; }
+.natal-sign-lbl { color: var(--purple3); font-size: 0.7rem; }
+.natal-asc-badge { display: inline-block; background: rgba(212,168,67,0.12); border: 1px solid rgba(212,168,67,0.3); border-radius: 4px; padding: 0px 5px; font-size: 0.6rem; color: var(--gold); margin-left: 3px; font-weight: 700; vertical-align: middle; }
+.ae-badge { font-size: 0.6rem; color: var(--green); background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2); border-radius: 4px; padding: 1px 5px; margin-left: 4px; }
+/* Main */
+.main { display: flex; flex-direction: column; gap: 16px; }
+.horo-banner { background: linear-gradient(135deg, #1a0a35, #2d1060, #1a0a35); border: 1px solid var(--border); border-radius: 14px; padding: 22px 28px; display: flex; align-items: center; gap: 20px; overflow: hidden; position: relative; }
+.horo-banner::before { content:''; position:absolute; right:-20px; top:-20px; width:160px; height:160px; background:radial-gradient(circle,rgba(124,63,228,0.2) 0%,transparent 70%); border-radius:50%; }
+.banner-icon { font-size: 3.5rem; flex-shrink: 0; }
+.banner-text h1 { font-size: 1.6rem; font-weight: 800; color: var(--text); }
+.banner-text p { color: var(--muted2); font-size: 0.88rem; margin-top: 4px; }
+.profile-tabs-bar { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+.ptab { padding: 6px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.2s; }
+.ptab.active { background: var(--purple); color: white; }
+.ptab-add { width: 30px; height: 30px; border: 1.5px dashed var(--border); border-radius: 50%; background: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.ptab-add:hover { border-color: var(--purple2); color: var(--purple2); }
+.main-tabs { display: flex; gap: 2px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 5px; }
+.mtab { flex: 1; padding: 9px; border: none; background: none; color: var(--muted); cursor: pointer; border-radius: 8px; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; text-align: center; }
+.mtab:hover { color: var(--text); background: var(--card2); }
+.mtab.active { background: var(--purple); color: white; box-shadow: 0 2px 12px rgba(124,63,228,0.4); }
+.setup-form { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 32px; }
+.setup-form h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+.setup-form p { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg.full { grid-column: 1 / -1; }
+label { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+input, select { background: var(--card2); border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); padding: 10px 12px; font-size: 0.9rem; outline: none; transition: border-color 0.2s; width: 100%; }
+input:focus, select:focus { border-color: var(--purple2); }
+select option { background: #1e1e3a; }
+.btn-primary { width: 100%; margin-top: 6px; padding: 13px; background: linear-gradient(135deg, var(--purple), var(--purple2)); border: none; border-radius: 10px; color: white; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.resumo-date { font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; text-transform: capitalize; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.summary-box { background: var(--card2); border-radius: 12px; padding: 18px; border: 1px solid var(--border); }
+.summary-box.positive { border-color: rgba(74,222,128,0.25); }
+.summary-box.caution  { border-color: rgba(250,204,21,0.25); }
+.summary-box-title { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.summary-box.positive .summary-box-title { color: var(--green); }
+.summary-box.caution  .summary-box-title { color: var(--yellow); }
+.summary-list li { font-size: 0.84rem; color: var(--text); line-height: 1.5; padding: 4px 0; list-style: none; padding-left: 18px; position: relative; }
+.summary-list li::before { content: '•'; position: absolute; left: 0; }
+.summary-box.positive .summary-list li::before { color: var(--green); }
+.summary-box.caution  .summary-list li::before { color: var(--yellow); }
+.accordion-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 8px; }
+.accordion-header { display: flex; align-items: center; gap: 12px; padding: 16px; cursor: pointer; transition: background 0.2s; user-select: none; }
+.accordion-header:hover { background: var(--card2); }
+.acc-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.acc-title { font-size: 0.92rem; font-weight: 600; flex: 1; }
+.acc-chevron { color: var(--muted); font-size: 0.8rem; transition: transform 0.3s; }
+.accordion-item.open .acc-chevron { transform: rotate(180deg); }
+.accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s; }
+.accordion-item.open .accordion-body { max-height: 600px; }
+.accordion-content { padding: 0 16px 18px; font-size: 0.87rem; line-height: 1.75; color: var(--muted2); }
+.accordion-content p { margin-bottom: 10px; }
+.accordion-content p:last-child { margin-bottom: 0; }
+.transits-count { font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; }
+.transits-count span { color: var(--purple3); font-weight: 700; }
+.transit-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 10px; transition: border-color 0.2s; }
+.transit-card:hover { border-color: var(--purple); }
+.transit-card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.transit-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.transit-icon.positive { background: rgba(74,222,128,0.1);  border: 1px solid rgba(74,222,128,0.2); }
+.transit-icon.negative { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); }
+.transit-icon.neutral  { background: rgba(96,165,250,0.1);  border: 1px solid rgba(96,165,250,0.2); }
+.transit-title   { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.transit-period  { font-size: 0.75rem; color: var(--muted); }
+.transit-technical { font-size: 0.78rem; color: var(--purple3); background: rgba(155,92,240,0.08); border-radius: 6px; padding: 6px 10px; margin-bottom: 8px; font-style: italic; }
+.transit-desc  { font-size: 0.84rem; color: var(--muted2); line-height: 1.65; }
+.read-more { font-size: 0.78rem; color: var(--purple3); cursor: pointer; margin-top: 6px; display: inline-block; }
+.read-more:hover { color: var(--purple2); }
+.lock-banner { background: var(--card); border: 1px solid rgba(74,222,128,0.3); border-radius: 12px; padding: 24px; text-align: center; margin-top: 10px; }
+.lock-banner .lock-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.lock-banner h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+.lock-banner p { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+.btn-unlock { padding: 12px 28px; background: linear-gradient(135deg, #16a34a, #22c55e); border: none; border-radius: 10px; color: white; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+.panel { display: none; }
+.panel.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.no-data-msg { text-align: center; padding: 48px 20px; color: var(--muted); }
+.no-data-msg .nd-icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+.feedback-bar { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.feedback-bar p { font-size: 0.8rem; color: var(--muted); flex: 1; }
+.fb-btn { padding: 5px 14px; border-radius: 6px; border: 1px solid var(--border); background: none; color: var(--muted2); font-size: 0.78rem; cursor: pointer; transition: all 0.2s; }
+.fb-btn:hover { border-color: var(--purple2); color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo"><img src="/logo.png" alt="Bússola Astral" style="height:36px;width:auto;vertical-align:middle;"> Bússola Astral</div>
+  <nav class="topbar-nav">
+    <a href="#">Astrologia</a>
+    <a href="#">Tarot</a>
+    <a href="#">Blog</a>
+    <a href="#">Mapas Famosos</a>
+  </nav>
+  <div class="topbar-right">
+    <div class="avatar-sm" id="topbar-avatar">✦</div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+
+    <div class="scard">
+      <div class="profile-card" id="sidebar-profile">
+        <div class="profile-avatar" id="sidebar-avatar-icon">✦</div>
+        <div class="profile-name" id="sidebar-name">Seu Perfil</div>
+        <div class="profile-meta" id="sidebar-meta">Preencha seus dados para ver seu horóscopo personalizado</div>
+        <button class="btn-premium">⭐ Habilitar Recursos Premium</button>
+        <button class="btn-edit" onclick="resetProfile()">✎ Editar perfil</button>
+      </div>
+    </div>
+
+    <!-- Mapa Natal (visível após salvar perfil) -->
+    <div class="scard" id="scard-natal" style="display:none">
+      <div class="scard-title">🗺️ Mapa Natal <span id="ae-indicator"></span></div>
+      <div id="natal-planets"></div>
+    </div>
+
+    <div class="scard">
+      <div class="scard-title">🌌 O Céu Agora</div>
+      <div id="sky-planets"></div>
+    </div>
+
+    <div class="scard">
+      <div class="scard-title">⚡ Aspectos Ativos</div>
+      <div id="sky-aspects"></div>
+    </div>
+
+  </aside>
+
+  <main class="main">
+
+    <div class="horo-banner">
+      <div class="banner-icon">🌙</div>
+      <div class="banner-text">
+        <h1>Horóscopo Pessoal</h1>
+        <p>Sua bússola nos céus — do dia de hoje ao próximo ciclo</p>
+      </div>
+    </div>
+
+    <div class="profile-tabs-bar">
+      <button class="ptab active" id="ptab-main">👤 <span id="ptab-name">Você</span></button>
+      <button class="ptab-add" title="Adicionar perfil">+</button>
+    </div>
+
+    <div id="setup-section" class="setup-form">
+      <h2>✨ Configure seu perfil astrológico</h2>
+      <p>Informe seus dados de nascimento para receber interpretações personalizadas com base no seu mapa natal real.</p>
+      <div class="form-grid">
+        <div class="fg full">
+          <label>Seu nome</label>
+          <input type="text" id="f-name" placeholder="Como você se chama?">
+        </div>
+        <div class="fg">
+          <label>Data de nascimento</label>
+          <input type="date" id="f-date" required>
+        </div>
+        <div class="fg">
+          <label>Horário (para o Ascendente)</label>
+          <input type="time" id="f-time">
+        </div>
+        <div class="fg full">
+          <label>Cidade de nascimento (para coordenadas)</label>
+          <input type="text" id="f-city" placeholder="Ex: São Paulo, Rio de Janeiro, Brasília…" list="city-suggestions">
+          <datalist id="city-suggestions"></datalist>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveProfile()">🔮 Gerar meu horóscopo</button>
+    </div>
+
+    <div id="horo-section" style="display:none; flex-direction:column; gap:14px;">
+      <div class="main-tabs">
+        <button class="mtab active" onclick="switchMTab('resumo',this)">📋 Resumo</button>
+        <button class="mtab" onclick="switchMTab('transitos',this)">⚡ Trânsitos</button>
+        <button class="mtab" onclick="switchMTab('futuro',this)">🔭 Futuro</button>
+      </div>
+      <div id="panel-resumo"   class="panel active"></div>
+      <div id="panel-transitos" class="panel"></div>
+      <div id="panel-futuro"   class="panel"></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// CONSTANTS & LOOKUP TABLES
+// ══════════════════════════════════════════════════════════════════
+
+const ZODIAC_NAMES = ['Áries','Touro','Gêmeos','Câncer','Leão','Virgem','Libra','Escorpião','Sagitário','Capricórnio','Aquário','Peixes'];
+const ZODIAC_SYMS  = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+
+const PLANET_META = {
+  sun:     { name:'Sol',      sym:'☉', emoji:'🌞', bodyName:'Sun'     },
+  moon:    { name:'Lua',      sym:'☽', emoji:'🌙', bodyName:'Moon'    },
+  mercury: { name:'Mercúrio', sym:'☿', emoji:'☿',  bodyName:'Mercury' },
+  venus:   { name:'Vênus',    sym:'♀', emoji:'♀️', bodyName:'Venus'   },
+  mars:    { name:'Marte',    sym:'♂', emoji:'♂️', bodyName:'Mars'    },
+  jupiter: { name:'Júpiter',  sym:'♃', emoji:'⚡', bodyName:'Jupiter' },
+  saturn:  { name:'Saturno',  sym:'♄', emoji:'🪐', bodyName:'Saturn'  },
+  uranus:  { name:'Urano',    sym:'♅', emoji:'🔵', bodyName:'Uranus'  },
+  neptune: { name:'Netuno',   sym:'♆', emoji:'🌊', bodyName:'Neptune' },
+  pluto:   { name:'Plutão',   sym:'♇', emoji:'⚫', bodyName:'Pluto'   },
+};
+
+// Simplified orbital elements (fallback when Astronomy Engine is unavailable)
+const PLANET_L0L1 = {
+  sun:     { L0: 280.46646, L1: 36000.76983  },
+  moon:    { L0: 218.31665, L1: 481267.88134 },
+  mercury: { L0: 252.25032, L1: 149472.67411 },
+  venus:   { L0: 181.97980, L1:  58517.81539 },
+  mars:    { L0: 355.43300, L1:  19140.30268 },
+  jupiter: { L0:  34.35148, L1:   3034.90567 },
+  saturn:  { L0:  49.94432, L1:   1222.11370 },
+  uranus:  { L0: 313.23292, L1:    428.48202 },
+  neptune: { L0: 304.87997, L1:    218.45945 },
+  pluto:   { L0: 238.95948, L1:    145.20780 },
+};
+
+// Brazilian cities: lat, lng, tz (UTC offset hours, standard time)
+const CITIES_BR = {
+  'sao paulo':       { lat: -23.5505, lng: -46.6333, tz: -3, display: 'São Paulo' },
+  'rio de janeiro':  { lat: -22.9068, lng: -43.1729, tz: -3, display: 'Rio de Janeiro' },
+  'brasilia':        { lat: -15.7801, lng: -47.9292, tz: -3, display: 'Brasília' },
+  'belo horizonte':  { lat: -19.9167, lng: -43.9345, tz: -3, display: 'Belo Horizonte' },
+  'salvador':        { lat: -12.9714, lng: -38.5014, tz: -3, display: 'Salvador' },
+  'curitiba':        { lat: -25.4290, lng: -49.2671, tz: -3, display: 'Curitiba' },
+  'fortaleza':       { lat:  -3.7172, lng: -38.5433, tz: -3, display: 'Fortaleza' },
+  'manaus':          { lat:  -3.1190, lng: -60.0217, tz: -4, display: 'Manaus' },
+  'recife':          { lat:  -8.0539, lng: -34.8811, tz: -3, display: 'Recife' },
+  'porto alegre':    { lat: -30.0346, lng: -51.2177, tz: -3, display: 'Porto Alegre' },
+  'goiania':         { lat: -16.6869, lng: -49.2648, tz: -3, display: 'Goiânia' },
+  'belem':           { lat:  -1.4558, lng: -48.5044, tz: -3, display: 'Belém' },
+  'florianopolis':   { lat: -27.5954, lng: -48.5480, tz: -3, display: 'Florianópolis' },
+  'campinas':        { lat: -22.9056, lng: -47.0608, tz: -3, display: 'Campinas' },
+  'natal':           { lat:  -5.7945, lng: -35.2110, tz: -3, display: 'Natal' },
+  'maceio':          { lat:  -9.6658, lng: -35.7350, tz: -3, display: 'Maceió' },
+  'teresina':        { lat:  -5.0920, lng: -42.8038, tz: -3, display: 'Teresina' },
+  'campo grande':    { lat: -20.4697, lng: -54.6201, tz: -4, display: 'Campo Grande' },
+  'joao pessoa':     { lat:  -7.1195, lng: -34.8450, tz: -3, display: 'João Pessoa' },
+  'aracaju':         { lat: -10.9472, lng: -37.0731, tz: -3, display: 'Aracaju' },
+  'porto velho':     { lat:  -8.7612, lng: -63.9004, tz: -4, display: 'Porto Velho' },
+  'cuiaba':          { lat: -15.6014, lng: -56.0979, tz: -4, display: 'Cuiabá' },
+  'macapa':          { lat:   0.0389, lng: -51.0664, tz: -3, display: 'Macapá' },
+  'rio branco':      { lat:  -9.9754, lng: -67.8249, tz: -5, display: 'Rio Branco' },
+  'boa vista':       { lat:   2.8235, lng: -60.6758, tz: -4, display: 'Boa Vista' },
+  'palmas':          { lat: -10.2491, lng: -48.3243, tz: -3, display: 'Palmas' },
+  'vitoria':         { lat: -20.3155, lng: -40.3128, tz: -3, display: 'Vitória' },
+  'sao luis':        { lat:  -2.5297, lng: -44.3028, tz: -3, display: 'São Luís' },
+  'londrina':        { lat: -23.3045, lng: -51.1696, tz: -3, display: 'Londrina' },
+  'joinville':       { lat: -26.3044, lng: -48.8487, tz: -3, display: 'Joinville' },
+  'uberlandia':      { lat: -18.9186, lng: -48.2772, tz: -3, display: 'Uberlândia' },
+  'santos':          { lat: -23.9618, lng: -46.3322, tz: -3, display: 'Santos' },
+  'ribeirao preto':  { lat: -21.1775, lng: -47.8103, tz: -3, display: 'Ribeirão Preto' },
+  'sorocaba':        { lat: -23.5015, lng: -47.4526, tz: -3, display: 'Sorocaba' },
+  'feira de santana':{ lat: -12.2664, lng: -38.9663, tz: -3, display: 'Feira de Santana' },
+};
+
+function normCity(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z\s]/g,'').trim();
+}
+function findCity(str) {
+  if (!str) return null;
+  const n = normCity(str);
+  // exact
+  for (const [k,v] of Object.entries(CITIES_BR)) { if (k === n) return v; }
+  // starts-with
+  for (const [k,v] of Object.entries(CITIES_BR)) { if (k.startsWith(n) || n.startsWith(k)) return v; }
+  // partial
+  for (const [k,v] of Object.entries(CITIES_BR)) { if (k.includes(n) || n.includes(k)) return v; }
+  return null;
+}
+
+// Populate datalist
+Object.values(CITIES_BR).forEach(c => {
+  const opt = document.createElement('option');
+  opt.value = c.display;
+  document.getElementById('city-suggestions').appendChild(opt);
+});
+
+// ══════════════════════════════════════════════════════════════════
+// ASTRONOMY ENGINE WRAPPERS (with simplified fallback)
+// ══════════════════════════════════════════════════════════════════
+
+function julianDate(date) {
+  let y = date.getFullYear(), m = date.getMonth()+1, d = date.getDate();
+  const h = date.getHours() + date.getMinutes()/60 + date.getSeconds()/3600;
+  if (m <= 2) { y--; m += 12; }
+  const A = Math.floor(y/100), B = 2 - A + Math.floor(A/4);
+  return Math.floor(365.25*(y+4716)) + Math.floor(30.6001*(m+1)) + d + h/24 + B - 1524.5;
+}
+
+function normLon(lon) { return ((lon % 360) + 360) % 360; }
+
+function lonToSign(lon) {
+  const idx = Math.floor(normLon(lon) / 30) % 12;
+  return { signIndex: idx, degree: normLon(lon) % 30, signName: ZODIAC_NAMES[idx], signSym: ZODIAC_SYMS[idx] };
+}
+
+function getEclipticLon(bodyKey, date) {
+  const AE = window.Astronomy;
+  if (AE) {
+    try {
+      if (bodyKey === 'sun') {
+        return normLon(AE.SunPosition(date).elon);
+      }
+      const bn = PLANET_META[bodyKey] && PLANET_META[bodyKey].bodyName;
+      if (bn) {
+        const vec = AE.GeoVector(bn, date, false);
+        return normLon(AE.Ecliptic(vec).elon);
+      }
+    } catch(e) { /* fall through */ }
+  }
+  // Simplified fallback
+  const jd = julianDate(date);
+  const T = (jd - 2451545.0) / 36525;
+  const p = PLANET_L0L1[bodyKey];
+  return p ? normLon(p.L0 + p.L1 * T) : 0;
+}
+
+function isUsingRealEngine() { return !!window.Astronomy; }
+
+function getPlanetPositions(date) {
+  const result = {};
+  for (const [key, meta] of Object.entries(PLANET_META)) {
+    const lon = getEclipticLon(key, date);
+    const s = lonToSign(lon);
+    result[key] = { ...meta, longitude: lon, ...s };
+  }
+  return result;
+}
+
+// Ascendant from birth datetime + lat/lng
+function calcAscendant(date, lat, lng) {
+  const AE = window.Astronomy;
+  let gast;
+  if (AE) {
+    try { gast = AE.SiderealTime(date); } catch(e) {}
+  }
+  if (gast === undefined || gast === null) {
+    const jd = julianDate(date);
+    const T = (jd - 2451545.0) / 36525;
+    gast = ((6.697374558 + 2400.0513369*T + 0.0000258622*T*T) % 24 + 24) % 24;
+  }
+  const ramc = ((gast + lng/15) * 15 % 360 + 360) % 360;
+  const eps  = 23.4393 * Math.PI / 180;
+  const latr = lat * Math.PI / 180;
+  const ramcr = ramc * Math.PI / 180;
+  const y = -Math.cos(ramcr);
+  const x =  Math.sin(ramcr)*Math.cos(eps) + Math.tan(latr)*Math.sin(eps);
+  return normLon(Math.atan2(y, x) * 180 / Math.PI);
+}
+
+// Sky aspects
+function getAspects(positions) {
+  const PAIRS = [
+    ['sun','moon'],['sun','mercury'],['sun','venus'],['sun','mars'],['sun','jupiter'],
+    ['moon','saturn'],['moon','jupiter'],['venus','mars'],['mars','jupiter'],
+    ['jupiter','saturn'],['saturn','neptune'],['sun','neptune'],['mercury','venus']
+  ];
+  const DEFS = [
+    {name:'Conjunção',a:0,  orb:8, cls:'aspect-conj'},
+    {name:'Sextil',   a:60, orb:6, cls:'aspect-sextile'},
+    {name:'Quadratura',a:90,orb:8, cls:'aspect-square'},
+    {name:'Trígono',  a:120,orb:8, cls:'aspect-trine'},
+    {name:'Oposição', a:180,orb:8, cls:'aspect-opp'},
+  ];
+  const aspects = [];
+  for (const [a,b] of PAIRS) {
+    if (!positions[a] || !positions[b]) continue;
+    let diff = Math.abs(positions[a].longitude - positions[b].longitude);
+    if (diff > 180) diff = 360 - diff;
+    for (const def of DEFS) {
+      if (Math.abs(diff - def.a) <= def.orb) {
+        aspects.push({ a: positions[a].name, b: positions[b].name, name: def.name, cls: def.cls });
+        break;
+      }
+    }
+  }
+  return aspects.slice(0, 7);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// NATAL CHART
+// ══════════════════════════════════════════════════════════════════
+
+function getNatalChart(p) {
+  // p = { date, time, city }
+  let birthDate;
+  if (p.time) {
+    birthDate = new Date(p.date + 'T' + p.time + ':00');
+  } else {
+    birthDate = new Date(p.date + 'T12:00:00'); // noon as default
+  }
+
+  const positions = getPlanetPositions(birthDate);
+  let asc = null;
+  let cityData = null;
+
+  if (p.time && p.city) {
+    cityData = findCity(p.city);
+    if (cityData) {
+      // Convert local time to UTC for sidereal time calc
+      // birthDate is already in local JS Date (system tz). For born-in-Brazil, tz offset is -3 standard.
+      // We construct the birth moment in UTC using the city's standard timezone.
+      const [yr, mo, dy] = p.date.split('-').map(Number);
+      const [hr, mn] = p.time.split(':').map(Number);
+      // UTC time = local time - tz offset
+      const utcMs = Date.UTC(yr, mo-1, dy, hr - cityData.tz, mn, 0);
+      const birthUTC = new Date(utcMs);
+      asc = calcAscendant(birthUTC, cityData.lat, cityData.lng);
+    }
+  }
+
+  return { positions, asc, cityData, birthDate, hasTime: !!p.time };
+}
+
+// ══════════════════════════════════════════════════════════════════
+// REAL TRANSIT DETECTION
+// ══════════════════════════════════════════════════════════════════
+
+const ASPECT_DEFS = [
+  { name:'Conjunção', a:0,   orb:8, harmony:'neutral'  },
+  { name:'Sextil',    a:60,  orb:6, harmony:'positive' },
+  { name:'Quadratura',a:90,  orb:8, harmony:'negative' },
+  { name:'Trígono',   a:120, orb:8, harmony:'positive' },
+  { name:'Oposição',  a:180, orb:8, harmony:'negative' },
+];
+
+const TRANSIT_DURATION = {
+  sun:     '3–5 dias',  moon:    '1–2 dias',  mercury: '5–10 dias',
+  venus:   '1–2 sem',   mars:    '3–4 sem',   jupiter: '2–4 meses',
+  saturn:  '3–6 meses', uranus:  '1–2 anos',  neptune: '1–3 anos', pluto: '2–5 anos',
+};
+
+const TRANSIT_ICONS = {
+  positive: { sun:'💫',moon:'🌕',mercury:'💬',venus:'❤️',mars:'🔥',jupiter:'🌟',saturn:'🏆',uranus:'⚡',neptune:'🔮',pluto:'🌀' },
+  negative: { sun:'⚡',moon:'🌊',mercury:'🔄',venus:'💔',mars:'⚠️',jupiter:'📈',saturn:'🔱',uranus:'🌪️',neptune:'🌫️',pluto:'⬛' },
+  neutral:  { sun:'☀️',moon:'🌙',mercury:'✉️',venus:'🌸',mars:'⚔️',jupiter:'🎯',saturn:'🪨',uranus:'🔵',neptune:'🌊',pluto:'🖤' },
+};
+
+const TRANSIT_THEMES = {
+  sun:     {
+    positive: { title:'Energia e propósito em alta',           desc:'O Sol transita em harmonia com seu mapa. Vitalidade, visibilidade e clareza de propósito estão amplificados. Ações tomadas agora têm impacto duradouro.' },
+    negative: { title:'Tensão de identidade e propósito',       desc:'Um confronto entre quem você está sendo e quem precisa ser. O desconforto é produtivo — está revelando onde há lacunas a corrigir.' },
+    neutral:  { title:'Clareza solar em foco',                  desc:'O Sol ativa uma área importante do seu mapa. Atenção e consciência sobre esses temas agora trazem insights valiosos.' },
+  },
+  moon:    {
+    positive: { title:'Harmonia emocional fluindo',             desc:'Seus sentimentos e intuição estão em sintonia com o momento. Relacionamentos afetivos ganham profundidade e naturalidade.' },
+    negative: { title:'Ondas emocionais em movimento',          desc:'Emoções intensas surgem para ser processadas. Evite decisões importantes sob esse estado — a clareza volta em breve.' },
+    neutral:  { title:'Momento de sentir com atenção',          desc:'A Lua convida a uma reflexão sobre suas necessidades emocionais mais profundas. O que o seu interior está comunicando?' },
+  },
+  mercury: {
+    positive: { title:'Comunicação e ideias favorecidas',       desc:'Negociações, contratos e conversas importantes fluem com facilidade. Uma ideia que você está desenvolvendo tem potencial real agora.' },
+    negative: { title:'Atenção redobrada na comunicação',       desc:'Mal-entendidos podem surgir — revise o que você envia antes de confirmar. Cuidado com decisões baseadas em informações incompletas.' },
+    neutral:  { title:'Foco mental ativado',                    desc:'Mercúrio estimula análise e reflexão. Bom momento para estudar, planejar ou revisar projetos em andamento.' },
+  },
+  venus:   {
+    positive: { title:'Amor e harmonia em destaque',            desc:'Vênus traz beleza, prazer e conexão genuína. Um relacionamento se aprofunda, ou algo novo e significativo se aproxima.' },
+    negative: { title:'Tensão nos valores e afetos',            desc:'Questões de afeto, dinheiro ou autoestima precisam de clareza. Uma conversa difícil, bem conduzida, resolve mais do que o silêncio.' },
+    neutral:  { title:'Revisão do que você valoriza',           desc:'O que você realmente quer nos seus relacionamentos? Vênus convida a uma reflexão genuína sobre seus padrões afetivos e materiais.' },
+  },
+  mars:    {
+    positive: { title:'Energia e iniciativa liberadas',         desc:'Marte ativa seu poder de ação. Projetos travados ganham impulso. Sua assertividade está em alta — use com direção e foco.' },
+    negative: { title:'Impulsividade pede canal construtivo',   desc:'Energia intensa precisa de saída. Exercício físico, projetos desafiadores ou conversas honestas são melhores que conflitos desnecessários.' },
+    neutral:  { title:'Movimento e iniciativa em foco',         desc:'Marte estimula você a se mover. Uma iniciativa que estava pendente pode finalmente dar o próximo passo agora.' },
+  },
+  jupiter: {
+    positive: { title:'Expansão e oportunidade chegando',       desc:'Um dos melhores trânsitos que existem. Crescimento, abundância e novas possibilidades surgem. Diga sim ao que genuinamente expande sua vida.' },
+    negative: { title:'Otimismo pede moderação',                desc:'Júpiter pode amplificar tanto o bem quanto o excesso. Aproveite a energia expansiva, mas valide antes de comprometer recursos demais.' },
+    neutral:  { title:'Crescimento e visão ampliada',           desc:'Júpiter expande sua visão de mundo. Aprendizado, viagens e novas perspectivas filosóficas estão favorecidos neste período.' },
+  },
+  saturn:  {
+    positive: { title:'Estrutura e disciplina construtivas',    desc:'Saturno em harmonia recompensa o trabalho consistente. Projetos sólidos ganham fundação duradoura. O esforço desta fase traz retorno real.' },
+    negative: { title:'Obstáculos ensinando solidez',           desc:'Saturno em tensão testa a solidez do que você construiu. Não é punição — é o mestre mostrando onde há lacunas a preencher com mais rigor.' },
+    neutral:  { title:'Avaliação e responsabilidade',           desc:'Um período de análise séria. O que está funcionando? O que precisa ser reconstruído com mais solidez e comprometimento?' },
+  },
+  uranus:  {
+    positive: { title:'Libertação e renovação inesperada',      desc:'Urano traz mudanças que libertam. O que parecia estável mas estava estagnado recebe um sopro renovador de transformação genuína.' },
+    negative: { title:'Rupturas e necessidade de adaptação',    desc:'Mudanças abruptas testam sua capacidade de adaptação. O que se quebra não estava te servindo — a transição pode ser desconfortável, mas necessária.' },
+    neutral:  { title:'Originalidade e mudança de rota',        desc:'Urano convida para fora da zona de conforto. Uma nova perspectiva ou mudança de direção pode ser exatamente o que você precisa neste momento.' },
+  },
+  neptune: {
+    positive: { title:'Intuição e criatividade amplificadas',   desc:'Netuno afina sua percepção espiritual e criativa. Sonhos, artes e conexões espirituais estão em alta. Confie nas mensagens que chegam.' },
+    negative: { title:'Confusão pede aterramento',              desc:'Netuno em tensão pode turvar a percepção da realidade. Adie decisões importantes e confirme todas as informações antes de agir.' },
+    neutral:  { title:'Sonho e transcendência disponíveis',     desc:'Uma dimensão mais sutil se torna acessível. Práticas espirituais, criativas ou de cura têm profundidade especial neste momento.' },
+  },
+  pluto:   {
+    positive: { title:'Transformação profunda e poder pessoal', desc:'Plutão em harmonia catalisa transformações que fortalecem. Você está moldando quem será na próxima fase da sua vida — com toda sua profundidade.' },
+    negative: { title:'Transformação profunda e inevitável',    desc:'O que precisa morrer para que algo novo nasça? Plutão não permite que o que está superado continue. A resistência prolonga — a entrega transforma.' },
+    neutral:  { title:'Profundidade e renovação de padrões',    desc:'Algo está sendo transformado em nível profundo. Um padrão antigo está sendo substituído por algo mais autêntico e alinhado com quem você é.' },
+  },
+};
+
+const PLANET_PT = {
+  Sun:'Sol', Moon:'Lua', Mercury:'Mercúrio', Venus:'Vênus', Mars:'Marte',
+  Jupiter:'Júpiter', Saturn:'Saturno', Uranus:'Urano', Neptune:'Netuno', Pluto:'Plutão',
+};
+
+function getRealTransits(natalPositions, currentPositions) {
+  const TRANSIT_PLANETS = ['sun','moon','mercury','venus','mars','jupiter','saturn','uranus','neptune','pluto'];
+  const NATAL_PLANETS   = ['sun','moon','mercury','venus','mars','jupiter','saturn'];
+  const IMPORTANCE = { pluto:0, neptune:1, uranus:2, saturn:3, jupiter:4, mars:5, sun:6, venus:7, mercury:8, moon:9 };
+  const results = [];
+
+  for (const tp of TRANSIT_PLANETS) {
+    const tcur = currentPositions[tp];
+    if (!tcur) continue;
+    for (const np of NATAL_PLANETS) {
+      if (tp === np) continue;
+      const tn = natalPositions[np];
+      if (!tn) continue;
+      let diff = Math.abs(tcur.longitude - tn.longitude);
+      if (diff > 180) diff = 360 - diff;
+      for (const asp of ASPECT_DEFS) {
+        if (Math.abs(diff - asp.a) <= asp.orb) {
+          const theme = TRANSIT_THEMES[tp] || TRANSIT_THEMES.sun;
+          const interp = theme[asp.harmony] || theme.neutral;
+          const icons = TRANSIT_ICONS[asp.harmony] || TRANSIT_ICONS.neutral;
+          results.push({
+            icon:     icons[tp] || '🔮',
+            type:     asp.harmony,
+            title:    interp.title,
+            period:   `Duração estimada: ${TRANSIT_DURATION[tp] || '?'}`,
+            tech:     `${tcur.name} transitando em ${asp.name} com seu ${tn.name} natal (${tcur.degree.toFixed(0)}°${tcur.signSym} → ${tn.degree.toFixed(0)}°${tn.signSym})`,
+            desc:     interp.desc + ` — ativando seu ${tn.name} natal em ${tn.signName}.`,
+            _imp:     IMPORTANCE[tp] !== undefined ? IMPORTANCE[tp] : 9,
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  results.sort((a,b) => a._imp - b._imp);
+  return results.slice(0, 8);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SIGN DATA
+// ══════════════════════════════════════════════════════════════════
+const SIGN_DATA = {
+  aries:       { name:'Áries',       sym:'♈', el:'Fogo',  planet:'Marte',    emoji:'🔴', dates:'21/03–19/04' },
+  taurus:      { name:'Touro',       sym:'♉', el:'Terra', planet:'Vênus',    emoji:'🟢', dates:'20/04–20/05' },
+  gemini:      { name:'Gêmeos',      sym:'♊', el:'Ar',    planet:'Mercúrio', emoji:'🟡', dates:'21/05–20/06' },
+  cancer:      { name:'Câncer',      sym:'♋', el:'Água',  planet:'Lua',      emoji:'🔵', dates:'21/06–22/07' },
+  leo:         { name:'Leão',        sym:'♌', el:'Fogo',  planet:'Sol',      emoji:'🟠', dates:'23/07–22/08' },
+  virgo:       { name:'Virgem',      sym:'♍', el:'Terra', planet:'Mercúrio', emoji:'🟤', dates:'23/08–22/09' },
+  libra:       { name:'Libra',       sym:'♎', el:'Ar',    planet:'Vênus',    emoji:'🩵', dates:'23/09–22/10' },
+  scorpio:     { name:'Escorpião',   sym:'♏', el:'Água',  planet:'Plutão',   emoji:'🔴', dates:'23/10–21/11' },
+  sagittarius: { name:'Sagitário',   sym:'♐', el:'Fogo',  planet:'Júpiter',  emoji:'🟣', dates:'22/11–21/12' },
+  capricorn:   { name:'Capricórnio', sym:'♑', el:'Terra', planet:'Saturno',  emoji:'⬛', dates:'22/12–19/01' },
+  aquarius:    { name:'Aquário',     sym:'♒', el:'Ar',    planet:'Urano',    emoji:'🔷', dates:'20/01–18/02' },
+  pisces:      { name:'Peixes',      sym:'♓', el:'Água',  planet:'Netuno',   emoji:'🩷', dates:'19/02–20/03' },
+};
+
+function getSunSign(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const m = d.getMonth()+1, day = d.getDate();
+  if ((m===1&&day>=20)||(m===2&&day<=18)) return 'aquarius';
+  if ((m===2&&day>=19)||(m===3&&day<=20)) return 'pisces';
+  if ((m===3&&day>=21)||(m===4&&day<=19)) return 'aries';
+  if ((m===4&&day>=20)||(m===5&&day<=20)) return 'taurus';
+  if ((m===5&&day>=21)||(m===6&&day<=20)) return 'gemini';
+  if ((m===6&&day>=21)||(m===7&&day<=22)) return 'cancer';
+  if ((m===7&&day>=23)||(m===8&&day<=22)) return 'leo';
+  if ((m===8&&day>=23)||(m===9&&day<=22)) return 'virgo';
+  if ((m===9&&day>=23)||(m===10&&day<=22)) return 'libra';
+  if ((m===10&&day>=23)||(m===11&&day<=21)) return 'scorpio';
+  if ((m===11&&day>=22)||(m===12&&day<=21)) return 'sagittarius';
+  return 'capricorn';
+}
+
+// ══════════════════════════════════════════════════════════════════
+// CONTENT: accordions per sign
+// ══════════════════════════════════════════════════════════════════
+const ACCORDIONS = {
+  aries: {
+    positive: ['Iniciar projetos com coragem', 'Liderar com entusiasmo', 'Agir com determinação'],
+    caution: ['Decisões impulsivas', 'Conflitos desnecessários', 'Atropelar limites alheios'],
+    amor: 'Marte, seu regente, ativa sua intensidade amorosa hoje. Você está irresistível — mas a mesma energia que atrai também pode criar atritos. Se há algo que você precisa expressar, diga com clareza e sem rodeios. Parceiros valorizam sua honestidade, mas precisam de espaço para responder. Em relacionamentos já estabelecidos, um gesto de afeto espontâneo surpreende e fortalece.',
+    dinheiro: 'O momento pede ação estratégica, não impulsiva. Há uma oportunidade de negócio no horizonte, mas ela requer análise antes da decisão. Sua energia empreendedora está alta — use isso para avançar projetos que já estão em andamento, em vez de começar algo completamente novo. Evite gastos por impulso hoje.',
+    familia: 'Dinâmica familiar animada — sua presença enérgica tanto inspira quanto pode provocar. Escolha suas batalhas com sabedoria. Um parente pode pedir seu conselho; ouça antes de dar sua opinião. Uma reunião ou celebração em família tem potencial positivo se você mantiver a leveza.',
+    saude: 'Sua energia física está em alta. Canalizar isso em exercício intenso é o melhor remédio. Atenção: cabeça e rosto são áreas sensíveis de Áries — se houver dores de cabeça ou tensão, descanso e hidratação são essenciais. Evite exposição excessiva ao sol.',
+    espiritualidade: 'Os astros convidam você à reflexão sobre seus impulsos: de onde eles vêm? O que eles protegem? Meditação ativa, yoga ou qualquer prática que combine movimento e introspecção está indicada. Você cresce espiritualmente quando aprende que parar também é um ato de força.',
+    periodo: 'Você está num ciclo de afirmação pessoal. O universo está testando sua capacidade de agir de forma autêntica sem precisar da aprovação dos outros. Cada desafio que aparece agora é um convite para conhecer melhor seus próprios limites e potenciais. Confie no processo — o que parece resistência está fortalecendo suas raízes.',
+  },
+  taurus: {
+    positive: ['Construir com paciência e foco', 'Apreciar os prazeres simples', 'Tomar decisões sólidas e bem ponderadas'],
+    caution: ['Teimosia excessiva', 'Apego a situações que já se esgotaram', 'Resistência a mudanças necessárias'],
+    amor: 'Vênus, sua regente, envolve o dia em suavidade. Relações afetivas ganham profundidade quando você demonstra presença genuína — não só provisão material. Tocante, paciente e fiel, você ama com a estabilidade que poucos oferecem. Hoje, um gesto simples de carinho tem mais valor do que qualquer presente. Solteiros: alguém consistente e confiável pode aparecer no seu caminho.',
+    dinheiro: 'Finanças em destaque positivo. Sua habilidade de planejar em longo prazo abre oportunidades que impacientes não conseguem ver. Um investimento conservador feito com cuidado tem potencial de retorno sólido. Evite empréstimos ou gastos além do orçamento — sua segurança financeira é seu bem mais valioso.',
+    familia: 'O lar é seu refúgio, e hoje ele pode precisar de atenção. Uma conversa familiar que foi adiada precisa acontecer com calma e escuta. Você é o pilar emocional da família — lembre-se de também expressar quando você precisa de apoio. Um projeto doméstico ou mudança de ambiente pode trazer satisfação concreta.',
+    saude: 'Garganta, pescoço e tireoide são áreas de atenção para Touro. Se há algo que você está engolindo sem dizer, o corpo vai sinalizando. Atividade física que conecta com a natureza — caminhada, jardinagem, tai chi — fazem bem para seu sistema energético. Alimentação consciente traz resultados visíveis.',
+    espiritualidade: 'Sua espiritualidade passa pelo corpo e pelos sentidos. Estar na natureza, meditar ao ar livre, trabalhar com cristais ou simplesmente apreciar a beleza do momento são práticas que te conectam com o divino. Não precisa de teoria complexa — a sacralidade, para Touro, está na experiência direta.',
+    periodo: 'Você está num ciclo de consolidação de valores. O que realmente importa para você? O que você guardou por inércia em vez de escolha? Este é um período de qualidade sobre quantidade — em relacionamentos, projetos e posses. Simplifique e aprofunde.',
+  },
+  gemini: {
+    positive: ['Comunicar ideias com brilhantismo', 'Criar conexões valiosas', 'Aprender algo novo e empolgante'],
+    caution: ['Dispersão de energia', 'Comprometimentos que não consegue honrar', 'Julgamentos superficiais'],
+    amor: 'Sua leveza e humor são seus maiores atrativos hoje. A conexão intelectual é o que mais te seduz — e hoje ela está disponível. Em relacionamentos, uma conversa honesta pode desfazer um nó que estava se formando. Solteiros: uma troca de palavras aparentemente casual pode se tornar muito mais. O jogo intelectual está em alta.',
+    dinheiro: 'Mercúrio favorece negociações e contratos. Se você tem algo para propor, hoje as palavras saem na ponta da língua. Um projeto criativo ou de comunicação tem potencial financeiro que você pode estar subestimando. Cuidado com contratos assinados às pressas — leia tudo antes.',
+    familia: 'Você é o animador da família — sua capacidade de iluminar qualquer ambiente é real. Mas hoje os astros pedem que você também escute com paciência quem tem mais dificuldade de se expressar. Um parente mais velho ou uma criança pode ter algo importante a dizer se você criar o espaço.',
+    saude: 'Pulmões, ombros e sistema nervoso são pontos de atenção geminiano. O excesso de estimulação mental pode gerar ansiedade ou tensão física. Práticas de respiração, pausas regulares e sono adequado são mais importantes do que parecem. Seu cérebro precisa de downtime.',
+    espiritualidade: 'A mente inquieta de Gêmeos pode ser transformada em ferramenta espiritual quando bem direcionada. Leitura de textos filosóficos ou espirituais, escrita reflexiva, ou meditação com mantras funcionam bem. Sua espiritualidade é curiosa e eclética — e isso é um dom, não uma limitação.',
+    periodo: 'Você está num ciclo de expansão intelectual e social. Novas conexões, aprendizados e perspectivas estão entrando na sua vida em ritmo acelerado. O desafio deste período é aprofundar em vez de apenas colecionar experiências. Qual é a ideia que merece toda a sua atenção por tempo suficiente para se tornar real?',
+  },
+  cancer: {
+    positive: ['Nutrir quem você ama com autenticidade', 'Confiar na sua intuição', 'Criar ambientes de segurança e acolhimento'],
+    caution: ['Humor instável sem comunicação', 'Apego excessivo ao passado', 'Fechar-se quando o que precisa é de conexão'],
+    amor: 'A Lua em aspecto favorável ativa sua profundidade emocional — você está mais vulnerável e mais poderoso ao mesmo tempo. Demonstrar afeto hoje tem um peso especial. Em relacionamentos, uma conversa sobre sentimentos que você tem guardado pode criar uma virada de nível na conexão. Solteiros: alguém sensível e genuíno pode se aproximar.',
+    dinheiro: 'Seu instinto financeiro está aguçado — confie nas percepções que você está tendo sobre uma oportunidade ou risco. A área do lar pode demandar gastos que valem a pena: investir no espaço doméstico é investir em você. Evite decisões financeiras baseadas em insegurança.',
+    familia: 'O lar é o seu reino e hoje ele pede atenção. Uma situação familiar que ficou em segundo plano precisa ser revisada com carinho. Você tem um talento único para criar sentimento de pertencimento — use isso conscientemente. Um momento de reunião ou celebração com pessoas queridas carrega significado especial.',
+    saude: 'Estômago, digestão e sistema imune são sensíveis em Câncer. Emoções não processadas frequentemente se manifestam como desconforto físico. Comer com consciência, em paz, sem telas é mais curativo do que parece. Atividades aquáticas — banho de imersão, natação, contato com o mar — têm efeito restaurador.',
+    espiritualidade: 'Sua espiritualidade está profundamente ligada aos ancestrais, à memória e ao inconsciente coletivo. Sonhos e intuições são mensagens genuínas — registre-os. Rituais domésticos simples (incenso, vela, planta) criam um espaço sagrado que alimenta sua alma.',
+    periodo: 'Você está num ciclo de cura emocional. Padrões antigos — especialmente os herdados da família — estão sendo revistos. Não é punição: é libertação. O que você está deixando de carregar está criando espaço para novas formas de amor e pertencimento que são genuinamente seus.',
+  },
+  leo: {
+    positive: ['Expressar sua criatividade com generosidade', 'Liderar pelo coração', 'Celebrar conquistas com quem você ama'],
+    caution: ['Necessidade de validação excessiva', 'Drama desnecessário', 'Ofuscar os outros sem perceber'],
+    amor: 'O Sol, seu regente, brilha sobre seus relacionamentos hoje. Você está magnético, carismático e apaixonado — use isso para celebrar a pessoa ao seu lado, não apenas para ser admirado. No amor, Leão cresce quando aprende que receber amor com humildade é tão poderoso quanto dar com grandiosidade. Solteiros: uma paixão inesperada pode surgir num ambiente social.',
+    dinheiro: 'Projetos criativos têm potencial financeiro real agora. Sua capacidade de apresentar ideias com entusiasmo contagiante pode convencer investidores ou clientes. Cuidado com o estilo de vida leonino: generosidade com os outros é um dom, mas o orçamento precisa ter limites. Um reconhecimento financeiro pode chegar.',
+    familia: 'Você é a estrela da família — e isso pode ser uma responsabilidade pesada às vezes. Hoje, compartilhe o palco. Incentive um parente mais tímido, reconheça as contribuições de quem costuma ficar na sombra. A nobreza de Leão está em iluminar os outros, não em ser o único a brilhar.',
+    saude: 'Coração e coluna são as áreas de saúde de Leão. Atividade física que você ama (não que você se obriga a fazer) é o melhor remédio. A saúde emocional precisa de expressão: artes, dança, canto — qualquer forma de criação que te conecte com sua alegria interior.',
+    espiritualidade: 'Sua jornada espiritual passa pela autenticidade e pela criação. Você se conecta com o sagrado através da beleza, da expressão artística e do amor genuíno. Meditações criativas, visualizações ou qualquer prática que honre sua singularidade te elevam de forma real.',
+    periodo: 'Você está num ciclo de reconhecimento e autovalorização. A questão central é: você consegue reconhecer seu próprio valor independentemente da plateia? Este período te convida a construir uma autoestima que não oscila com a aprovação dos outros — e quando isso acontece, seu brilho se torna imensurável.',
+  },
+  virgo: {
+    positive: ['Organizar e otimizar com maestria', 'Servir com precisão e cuidado', 'Analisar situações com clareza'],
+    caution: ['Autocrítica paralisante', 'Preocupação com o que não é urgente', 'Perfeccionismo que impede o começo'],
+    amor: 'Seu amor se expressa em atos concretos de cuidado — mas hoje os astros pedem que você também verbalize seus sentimentos. Virgem tende a demonstrar amor consertando, organizando e servindo — e isso tem valor real — mas palavras de afeto têm um efeito que atos práticos não alcançam. Arrisque-se a ser mais direto na expressão emocional.',
+    dinheiro: 'Sua atenção aos detalhes financeiros é um superpoder. Um documento, contrato ou análise financeira que você fizer hoje pode revelar algo que estava passando despercebido. Momento favorável para organizar orçamentos, revisar investimentos ou negociar condições melhores.',
+    familia: 'Você é o organizador silencioso da família — o que garante que tudo funcione. Hoje, o reconhecimento por esse papel pode finalmente aparecer. Um familiar pode pedir ajuda prática; você tem exatamente o que ele precisa. Mas lembre-se de também expressar suas necessidades — não apenas resolver as dos outros.',
+    saude: 'Intestino, digestão e sistema nervoso são as áreas de saúde virginiana. Stress acumulado se manifesta aqui com frequência. Alimentação funcional, probióticos e horários regulares de refeição fazem diferença real. Pratique sair da cabeça alguns momentos por dia — o corpo sabe coisas que a mente não consegue processar.',
+    espiritualidade: 'Sua espiritualidade é prática e encarnada. Você encontra o sagrado em rituais cotidianos: uma refeição preparada com intenção, um jardim cuidado com amor, uma tarefa feita com atenção plena. Meditação de mindfulness e práticas de gratidão diária se encaixam perfeitamente na sua natureza.',
+    periodo: 'Você está num ciclo de purificação e clareza. O que não serve mais — hábitos, relações, crenças — está sendo descartado de forma natural. Confie no processo de simplificação. A leveza que vem depois compensa o desconforto da triagem.',
+  },
+  libra: {
+    positive: ['Mediar conflitos com diplomacia', 'Criar beleza e harmonia ao redor', 'Construir parcerias valiosas'],
+    caution: ['Indecisão que adia o necessário', 'Ceder demais para evitar conflito', 'Buscar aprovação em vez de agir pela própria convicção'],
+    amor: 'Vênus, sua regente, está especialmente ativa no setor de relacionamentos. Harmonia e romance estão disponíveis — mas só se você estiver disposto a ser honesto sobre o que realmente quer. Libra às vezes mantém a paz à custa da própria satisfação: hoje, autenticidade cria uma conexão mais profunda do que diplomacia. Solteiros: o amor pode aparecer em contexto social ou cultural.',
+    dinheiro: 'Parcerias financeiras têm potencial positivo agora. Um acordo ou negociação pode avançar se você apresentar propostas equilibradas e bem fundamentadas. Invista em aparência, beleza ou estética — tanto pessoal quanto do ambiente de trabalho — pois isso gera retorno real para Libra.',
+    familia: 'Você é o pacificador familiar, e hoje pode ser chamado a exercer esse papel. Uma tensão que ficou abaixo da superfície precisa de mediação gentil — e você tem o talento exato para isso. Cuidado apenas para não assumir responsabilidades que não são suas para resolver.',
+    saude: 'Rins, pele e equilíbrio hormonal são as áreas sensíveis de Libra. Equilíbrio não é apenas estético — é fisiológico. Dormir e acordar em horários regulares, manter boa hidratação e alternar períodos de atividade com descanso são práticas especialmente importantes para você.',
+    espiritualidade: 'Sua alma cresce na busca de beleza e justiça. Práticas espirituais ligadas à arte, à música, ao belo e ao equilíbrio te elevam. Meditação em espaços esteticamente agradáveis, filosofia espiritual e práticas de gratidão alimentam sua dimensão mais profunda.',
+    periodo: 'Você está num ciclo de aprendizado sobre autorreferência. A lição central é: você consegue tomar decisões e se afirmar sem precisar que todo mundo concorde? Suas necessidades são tão válidas quanto as de qualquer outra pessoa. Este período te convida a construir o equilíbrio de dentro para fora.',
+  },
+  scorpio: {
+    positive: ['Mergulhar fundo no que importa', 'Transformar situações desafiadoras', 'Perceber o que está por baixo da superfície'],
+    caution: ['Controle excessivo', 'Guardar mágoas que já podem ser liberadas', 'Suspeita onde há inocência'],
+    amor: 'Plutão ativa sua profundidade emocional — você está no modo de mergulho total. No amor, você busca conexão de alma, não de superfície. Uma conversa honesta e vulnerável pode fazer seu relacionamento dar um salto de qualidade. Solteiros: a atração que você sente por alguém agora tem raízes mais profundas do que parece.',
+    dinheiro: 'Plutão favorece transformações financeiras. Um aspecto de herança, partilha, seguro ou investimento conjunto pode entrar em jogo. Sua capacidade de enxergar padrões que outros ignoram pode identificar uma oportunidade ou um risco importante. Confie na sua análise — mas valide com dados concretos.',
+    familia: 'Dinâmicas de poder dentro da família podem estar precisando de revisão. Você tem a capacidade de ver o que está realmente acontecendo por baixo das narrativas superficiais — use esse dom com compaixão, não como instrumento de confronto. Uma transformação positiva em um laço familiar é possível agora.',
+    saude: 'Órgãos reprodutivos, sistema imune e processos de eliminação são as áreas de saúde de Escorpião. Detox — físico e emocional — está indicado. Soltar o que você não precisa mais (emoções, relações, hábitos) melhora literalmente sua saúde física.',
+    espiritualidade: 'Sua jornada espiritual é de morte e renascimento constantes. Práticas que te colocam em contato com o invisível — xamanismo, meditação profunda, trabalho com sombra, astrologia — ressoam com sua natureza. Você cresce espiritualmente nas crises, não apesar delas.',
+    periodo: 'Você está num ciclo de transformação profunda. Algo que você era está morrendo para que algo mais autêntico nasça. Esse processo pode ser desconfortável — mas Escorpião, de todos os signos, sabe que renascimento é sempre possível. Confie no que está emergindo.',
+  },
+  sagittarius: {
+    positive: ['Expandir horizontes com entusiasmo', 'Compartilhar sabedoria com generosidade', 'Iniciar uma aventura — física ou intelectual'],
+    caution: ['Prometer mais do que pode cumprir', 'Dispersar energia em muitas direções', 'Evitar responsabilidades sob o pretexto de liberdade'],
+    amor: 'Júpiter expande tudo que toca — inclusive seu coração. Você está especialmente carismático e aventureiro hoje. O amor que busca precisa de liberdade para florescer — e parceiros que entendem isso são os que ficam. Uma proposta de aventura compartilhada pode rejuvenescer um relacionamento. Solteiros: o amor pode aparecer longe do cotidiano habitual.',
+    dinheiro: 'Oportunidades de expansão financeira aparecem — possivelmente ligadas a viagens, educação, publicação ou negócios internacionais. Sua visão ampla identifica potencial onde outros veem obstáculos. Cuidado com o otimismo excessivo: pesquise antes de investir, especialmente em esquemas que parecem grandes demais.',
+    familia: 'Você traz alegria e perspectiva expandida para a família. Hoje, uma história, viagem ou aprendizado que você compartilha pode tocar alguém de forma duradoura. Um conflito familiar pode ser aliviado com sua capacidade de ver o quadro maior — ajude a família a enxergar além do momento difícil.',
+    saude: 'Quadris, coxas e fígado são as áreas de saúde sagitariana. Movimento ao ar livre é especialmente curativo para você. Atividades esportivas, trilhas ou qualquer exercício que te faça sentir livre têm efeito tanto físico quanto mental. Cuidado com excessos alimentares — seu fígado agradece moderação.',
+    espiritualidade: 'Sua alma busca o significado maior da existência — e isso é espiritualidade em seu estado mais puro. Filosofia, viagens sagradas, contato com diferentes tradições espirituais e qualquer experiência que expanda sua visão de mundo são o seu alimento espiritual. Você cresce ao descobrir que a busca em si é o caminho.',
+    periodo: 'Você está num ciclo de expansão e descoberta. O universo está abrindo portas em direções que você talvez não esperava. A chave é aprofundar em vez de apenas experimentar — a sabedoria que você está buscando está um pouco mais fundo do que a superfície aventureira habitual. Mergulhe.',
+  },
+  capricorn: {
+    positive: ['Avançar em metas de longo prazo', 'Demonstrar competência e autoridade', 'Construir algo que dure'],
+    caution: ['Rigidez emocional que afasta quem você ama', 'Workaholic que negligencia o corpo', 'Perfeccionismo que impede delegar'],
+    amor: 'Saturno pede que você seja mais presente emocionalmente — não só provedor. Quem está ao seu lado precisa de você, não apenas das coisas que você faz por eles. Um momento de vulnerabilidade real — por difícil que pareça — fortalece o vínculo mais do que qualquer ato de responsabilidade. Solteiros: alguém maduro e determinado chama sua atenção.',
+    dinheiro: 'Saturno favorece seu planejamento financeiro de longo prazo. Um investimento conservador, uma poupança ou um projeto de construção patrimonial tem bons fundamentos agora. Sua disciplina financeira é admirável — mas verifique se a busca por segurança não está te impedindo de aproveitar a vida que você construiu.',
+    familia: 'Você é o pilar da família — confiável, presente e responsável. Hoje, você pode receber um pedido de orientação de alguém mais jovem: sua experiência tem valor real. Mas não esqueça de também compartilhar seus desafios — a vulnerabilidade cria laços que a autoridade não consegue.',
+    saude: 'Joelhos, ossos, articulações e pele são as áreas de saúde capricorniana. O stress de longa duração se deposita no esqueleto e nas articulações. Alongamento regular, cuidado postural e práticas que aliviam a tensão acumulada — massagem, acupuntura, banhos quentes — fazem diferença real.',
+    espiritualidade: 'Sua espiritualidade é construída com disciplina e constância. Rituais regulares, contemplação silenciosa e o sentido de servir a algo maior do que você mesmo são o que te eleva. Não busque revelações dramáticas — sua sabedoria cresce no cotidiano, nas escolhas pequenas e consistentes.',
+    periodo: 'Você está num ciclo de colheita do que plantou com paciência. Resultados de esforços longos começam a se materializar. Ao mesmo tempo, Saturno te convida a revisar o que você está construindo: é realmente o que você quer para sua vida, ou é o que você achava que deveria querer? Um realinhamento autêntico está disponível.',
+  },
+  aquarius: {
+    positive: ['Inovar e quebrar padrões que não servem', 'Conectar pessoas em torno de causas comuns', 'Pensar fora da caixa com resultado prático'],
+    caution: ['Distanciamento emocional que isola', 'Teimosia intelectual — a razão nem sempre tem a última palavra', 'Revolucionar por revolução, sem propósito claro'],
+    amor: 'Urano ativa sua originalidade — e isso é atraente. Mas o mesmo impulso que te torna fascinante pode criar distância quando você intelectualiza demais o que deveria sentir. Hoje, pratique estar presente no momento, sem analisar. A conexão que você busca é possível — mas requer que você desça da cabeça para o coração.',
+    dinheiro: 'Projetos inovadores, tecnologia e causas coletivas têm potencial financeiro real agora. Uma ideia que parecia utópica começa a mostrar viabilidade. Uma network ou grupo do qual você participa pode gerar uma oportunidade inesperada. Confie na sua visão de futuro — apenas garanta que ela tenha um plano de execução.',
+    familia: 'Você é o rebelde afetivo da família — o que questiona e expande. Hoje, sua perspectiva pode iluminar uma situação que a família está vendo de forma muito limitada. Mas apresente suas ideias com abertura, não como verdade absoluta. O diálogo genuíno — não o monólogo brilhante — é o que cria transformação.',
+    saude: 'Circulação, tornozelos e sistema nervoso são as áreas de atenção aquariana. Exercício que ative a circulação — dança, ciclismo, caminhada rápida — é excelente. Atividades em grupo ou que envolvam causa coletiva têm efeito motivacional único para você.',
+    espiritualidade: 'Sua espiritualidade é coletiva e progressista. Causas humanitárias, experiências de unidade (retiros, cerimônias coletivas, música ao vivo) e práticas que te conectam com algo maior do que o ego são o que te alimenta espiritualmente. Você cresce quando percebe que liberdade individual e conexão coletiva não se opõem.',
+    periodo: 'Você está num ciclo de revolução pessoal. Estruturas que não representam mais quem você é estão sendo questionadas — internamente e externamente. O que emergir desse processo é mais autêntico e mais poderoso. Confie na sua visão de futuro, mesmo que ela assuste quem está ao redor.',
+  },
+  pisces: {
+    positive: ['Criar a partir da intuição profunda', 'Oferecer compaixão com sabedoria', 'Conectar com dimensões além do visível'],
+    caution: ['Escapismo que evita o necessário', 'Absorver energia alheia sem perceber', 'Ingenuidade com quem não merece confiança'],
+    amor: 'Netuno envolve o dia em névoa poética — sua sensibilidade está no pico. No amor, você oferece uma conexão de alma que poucos conseguem. Hoje, um momento de silêncio compartilhado pode dizer mais do que mil palavras. Solteiros: uma atração com componente espiritual ou artístico tem potencial real de se aprofundar.',
+    dinheiro: 'Sua intuição sobre dinheiro está aguçada — mas valide com dados concretos antes de agir. Uma oportunidade ligada às artes, cura, espiritualidade ou trabalho criativo pode gerar renda real. Cuidado com generosidade excessiva — estabelecer limites financeiros também é autocuidado.',
+    familia: 'Você sente as dinâmicas familiares com uma intensidade que às vezes é esmagadora. Hoje, estabeleça um limite saudável — estar presente não significa absorver tudo. Uma pessoa querida pode estar sofrendo em silêncio; sua sensibilidade é capaz de perceber e oferecer exatamente o que ela precisa.',
+    saude: 'Pés, sistema linfático e sono são as áreas de saúde pisciana. Práticas de aterramento são essenciais: caminhada na terra ou areia, ioga restaurativa, banhos com sal. Proteja seu sono — sonhos carregam mensagens importantes que precisam de um sono adequado para emergir.',
+    espiritualidade: 'Você é naturalmente espiritual — o desafio não é encontrar o sagrado, mas não se perder nele. Práticas que combinam abertura espiritual com aterramento físico funcionam melhor para você: meditação com incenso, yoga, trabalho com sonhos, arte como prática contemplativa.',
+    periodo: 'Você está num ciclo de dissolução e renovação. Identidades, papéis e certezas que não ressoam mais com quem você está se tornando estão se dissolvendo. Isso pode parecer desorientador — mas é o pré-requisito de uma forma de ser mais autêntica e mais fluida. Deixe acontecer com confiança.',
+  }
+};
+
+// ══════════════════════════════════════════════════════════════════
+// PROFILE STATE
+// ══════════════════════════════════════════════════════════════════
+let profile = null;
+let natalChart = null;
+
+function saveProfile() {
+  const name = document.getElementById('f-name').value.trim();
+  const date = document.getElementById('f-date').value;
+  const time = document.getElementById('f-time').value;
+  const city = document.getElementById('f-city').value.trim();
+  if (!date) { alert('Data de nascimento obrigatória!'); return; }
+  profile = { name: name || 'Você', date, time, city };
+  localStorage.setItem('bussolaAstral_profile', JSON.stringify(profile));
+  natalChart = getNatalChart(profile);
+  renderDashboard();
+}
+
+function resetProfile() {
+  localStorage.removeItem('bussolaAstral_profile');
+  profile = null; natalChart = null;
+  document.getElementById('setup-section').style.display = 'block';
+  document.getElementById('horo-section').style.display = 'none';
+  document.getElementById('scard-natal').style.display = 'none';
+  updateSidebarProfile(null);
+}
+
+function updateSidebarProfile(p) {
+  if (!p) {
+    document.getElementById('sidebar-name').textContent = 'Seu Perfil';
+    document.getElementById('sidebar-meta').textContent = 'Preencha seus dados para personalizar';
+    document.getElementById('sidebar-avatar-icon').textContent = '✦';
+    document.getElementById('topbar-avatar').textContent = '✦';
+    document.getElementById('ptab-name').textContent = 'Você';
+    return;
+  }
+  const sk = getSunSign(p.date);
+  const s  = SIGN_DATA[sk];
+  document.getElementById('sidebar-name').textContent = p.name;
+  document.getElementById('sidebar-meta').innerHTML = `
+    <div style="margin:8px 0">
+      <span class="profile-tag">${s.sym} ${s.name}</span>
+      ${p.city ? `<span class="profile-tag">📍 ${p.city.split(',')[0]}</span>` : ''}
+    </div>
+    <div style="color:var(--muted);font-size:0.75rem">${s.el} · ${s.planet}</div>`;
+  document.getElementById('sidebar-avatar-icon').textContent = s.sym;
+  document.getElementById('topbar-avatar').textContent = s.sym;
+  document.getElementById('ptab-name').textContent = p.name.split(' ')[0].toUpperCase();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER: SKY WIDGET
+// ══════════════════════════════════════════════════════════════════
+function renderSky() {
+  const now = new Date();
+  const positions = getPlanetPositions(now);
+  const ORDER = ['sun','moon','mercury','venus','mars','jupiter','saturn','uranus','neptune'];
+  document.getElementById('sky-planets').innerHTML = ORDER.map(k => {
+    const p = positions[k];
+    return `<div class="sky-item">
+      <div class="sky-planet-icon">${p.emoji}</div>
+      <div class="sky-planet-name">${p.name}</div>
+      <div class="sky-position">
+        <span class="sky-deg">${p.degree.toFixed(0)}°</span>
+        <span class="sky-sign"> ${p.signSym} ${p.signName}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const aspects = getAspects(positions);
+  const ASP_SYM = { 'Trígono':'△', 'Sextil':'⚹', 'Conjunção':'☌', 'Quadratura':'□', 'Oposição':'☍' };
+  document.getElementById('sky-aspects').innerHTML = aspects.length
+    ? aspects.map(a => `<div class="aspect-item"><span class="aspect-name">${a.a} ${ASP_SYM[a.name]||'·'} ${a.b}</span><span class="aspect-type ${a.cls}">${a.name}</span></div>`).join('')
+    : '<div class="aspect-item" style="color:var(--muted)">Nenhum aspecto exato agora</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER: NATAL CHART SIDEBAR
+// ══════════════════════════════════════════════════════════════════
+function renderNatalSidebar(natal) {
+  if (!natal) return;
+  const card = document.getElementById('scard-natal');
+  card.style.display = 'block';
+
+  // Show AE badge
+  const ind = document.getElementById('ae-indicator');
+  ind.innerHTML = isUsingRealEngine()
+    ? '<span class="ae-badge">VSOP87</span>'
+    : '<span style="font-size:0.6rem;color:var(--muted)">(aprox.)</span>';
+
+  const ORDER = ['sun','moon','mercury','venus','mars','jupiter','saturn','uranus','neptune','pluto'];
+  let html = '';
+
+  // Ascendant row first if available
+  if (natal.asc !== null && natal.asc !== undefined) {
+    const a = lonToSign(natal.asc);
+    html += `<div class="natal-row" style="background:rgba(212,168,67,0.05)">
+      <div class="natal-sym">⬆</div>
+      <div class="natal-name">Ascendente <span class="natal-asc-badge">ASC</span></div>
+      <div class="natal-pos"><span class="natal-deg-val">${a.degree.toFixed(0)}°</span> <span class="natal-sign-lbl">${a.signSym} ${a.signName}</span></div>
+    </div>`;
+  }
+
+  for (const k of ORDER) {
+    const p = natal.positions[k];
+    if (!p) continue;
+    html += `<div class="natal-row">
+      <div class="natal-sym">${p.sym}</div>
+      <div class="natal-name">${p.name}</div>
+      <div class="natal-pos"><span class="natal-deg-val">${p.degree.toFixed(0)}°</span> <span class="natal-sign-lbl">${p.signSym} ${p.signName}</span></div>
+    </div>`;
+  }
+
+  if (!natal.hasTime) {
+    html += `<div style="padding:8px 16px;font-size:0.7rem;color:var(--muted);border-top:1px solid var(--border)">⏰ Adicione horário de nascimento para ver o Ascendente</div>`;
+  } else if (!natal.cityData) {
+    html += `<div style="padding:8px 16px;font-size:0.7rem;color:var(--muted);border-top:1px solid var(--border)">📍 Cidade não encontrada — Ascendente indisponível</div>`;
+  }
+
+  document.getElementById('natal-planets').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER: RESUMO
+// ══════════════════════════════════════════════════════════════════
+function renderResumo(sk) {
+  const acc = ACCORDIONS[sk] || ACCORDIONS.aries;
+  const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const categories = [
+    { key:'amor',            icon:'❤️', label:'Amor e Relacionamentos',  color:'#f472b6', bg:'rgba(244,114,182,0.08)' },
+    { key:'dinheiro',        icon:'💰', label:'Dinheiro e Carreira',      color:'#facc15', bg:'rgba(250,204,21,0.08)'  },
+    { key:'familia',         icon:'🏠', label:'Família e Amigos',         color:'#4ade80', bg:'rgba(74,222,128,0.08)'  },
+    { key:'saude',           icon:'💚', label:'Saúde e Bem-estar',        color:'#34d399', bg:'rgba(52,211,153,0.08)'  },
+    { key:'espiritualidade', icon:'🔮', label:'Espiritualidade',          color:'#a78bfa', bg:'rgba(167,139,250,0.08)' },
+    { key:'periodo',         icon:'🌀', label:'O seu período atual',      color:'#60a5fa', bg:'rgba(96,165,250,0.08)'  },
+  ];
+  document.getElementById('panel-resumo').innerHTML = `
+    <div class="resumo-date">📅 ${today}</div>
+    <div class="summary-grid">
+      <div class="summary-box positive">
+        <div class="summary-box-title">✅ Lado positivo</div>
+        <ul class="summary-list">${acc.positive.map(i=>`<li>${i}</li>`).join('')}</ul>
+      </div>
+      <div class="summary-box caution">
+        <div class="summary-box-title">⚠️ Fique atento a</div>
+        <ul class="summary-list">${acc.caution.map(i=>`<li>${i}</li>`).join('')}</ul>
+      </div>
+    </div>
+    ${categories.map(c => `
+      <div class="accordion-item" id="acc-${c.key}">
+        <div class="accordion-header" onclick="toggleAcc('${c.key}')">
+          <div class="acc-icon" style="background:${c.bg};border:1px solid ${c.color}22">${c.icon}</div>
+          <div class="acc-title">${c.label}</div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-content"><p>${acc[c.key]}</p></div>
+        </div>
+      </div>`).join('')}
+    <div class="feedback-bar">
+      <p>O que você achou do horóscopo de hoje?</p>
+      <button class="fb-btn" onclick="this.textContent='👍 Obrigado!'">Gostei</button>
+      <button class="fb-btn" onclick="this.textContent='Registrado'">Não gostei</button>
+    </div>`;
+}
+
+function toggleAcc(key) {
+  document.getElementById('acc-'+key).classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER: TRÂNSITOS
+// ══════════════════════════════════════════════════════════════════
+function renderTransitos(sk, natal) {
+  const now = new Date();
+  const currentPositions = getPlanetPositions(now);
+  let transits = [];
+
+  if (natal && natal.positions) {
+    transits = getRealTransits(natal.positions, currentPositions);
+  }
+
+  // Fallback to curated transits if no natal or no aspects found
+  if (transits.length === 0) {
+    transits = getFallbackTransits(sk);
+  }
+
+  const realMode = natal && natal.positions && transits.length > 0 &&
+                   transits[0].tech && transits[0].tech.includes('→');
+
+  document.getElementById('panel-transitos').innerHTML = `
+    <p class="transits-count">
+      Você tem <span>${transits.length} influências ativas</span> no seu mapa agora
+      ${realMode ? '<span style="font-size:0.72rem;color:var(--green);margin-left:6px">• cálculo real</span>' : ''}
+    </p>
+    ${transits.map(t => `
+      <div class="transit-card">
+        <div class="transit-card-header">
+          <div class="transit-icon ${t.type}">${t.icon}</div>
+          <div>
+            <div class="transit-title">${t.title}</div>
+            <div class="transit-period">📅 ${t.period}</div>
+          </div>
+        </div>
+        <div class="transit-technical">${t.tech}</div>
+        <div class="transit-desc">${t.desc}</div>
+        <span class="read-more">Ler interpretação completa ›</span>
+      </div>`).join('')}`;
+}
+
+function getFallbackTransits(sk) {
+  const today = new Date();
+  const fmt = (n) => { const d=new Date(today); d.setDate(d.getDate()+n); return d.toLocaleDateString('pt-BR',{day:'numeric',month:'short'}); };
+  const sign = SIGN_DATA[sk] || SIGN_DATA.aries;
+  return [
+    { icon:'💫', type:'positive', title:'Clareza e determinação no trabalho',    period:`${fmt(-3)} – ${fmt(4)}`,  tech:`Sol em Trígono ao seu Sol natal`, desc:'Momento de reconhecimento e visibilidade profissional. Ações tomadas agora constroem sua reputação a longo prazo.' },
+    { icon:'❤️', type:'positive', title:'Harmonia no amor em alta',               period:`${fmt(-1)} – ${fmt(7)}`,  tech:`Vênus em Sextil ao seu Vênus natal`, desc:'Relações afetivas ganham leveza e romance. Bom momento para encontros, declarações e celebração da parceria.' },
+    { icon:'⚡', type:'negative', title:'Paciência em teste',                      period:`${fmt(-2)} – ${fmt(5)}`,  tech:`Saturno em Quadratura ao seu Sol natal`, desc:'Obstáculos e lentidão podem frustrar. O universo está pedindo disciplina e planejamento — a pressa pode comprometer resultados.' },
+    { icon:'🌱', type:'neutral',  title:'Expansão intelectual e filosófica',       period:`${fmt(0)}  – ${fmt(21)}`, tech:`Júpiter em Trígono ao seu Mercúrio natal`, desc:'Uma janela de aprendizado e expansão de visão de mundo. Cursos, viagens e leituras têm potencial transformador.' },
+    { icon:'🔄', type:'neutral',  title:'Revisão de padrões relacionais',          period:`${fmt(-7)} – ${fmt(3)}`,  tech:`Marte transitando em aspecto ao seu Marte natal`, desc:'Parcerias ganham energia e possível tensão. Conflitos que emergem agora são oportunidade de clareza, não de ruptura.' },
+  ];
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER: FUTURO
+// ══════════════════════════════════════════════════════════════════
+function renderFuturo() {
+  const today = new Date();
+  const fmt = (n) => { const d=new Date(today); d.setDate(d.getDate()+n); return d.toLocaleDateString('pt-BR',{day:'numeric',month:'short'}); };
+  const futureTransits = [
+    { icon:'🌟', type:'positive', title:'Grande janela de oportunidade', period:`${fmt(2)} – ${fmt(9)}`,   tech:'Júpiter em aspecto favorável ao seu Sol natal', desc:'Um dos trânsitos mais abençoados do ano. Oportunidades de crescimento em várias áreas da vida se multiplicam.' },
+    { icon:'🔮', type:'neutral',  title:'Revisão e aprofundamento emocional', period:`${fmt(5)} – ${fmt(18)}`, tech:'Netuno transitando pela sua Casa 12', desc:'Período de reflexão, intuição aguçada e possível necessidade de recolhimento criativo.' },
+    { icon:'⚡', type:'negative', title:'Tensão criativa em relacionamentos', period:`${fmt(8)} – ${fmt(15)}`, tech:'Marte em Quadratura ao seu Vênus natal', desc:'Confrontos podem surgir nos relacionamentos — mas a tensão, bem direcionada, cria clareza e novos acordos.' },
+  ];
+  document.getElementById('panel-futuro').innerHTML = `
+    ${futureTransits.slice(0,1).map(t => `
+      <div class="transit-card" style="opacity:0.5;filter:blur(2px);pointer-events:none">
+        <div class="transit-card-header">
+          <div class="transit-icon ${t.type}">${t.icon}</div>
+          <div><div class="transit-title">${t.title}</div><div class="transit-period">📅 ${t.period}</div></div>
+        </div>
+        <div class="transit-technical">${t.tech}</div>
+        <div class="transit-desc">${t.desc.substring(0,40)}...</div>
+      </div>`).join('')}
+    <div class="lock-banner">
+      <div class="lock-icon">🔒</div>
+      <h3>${futureTransits.length} influências ativas nos próximos 30 dias</h3>
+      <p>Desbloqueie o recurso Premium para ver todas as previsões futuras, incluindo datas exatas dos trânsitos mais importantes do seu mapa.</p>
+      <button class="btn-unlock">⭐ Desbloquear Recurso!</button>
+      <div style="margin-top:10px"><a href="#" style="color:var(--purple3);font-size:0.78rem">Ver vantagens do plano Premium</a></div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER: DASHBOARD
+// ══════════════════════════════════════════════════════════════════
+function renderDashboard() {
+  document.getElementById('setup-section').style.display = 'none';
+  document.getElementById('horo-section').style.display = 'flex';
+  updateSidebarProfile(profile);
+  renderNatalSidebar(natalChart);
+  const sk = getSunSign(profile.date);
+  renderResumo(sk);
+  renderTransitos(sk, natalChart);
+  renderFuturo();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════════════
+function switchMTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════
+renderSky();
+
+const saved = localStorage.getItem('bussolaAstral_profile');
+if (saved) {
+  profile = JSON.parse(saved);
+  document.getElementById('f-name').value  = profile.name;
+  document.getElementById('f-date').value  = profile.date;
+  document.getElementById('f-time').value  = profile.time  || '';
+  document.getElementById('f-city').value  = profile.city  || '';
+  natalChart = getNatalChart(profile);
+  renderDashboard();
+}
+</script>
+</body>
+</html>
