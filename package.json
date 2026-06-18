@@ -1,0 +1,10 @@
+{
+  "name": "bussola-astral",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bússola Astral — Horóscopo Pessoal com cálculos astronômicos reais",
+  "type": "module",
+  "dependencies": {
+    "@vercel/kv": "^1.0.0"
+  }
+}
