@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/(.*)\\.html", "dest": "/public/$1.html" },
+    { "src": "/",            "dest": "/public/horoscopo.html" },
+    { "src": "/premium",     "dest": "/public/premium.html" },
+    { "src": "/obrigado",    "dest": "/public/obrigado.html" },
+    { "src": "/api/(.*)",    "dest": "/api/$1.js" }
+  ],
+  "functions": {
+    "api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
+}
