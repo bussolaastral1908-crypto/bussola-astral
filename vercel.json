@@ -1,10 +1,9 @@
 {
-    "version": 2,
-    "routes": [
-          { "src": "/(.*)\\.html", "dest": "/public/$1.html" },
-          { "src": "/",            "dest": "/public/horoscopo.html" },
-          { "src": "/premium",     "dest": "/public/premium.html" },
-          { "src": "/obrigado",    "dest": "/public/obrigado.html" },
-          { "src": "/api/(.*)",    "dest": "/api/$1.js" }
-    ]
+      "version": 2,
+      "routes": [
+              { "src": "/",         "dest": "/horoscopo.html" },
+              { "src": "/premium",  "dest": "/premium.html" },
+              { "src": "/obrigado", "dest": "/obrigado.html" },
+              { "src": "/api/(.*)", "dest": "/api/$1.js" }
+      ]
 }
