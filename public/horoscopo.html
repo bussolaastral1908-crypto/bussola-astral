@@ -3,6 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bússola Astral — Horóscopo pessoal com mapa natal real, trânsitos planetários e interpretações astrológicas baseadas na sua data de nascimento.">
+<meta name="keywords" content="horóscopo personalizado, mapa natal, trânsitos planetários, astrologia, ascendente, signos, horóscopo hoje">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Bússola Astral — Horóscopo Pessoal com Mapa Natal">
+<meta property="og:description" content="Descubra os trânsitos planetários que afetam sua vida agora. Horóscopo baseado no seu mapa natal real, com cálculos astronômicos precisos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bussolaastral.com">
+<meta property="og:image" content="https://bussolaastral.com/logotipo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bússola Astral — Horóscopo Pessoal">
+<meta name="twitter:description" content="Horóscopo personalizado com mapa natal real e trânsitos planetários calculados para você.">
+<link rel="canonical" href="https://bussolaastral.com">
 <title>Bússola Astral — Horóscopo Pessoal</title>
 <!-- Astronomy Engine: VSOP87 – cálculos planetários reais, sem API key, sem CORS -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,6 +157,11 @@ select option{background:#171732;}
 .feedback-bar p{font-size:.8rem;color:var(--muted);flex:1;}
 .fb-btn{padding:6px 16px;border-radius:7px;border:1px solid var(--border2);background:none;color:var(--muted2);font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;font-weight:700;}
 .fb-btn:hover{border-color:var(--purple2);color:var(--text);background:rgba(124,63,228,.07);}
+
+/* ── TOOLTIPS ──────────────────────────── */
+.tip{position:relative;cursor:help;}
+.tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1e1e40;color:#c4a0ff;font-size:.72rem;font-weight:600;padding:6px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid #2a2a55;z-index:200;max-width:220px;white-space:normal;text-align:center;line-height:1.4;}
+.tip:hover::after{opacity:1;}
 </style>
 </head>
 <body>
@@ -221,8 +238,8 @@ select option{background:#171732;}
           <input type="date" id="f-date" required>
         </div>
         <div class="fg">
-          <label>Horário (para o Ascendente)</label>
-          <input type="time" id="f-time">
+          <label>Horário <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:0.72rem">(opcional)</span></label>
+          <input type="time" id="f-time" placeholder="Não obrigatório">
         </div>
         <div class="fg full">
           <label>Cidade de nascimento (para coordenadas)</label>
@@ -833,8 +850,15 @@ function renderSky() {
 
   const aspects = getAspects(positions);
   const ASP_SYM = { 'Trígono':'△', 'Sextil':'⚹', 'Conjunção':'☌', 'Quadratura':'□', 'Oposição':'☍' };
+  const ASP_TIP = {
+    'Trígono':   'Harmonia (120°) — energia fluindo com facilidade, talentos naturais',
+    'Sextil':    'Oportunidade (60°) — potencial a ser aproveitado com pequeno esforço',
+    'Conjunção': 'Fusão (0°) — energias dos dois planetas se mesclam intensamente',
+    'Quadratura':'Tensão (90°) — conflito que gera crescimento se bem direcionado',
+    'Oposição':  'Polaridade (180°) — forças opostas pedindo equilíbrio e integração',
+  };
   document.getElementById('sky-aspects').innerHTML = aspects.length
-    ? aspects.map(a => `<div class="aspect-item"><span class="aspect-name">${a.a} ${ASP_SYM[a.name]||'·'} ${a.b}</span><span class="aspect-type ${a.cls}">${a.name}</span></div>`).join('')
+    ? aspects.map(a => `<div class="aspect-item"><span class="aspect-name">${a.a} ${ASP_SYM[a.name]||'·'} ${a.b}</span><span class="aspect-type ${a.cls} tip" data-tip="${ASP_TIP[a.name]||a.name}">${a.name}</span></div>`).join('')
     : '<div class="aspect-item" style="color:var(--muted)">Nenhum aspecto exato agora</div>';
 }
 
