@@ -118,7 +118,7 @@ select option{background:#171732;}
 .accordion-item:hover{border-color:rgba(124,63,228,.2);}
 .accordion-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;transition:background .2s;user-select:none;}
 .accordion-header:hover{background:rgba(124,63,228,.04);}
-.acc-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.acc-icon{width:38px;height:38px;min-width:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .acc-title{font-size:.92rem;font-weight:700;flex:1;letter-spacing:.01em;}
 .acc-chevron{color:var(--muted);font-size:.8rem;transition:transform .3s;}
 .accordion-item.open .acc-chevron{transform:rotate(180deg);}
@@ -1007,12 +1007,12 @@ function renderResumo(sk) {
   const acc = ACCORDIONS[sk] || ACCORDIONS.aries;
   const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   const categories = [
-    { key:'amor',            icon:'❤️', label:'Amor e Relacionamentos',  color:'#f472b6', bg:'rgba(244,114,182,0.08)' },
-    { key:'dinheiro',        icon:'💰', label:'Dinheiro e Carreira',      color:'#facc15', bg:'rgba(250,204,21,0.08)'  },
-    { key:'familia',         icon:'🏠', label:'Família e Amigos',         color:'#4ade80', bg:'rgba(74,222,128,0.08)'  },
-    { key:'saude',           icon:'💚', label:'Saúde e Bem-estar',        color:'#34d399', bg:'rgba(52,211,153,0.08)'  },
-    { key:'espiritualidade', icon:'🔮', label:'Espiritualidade',          color:'#a78bfa', bg:'rgba(167,139,250,0.08)' },
-    { key:'periodo',         icon:'🌀', label:'O seu período atual',      color:'#60a5fa', bg:'rgba(96,165,250,0.08)'  },
+    { key:'amor',            icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="9" r="6" fill="none" stroke="#e08090" stroke-width="2.5"/><line x1="12" y1="15" x2="12" y2="22" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="19" x2="16" y2="19" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/></svg>', label:'Amor e Relacionamentos',  color:'#f472b6', bg:'rgba(244,114,182,0.08)' },
+    { key:'dinheiro',        icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><line x1="16" y1="4" x2="16" y2="20" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><path d="M10 4 L10 12 Q5 12 5 8 Q5 4 10 4" fill="none" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><line x1="4" y1="12" x2="20" y2="12" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/></svg>', label:'Dinheiro e Carreira',      color:'#facc15', bg:'rgba(250,204,21,0.08)'  },
+    { key:'familia',         icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M15 4 A9 9 0 1 0 15 20 A6 6 0 1 1 15 4 Z" fill="#6aadff" opacity="0.9"/><circle cx="17" cy="7" r="1.5" fill="#6aadff" opacity="0.5"/></svg>', label:'Família e Amigos',         color:'#4ade80', bg:'rgba(74,222,128,0.08)'  },
+    { key:'saude',           icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><line x1="12" y1="3" x2="12" y2="21" stroke="#3fcf8e" stroke-width="2.5" stroke-linecap="round"/><path d="M12 8 Q18 7 18 11 Q18 14 12 14 Q6 14 6 17 Q6 20 12 20" fill="none" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="5" r="2.5" fill="#3fcf8e" opacity="0.7"/></svg>', label:'Saúde e Bem-estar',        color:'#34d399', bg:'rgba(52,211,153,0.08)'  },
+    { key:'espiritualidade', icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M3 12 Q12 4 21 12 Q12 20 3 12 Z" fill="none" stroke="#9b5cf0" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="#9b5cf0" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#9b5cf0"/><line x1="12" y1="2" x2="12" y2="5" stroke="#9b5cf0" stroke-width="2" stroke-linecap="round"/></svg>', label:'Espiritualidade',          color:'#a78bfa', bg:'rgba(167,139,250,0.08)' },
+    { key:'periodo',         icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4.5" fill="#e8b550"/><circle cx="12" cy="12" r="7" fill="none" stroke="#e8b550" stroke-width="1.5" opacity="0.5"/><line x1="12" y1="2" x2="12" y2="5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="22" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="5" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="12" x2="22" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="5.5" y1="5.5" x2="7.6" y2="7.6" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="16.4" y1="16.4" x2="18.5" y2="18.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="5.5" y1="18.5" x2="7.6" y2="16.4" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="16.4" y1="7.6" x2="18.5" y2="5.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/></svg>', label:'O seu período atual',      color:'#60a5fa', bg:'rgba(96,165,250,0.08)'  },
   ];
   document.getElementById('panel-resumo').innerHTML = `
     <div class="resumo-date">📅 ${today}</div>
