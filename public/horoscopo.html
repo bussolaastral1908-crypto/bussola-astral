@@ -158,6 +158,24 @@ select option{background:#171732;}
 .fb-btn{padding:6px 16px;border-radius:7px;border:1px solid var(--border2);background:none;color:var(--muted2);font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;font-weight:700;}
 .fb-btn:hover{border-color:var(--purple2);color:var(--text);background:rgba(124,63,228,.07);}
 
+
+/* ── TIMELINE DE TRÂNSITOS ───────────────── */
+.timeline{position:relative;padding-left:36px;}
+.timeline::before{content:'';position:absolute;left:15px;top:8px;bottom:20px;width:2px;background:linear-gradient(to bottom,rgba(124,63,228,.5),rgba(124,63,228,.05));}
+.tl-item{position:relative;margin-bottom:16px;}
+.tl-dot{position:absolute;left:-29px;top:18px;width:16px;height:16px;border-radius:50%;border:2px solid;flex-shrink:0;z-index:1;}
+.tl-dot.positive{background:rgba(63,207,142,.15);border-color:var(--green);box-shadow:0 0 8px rgba(63,207,142,.25);}
+.tl-dot.negative{background:rgba(224,90,90,.15);border-color:var(--red);box-shadow:0 0 8px rgba(224,90,90,.2);}
+.tl-dot.neutral{background:rgba(79,168,240,.15);border-color:var(--blue);box-shadow:0 0 8px rgba(79,168,240,.2);}
+.tl-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);padding:16px 18px;transition:all .2s;box-shadow:var(--shadow-card);}
+.tl-card:hover{border-color:rgba(124,63,228,.25);box-shadow:var(--shadow-hover);transform:translateX(2px);}
+.tl-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.tl-dates{font-size:.7rem;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;background:var(--card2);border:1px solid var(--border2);padding:3px 8px;border-radius:6px;flex-shrink:0;}
+.tl-title{font-size:.96rem;font-weight:800;color:var(--text);margin-bottom:4px;line-height:1.3;}
+.tl-tech{font-size:.75rem;color:var(--purple3);background:rgba(155,92,240,.07);border-radius:6px;padding:5px 10px;margin-bottom:8px;font-style:italic;border-left:2px solid rgba(155,92,240,.3);}
+.tl-name-call{color:var(--gold2);font-weight:800;}
+.tl-desc{font-size:.85rem;color:var(--muted2);line-height:1.75;}
+
 /* ── TOOLTIPS ──────────────────────────── */
 .tip{position:relative;cursor:help;}
 .tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1e1e40;color:#c4a0ff;font-size:.72rem;font-weight:600;padding:6px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid #2a2a55;z-index:200;max-width:220px;white-space:normal;text-align:center;line-height:1.4;}
@@ -914,6 +932,7 @@ function renderNatalSidebar(natal) {
 function renderResumo(sk) {
   const acc = ACCORDIONS[sk] || ACCORDIONS.aries;
   const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const firstName = profile && profile.name ? profile.name.split(' ')[0] : '';
   const categories = [
     { key:'amor',            icon:'❤️', label:'Amor e Relacionamentos',  color:'#f472b6', bg:'rgba(244,114,182,0.08)' },
     { key:'dinheiro',        icon:'💰', label:'Dinheiro e Carreira',      color:'#facc15', bg:'rgba(250,204,21,0.08)'  },
@@ -923,7 +942,7 @@ function renderResumo(sk) {
     { key:'periodo',         icon:'🌀', label:'O seu período atual',      color:'#60a5fa', bg:'rgba(96,165,250,0.08)'  },
   ];
   document.getElementById('panel-resumo').innerHTML = `
-    <div class="resumo-date">📅 ${today}</div>
+    <div class="resumo-date">📅 ${today}${firstName ? ' · Horóscopo de <strong>' + firstName + '</strong>' : ''}</div>
     <div class="summary-grid">
       <div class="summary-box positive">
         <div class="summary-box-title">✅ Lado positivo</div>
@@ -976,24 +995,26 @@ function renderTransitos(sk, natal) {
   const realMode = natal && natal.positions && transits.length > 0 &&
                    transits[0].tech && transits[0].tech.includes('→');
 
+  const tlName = profile && profile.name ? profile.name.split(' ')[0] : '';
   document.getElementById('panel-transitos').innerHTML = `
     <p class="transits-count">
-      Você tem <span>${transits.length} influências ativas</span> no seu mapa agora
+      ${tlName ? '<strong>' + tlName + '</strong>, você tem' : 'Você tem'} <span>${transits.length} influências ativas</span> no seu mapa agora
       ${realMode ? '<span style="font-size:0.72rem;color:var(--green);margin-left:6px">• cálculo real</span>' : ''}
     </p>
+    <div class="timeline">
     ${transits.map(t => `
-      <div class="transit-card">
-        <div class="transit-card-header">
-          <div class="transit-icon ${t.type}">${t.icon}</div>
-          <div>
-            <div class="transit-title">${t.title}</div>
-            <div class="transit-period">📅 ${t.period}</div>
+      <div class="tl-item">
+        <div class="tl-dot ${t.type}"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-title">${t.icon} ${t.title}</div>
+            <div class="tl-dates">${t.period.replace('Duração estimada: ','')}</div>
           </div>
+          <div class="tl-tech">${t.tech}</div>
+          <div class="tl-desc">${tlName ? '<span class=\"tl-name-call\">' + tlName + '</span>, ' : ''}${t.desc}</div>
         </div>
-        <div class="transit-technical">${t.tech}</div>
-        <div class="transit-desc">${t.desc}</div>
-        <span class="read-more">Ler interpretação completa ›</span>
-      </div>`).join('')}`;
+      </div>`).join('')}
+    </div>`;
 }
 
 function getFallbackTransits(sk) {
@@ -1048,6 +1069,12 @@ function renderDashboard() {
   updateSidebarProfile(profile);
   renderNatalSidebar(natalChart);
   const sk = getSunSign(profile.date);
+  // Personaliza banner com nome
+  const firstName = profile.name ? profile.name.split(' ')[0] : '';
+  if (firstName) {
+    document.querySelector('.banner-text p').textContent =
+      firstName + ', sua bússola nos céus — do dia de hoje ao próximo ciclo';
+  }
   renderResumo(sk);
   renderTransitos(sk, natalChart);
   renderFuturo();
