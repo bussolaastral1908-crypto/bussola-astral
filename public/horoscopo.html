@@ -169,6 +169,7 @@ select option{background:#171732;}
 @keyframes zodiac-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 .topbar,.layout{position:relative;z-index:1;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 
@@ -268,6 +269,7 @@ select option{background:#171732;}
   </nav>
   <div class="topbar-right">
     <div class="avatar-sm" id="topbar-avatar">✦</div>
+    <button onclick="logout()" title="Sair" style="background:transparent;border:1px solid rgba(124,63,228,0.3);color:#9a8db0;border-radius:6px;padding:0.3rem 0.75rem;cursor:pointer;font-size:0.72rem;font-family:'Cinzel',serif;letter-spacing:0.05em;margin-left:0.5rem;transition:all .2s" onmouseover="this.style.borderColor='#a06ff0';this.style.color='#e8e0f0'" onmouseout="this.style.borderColor='rgba(124,63,228,0.3)';this.style.color='#9a8db0'">Sair</button>
   </div>
 </div>
 
@@ -357,6 +359,14 @@ select option{background:#171732;}
 </div>
 
 <script>
+// ══════════════════════════════════════════════════════════════════
+// SUPABASE AUTH
+// ══════════════════════════════════════════════════════════════════
+const SB_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
+const db=supabase.createClient(SB_URL,SB_KEY);
+let currentUser=null;
+
 // ══════════════════════════════════════════════════════════════════
 // CONSTANTS & LOOKUP TABLES
 // ══════════════════════════════════════════════════════════════════
@@ -885,6 +895,7 @@ function saveProfile() {
   if (!date) { alert('Data de nascimento obrigatória!'); return; }
   profile = { name: name || 'Você', date, time, city };
   localStorage.setItem('bussolaAstral_profile', JSON.stringify(profile));
+  if(currentUser){db.from('profiles').update({name:profile.name,birth_date:profile.date,birth_time:profile.time||null,birth_city:profile.city}).eq('id',currentUser.id).then(({error})=>{if(error)console.warn('Supabase save:',error.message)});}
   natalChart = getNatalChart(profile);
   renderDashboard();
 }
@@ -1160,16 +1171,39 @@ function switchMTab(tab, btn) {
 // ══════════════════════════════════════════════════════════════════
 renderSky();
 
-const saved = localStorage.getItem('bussolaAstral_profile');
-if (saved) {
-  profile = JSON.parse(saved);
-  document.getElementById('f-name').value  = profile.name;
-  document.getElementById('f-date').value  = profile.date;
-  document.getElementById('f-time').value  = profile.time  || '';
-  document.getElementById('f-city').value  = profile.city  || '';
-  natalChart = getNatalChart(profile);
-  renderDashboard();
+// ── Auth + logout ───────────────────────────────────────────────
+async function logout(){
+  await db.auth.signOut();
+  localStorage.removeItem('bussolaAstral_profile');
+  window.location.href='/login.html';
 }
+
+// ── Auth check + load profile from Supabase ─────────────────────
+(async()=>{
+  const{data:{session}}=await db.auth.getSession();
+  if(!session){window.location.href='/login.html';return;}
+  currentUser=session.user;
+  const av=document.getElementById('topbar-avatar');
+
+  const{data:prof,error:profErr}=await db.from('profiles').select('*').eq('id',currentUser.id).single();
+  if(prof&&(prof.birth_date||prof.birth_city)){
+    profile={name:prof.name||'',date:prof.birth_date||'',time:prof.birth_time?prof.birth_time.substring(0,5):'',city:prof.birth_city||''};
+    localStorage.setItem('bussolaAstral_profile',JSON.stringify(profile));
+  }else{
+    const saved=localStorage.getItem('bussolaAstral_profile');
+    if(saved)profile=JSON.parse(saved);
+  }
+  if(av&&profile&&profile.name)av.textContent=profile.name.charAt(0).toUpperCase();
+
+  if(profile&&profile.date){
+    document.getElementById('f-name').value=profile.name;
+    document.getElementById('f-date').value=profile.date;
+    document.getElementById('f-time').value=profile.time||'';
+    document.getElementById('f-city').value=profile.city||'';
+    natalChart=getNatalChart(profile);
+    renderDashboard();
+  }
+})();
 </script>
 </body>
 </html>
