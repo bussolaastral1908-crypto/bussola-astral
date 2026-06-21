@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Bússola Astral — Mapa Astral com Cálculos Reais</title>
 <meta name="description" content="Descubra seu mapa astral com cálculos astronômicos reais. Trânsitos personalizados, sinastria e muito mais. Comece grátis."/>
+<link rel="canonical" href="https://www.bussolaastral.com/"/>
+<meta property="og:title" content="Bússola Astral — Mapa Astral com Cálculos Reais"/>
+<meta property="og:description" content="Cálculos VSOP87. Trânsitos personalizados. Sinastria. Revolução Solar. Comece grátis."/>
+<meta property="og:url" content="https://www.bussolaastral.com/"/>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -24,7 +28,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'L
   background:radial-gradient(ellipse at 15% 40%,rgba(124,63,228,0.07) 0%,transparent 55%),
              radial-gradient(ellipse at 85% 20%,rgba(200,151,58,0.05) 0%,transparent 55%)}
 .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 1.25rem}
-/* Topbar */
 .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(11,11,24,0.75);border-bottom:1px solid rgba(124,63,228,0.15)}
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
 .logo-text{font-family:'Cinzel Decorative',serif;font-size:1.05rem;font-weight:900;letter-spacing:0.06em;
@@ -34,7 +37,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'L
 .btn-outline-sm:hover{border-color:var(--purple-light);color:var(--text)}
 .btn-gold-sm{background:linear-gradient(135deg,var(--gold),#a07020);border:none;color:#1a0e00;border-radius:6px;padding:0.38rem 0.95rem;font-family:'Cinzel',serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;cursor:pointer;transition:opacity .2s;text-decoration:none;display:inline-block}
 .btn-gold-sm:hover{opacity:0.88}
-/* Hero */
 .hero{padding:5rem 0 3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
 @media(max-width:820px){.hero{grid-template-columns:1fr;gap:2.5rem;padding:3rem 0 2rem}}
 .hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(124,63,228,0.12);border:1px solid rgba(124,63,228,0.3);border-radius:20px;padding:0.35rem 0.9rem;font-size:0.75rem;color:var(--purple-light);letter-spacing:0.08em;margin-bottom:1.4rem}
@@ -49,7 +51,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'L
 .btn-primary:hover{opacity:0.9}.btn-primary:active{transform:scale(0.98)}
 .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:0.82rem 1.4rem;font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.06em;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .btn-secondary:hover{border-color:var(--purple-light);background:rgba(124,63,228,0.06)}
-/* Auth Card */
 .auth-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.8rem;
   backdrop-filter:blur(18px);box-shadow:0 12px 50px rgba(0,0,0,0.45),inset 0 1px 0 rgba(160,111,240,0.12);
   position:sticky;top:75px}
@@ -88,7 +89,6 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'L
 .auth-footer{text-align:center;margin-top:0.9rem;font-size:0.76rem;color:var(--muted)}
 .auth-footer a{color:var(--purple-light);text-decoration:none;font-weight:600}
 .auth-footer a:hover{text-decoration:underline}
-/* Logged-in card */
 .logged-in-card{background:var(--surface);border:1px solid rgba(63,207,142,0.3);border-radius:18px;padding:2rem;text-align:center;
   backdrop-filter:blur(18px);box-shadow:0 12px 50px rgba(0,0,0,0.45);position:sticky;top:75px}
 @media(max-width:820px){.logged-in-card{position:static}}
@@ -96,17 +96,14 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'L
 .logged-in-card p{font-size:0.86rem;color:var(--muted);margin-bottom:1.4rem;line-height:1.65}
 .btn-enter{display:block;width:100%;padding:0.9rem;background:linear-gradient(135deg,var(--ok),#2ea870);border:none;border-radius:10px;color:#041a0d;font-family:'Cinzel',serif;font-size:0.9rem;font-weight:700;letter-spacing:0.09em;cursor:pointer;transition:opacity .2s;text-decoration:none;text-align:center;margin-bottom:0.7rem}
 .btn-enter:hover{opacity:0.88}
-/* Sections */
 section{padding:4rem 0}
 .section-label{font-size:0.7rem;color:var(--gold);letter-spacing:0.18em;text-transform:uppercase;text-align:center;margin-bottom:0.55rem}
 .section-title{font-family:'Playfair Display SC',serif;font-size:clamp(1.4rem,3vw,2rem);text-align:center;margin-bottom:0.55rem}
 .section-sub{font-size:0.95rem;color:var(--muted);text-align:center;max-width:520px;margin:0 auto 2.5rem;line-height:1.7}
-/* Stats */
 .stats-bar{background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:1.4rem 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
 @media(max-width:600px){.stats-bar{grid-template-columns:1fr 1fr;gap:1.2rem}}
 .stat-val{font-family:'Cinzel',serif;font-size:1.55rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.18rem}
-/* Features */
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
 @media(max-width:820px){.features-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){.features-grid{grid-template-columns:1fr}}
@@ -116,7 +113,6 @@ section{padding:4rem 0}
 .feat-icon{margin-bottom:0.7rem}
 .feat-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;margin-bottom:0.45rem}
 .feat-desc{font-size:0.83rem;color:var(--muted);line-height:1.65}
-/* Comparison */
 .cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .cmp-table{width:100%;border-collapse:collapse;min-width:480px}
 .cmp-table th{font-family:'Cinzel',serif;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 1.1rem;border-bottom:1px solid var(--border2)}
@@ -128,7 +124,6 @@ section{padding:4rem 0}
 .cmp-table tr:last-child td{border-bottom:none}
 .cmp-table tbody tr:hover td{background:rgba(124,63,228,0.04)}
 .cmp-ok{color:var(--ok)}.cmp-no{color:var(--muted2)}.cmp-partial{font-size:0.72rem;color:var(--muted);font-style:italic}
-/* Testimonials */
 .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
 @media(max-width:820px){.test-grid{grid-template-columns:1fr}}
 .test-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:1.5rem}
@@ -137,7 +132,6 @@ section{padding:4rem 0}
 .test-author{display:flex;align-items:center;gap:0.7rem}
 .test-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-weight:700;font-size:0.82rem;flex-shrink:0}
 .test-name{font-size:0.83rem;font-weight:600}.test-sign{font-size:0.7rem;color:var(--muted)}
-/* Pricing */
 .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:780px;margin:0 auto}
 @media(max-width:600px){.pricing-grid{grid-template-columns:1fr}}
 .price-card{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:1.8rem;position:relative}
@@ -156,8 +150,6 @@ section{padding:4rem 0}
 .btn-price-free:hover{border-color:var(--purple-light);background:rgba(124,63,228,0.06)}
 .btn-price-prem{width:100%;padding:0.82rem;background:linear-gradient(135deg,var(--gold),#a07020);border:none;color:#1a0e00;border-radius:10px;font-family:'Cinzel',serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;cursor:pointer;transition:opacity .2s}
 .btn-price-prem:hover{opacity:0.88}
-.price-note{font-size:0.67rem;color:var(--muted);text-align:center;margin-top:0.45rem}
-/* FAQ */
 .faq-list{max-width:700px;margin:0 auto;display:grid;gap:0.7rem}
 .faq-item{background:var(--surface);border:1px solid var(--border2);border-radius:12px;overflow:hidden}
 .faq-q{width:100%;background:transparent;border:none;padding:1rem 1.2rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;cursor:pointer;text-align:left;font-family:'Lora',serif;font-size:0.9rem;color:var(--text);transition:background .2s}
@@ -167,15 +159,6 @@ section{padding:4rem 0}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .faq-item.open .faq-a{max-height:400px}
 .faq-a-inner{padding:0 1.2rem 1rem;font-size:0.86rem;color:var(--muted);line-height:1.75}
-/* Footer */
-footer{border-top:1px solid var(--border2);padding:2rem 0;text-align:center}
-.footer-logo{font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:900;
-  background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.55rem}
-.footer-links{display:flex;gap:1.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:0.75rem}
-.footer-links a{font-size:0.76rem;color:var(--muted);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--purple-light)}
-.footer-copy{font-size:0.7rem;color:var(--muted2)}
-/* Reset modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
 .modal{background:#14102a;border:1px solid var(--border);border-radius:14px;padding:1.7rem;width:100%;max-width:350px;box-shadow:0 10px 50px rgba(0,0,0,0.5)}
@@ -203,179 +186,359 @@ footer{border-top:1px solid var(--border2);padding:2rem 0;text-align:center}
   <line x1="913" y1="330" x2="87" y2="670" stroke="rgba(124,63,228,0.07)" stroke-width="0.6"/>
   <line x1="330" y1="87" x2="670" y2="913" stroke="rgba(124,63,228,0.07)" stroke-width="0.6"/>
   <line x1="670" y1="87" x2="330" y2="913" stroke="rgba(124,63,228,0.07)" stroke-width="0.6"/>
-  <text x="500" y="86" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♈</text>
-  <text x="690" y="128" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♉</text>
-  <text x="828" y="265" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♊</text>
-  <text x="886" y="458" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♋</text>
-  <text x="844" y="652" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♌</text>
-  <text x="710" y="793" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♍</text>
-  <text x="500" y="930" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♎</text>
-  <text x="303" y="793" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♏</text>
-  <text x="168" y="652" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♐</text>
-  <text x="125" y="458" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♑</text>
-  <text x="168" y="265" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♒</text>
-  <text x="303" y="128" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">♓</text>
+  <text x="500" y="86" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9800;</text>
+  <text x="690" y="128" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9801;</text>
+  <text x="828" y="265" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9802;</text>
+  <text x="886" y="458" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9803;</text>
+  <text x="844" y="652" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9804;</text>
+  <text x="710" y="793" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9805;</text>
+  <text x="500" y="930" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9806;</text>
+  <text x="303" y="793" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9807;</text>
+  <text x="168" y="652" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9808;</text>
+  <text x="125" y="458" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9809;</text>
+  <text x="168" y="265" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9810;</text>
+  <text x="303" y="128" text-anchor="middle" font-size="20" fill="rgba(196,160,255,0.45)" font-family="serif">&#9811;</text>
 </svg>
 </div>
 
-<!-- TOPBAR -->
 <header class="topbar">
   <div class="wrap topbar-inner">
-    <a href="/" class="logo-text">✦ BÚSSOLA ASTRAL</a>
+    <a href="/" class="logo-text">&#10022; BUSSOLA ASTRAL</a>
     <div class="topbar-btns" id="topbar-btns">
       <a href="#auth" class="btn-outline-sm" onclick="setTab('login');return true">Entrar</a>
-      <a href="#auth" class="btn-gold-sm" onclick="setTab('register');return true">Criar conta grátis</a>
+      <a href="#auth" class="btn-gold-sm" onclick="setTab('register');return true">Criar conta gratis</a>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
 <div class="wrap">
   <div class="hero">
     <div class="hero-left">
-      <div class="hero-badge"><span class="dot"></span> Mais de 4.000 mapas analisados este mês</div>
-      <h1>Os astros falam.<br/><span>Você está ouvindo?</span></h1>
-      <p class="hero-sub">Mapa astral com cálculos astronômicos reais — não textos genéricos. Trânsitos personalizados, sinastria e previsões para os próximos 30 dias.</p>
+      <div class="hero-badge"><span class="dot"></span> Mais de 4.000 mapas analisados este mes</div>
+      <h1>Os astros falam.<br/><span>Voce esta ouvindo?</span></h1>
+      <p class="hero-sub">Mapa astral com calculos astronomicos reais - nao textos genericos. Transitos personalizados, sinastria e previsoes para os proximos 30 dias.</p>
       <div class="hero-bullets">
-        <div class="hero-bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3fcf8e" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cálculos VSOP87 — precisão de observatório</div>
+        <div class="hero-bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3fcf8e" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Calculos VSOP87 - precisao de observatorio</div>
         <div class="hero-bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3fcf8e" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 10 planetas + Ascendente + 12 Casas</div>
-        <div class="hero-bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3fcf8e" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Comece grátis — sem cartão de crédito</div>
+        <div class="hero-bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3fcf8e" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Comece gratis - sem cartao de credito</div>
         <div class="hero-bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3fcf8e" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cancele quando quiser</div>
       </div>
       <div class="hero-ctas">
-        <a href="#auth" class="btn-primary" onclick="setTab('register')">✦ Criar conta grátis</a>
-        <a href="#features" class="btn-secondary">Ver recursos →</a>
+        <a href="#auth" class="btn-primary" onclick="setTab('register')">&#10022; Criar conta gratis</a>
+        <a href="#features" class="btn-secondary">Ver recursos &#8594;</a>
       </div>
     </div>
 
-    <!-- AUTH CARD -->
     <div id="auth">
       <div class="auth-card" id="authCard">
         <div class="auth-tabs">
           <button class="auth-tab active" id="tab-register" onclick="setTab('register')">Criar conta</button>
           <button class="auth-tab" id="tab-login" onclick="setTab('login')">Entrar</button>
         </div>
-
-        <!-- REGISTER -->
         <div class="auth-panel active" id="panel-register">
           <h3 class="auth-title">Comece agora</h3>
-          <p class="auth-sub">Grátis para sempre · Sem cartão</p>
+          <p class="auth-sub">Gratis para sempre - Sem cartao</p>
           <form class="form-grid" id="regForm" novalidate>
             <div class="field" id="rf-name"><label for="r-name">Nome completo</label><input type="text" id="r-name" placeholder="Seu nome" autocomplete="name" required/><div class="emsg">Informe seu nome.</div></div>
-            <div class="field" id="rf-email"><label for="r-email">Email</label><input type="email" id="r-email" placeholder="seu@email.com" autocomplete="email" required/><div class="emsg">Email inválido.</div></div>
+            <div class="field" id="rf-email"><label for="r-email">Email</label><input type="email" id="r-email" placeholder="seu@email.com" autocomplete="email" required/><div class="emsg">Email invalido.</div></div>
             <div class="row2">
-              <div class="field" id="rf-pass"><label for="r-pass">Senha</label><input type="password" id="r-pass" placeholder="Mín. 8 chars" autocomplete="new-password" required/><div class="emsg">Mínimo 8 caracteres.</div></div>
-              <div class="field" id="rf-pass2"><label for="r-pass2">Confirmar</label><input type="password" id="r-pass2" placeholder="Repita" autocomplete="new-password" required/><div class="emsg">Não coincidem.</div></div>
+              <div class="field" id="rf-pass"><label for="r-pass">Senha</label><input type="password" id="r-pass" placeholder="Min. 8 chars" autocomplete="new-password" required/><div class="emsg">Minimo 8 caracteres.</div></div>
+              <div class="field" id="rf-pass2"><label for="r-pass2">Confirmar</label><input type="password" id="r-pass2" placeholder="Repita" autocomplete="new-password" required/><div class="emsg">Nao coincidem.</div></div>
             </div>
             <div class="divider"><span>Dados astrais</span></div>
             <div class="row2">
               <div class="field" id="rf-bdate"><label for="r-bdate">Nascimento</label><input type="date" id="r-bdate" required/><div class="emsg">Informe a data.</div></div>
               <div class="field"><label for="r-btime">Hora <span class="opt">(opcional)</span></label><input type="time" id="r-btime"/><div class="hint">Para o Ascendente</div></div>
             </div>
-            <div class="field" id="rf-bcity"><label for="r-bcity">Cidade de nascimento</label><input type="text" id="r-bcity" placeholder="Ex: São Paulo, SP" required/><div class="emsg">Informe a cidade.</div></div>
+            <div class="field" id="rf-bcity"><label for="r-bcity">Cidade de nascimento</label><input type="text" id="r-bcity" placeholder="Ex: Sao Paulo, SP" required/><div class="emsg">Informe a cidade.</div></div>
             <div class="field"><label for="r-phone">Celular <span class="opt">(opcional)</span></label><input type="tel" id="r-phone" placeholder="(11) 99999-9999" autocomplete="tel"/></div>
             <div id="r-alert" class="alert"></div>
-            <button type="submit" class="btn-auth" id="r-btn">✦ Criar conta grátis</button>
+            <button type="submit" class="btn-auth" id="r-btn">&#10022; Criar conta gratis</button>
           </form>
-          <div class="auth-footer">Já tem conta? <a href="#" onclick="setTab('login');return false">Entrar</a></div>
+          <div class="auth-footer">Ja tem conta? <a href="#" onclick="setTab('login');return false">Entrar</a></div>
         </div>
-
-        <!-- LOGIN -->
         <div class="auth-panel" id="panel-login">
           <h3 class="auth-title">Bem-vindo de volta</h3>
           <p class="auth-sub">Continue sua jornada astral</p>
           <form class="form-grid" id="loginForm" novalidate>
-            <div class="field" id="lf-email"><label for="l-email">Email</label><input type="email" id="l-email" placeholder="seu@email.com" autocomplete="email" required/><div class="emsg">Email inválido.</div></div>
+            <div class="field" id="lf-email"><label for="l-email">Email</label><input type="email" id="l-email" placeholder="seu@email.com" autocomplete="email" required/><div class="emsg">Email invalido.</div></div>
             <div class="field" id="lf-pass"><label for="l-pass">Senha</label><input type="password" id="l-pass" placeholder="Sua senha" autocomplete="current-password" required/><div class="emsg">Informe a senha.</div></div>
             <div class="forgot-row"><a href="#" onclick="openReset();return false">Esqueci minha senha</a></div>
             <div id="l-alert" class="alert"></div>
-            <button type="submit" class="btn-auth" id="l-btn">✦ Entrar</button>
+            <button type="submit" class="btn-auth" id="l-btn">&#10022; Entrar</button>
           </form>
-          <div class="auth-footer">Não tem conta? <a href="#" onclick="setTab('register');return false">Criar grátis</a></div>
+          <div class="auth-footer">Nao tem conta? <a href="#" onclick="setTab('register');return false">Criar gratis</a></div>
         </div>
       </div>
-
-      <!-- LOGGED-IN CARD -->
       <div class="logged-in-card" id="loggedInCard" style="display:none">
-        <div style="font-size:2.2rem;margin-bottom:0.8rem">✦</div>
+        <div style="font-size:2.2rem;margin-bottom:0.8rem">&#10022;</div>
         <h3 id="li-name">Bem-vindo de volta!</h3>
-        <p>Sua conta está ativa. Acesse seu mapa astral personalizado.</p>
-        <a href="/horoscopo.html" class="btn-enter">Acessar meu mapa astral →</a>
-        <button onclick="logout()" style="background:transparent;border:none;color:var(--muted);font-size:0.76rem;cursor:pointer;text-decoration:underline">Sair da conta</button>
+        <p>Sua conta esta ativa. Acesse seu mapa astral personalizado.</p>
+        <a href="/horoscopo.html" class="btn-enter">Acessar meu mapa astral &#8594;</a>
+        <br/>
+        <button onclick="logout()" style="background:transparent;border:none;color:var(--muted);font-size:0.76rem;cursor:pointer;text-decoration:underline;margin-top:0.5rem">Sair da conta</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- STATS -->
 <div class="wrap" style="padding-bottom:2rem">
   <div class="stats-bar">
     <div><div class="stat-val">4.200+</div><div class="stat-label">Mapas analisados</div></div>
-    <div><div class="stat-val">98%</div><div class="stat-label">Satisfação</div></div>
+    <div><div class="stat-val">98%</div><div class="stat-label">Satisfacao</div></div>
     <div><div class="stat-val">10</div><div class="stat-label">Planetas calculados</div></div>
-    <div><div class="stat-val">VSOP87</div><div class="stat-label">Precisão real</div></div>
+    <div><div class="stat-val">VSOP87</div><div class="stat-label">Precisao real</div></div>
   </div>
 </div>
 
-<!-- FEATURES -->
 <section id="features">
   <div class="wrap">
     <div class="section-label">Recursos premium</div>
-    <h2 class="section-title">O que você desbloqueia</h2>
-    <p class="section-sub">Cada recurso usa cálculos astronômicos reais — não textos genéricos de almanaque.</p>
+    <h2 class="section-title">O que voce desbloqueia</h2>
+    <p class="section-sub">Cada recurso usa calculos astronomicos reais - nao textos genericos de almanaque.</p>
     <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-badge">Alta demanda</div>
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="4.5" fill="#e8b550"/><circle cx="12" cy="12" r="7" fill="none" stroke="#e8b550" stroke-width="1.5" opacity="0.5"/><line x1="12" y1="2" x2="12" y2="4.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19.5" x2="12" y2="22" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="4.5" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="19.5" y1="12" x2="22" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/></svg></div>
-        <div class="feat-title">Previsão de Trânsitos — 30 dias</div>
-        <div class="feat-desc">Todas as influências planetárias que vão ativar seu mapa natal no próximo mês, com datas exatas de entrada, pico e saída.</div>
+      <div class="feat-card"><div class="feat-badge">Alta demanda</div><div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="4.5" fill="#e8b550"/><circle cx="12" cy="12" r="7" fill="none" stroke="#e8b550" stroke-width="1.5" opacity="0.5"/><line x1="12" y1="2" x2="12" y2="4.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19.5" x2="12" y2="22" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="4.5" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="19.5" y1="12" x2="22" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/></svg></div><div class="feat-title">Previsao de Transitos - 30 dias</div><div class="feat-desc">Todas as influencias planetarias que vao ativar seu mapa natal no proximo mes, com datas exatas de entrada, pico e saida.</div></div>
+      <div class="feat-card"><div class="feat-badge">2o mais buscado</div><div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="9" r="6" fill="none" stroke="#e08090" stroke-width="2.5"/><line x1="12" y1="15" x2="12" y2="22" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="19" x2="16" y2="19" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="feat-title">Sinastria Amorosa</div><div class="feat-desc">Compare seu mapa natal com o de outra pessoa. Aspectos de compatibilidade, tensoes e potencial de longo prazo calculados com precisao.</div></div>
+      <div class="feat-card"><div class="feat-badge">Interpretacao anual</div><div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><path d="M15 4 A9 9 0 1 0 15 20 A6 6 0 1 1 15 4 Z" fill="#6aadff" opacity="0.9"/></svg></div><div class="feat-title">Revolucao Solar</div><div class="feat-desc">Mapa calculado para o momento em que o Sol retorna a posicao natal - uma previa das tendencias do seu proximo ano de vida.</div></div>
+      <div class="feat-card"><div class="feat-badge">Mapa completo</div><div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><path d="M3 12 Q12 4 21 12 Q12 20 3 12 Z" fill="none" stroke="#9b5cf0" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="#9b5cf0" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#9b5cf0"/><line x1="12" y1="2" x2="12" y2="5" stroke="#9b5cf0" stroke-width="2" stroke-linecap="round"/></svg></div><div class="feat-title">12 Casas Astrologicas</div><div class="feat-desc">Sistema Placidus completo - em que area da vida cada planeta natal opera: carreira, amor, familia, espiritualidade.</div></div>
+      <div class="feat-card"><div class="feat-badge">Em breve</div><div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><line x1="16" y1="4" x2="16" y2="20" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><path d="M10 4 L10 12 Q5 12 5 8 Q5 4 10 4" fill="none" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><line x1="4" y1="12" x2="20" y2="12" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="feat-title">Alertas de Transitos</div><div class="feat-desc">Notificacoes quando planetas lentos formam aspectos exatos com seu mapa natal.</div></div>
+      <div class="feat-card"><div class="feat-badge">Familia inteira</div><div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><line x1="12" y1="3" x2="12" y2="21" stroke="#3fcf8e" stroke-width="2.5" stroke-linecap="round"/><path d="M12 8 Q18 7 18 11 Q18 14 12 14 Q6 14 6 17 Q6 20 12 20" fill="none" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="5" r="2.5" fill="#3fcf8e" opacity="0.7"/></svg></div><div class="feat-title">Perfis Ilimitados</div><div class="feat-desc">Crie mapas para conjuge, filhos, parceiros. Cada perfil com seu historico de transitos e previsoes personalizadas.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">Comparacao</div>
+    <h2 class="section-title">Gratis vs. Premium</h2>
+    <p class="section-sub">Veja exatamente o que voce desbloqueia ao assinar.</p>
+    <div class="cmp-wrap">
+      <table class="cmp-table">
+        <thead><tr><th>Recurso</th><th class="th-free">Gratis</th><th class="th-prem">Premium</th></tr></thead>
+        <tbody>
+          <tr><td>Horoscopo diario do signo solar</td><td><span class="cmp-ok">&#10003;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Posicoes dos planetas em tempo real</td><td><span class="cmp-ok">&#10003;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Mapa natal com 10 planetas</td><td><span class="cmp-ok">&#10003;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Ascendente (requer horario e cidade)</td><td><span class="cmp-ok">&#10003;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Transitos ativos hoje</td><td><span class="cmp-partial">3 transitos</span></td><td><span class="cmp-ok">&#10003;</span> Todos</td></tr>
+          <tr><td>Previsao para os proximos 30 dias</td><td><span class="cmp-no">&#10007;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Sinastria - compatibilidade amorosa</td><td><span class="cmp-no">&#10007;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Revolucao Solar anual</td><td><span class="cmp-no">&#10007;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>12 casas astrologicas (Placidus)</td><td><span class="cmp-no">&#10007;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+          <tr><td>Perfis multiplos</td><td><span class="cmp-partial">1 perfil</span></td><td><span class="cmp-ok">&#10003;</span> Ilimitados</td></tr>
+          <tr><td>Historico e diario astrologico</td><td><span class="cmp-no">&#10007;</span></td><td><span class="cmp-ok">&#10003;</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section style="background:rgba(10,8,28,0.5)">
+  <div class="wrap">
+    <div class="section-label">Depoimentos</div>
+    <h2 class="section-title">O que dizem nossos usuarios</h2>
+    <div class="test-grid">
+      <div class="test-card"><div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="test-text">"Nunca imaginei que astrologia poderia ser tao precisa. Os transitos de Saturno que o app previu me ajudaram a entender um momento dificil na carreira."</p><div class="test-author"><div class="test-avatar">C</div><div><div class="test-name">Carla M.</div><div class="test-sign">Leao - Sao Paulo, SP</div></div></div></div>
+      <div class="test-card"><div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="test-text">"A sinastria com meu parceiro foi reveladora. O app mostra exatamente onde temos harmonia e onde precisamos trabalhar - com calculos reais, nao generalidades."</p><div class="test-author"><div class="test-avatar">R</div><div><div class="test-name">Renata K.</div><div class="test-sign">Escorpiao - Curitiba, PR</div></div></div></div>
+      <div class="test-card"><div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="test-text">"Uso ha 3 meses. O mapa de transitos dos proximos 30 dias virou meu calendario pessoal. E impressionante a precisao dos aspectos com meu mapa natal."</p><div class="test-author"><div class="test-avatar">B</div><div><div class="test-name">Bruno A.</div><div class="test-sign">Aquario - Rio de Janeiro, RJ</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-label">Planos</div>
+    <h2 class="section-title">Escolha seu plano</h2>
+    <p class="section-sub">Comece gratis. Faca upgrade quando quiser.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Gratis</div>
+        <div class="price-val"><span class="price-currency">R$</span><span class="price-num">0</span><span class="price-per">/sempre</span></div>
+        <div class="price-alt">Sem cartao de credito</div>
+        <div class="price-list">
+          <div class="price-item"><span class="ck">&#10003;</span> Horoscopo diario</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Posicoes dos planetas</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Mapa natal basico</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Ascendente (com horario)</div>
+          <div class="price-item"><span class="ck">&#10003;</span> 3 transitos ativos</div>
+        </div>
+        <button class="btn-price-free" onclick="setTab('register');document.getElementById('auth').scrollIntoView({behavior:'smooth'})">Usar gratis</button>
       </div>
-      <div class="feat-card">
-        <div class="feat-badge">2º mais buscado</div>
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="9" r="6" fill="none" stroke="#e08090" stroke-width="2.5"/><line x1="12" y1="15" x2="12" y2="22" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="19" x2="16" y2="19" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/></svg></div>
-        <div class="feat-title">Sinastria Amorosa</div>
-        <div class="feat-desc">Compare seu mapa natal com o de outra pessoa. Aspectos de compatibilidade, tensões e potencial de longo prazo calculados com precisão.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-badge">Interpretação anual</div>
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><path d="M15 4 A9 9 0 1 0 15 20 A6 6 0 1 1 15 4 Z" fill="#6aadff" opacity="0.9"/></svg></div>
-        <div class="feat-title">Revolução Solar</div>
-        <div class="feat-desc">Mapa calculado para o momento em que o Sol retorna à posição natal — uma prévia das tendências do seu próximo ano de vida.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-badge">Mapa completo</div>
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><path d="M3 12 Q12 4 21 12 Q12 20 3 12 Z" fill="none" stroke="#9b5cf0" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="#9b5cf0" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="#9b5cf0"/><line x1="12" y1="2" x2="12" y2="5" stroke="#9b5cf0" stroke-width="2" stroke-linecap="round"/></svg></div>
-        <div class="feat-title">12 Casas Astrológicas</div>
-        <div class="feat-desc">Sistema Placidus completo — em que área da vida cada planeta natal opera: carreira, amor, família, espiritualidade.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-badge">Em breve</div>
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><line x1="16" y1="4" x2="16" y2="20" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><path d="M10 4 L10 12 Q5 12 5 8 Q5 4 10 4" fill="none" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><line x1="4" y1="12" x2="20" y2="12" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/></svg></div>
-        <div class="feat-title">Alertas de Trânsitos</div>
-        <div class="feat-desc">Notificações quando planetas lentos (Júpiter, Saturno, Urano) formam aspectos exatos com seu mapa natal.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-badge">Família inteira</div>
-        <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><line x1="12" y1="3" x2="12" y2="21" stroke="#3fcf8e" stroke-width="2.5" stroke-linecap="round"/><path d="M12 8 Q18 7 18 11 Q18 14 12 14 Q6 14 6 17 Q6 20 12 20" fill="none" stroke="#3fcf8e" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="5" r="2.5" fill="#3fcf8e" opacity="0.7"/></svg></div>
-        <div class="feat-title">Perfis Ilimitados</div>
-        <div class="feat-desc">Crie mapas para cônjuge, filhos, parceiros. Cada perfil com seu histórico de trânsitos e previsões personalizadas.</div>
+      <div class="price-card featured">
+        <div class="popular-badge">MAIS POPULAR</div>
+        <div class="price-name">Premium</div>
+        <div class="price-val"><span class="price-currency">R$</span><span class="price-num">29</span><span class="price-per">/mes</span></div>
+        <div class="price-alt">Cancele quando quiser</div>
+        <div class="price-list">
+          <div class="price-item"><span class="ck">&#10003;</span> Tudo do plano Gratis</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Previsoes 30 dias</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Todos os transitos</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Sinastria amorosa</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Revolucao Solar</div>
+          <div class="price-item"><span class="ck">&#10003;</span> 12 Casas (Placidus)</div>
+          <div class="price-item"><span class="ck">&#10003;</span> Perfis ilimitados</div>
+        </div>
+        <button class="btn-price-prem" onclick="handlePremiumClick()">&#10022; Habilitar Premium</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- COMPARISON -->
 <section>
   <div class="wrap">
-    <div class="section-label">Comparação</div>
-    <h2 class="section-title">Grátis vs. Premium</h2>
-    <p class="section-sub">Veja exatamente o que você desbloqueia ao assinar.</p>
-    <div class="cmp-wrap">
-      <table class="cmp-table">
-        <thead><tr><th>Recurso</th><th class="th-free">Grátis</th><th class="th-prem">Premium</th></tr></thead>
-        <tbody>
-          <tr><td>Horóscopo diário do signo solar</td><td><span class="cmp-ok">✓</span></td><td><span class="cmp-ok">✓</span></td></tr>
-          <tr><td>Posições dos planetas em tempo real</td><td><span class="cmp-ok">✓</span></td><td><span class="cmp-ok">✓</span></td></tr>
-          <tr><td>Mapa natal com 10 planetas</td><td><span class="cmp-ok">✓</span></td><td><span class="cmp-ok">✓</span></td></tr>
-          <tr><td>Ascendente (requer horário e cidade)</td><td><span class="cmp-ok">✓</span></td><td><span class="cmp-ok">✓</span></td></tr>
-          <tr><td>Trânsitos ativos hoje</td>
+    <div class="section-label">Duvidas</div>
+    <h2 class="section-title">Perguntas frequentes</h2>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">O plano Gratis expira?<span class="arr">&#9662;</span></button><div class="faq-a"><div class="faq-a-inner">Nao. O plano Gratis e permanente. Voce so precisa criar uma conta e ja tem acesso imediato ao mapa natal, ascendente e 3 transitos ativos - sem cartao de credito.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Como os calculos sao feitos?<span class="arr">&#9662;</span></button><div class="faq-a"><div class="faq-a-inner">Usamos o algoritmo VSOP87, o mesmo utilizado em software de observatorio astronomico. As posicoes dos planetas sao calculadas com precisao de arco-minutos para qualquer data e local de nascimento.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Posso cancelar o Premium quando quiser?<span class="arr">&#9662;</span></button><div class="faq-a"><div class="faq-a-inner">Sim, sem multa e sem burocracia. Voce mantem o acesso Premium ate o fim do periodo pago e depois retorna ao plano Gratis automaticamente.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Meus dados de nascimento ficam seguros?<span class="arr">&#9662;</span></button><div class="faq-a"><div class="faq-a-inner">Sim. Seus dados sao armazenados de forma criptografada no Supabase (infraestrutura PostgreSQL) e nunca sao vendidos ou compartilhados com terceiros.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer style="border-top:1px solid rgba(124,63,228,0.15);padding:2.5rem 0">
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+    <a href="/" class="logo-text" style="font-size:0.9rem">&#10022; BUSSOLA ASTRAL</a>
+    <p style="font-size:0.75rem;color:var(--muted2)">&#169; 2025 Bussola Astral - Todos os direitos reservados</p>
+    <div style="display:flex;gap:1.2rem">
+      <a href="#" style="font-size:0.75rem;color:var(--muted);text-decoration:none">Privacidade</a>
+      <a href="#" style="font-size:0.75rem;color:var(--muted);text-decoration:none">Termos</a>
+      <a href="mailto:contato@bussolaastral.com" style="font-size:0.75rem;color:var(--muted);text-decoration:none">Contato</a>
+    </div>
+  </div>
+</footer>
+
+<div id="resetModal" class="modal-overlay">
+  <div class="modal">
+    <h3>Redefinir senha</h3>
+    <p>Informe seu email e enviaremos um link para redefinir sua senha.</p>
+    <div class="field" style="margin-bottom:0.8rem"><label for="reset-email">Email</label><input type="email" id="reset-email" placeholder="seu@email.com"/></div>
+    <div id="reset-alert" class="alert"></div>
+    <div class="modal-btns">
+      <button class="btn-ghost" onclick="closeReset()">Cancelar</button>
+      <button class="btn-auth" id="btnReset" style="margin:0" onclick="sendReset()">Enviar link</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function setTab(t){
+  document.getElementById('panel-register').classList.toggle('active',t==='register');
+  document.getElementById('panel-login').classList.toggle('active',t==='login');
+  document.getElementById('tab-register').classList.toggle('active',t==='register');
+  document.getElementById('tab-login').classList.toggle('active',t==='login');
+}
+function getSign(ds){
+  const d=new Date(ds+'T12:00:00'),m=d.getMonth()+1,day=d.getDate();
+  if((m===3&&day>=21)||(m===4&&day<=19))return'Aries';if((m===4&&day>=20)||(m===5&&day<=20))return'Touro';
+  if((m===5&&day>=21)||(m===6&&day<=20))return'Gemeos';if((m===6&&day>=21)||(m===7&&day<=22))return'Cancer';
+  if((m===7&&day>=23)||(m===8&&day<=22))return'Leao';if((m===8&&day>=23)||(m===9&&day<=22))return'Virgem';
+  if((m===9&&day>=23)||(m===10&&day<=22))return'Libra';if((m===10&&day>=23)||(m===11&&day<=21))return'Escorpiao';
+  if((m===11&&day>=22)||(m===12&&day<=21))return'Sagitario';if((m===12&&day>=22)||(m===1&&day<=19))return'Capricornio';
+  if((m===1&&day>=20)||(m===2&&day<=18))return'Aquario';return'Peixes';
+}
+function showA(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className='alert '+type}
+function clrA(id){const el=document.getElementById(id);el.className='alert';el.textContent=''}
+function fe(id,show){document.getElementById(id).classList.toggle('err',show)}
+function openReset(){document.getElementById('resetModal').classList.add('open')}
+function closeReset(){document.getElementById('resetModal').classList.remove('open');const el=document.getElementById('reset-alert');el.className='alert';el.textContent=''}
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item'),isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+document.getElementById('resetModal').addEventListener('click',(e)=>{if(e.target===e.currentTarget)closeReset()});
+</script>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js" onerror="(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';s.onload=window.__initSB;document.head.appendChild(s)})()"></script>
+<script>
+const SB_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
+
+window.__initSB=function(){
+  if(window.__sbReady)return;window.__sbReady=true;
+  if(typeof supabase==='undefined'){
+    document.querySelectorAll('.btn-auth').forEach(b=>{b.disabled=true;b.textContent='Servico indisponivel';});
+    return;
+  }
+  const db=supabase.createClient(SB_URL,SB_KEY);
+  window.db=db;
+
+  document.getElementById('regForm').addEventListener('submit',async(e)=>{
+    e.preventDefault();clrA('r-alert');
+    const name=document.getElementById('r-name').value.trim(),email=document.getElementById('r-email').value.trim();
+    const pass=document.getElementById('r-pass').value,pass2=document.getElementById('r-pass2').value;
+    const bdate=document.getElementById('r-bdate').value,btime=document.getElementById('r-btime').value;
+    const bcity=document.getElementById('r-bcity').value.trim(),phone=document.getElementById('r-phone').value.trim();
+    let ok=true;
+    fe('rf-name',!name);if(!name)ok=false;
+    fe('rf-email',!email||!email.includes('@'));if(!email||!email.includes('@'))ok=false;
+    fe('rf-pass',pass.length<8);if(pass.length<8)ok=false;
+    fe('rf-pass2',pass!==pass2);if(pass!==pass2)ok=false;
+    fe('rf-bdate',!bdate);if(!bdate)ok=false;
+    fe('rf-bcity',!bcity);if(!bcity)ok=false;
+    if(!ok)return;
+    const btn=document.getElementById('r-btn');btn.disabled=true;btn.textContent='Criando conta...';
+    const sign=getSign(bdate);
+    const{data,error}=await db.auth.signUp({email,password:pass,options:{data:{name,birth_date:bdate,birth_time:btime||null,birth_city:bcity,phone:phone||null,sign}}});
+    if(error){showA('r-alert',error.message.includes('already registered')?'Email ja cadastrado. Faca login.':'Erro: '+error.message,'bad');btn.disabled=false;btn.textContent='Criar conta gratis';return;}
+    if(data.session){showA('r-alert','Conta criada! Redirecionando...','ok');setTimeout(()=>window.location.href='/horoscopo.html',1400);}
+    else{showA('r-alert','Verifique seu email para confirmar a conta.','ok');btn.textContent='Email enviado';}
+  });
+
+  document.getElementById('loginForm').addEventListener('submit',async(e)=>{
+    e.preventDefault();clrA('l-alert');
+    const email=document.getElementById('l-email').value.trim(),pass=document.getElementById('l-pass').value;
+    let ok=true;fe('lf-email',!email||!email.includes('@'));if(!email||!email.includes('@'))ok=false;
+    fe('lf-pass',!pass);if(!pass)ok=false;if(!ok)return;
+    const btn=document.getElementById('l-btn');btn.disabled=true;btn.textContent='Entrando...';
+    const{error}=await db.auth.signInWithPassword({email,password:pass});
+    if(error){
+      const msg=error.message.includes('Invalid login')||error.message.includes('invalid_credentials')?'Email ou senha incorretos.':
+                error.message.includes('Email not confirmed')?'Confirme seu email antes de entrar.':'Erro: '+error.message;
+      showA('l-alert',msg,'bad');btn.disabled=false;btn.textContent='Entrar';return;
+    }
+    showA('l-alert','Login realizado! Redirecionando...','ok');
+    setTimeout(()=>window.location.href='/horoscopo.html',1000);
+  });
+
+  window.logout=async function(){
+    await db.auth.signOut();
+    document.getElementById('loggedInCard').style.display='none';
+    document.getElementById('authCard').style.display='block';
+    document.getElementById('topbar-btns').innerHTML='<a href="#auth" class="btn-outline-sm" onclick="setTab(\'login\');return true">Entrar</a><a href="#auth" class="btn-gold-sm" onclick="setTab(\'register\');return true">Criar conta gratis</a>';
+  };
+
+  window.handlePremiumClick=async function(){
+    const{data:{session}}=await db.auth.getSession();
+    if(session){window.location.href='/horoscopo.html?premium=1';}
+    else{setTab('register');document.getElementById('auth').scrollIntoView({behavior:'smooth'});showA('r-alert','Crie sua conta para assinar o Premium.','ok');setTimeout(()=>clrA('r-alert'),4000);}
+  };
+
+  window.sendReset=async function(){
+    const email=document.getElementById('reset-email').value.trim(),el=document.getElementById('reset-alert');
+    if(!email){el.textContent='Informe seu email.';el.className='alert bad';return}
+    const btn=document.getElementById('btnReset');btn.disabled=true;btn.textContent='Enviando...';
+    const{error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/horoscopo.html'});
+    if(error){el.textContent='Erro: '+error.message;el.className='alert bad';}
+    else{el.textContent='Link enviado! Verifique seu email.';el.className='alert ok';}
+    btn.disabled=false;btn.textContent='Enviar link';
+  };
+
+  db.auth.getSession().then(({data:{session}})=>{
+    if(session){
+      document.getElementById('authCard').style.display='none';
+      document.getElementById('loggedInCard').style.display='block';
+      const meta=session.user.user_metadata;
+      const name=meta&&meta.name?meta.name:session.user.email;
+      document.getElementById('li-name').textContent='Ola, '+name.split(' ')[0]+'!';
+      document.getElementById('topbar-btns').innerHTML='<a href="/horoscopo.html" class="btn-gold-sm">Meu mapa astral</a>';
+    }
+  });
+};
+
+if(typeof supabase!=='undefined')window.__initSB();
+</script>
+</body>
+</html>
