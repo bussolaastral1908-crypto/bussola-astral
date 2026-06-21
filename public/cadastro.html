@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Bússola Astral — Criar Conta</title>
+<meta name="description" content="Crie sua conta na Bússola Astral e descubra seu mapa astral personalizado."/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Playfair+Display+SC:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0b18;--surface:rgba(20,15,45,0.88);--border:rgba(124,63,228,0.3);
+  --purple:#7c3fe4;--purple-light:#a06ff0;--gold:#c8973a;
+  --text:#e8e0f0;--muted:#9a8db0;--error:#e05565;--ok:#3fcf8e;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Lora',serif}
+.zodiac-bg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(900px,110vw);height:min(900px,110vw);pointer-events:none;z-index:0}
+.zodiac-bg svg{width:100%;height:100%;animation:spin 180s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(124,63,228,0.05) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 20%,rgba(200,151,58,0.04) 0%,transparent 60%)}
+.page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2.5rem 1rem 3rem}
+.logo{text-align:center;margin-bottom:2rem}
+.logo h1{font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;letter-spacing:0.08em;
+  background:linear-gradient(135deg,#c8973a 0%,#e8c87a 50%,#c8973a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo p{font-size:0.8rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;margin-top:0.4rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem 2rem 2.2rem;width:100%;max-width:500px;
+  backdrop-filter:blur(14px);box-shadow:0 8px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(160,111,240,0.1)}
+.card-title{font-family:'Playfair Display SC',serif;font-size:1.35rem;text-align:center;margin-bottom:0.25rem}
+.card-sub{font-size:0.88rem;color:var(--muted);text-align:center;font-style:italic;margin-bottom:1.8rem}
+.form-grid{display:grid;gap:0.9rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.field label{display:block;font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem}
+.field label .opt{font-style:italic;text-transform:none;letter-spacing:0;font-size:0.7rem;opacity:0.7}
+.field input{width:100%;background:rgba(11,11,24,0.65);border:1px solid rgba(124,63,228,0.22);border-radius:8px;
+  padding:0.62rem 0.85rem;color:var(--text);font-family:'Lora',serif;font-size:0.92rem;transition:border-color .2s,box-shadow .2s;outline:none}
+.field input:focus{border-color:var(--purple-light);box-shadow:0 0 0 3px rgba(160,111,240,0.15)}
+.field input::placeholder{color:rgba(154,141,176,0.45)}
+.field .hint{font-size:0.7rem;color:var(--muted);margin-top:0.28rem;opacity:0.7}
+.field.err input{border-color:var(--error)}
+.field .emsg{font-size:0.7rem;color:var(--error);margin-top:0.28rem;display:none}
+.field.err .emsg{display:block}
+.divider{display:flex;align-items:center;gap:0.75rem;margin:0.2rem 0}
+.divider span{font-size:0.72rem;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:0.1em}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(124,63,228,0.2)}
+.btn{width:100%;padding:0.88rem;background:linear-gradient(135deg,#7c3fe4,#5b2db5);border:none;border-radius:10px;
+  color:#fff;font-family:'Cinzel',serif;font-size:0.93rem;font-weight:700;letter-spacing:0.1em;cursor:pointer;
+  transition:opacity .2s,transform .1s;margin-top:0.3rem}
+.btn:hover{opacity:0.9}.btn:active{transform:scale(0.99)}.btn:disabled{opacity:0.5;cursor:not-allowed}
+.link-row{text-align:center;margin-top:1.1rem;font-size:0.84rem;color:var(--muted)}
+.link-row a{color:var(--purple-light);text-decoration:none;font-weight:600}
+.link-row a:hover{text-decoration:underline}
+.alert{padding:0.8rem 1rem;border-radius:8px;font-size:0.86rem;margin-top:0.8rem;display:none;line-height:1.5}
+.alert.ok{background:rgba(63,207,142,0.1);border:1px solid rgba(63,207,142,0.3);color:var(--ok);display:block}
+.alert.bad{background:rgba(224,85,101,0.1);border:1px solid rgba(224,85,101,0.3);color:var(--error);display:block}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="zodiac-bg" aria-hidden="true">
+<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="500" cy="500" r="480" fill="none" stroke="rgba(124,63,228,0.28)" stroke-width="1.5"/>
+  <circle cx="500" cy="500" r="380" fill="none" stroke="rgba(124,63,228,0.22)" stroke-width="1"/>
+  <circle cx="500" cy="500" r="320" fill="none" stroke="rgba(124,63,228,0.18)" stroke-width="1"/>
+  <circle cx="500" cy="500" r="200" fill="none" stroke="rgba(124,63,228,0.14)" stroke-width="0.8"/>
+  <circle cx="500" cy="500" r="110" fill="none" stroke="rgba(124,63,228,0.12)" stroke-width="0.8"/>
+  <line x1="500" y1="20" x2="500" y2="980" stroke="rgba(124,63,228,0.15)" stroke-width="0.8"/>
+  <line x1="20" y1="500" x2="980" y2="500" stroke="rgba(124,63,228,0.15)" stroke-width="0.8"/>
+  <line x1="153" y1="153" x2="847" y2="847" stroke="rgba(124,63,228,0.12)" stroke-width="0.8"/>
+  <line x1="847" y1="153" x2="153" y2="847" stroke="rgba(124,63,228,0.12)" stroke-width="0.8"/>
+  <line x1="87" y1="330" x2="913" y2="670" stroke="rgba(124,63,228,0.1)" stroke-width="0.7"/>
+  <line x1="913" y1="330" x2="87" y2="670" stroke="rgba(124,63,228,0.1)" stroke-width="0.7"/>
+  <line x1="330" y1="87" x2="670" y2="913" stroke="rgba(124,63,228,0.1)" stroke-width="0.7"/>
+  <line x1="670" y1="87" x2="330" y2="913" stroke="rgba(124,63,228,0.1)" stroke-width="0.7"/>
+  <text x="500" y="86" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♈</text>
+  <text x="690" y="128" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♉</text>
+  <text x="828" y="265" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♊</text>
+  <text x="886" y="458" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♋</text>
+  <text x="844" y="652" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♌</text>
+  <text x="710" y="793" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♍</text>
+  <text x="500" y="930" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♎</text>
+  <text x="303" y="793" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♏</text>
+  <text x="168" y="652" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♐</text>
+  <text x="125" y="458" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♑</text>
+  <text x="168" y="265" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♒</text>
+  <text x="303" y="128" text-anchor="middle" font-size="22" fill="rgba(196,160,255,0.55)" font-family="serif">♓</text>
+</svg>
+</div>
+
+<div class="page">
+  <div class="logo">
+    <h1>✦ BÚSSOLA ASTRAL ✦</h1>
+    <p>Descubra seu mapa astral</p>
+  </div>
+
+  <div class="card">
+    <h2 class="card-title">Criar sua conta</h2>
+    <p class="card-sub">Comece sua jornada nas estrelas</p>
+
+    <form id="regForm" class="form-grid" novalidate>
+
+      <div class="field" id="f-name">
+        <label for="inp-name">Nome completo</label>
+        <input type="text" id="inp-name" placeholder="Seu nome completo" autocomplete="name" required/>
+        <div class="emsg">Por favor, informe seu nome.</div>
+      </div>
+
+      <div class="field" id="f-email">
+        <label for="inp-email">Email</label>
+        <input type="email" id="inp-email" placeholder="seu@email.com" autocomplete="email" required/>
+        <div class="emsg">Informe um email válido.</div>
+      </div>
+
+      <div class="row2">
+        <div class="field" id="f-pass">
+          <label for="inp-pass">Senha</label>
+          <input type="password" id="inp-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required/>
+          <div class="emsg">Mínimo 8 caracteres.</div>
+        </div>
+        <div class="field" id="f-pass2">
+          <label for="inp-pass2">Confirmar senha</label>
+          <input type="password" id="inp-pass2" placeholder="Repita a senha" autocomplete="new-password" required/>
+          <div class="emsg">Senhas não coincidem.</div>
+        </div>
+      </div>
+
+      <div class="divider"><span>Dados astrais</span></div>
+
+      <div class="row2">
+        <div class="field" id="f-bdate">
+          <label for="inp-bdate">Data de nascimento</label>
+          <input type="date" id="inp-bdate" required/>
+          <div class="emsg">Informe a data.</div>
+        </div>
+        <div class="field" id="f-btime">
+          <label for="inp-btime">Hora <span class="opt">(opcional)</span></label>
+          <input type="time" id="inp-btime"/>
+          <div class="hint">Para calcular seu Ascendente</div>
+        </div>
+      </div>
+
+      <div class="field" id="f-bcity">
+        <label for="inp-bcity">Cidade de nascimento</label>
+        <input type="text" id="inp-bcity" placeholder="Ex: São Paulo, SP" required/>
+        <div class="emsg">Informe a cidade de nascimento.</div>
+      </div>
+
+      <div class="field" id="f-phone">
+        <label for="inp-phone">Celular <span class="opt">(opcional)</span></label>
+        <input type="tel" id="inp-phone" placeholder="(11) 99999-9999" autocomplete="tel"/>
+      </div>
+
+      <div id="alertBox" class="alert"></div>
+
+      <button type="submit" class="btn" id="btnSubmit">✦ Criar Conta</button>
+    </form>
+
+    <div class="link-row">Já tem conta? <a href="/login.html">Entrar</a></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SB_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
+const db=supabase.createClient(SB_URL,SB_KEY);
+
+function getSign(ds){
+  const d=new Date(ds+'T12:00:00'),m=d.getMonth()+1,day=d.getDate();
+  if((m===3&&day>=21)||(m===4&&day<=19))return'Áries';
+  if((m===4&&day>=20)||(m===5&&day<=20))return'Touro';
+  if((m===5&&day>=21)||(m===6&&day<=20))return'Gêmeos';
+  if((m===6&&day>=21)||(m===7&&day<=22))return'Câncer';
+  if((m===7&&day>=23)||(m===8&&day<=22))return'Leão';
+  if((m===8&&day>=23)||(m===9&&day<=22))return'Virgem';
+  if((m===9&&day>=23)||(m===10&&day<=22))return'Libra';
+  if((m===10&&day>=23)||(m===11&&day<=21))return'Escorpião';
+  if((m===11&&day>=22)||(m===12&&day<=21))return'Sagitário';
+  if((m===12&&day>=22)||(m===1&&day<=19))return'Capricórnio';
+  if((m===1&&day>=20)||(m===2&&day<=18))return'Aquário';
+  return'Peixes';
+}
+
+function showAlert(msg,type){const el=document.getElementById('alertBox');el.textContent=msg;el.className='alert '+type}
+function clrAlert(){const el=document.getElementById('alertBox');el.className='alert';el.textContent=''}
+function fe(id,show){document.getElementById(id).classList.toggle('err',show)}
+
+document.getElementById('regForm').addEventListener('submit',async(e)=>{
+  e.preventDefault();clrAlert();
+  const name=document.getElementById('inp-name').value.trim();
+  const email=document.getElementById('inp-email').value.trim();
+  const pass=document.getElementById('inp-pass').value;
+  const pass2=document.getElementById('inp-pass2').value;
+  const bdate=document.getElementById('inp-bdate').value;
+  const btime=document.getElementById('inp-btime').value;
+  const bcity=document.getElementById('inp-bcity').value.trim();
+  const phone=document.getElementById('inp-phone').value.trim();
+
+  let ok=true;
+  fe('f-name',!name);if(!name)ok=false;
+  fe('f-email',!email||!email.includes('@'));if(!email||!email.includes('@'))ok=false;
+  fe('f-pass',pass.length<8);if(pass.length<8)ok=false;
+  fe('f-pass2',pass!==pass2);if(pass!==pass2)ok=false;
+  fe('f-bdate',!bdate);if(!bdate)ok=false;
+  fe('f-bcity',!bcity);if(!bcity)ok=false;
+  if(!ok)return;
+
+  const btn=document.getElementById('btnSubmit');
+  btn.disabled=true;btn.textContent='Criando conta...';
+
+  const sign=getSign(bdate);
+  const{data,error}=await db.auth.signUp({
+    email,password:pass,
+    options:{data:{name,birth_date:bdate,birth_time:btime||null,birth_city:bcity,phone:phone||null,sign}}
+  });
+
+  if(error){
+    const msg=error.message.includes('already registered')
+      ?'Este email já está cadastrado. <a href="/login.html">Faça login</a>.'
+      :'Erro: '+error.message;
+    document.getElementById('alertBox').innerHTML=msg;
+    document.getElementById('alertBox').className='alert bad';
+    btn.disabled=false;btn.textContent='✦ Criar Conta';
+    return;
+  }
+
+  if(data.session){
+    showAlert('✓ Conta criada! Redirecionando...','ok');
+    setTimeout(()=>window.location.href='/horoscopo.html',1400);
+  }else{
+    showAlert('✓ Conta criada! Verifique seu email para confirmar o cadastro.','ok');
+    btn.textContent='Email enviado ✓';
+  }
+});
+
+// Já logado? Redireciona direto
+db.auth.getSession().then(({data:{session}})=>{if(session)window.location.href='/horoscopo.html'});
+</script>
+</body>
+</html>
