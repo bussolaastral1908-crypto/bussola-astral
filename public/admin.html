@@ -142,21 +142,33 @@ tr:hover td{background:rgba(124,63,228,0.04)}
         <div class="stat-val" id="stat-total-users">—</div>
         <div class="stat-label">Usuários Cadastrados</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val" id="stat-premium-users">—</div>
+      <div class="stat-card" style="border-color:rgba(240,192,64,.3)">
+        <div class="stat-val" style="color:var(--gold)" id="stat-premium-users">—</div>
         <div class="stat-label">Usuários Premium</div>
+      </div>
+      <div class="stat-card" style="border-color:rgba(56,189,248,.25)">
+        <div class="stat-val" style="color:var(--blue)" id="stat-conversion">—%</div>
+        <div class="stat-label">Taxa de Conversão</div>
       </div>
       <div class="stat-card">
         <div class="stat-val" id="stat-total-payments">—</div>
         <div class="stat-label">Checkouts Gerados</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val" id="stat-paid-payments">—</div>
+      <div class="stat-card" style="border-color:rgba(34,197,94,.25)">
+        <div class="stat-val" style="color:var(--green)" id="stat-paid-payments">—</div>
         <div class="stat-label">Pagamentos Recebidos</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val" id="stat-revenue">—</div>
+      <div class="stat-card" style="border-color:rgba(34,197,94,.25)">
+        <div class="stat-val" style="color:var(--green)" id="stat-revenue">—</div>
         <div class="stat-label">Receita Total (R$)</div>
+      </div>
+      <div class="stat-card" style="border-color:rgba(34,197,94,.25)">
+        <div class="stat-val" style="color:var(--green)" id="stat-mrr">—</div>
+        <div class="stat-label">MRR Estimado (R$)</div>
+      </div>
+      <div class="stat-card" style="border-color:rgba(251,191,36,.25)">
+        <div class="stat-val" style="color:#fbbf24" id="stat-pending">—</div>
+        <div class="stat-label">Pagos s/ Conta</div>
       </div>
     </div>
 
@@ -226,7 +238,27 @@ tr:hover td{background:rgba(124,63,228,0.04)}
         </table>
       </div>
     </div>
-  </div>
+
+    <!-- Pending Premiums -->
+    <div class="section" id="pending-section">
+      <div class="section-header">
+        <span style="font-size:1.1rem">⏳</span>
+        <span class="section-title">Pagos sem Conta</span>
+        <span class="section-count" id="pending-count">0</span>
+        <div style="margin-left:auto;font-size:.78rem;color:var(--muted)">Pagaram mas ainda não criaram conta</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Email</th><th>Pago em</th><th>Expira em</th><th>Ação</th></tr></thead>
+          <tbody id="pending-tbody"><tr><td colspan="4" class="empty-state">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Export -->
+    <div style="text-align:right;margin-bottom:32px">
+      <button onclick="exportCSV()" style="padding:8px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;cursor:pointer;font-size:.82rem;transition:all .2s" onmouseover="this.style.borderColor='var(--purple3)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">⬇ Exportar usuários CSV</button>
+    </div>  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -280,7 +312,7 @@ async function logout() {
 
 // ── Load All Data ────────────────────────────────────────
 async function loadData() {
-  await Promise.all([loadUsers(), loadPayments()]);
+  await Promise.all([loadUsers(), loadPayments(), loadPending()]);
   updateStats();
   const now = new Date().toLocaleString('pt-BR');
   document.getElementById('last-updated').textContent = `Última atualização: ${now}`;
@@ -416,13 +448,74 @@ function filterPayments() {
 
 // ── Stats ─────────────────────────────────────────────────
 function updateStats() {
-  document.getElementById('stat-total-users').textContent = allUsers.length;
-  document.getElementById('stat-premium-users').textContent = allUsers.filter(u => u.is_premium).length;
+  const total = allUsers.length;
+  const premCount = allUsers.filter(u => u.is_premium).length;
+  document.getElementById('stat-total-users').textContent = total;
+  document.getElementById('stat-premium-users').textContent = premCount;
+  document.getElementById('stat-conversion').textContent = total > 0
+    ? Math.round(premCount / total * 100) + '%' : '0%';
   document.getElementById('stat-total-payments').textContent = allPayments.length;
   const paid = allPayments.filter(p => p.status === 'PAID');
   document.getElementById('stat-paid-payments').textContent = paid.length;
   const revenue = paid.reduce((acc, p) => acc + (p.paidAmount || p.amount || 0), 0);
   document.getElementById('stat-revenue').textContent = (revenue / 100).toFixed(2).replace('.', ',');
+  // MRR: count active premium users × R$34,90
+  const activePrem = allUsers.filter(u => {
+    if (!u.is_premium) return false;
+    if (!u.premium_expires_at) return false;
+    const exp = new Date(u.premium_expires_at);
+    return exp.getFullYear() < 2090 && exp > new Date();
+  }).length;
+  document.getElementById('stat-mrr').textContent = (activePrem * 34.90).toFixed(2).replace('.', ',');
+}
+
+// ── Pending Premiums ───────────────────────────────────────
+async function loadPending() {
+  try {
+    const { data, error } = await db.from('pending_premiums').select('*').order('granted_at', { ascending: false });
+    if (error) throw new Error(error.message);
+    const rows = data || [];
+    document.getElementById('stat-pending').textContent = rows.length;
+    document.getElementById('pending-count').textContent = rows.length;
+    if (!rows.length) {
+      document.getElementById('pending-tbody').innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum grant pendente ✅</td></tr>';
+      return;
+    }
+    document.getElementById('pending-tbody').innerHTML = rows.map(r => `<tr>
+      <td>${r.email}</td>
+      <td style="font-size:.8rem">${fmt(r.granted_at)}</td>
+      <td style="font-size:.8rem">${fmt(r.expires_at)}</td>
+      <td><button class="btn-toggle btn-revoke" style="font-size:.72rem" onclick="deletePending('${r.email}')">Remover</button></td>
+    </tr>`).join('');
+  } catch(e) {
+    document.getElementById('pending-tbody').innerHTML = `<tr><td colspan="4" class="empty-state" style="color:var(--red)">Erro: ${e.message}</td></tr>`;
+  }
+}
+
+async function deletePending(email) {
+  if (!confirm(`Remover grant pendente de ${email}?`)) return;
+  await db.from('pending_premiums').delete().eq('email', email);
+  loadPending();
+}
+
+// ── Export CSV ────────────────────────────────────────────
+function exportCSV() {
+  const headers = ['Nome','Email','Signo','Nascimento','Cadastro','Premium','Expira'];
+  const rows = allUsers.map(u => [
+    u.name || '',
+    u.email || '',
+    u.sign || '',
+    u.birth_date ? fmtDate(u.birth_date) : '',
+    u.created_at ? fmt(u.created_at) : '',
+    u.is_premium ? 'Sim' : 'Não',
+    u.premium_expires_at ? fmtDate(u.premium_expires_at) : ''
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'usuarios_bussola_astral.csv'; a.click();
+  URL.revokeObjectURL(url);
 }
 </script>
 </body>
