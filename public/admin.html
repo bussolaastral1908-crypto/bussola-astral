@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Bússola Astral</title>
+<style>
+:root {
+  --bg:#0a0a14;--bg2:#0f0f1e;--bg3:#13132a;
+  --purple1:#1a0a3e;--purple2:#2d1a6e;--purple3:#7c3fe4;--purple4:#a855f7;
+  --gold:#f0c040;--green:#22c55e;--red:#ef4444;--blue:#38bdf8;
+  --text:#e8e0f0;--muted:#9a8db0;--border:rgba(124,63,228,0.2);
+  --radius:10px;--card-bg:rgba(13,13,30,0.95);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;min-height:100vh}
+/* Stars bg */
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 80% 40% at 50% -10%,rgba(124,63,228,0.25) 0%,transparent 70%),
+  radial-gradient(ellipse 50% 30% at 80% 90%,rgba(168,85,247,0.12) 0%,transparent 60%);
+  pointer-events:none;z-index:0}
+
+/* ── Layout ── */
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(10,10,20,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;z-index:100}
+.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.1rem;color:var(--purple4)}
+.topbar-logo img{height:30px;width:auto}
+.topbar-badge{background:var(--purple2);color:var(--purple4);border:1px solid var(--purple3);border-radius:6px;padding:2px 8px;font-size:0.7rem;font-weight:700;letter-spacing:.05em}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.topbar-user{font-size:0.82rem;color:var(--muted)}
+.btn-logout{padding:6px 14px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:6px;cursor:pointer;font-size:0.82rem;transition:all .2s}
+.btn-logout:hover{border-color:var(--purple3);color:var(--text)}
+
+.main{padding:80px 24px 40px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.page-title{font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.page-sub{color:var(--muted);font-size:0.9rem;margin-bottom:28px}
+
+/* ── Stats ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.stat-val{font-size:2rem;font-weight:800;color:var(--purple4);line-height:1}
+.stat-label{font-size:0.8rem;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
+
+/* ── Section ── */
+.section{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:28px;overflow:hidden}
+.section-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.section-title{font-size:1rem;font-weight:700;color:var(--text)}
+.section-count{font-size:0.78rem;color:var(--muted);background:rgba(124,63,228,0.15);padding:2px 8px;border-radius:12px}
+.section-actions{margin-left:auto;display:flex;gap:8px}
+.btn-refresh{padding:5px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:6px;cursor:pointer;font-size:0.8rem;transition:all .2s}
+.btn-refresh:hover{border-color:var(--purple3);color:var(--text)}
+
+/* ── Search ── */
+.search-row{padding:12px 20px;border-bottom:1px solid var(--border)}
+.search-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:0.85rem;outline:none}
+.search-input:focus{border-color:var(--purple3)}
+.search-input::placeholder{color:var(--muted)}
+
+/* ── Table ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 16px;text-align:left;font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:rgba(13,13,30,0.5)}
+td{padding:12px 16px;border-bottom:1px solid rgba(124,63,228,0.08);font-size:0.85rem;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(124,63,228,0.04)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600}
+.badge-premium{background:rgba(240,192,64,0.15);color:var(--gold);border:1px solid rgba(240,192,64,0.3)}
+.badge-free{background:rgba(154,141,176,0.1);color:var(--muted);border:1px solid rgba(154,141,176,0.2)}
+.badge-paid{background:rgba(34,197,94,0.15);color:var(--green);border:1px solid rgba(34,197,94,0.3)}
+.badge-pending{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)}
+.badge-expired{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
+
+.btn-toggle{padding:4px 12px;border-radius:6px;cursor:pointer;font-size:0.78rem;font-weight:600;border:1px solid;transition:all .2s}
+.btn-grant{background:rgba(34,197,94,0.1);color:var(--green);border-color:rgba(34,197,94,0.3)}
+.btn-grant:hover{background:rgba(34,197,94,0.25)}
+.btn-revoke{background:rgba(239,68,68,0.1);color:var(--red);border-color:rgba(239,68,68,0.3)}
+.btn-revoke:hover{background:rgba(239,68,68,0.25)}
+
+.avatar-sm{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple2),var(--purple3));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0}
+.user-cell{display:flex;align-items:center;gap:10px}
+.user-name{font-weight:600;color:var(--text)}
+.user-email{font-size:0.78rem;color:var(--muted)}
+
+.link-cell a{color:var(--purple4);text-decoration:none;font-size:0.78rem}
+.link-cell a:hover{text-decoration:underline}
+
+/* ── Loading & Error ── */
+#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--purple3);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#error-panel{display:none;text-align:center;padding:40px;color:var(--red)}
+#access-denied{display:none;text-align:center;padding:60px 20px}
+#dashboard{display:none}
+
+.empty-state{padding:40px;text-align:center;color:var(--muted);font-size:0.9rem}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="spinner"></div>
+  <div style="color:var(--muted);font-size:0.9rem">Verificando acesso admin...</div>
+</div>
+
+<!-- Access Denied -->
+<div id="access-denied">
+  <div style="font-size:3rem;margin-bottom:16px">🔒</div>
+  <h2 style="color:var(--red);margin-bottom:8px">Acesso Negado</h2>
+  <p style="color:var(--muted)">Esta área é restrita ao administrador.</p>
+  <button onclick="window.location.href='/login.html'" style="margin-top:20px;padding:10px 24px;background:var(--purple3);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:0.9rem">← Voltar ao Login</button>
+</div>
+
+<!-- Error -->
+<div id="error-panel">
+  <div style="font-size:2rem;margin-bottom:12px">⚠️</div>
+  <div id="error-msg">Erro ao carregar dados</div>
+  <button onclick="loadData()" style="margin-top:16px;padding:8px 20px;background:var(--purple3);border:none;border-radius:6px;color:#fff;cursor:pointer">Tentar novamente</button>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <img src="/logotipo.png" alt="Bússola Astral">
+      Bússola Astral
+    </div>
+    <span class="topbar-badge">ADMIN</span>
+    <div class="topbar-right">
+      <span class="topbar-user" id="admin-email-display"></span>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="page-title">⚙️ Painel Administrativo</div>
+    <div class="page-sub" id="last-updated">Carregando dados...</div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-val" id="stat-total-users">—</div>
+        <div class="stat-label">Usuários Cadastrados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-premium-users">—</div>
+        <div class="stat-label">Usuários Premium</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-total-payments">—</div>
+        <div class="stat-label">Checkouts Gerados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-paid-payments">—</div>
+        <div class="stat-label">Pagamentos Recebidos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-revenue">—</div>
+        <div class="stat-label">Receita Total (R$)</div>
+      </div>
+    </div>
+
+    <!-- Users Section -->
+    <div class="section">
+      <div class="section-header">
+        <span style="font-size:1.1rem">👥</span>
+        <span class="section-title">Usuários</span>
+        <span class="section-count" id="users-count">0</span>
+        <div class="section-actions">
+          <button class="btn-refresh" onclick="loadUsers()">↻ Atualizar</button>
+        </div>
+      </div>
+      <div class="search-row">
+        <input type="text" class="search-input" id="users-search" placeholder="Buscar por nome ou email..." oninput="filterUsers()">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Signo</th>
+              <th>Data Nascimento</th>
+              <th>Cadastro</th>
+              <th>Último Acesso</th>
+              <th>Status</th>
+              <th>Expira em</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <tr><td colspan="8" class="empty-state">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Payments Section -->
+    <div class="section">
+      <div class="section-header">
+        <span style="font-size:1.1rem">💳</span>
+        <span class="section-title">Checkouts / Pagamentos</span>
+        <span class="section-count" id="payments-count">0</span>
+        <div class="section-actions">
+          <button class="btn-refresh" onclick="loadPayments()">↻ Atualizar</button>
+        </div>
+      </div>
+      <div class="search-row">
+        <input type="text" class="search-input" id="payments-search" placeholder="Buscar por ID ou status..." oninput="filterPayments()">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Plano</th>
+              <th>Valor</th>
+              <th>Status</th>
+              <th>Método</th>
+              <th>Data</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody id="payments-tbody">
+            <tr><td colspan="7" class="empty-state">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SUPA_URL = 'https://jnjdkfmzkppzqafhjsbl.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
+const ADMIN_EMAIL = 'zaikapablo@gmail.com';
+
+const PRODUCT_NAMES = {
+  'prod_A2q221TZx3ZYSBxdEyZLaAK3': 'Premium Mensal',
+  'prod_AAXUHsMDf04QwwndReKyFaPK':  'Premium Anual',
+};
+
+const db = supabase.createClient(SUPA_URL, SUPA_KEY);
+let currentSession = null;
+let allUsers = [];
+let allPayments = [];
+
+function fmt(date) {
+  if (!date) return '—';
+  return new Date(date).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+function fmtDate(date) {
+  if (!date) return '—';
+  return new Date(date).toLocaleDateString('pt-BR');
+}
+function fmtBRL(cents) {
+  return 'R$ ' + (cents / 100).toFixed(2).replace('.', ',');
+}
+
+// ── Auth Check ──────────────────────────────────────────
+(async () => {
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) { window.location.href = '/login.html'; return; }
+  if (session.user.email !== ADMIN_EMAIL) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('access-denied').style.display = 'block';
+    return;
+  }
+  currentSession = session;
+  document.getElementById('admin-email-display').textContent = session.user.email;
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadData();
+})();
+
+async function logout() {
+  await db.auth.signOut();
+  window.location.href = '/login.html';
+}
+
+// ── Load All Data ────────────────────────────────────────
+async function loadData() {
+  await Promise.all([loadUsers(), loadPayments()]);
+  updateStats();
+  const now = new Date().toLocaleString('pt-BR');
+  document.getElementById('last-updated').textContent = `Última atualização: ${now}`;
+}
+
+// ── Users ────────────────────────────────────────────────
+async function loadUsers() {
+  document.getElementById('users-tbody').innerHTML = '<tr><td colspan="8" class="empty-state">Carregando...</td></tr>';
+  try {
+    const { data, error } = await db.rpc('admin_get_all_users');
+    if (error) throw new Error(error.message);
+    allUsers = data || [];
+    renderUsers(allUsers);
+  } catch (e) {
+    document.getElementById('users-tbody').innerHTML = `<tr><td colspan="8" class="empty-state" style="color:var(--red)">Erro: ${e.message}</td></tr>`;
+  }
+}
+
+function renderUsers(users) {
+  document.getElementById('users-count').textContent = users.length;
+  if (!users.length) {
+    document.getElementById('users-tbody').innerHTML = '<tr><td colspan="8" class="empty-state">Nenhum usuário</td></tr>';
+    return;
+  }
+  document.getElementById('users-tbody').innerHTML = users.map(u => {
+    const initial = (u.name || u.email || '?')[0].toUpperCase();
+    const isPrem = u.is_premium;
+    const expDate = u.premium_expires_at ? new Date(u.premium_expires_at) : null;
+    const isLifetime = expDate && expDate.getFullYear() >= 2090;
+    const expStr = isLifetime ? '♾️ Vitalício' : (expDate ? fmtDate(u.premium_expires_at) : '—');
+    return `<tr>
+      <td>
+        <div class="user-cell">
+          <div class="avatar-sm">${initial}</div>
+          <div>
+            <div class="user-name">${u.name || '(sem nome)'}</div>
+            <div class="user-email">${u.email}</div>
+          </div>
+        </div>
+      </td>
+      <td>${u.sign || '—'}</td>
+      <td>${u.birth_date ? fmtDate(u.birth_date) : '—'}</td>
+      <td>${fmt(u.created_at)}</td>
+      <td>${fmt(u.last_sign_in_at)}</td>
+      <td>
+        <span class="badge ${isPrem ? 'badge-premium' : 'badge-free'}">
+          ${isPrem ? '⭐ Premium' : '🔓 Free'}
+        </span>
+      </td>
+      <td>${expStr}</td>
+      <td>
+        ${isPrem
+          ? `<button class="btn-toggle btn-revoke" onclick="togglePremium('${u.email}', false)">Revogar</button>`
+          : `<button class="btn-toggle btn-grant"  onclick="togglePremium('${u.email}', true)">Conceder</button>`
+        }
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterUsers() {
+  const q = document.getElementById('users-search').value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    (u.name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q)
+  );
+  renderUsers(filtered);
+}
+
+async function togglePremium(email, grant) {
+  const action = grant ? 'conceder' : 'revogar';
+  if (!confirm(`${grant ? '⭐ Conceder' : '❌ Revogar'} acesso Premium para ${email}?`)) return;
+  try {
+    const { data, error } = await db.rpc('admin_set_premium', { target_email: email, grant_premium: grant });
+    if (error) throw new Error(error.message);
+    await loadUsers();
+    updateStats();
+  } catch (e) {
+    alert('Erro: ' + e.message);
+  }
+}
+
+// ── Payments ─────────────────────────────────────────────
+async function loadPayments() {
+  document.getElementById('payments-tbody').innerHTML = '<tr><td colspan="7" class="empty-state">Carregando...</td></tr>';
+  try {
+    const token = currentSession.access_token;
+    const res = await fetch('/api/admin-payments', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Erro desconhecido');
+    allPayments = json.payments || [];
+    renderPayments(allPayments);
+  } catch (e) {
+    document.getElementById('payments-tbody').innerHTML = `<tr><td colspan="7" class="empty-state" style="color:var(--red)">Erro: ${e.message}</td></tr>`;
+  }
+}
+
+function renderPayments(payments) {
+  document.getElementById('payments-count').textContent = payments.length;
+  if (!payments.length) {
+    document.getElementById('payments-tbody').innerHTML = '<tr><td colspan="7" class="empty-state">Nenhum checkout</td></tr>';
+    return;
+  }
+  document.getElementById('payments-tbody').innerHTML = payments.map(p => {
+    const productName = (p.items && p.items[0]) ? (PRODUCT_NAMES[p.items[0].id] || p.items[0].id) : '—';
+    const statusBadge = {
+      'PAID':    '<span class="badge badge-paid">✅ Pago</span>',
+      'PENDING': '<span class="badge badge-pending">⏳ Pendente</span>',
+      'EXPIRED': '<span class="badge badge-expired">❌ Expirado</span>',
+      'CANCELLED':'<span class="badge badge-expired">✗ Cancelado</span>',
+    }[p.status] || `<span class="badge badge-free">${p.status}</span>`;
+    const methods = (p.methods || []).join(' + ');
+    return `<tr>
+      <td style="font-family:monospace;font-size:0.78rem;color:var(--muted)">${p.id}</td>
+      <td>${productName}</td>
+      <td style="font-weight:600;color:${p.status === 'PAID' ? 'var(--green)' : 'var(--text)'}">${fmtBRL(p.amount)}</td>
+      <td>${statusBadge}</td>
+      <td style="font-size:0.78rem;color:var(--muted)">${methods}</td>
+      <td style="font-size:0.78rem">${fmt(p.createdAt)}</td>
+      <td class="link-cell"><a href="${p.url}" target="_blank" rel="noopener">↗ Ver</a></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterPayments() {
+  const q = document.getElementById('payments-search').value.toLowerCase();
+  const filtered = allPayments.filter(p =>
+    (p.id || '').toLowerCase().includes(q) || (p.status || '').toLowerCase().includes(q)
+  );
+  renderPayments(filtered);
+}
+
+// ── Stats ─────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('stat-total-users').textContent = allUsers.length;
+  document.getElementById('stat-premium-users').textContent = allUsers.filter(u => u.is_premium).length;
+  document.getElementById('stat-total-payments').textContent = allPayments.length;
+  const paid = allPayments.filter(p => p.status === 'PAID');
+  document.getElementById('stat-paid-payments').textContent = paid.length;
+  const revenue = paid.reduce((acc, p) => acc + (p.paidAmount || p.amount || 0), 0);
+  document.getElementById('stat-revenue').textContent = (revenue / 100).toFixed(2).replace('.', ',');
+}
+</script>
+</body>
+</html>
