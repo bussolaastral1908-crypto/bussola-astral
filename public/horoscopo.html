@@ -142,6 +142,35 @@ select option{background:#171732;}
 .transit-desc{font-size:.86rem;color:var(--muted2);line-height:1.7;}
 .read-more{font-size:.78rem;color:var(--purple3);cursor:pointer;margin-top:8px;display:inline-block;font-weight:700;}
 .read-more:hover{color:var(--purple2);}
+/* ── Previsão 6 Meses ── */
+.prev-header{text-align:center;padding:14px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+.prev-header h2{font-family:'Playfair Display SC',serif;font-size:1.08rem;letter-spacing:.04em;margin-bottom:4px;}
+.prev-header p{font-size:.78rem;color:var(--muted);}
+.month-card{background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
+.month-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px;}
+.month-card.energy-positive::before{background:linear-gradient(180deg,#3fcf8e,#16a34a);}
+.month-card.energy-negative::before{background:linear-gradient(180deg,#f06060,#dc2626);}
+.month-card.energy-mixed::before{background:linear-gradient(180deg,#f59e0b,#d97706);}
+.month-card.energy-neutral::before{background:linear-gradient(180deg,#7c3fe4,#6d28d9);}
+.month-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.month-name{font-family:'Playfair Display SC',serif;font-size:1rem;font-weight:700;letter-spacing:.03em;}
+.month-energy-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;}
+.badge-positive{background:rgba(63,207,142,.15);color:var(--green);border:1px solid rgba(63,207,142,.3);}
+.badge-negative{background:rgba(240,96,96,.12);color:#f06060;border:1px solid rgba(240,96,96,.25);}
+.badge-mixed{background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.25);}
+.badge-neutral{background:rgba(124,63,228,.12);color:var(--purple3);border:1px solid rgba(124,63,228,.25);}
+.month-narrative{font-size:.87rem;color:var(--muted2);line-height:1.78;margin-bottom:14px;}
+.month-transits{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.month-transit-row{display:flex;align-items:flex-start;gap:9px;font-size:.8rem;color:var(--muted2);}
+.month-transit-row .mt-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.month-transit-row strong{color:var(--text);font-weight:700;}
+.month-areas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.area-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.area-label{font-size:.68rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.area-value{font-size:.78rem;color:var(--text);font-weight:600;}
+.area-stars{font-size:.65rem;margin-top:2px;letter-spacing:1px;}
+.prev-lock{background:linear-gradient(135deg,var(--card2),rgba(124,63,228,.06));border:1px solid rgba(63,207,142,.2);border-radius:16px;padding:30px 20px;text-align:center;}
+
 /* ── Transit detail modal ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .2s ease;}
 .modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);}
@@ -398,11 +427,13 @@ select option{background:#171732;}
         <button class="mtab" onclick="switchMTab('transitos',this)">⚡ Trânsitos</button>
         <button class="mtab" onclick="switchMTab('futuro',this)">🔭 Futuro</button>
         <button class="mtab" onclick="switchMTab('mapa',this)">🗺️ Mapa</button>
+        <button class="mtab" onclick="switchMTab('previsao',this)">📅 6 Meses</button>
       </div>
       <div id="panel-resumo"   class="panel active"></div>
       <div id="panel-transitos" class="panel"></div>
       <div id="panel-futuro"   class="panel"></div>
       <div id="panel-mapa"     class="panel"></div>
+      <div id="panel-previsao" class="panel"></div>
     </div>
 
   </main>
@@ -1210,6 +1241,162 @@ function renderFuturo() {
   }
 }
 
+
+// ══════════════════════════════════════════════════════════════════
+// PREVISÃO 6 MESES
+// ══════════════════════════════════════════════════════════════════
+const MONTH_THEMES = {
+  pluto:   { positive:'Transformação pessoal profunda', negative:'Ciclo de ruptura e renovação', neutral:'Reinvenção em andamento' },
+  neptune: { positive:'Espiritualidade e criatividade', negative:'Atenção à ilusão e confusão', neutral:'Sensibilidade amplificada' },
+  uranus:  { positive:'Libertação e mudanças positivas', negative:'Imprevistos e rupturas', neutral:'Necessidade de inovação' },
+  saturn:  { positive:'Resultados e reconhecimento', negative:'Obstáculos e responsabilidade', neutral:'Estruturação e disciplina' },
+  jupiter: { positive:'Expansão e abundância', negative:'Excesso e dispersão', neutral:'Crescimento e oportunidades' },
+  mars:    { positive:'Energia e iniciativa forte', negative:'Tensão e impulsividade', neutral:'Movimento e ação' },
+  sun:     { positive:'Vitalidade e propósito', negative:'Atrito de identidade', neutral:'Foco e visibilidade' },
+  venus:   { positive:'Amor e harmonia', negative:'Tensão nos afetos', neutral:'Revisão de valores' },
+  mercury: { positive:'Comunicação fluindo', negative:'Mal-entendidos possíveis', neutral:'Análise e planejamento' },
+  moon:    { positive:'Emoções em harmonia', negative:'Ondas emocionais', neutral:'Introspecção emocional' },
+};
+
+const AREA_MEANINGS = {
+  love:    { pluto:'Transformação profunda na vida amorosa', neptune:'Amor espiritual e idealizado', uranus:'Surpresas nos relacionamentos', saturn:'Compromisso ou afastamento', jupiter:'Expansão afetiva', mars:'Paixão e desejo intensos', sun:'Autoestima e atratividade', venus:'Romance em foco', mercury:'Conversas importantes', moon:'Necessidade de conexão emocional' },
+  career:  { pluto:'Poder e transformação profissional', neptune:'Projetos criativos em destaque', uranus:'Mudança brusca de rota', saturn:'Disciplina traz resultados', jupiter:'Promoção ou expansão', mars:'Energia para conquistas', sun:'Reconhecimento e liderança', venus:'Criatividade valorizada', mercury:'Negociações favoráveis', moon:'Intuição como guia' },
+  finance: { pluto:'Transformação financeira profunda', neptune:'Cuidado com gastos impulsivos', uranus:'Entradas ou saídas inesperadas', saturn:'Disciplina financeira necessária', jupiter:'Abundância e boas oportunidades', mars:'Iniciativa em ganhos', sun:'Autoconfiança em negócios', venus:'Prazer e luxo em foco', mercury:'Bons contratos possíveis', moon:'Gastos emocionais' },
+  health:  { pluto:'Regeneração e força vital', neptune:'Descanso e práticas espirituais', uranus:'Mudança de hábitos brusca', saturn:'Disciplina corporal recompensa', jupiter:'Vitalidade e bem-estar', mars:'Energia física alta — canalize', sun:'Saúde em foco positivo', venus:'Bem-estar e prazer sensorial', mercury:'Atenção ao sistema nervoso', moon:'Saúde emocional em primeiro lugar' },
+};
+
+const STAR_RATING = { positive:'★★★★★', negative:'★★☆☆☆', neutral:'★★★☆☆', mixed:'★★★☆☆' };
+
+function getMonthEnergy(transits) {
+  if (!transits.length) return 'neutral';
+  let pos=0,neg=0;
+  for (const t of transits) {
+    if (t.type==='positive') pos++;
+    else if (t.type==='negative') neg++;
+  }
+  if (pos > neg+1) return 'positive';
+  if (neg > pos+1) return 'negative';
+  if (pos > 0 && neg > 0) return 'mixed';
+  return 'neutral';
+}
+
+function getMonthNarrative(transits, monthName, sign) {
+  if (!transits.length) return `${monthName} traz um período de relativa calma no seu mapa. Bom momento para consolidar o que foi construído e se preparar para os próximos movimentos planetários.`;
+  const top = transits[0];
+  const energy = getMonthEnergy(transits);
+  const planet = top.tech ? top.tech.split(' ')[0] : 'Os planetas';
+  const narratives = {
+    positive: `${monthName} se destaca como um dos períodos mais favoráveis do semestre para ${sign}. ${planet} ativa seu mapa de forma construtiva — aproveite para avançar em projetos que pedem coragem e visibilidade.`,
+    negative: `${monthName} pede atenção redobrada. As energias planetárias criam fricção que, bem trabalhada, produz crescimento real. ${planet} desafia você a fortalecer o que precisa de solidez.`,
+    mixed:    `${monthName} combina influências contrastantes. Haverá momentos de expansão e momentos de teste — a chave está em distinguir o que merece energia agora do que precisa esperar.`,
+    neutral:  `${monthName} convida a uma postura reflexiva. Os planetas ativam áreas importantes do seu mapa, mas o ritmo favorece planejamento e amadurecimento de ideias antes da ação.`,
+  };
+  return narratives[energy] || narratives.neutral;
+}
+
+function getAreaInsights(transits) {
+  const areas = { love:null, career:null, finance:null, health:null };
+  const mapped = [];
+  for (const t of transits) {
+    const planetKey = Object.keys(AREA_MEANINGS.love).find(k =>
+      t.tech && t.tech.toLowerCase().startsWith({pluto:'plutão',neptune:'netuno',uranus:'urano',saturn:'saturno',jupiter:'júpiter',mars:'marte',sun:'sol',venus:'vênus',mercury:'mercúrio',moon:'lua'}[k] || k)
+    );
+    if (planetKey && !mapped.includes(planetKey)) {
+      mapped.push(planetKey);
+      for (const [area, dict] of Object.entries(AREA_MEANINGS)) {
+        if (!areas[area]) areas[area] = { text: dict[planetKey] || '—', type: t.type };
+      }
+    }
+  }
+  // fallback
+  for (const [area] of Object.entries(areas)) {
+    if (!areas[area]) areas[area] = { text: area==='love'?'Vínculos em ritmo natural':area==='career'?'Foco e consistência':area==='finance'?'Equilíbrio financeiro':'Cuidado com o corpo', type:'neutral' };
+  }
+  return areas;
+}
+
+function renderPrevisao6Meses() {
+  const panel = document.getElementById('panel-previsao');
+  if (!panel) return;
+
+  if (!isPremium) {
+    panel.innerHTML = `
+      <div class="prev-header"><h2>📅 Previsão 6 Meses</h2><p>Leitura mensal personalizada com base no seu mapa natal</p></div>
+      <div class="month-card energy-positive" style="opacity:.35;filter:blur(3px);pointer-events:none">
+        <div class="month-title-row"><span class="month-name">Julho 2026</span><span class="month-energy-badge badge-positive">✨ Expansivo</span></div>
+        <p class="month-narrative">Júpiter ativa seu mapa de forma construtiva — aproveite para avançar em projetos que pedem coragem e visibilidade. Um período de expansão genuína está a caminho...</p>
+      </div>
+      <div class="prev-lock">
+        <div style="font-size:2.8rem;margin-bottom:14px">🔒</div>
+        <h3 style="font-family:'Playfair Display SC',serif;font-size:1.05rem;margin-bottom:10px">Previsão Completa de 6 Meses</h3>
+        <p style="font-size:.86rem;color:var(--muted2);margin-bottom:18px;line-height:1.7">Acesse sua leitura mensal personalizada, com análise de trânsitos, previsão por área de vida (amor, carreira, finanças, saúde) e orientações práticas para cada mês.</p>
+        <button class="btn-unlock">⭐ Desbloquear Premium</button>
+      </div>`;
+    return;
+  }
+
+  if (!natalChart || !natalChart.positions) {
+    panel.innerHTML = '<div class="no-data-msg"><span class="nd-icon">📅</span><p>Mapa natal não encontrado. Verifique seu cadastro.</p></div>';
+    return;
+  }
+
+  const today = new Date();
+  const sign = natalChart.positions.sun ? natalChart.positions.sun.signName : 'seu signo';
+  const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const ENERGY_LABEL = { positive:'✨ Expansivo', negative:'⚡ Desafiador', mixed:'☯ Dinâmico', neutral:'🌙 Reflexivo' };
+  const BADGE_CLS    = { positive:'badge-positive', negative:'badge-negative', mixed:'badge-mixed', neutral:'badge-neutral' };
+
+  let cardsHtml = '';
+
+  for (let m = 0; m < 6; m++) {
+    const targetDate = new Date(today.getFullYear(), today.getMonth() + m + 1, 15);
+    const monthName = MONTH_NAMES[targetDate.getMonth()] + ' ' + targetDate.getFullYear();
+    let transits = [];
+    try {
+      const monthPos = getPlanetPositions(targetDate);
+      transits = getRealTransits(natalChart.positions, monthPos).slice(0, 4);
+    } catch(e) {
+      transits = [];
+    }
+
+    const energy = getMonthEnergy(transits);
+    const narrative = getMonthNarrative(transits, monthName, sign);
+    const areas = getAreaInsights(transits);
+
+    const transitRowsHtml = transits.slice(0,3).map(t => `
+      <div class="month-transit-row">
+        <span class="mt-icon">${t.icon}</span>
+        <div><strong>${t.title}</strong><br>${t.tech}</div>
+      </div>`).join('');
+
+    const areasHtml = `
+      <div class="month-areas">
+        <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">${areas.love.text}</div><div class="area-stars">${STAR_RATING[areas.love.type]}</div></div>
+        <div class="area-box"><div class="area-label">💼 Carreira</div><div class="area-value">${areas.career.text}</div><div class="area-stars">${STAR_RATING[areas.career.type]}</div></div>
+        <div class="area-box"><div class="area-label">💰 Finanças</div><div class="area-value">${areas.finance.text}</div><div class="area-stars">${STAR_RATING[areas.finance.type]}</div></div>
+        <div class="area-box"><div class="area-label">🌿 Saúde</div><div class="area-value">${areas.health.text}</div><div class="area-stars">${STAR_RATING[areas.health.type]}</div></div>
+      </div>`;
+
+    cardsHtml += `
+      <div class="month-card energy-${energy}">
+        <div class="month-title-row">
+          <span class="month-name">${monthName}</span>
+          <span class="month-energy-badge ${BADGE_CLS[energy]}">${ENERGY_LABEL[energy]}</span>
+        </div>
+        <p class="month-narrative">${narrative}</p>
+        ${transitRowsHtml ? `<div class="month-transits">${transitRowsHtml}</div>` : ''}
+        ${areasHtml}
+      </div>`;
+  }
+
+  panel.innerHTML = `
+    <div class="prev-header">
+      <h2>📅 Previsão 6 Meses</h2>
+      <p>Leitura personalizada baseada no seu mapa natal</p>
+    </div>
+    ${cardsHtml}`;
+}
+
 // ══════════════════════════════════════════════════════════════════
 // RENDER: DASHBOARD
 // ══════════════════════════════════════════════════════════════════
@@ -1223,6 +1410,7 @@ function renderDashboard() {
   renderTransitos(sk, natalChart);
   renderMapa();
   renderFuturo();
+  renderPrevisao6Meses();
 }
 
 // ══════════════════════════════════════════════════════════════════
