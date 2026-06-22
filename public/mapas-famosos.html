@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mapas Famosos — Bússola Astral</title>
+<meta name="description" content="Explore o mapa astral de celebridades e personalidades históricas. Descubra os trânsitos e aspectos natais de famosos.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display+SC:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09060f;--card-bg:#120920;--purple1:#7c3fe4;--purple2:#a06ff0;--purple3:#c9a7ff;--gold:#d4a853;--gold2:#f0c060;--text:#e8e0f0;--muted:#9a8db0;--muted2:#c4b8d8;--border:rgba(124,63,228,.22);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.8rem 2rem;border-bottom:1px solid var(--border);background:rgba(9,6,15,.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.topbar-logo{font-family:'Cinzel',serif;font-weight:700;font-size:1.05rem;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.topbar-logo img{height:32px;width:auto;}
+.topbar-nav{display:flex;gap:1.6rem;}
+.topbar-nav a{color:var(--muted);font-family:'Cinzel',serif;font-size:.78rem;text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.topbar-nav a:hover,.topbar-nav a.active{color:var(--gold);}
+.topbar-cta{background:linear-gradient(135deg,var(--purple1),#5b21b6);color:#fff;border:none;padding:.45rem 1.1rem;border-radius:6px;font-family:'Cinzel',serif;font-size:.75rem;cursor:pointer;text-decoration:none;letter-spacing:.05em;}
+.hero{text-align:center;padding:3rem 1rem 2rem;background:radial-gradient(ellipse at 50% 0%,rgba(124,63,228,.12),transparent 60%);}
+.hero-tag{font-size:.72rem;color:var(--purple3);font-family:'Cinzel',serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.8rem;}
+.hero h1{font-family:'Playfair Display SC',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--gold);margin-bottom:.5rem;}
+.hero p{font-size:1rem;color:var(--muted2);max-width:500px;margin:0 auto;line-height:1.8;}
+/* filter */
+.filter-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:1.5rem 1rem .5rem;}
+.filter-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.3rem .85rem;border-radius:20px;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.05em;cursor:pointer;transition:all .2s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--purple2);color:var(--purple3);background:rgba(124,63,228,.1);}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:1.5rem 2rem 4rem;max-width:1100px;margin:0 auto;width:100%;}
+.fcard{background:linear-gradient(135deg,rgba(28,10,60,.6),rgba(18,9,32,.8));border:1px solid var(--border);border-radius:16px;padding:1.4rem;cursor:pointer;transition:all .3s;text-align:center;}
+.fcard:hover{border-color:var(--purple2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(124,63,228,.2);}
+.fcard-avatar{font-size:2.8rem;margin-bottom:.6rem;filter:drop-shadow(0 0 8px rgba(212,168,83,.3));}
+.fcard-name{font-family:'Playfair Display SC',serif;font-size:1rem;color:var(--gold);margin-bottom:4px;}
+.fcard-sign{font-size:.78rem;color:var(--purple3);font-family:'Cinzel',serif;letter-spacing:.07em;margin-bottom:.5rem;}
+.fcard-desc{font-size:.82rem;color:var(--muted2);line-height:1.6;margin-bottom:.8rem;}
+.fcard-date{font-size:.7rem;color:var(--muted);margin-bottom:.9rem;}
+.fcard-btn{background:linear-gradient(135deg,var(--purple1),#5b21b6);color:#fff;border:none;padding:.4rem 1rem;border-radius:6px;font-family:'Cinzel',serif;font-size:.68rem;cursor:pointer;width:100%;letter-spacing:.05em;transition:opacity .2s;}
+.fcard-btn:hover{opacity:.85;}
+.fcard-tag{display:inline-block;background:rgba(124,63,228,.15);border:1px solid var(--border);border-radius:10px;font-size:.62rem;color:var(--muted);font-family:'Cinzel',serif;padding:.15rem .5rem;margin-bottom:.5rem;letter-spacing:.05em;}
+footer{border-top:1px solid var(--border);padding:1.5rem;text-align:center;font-size:.75rem;color:var(--muted);}
+footer a{color:var(--muted);text-decoration:none;}
+@media(max-width:600px){.grid{padding:1rem;}.topbar-nav{display:none;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="topbar-logo" href="/"><img src="/logotipo.png" alt="Bússola Astral"> Bússola Astral</a>
+  <nav class="topbar-nav">
+    <a href="/horoscopo.html">Horóscopo</a>
+    <a href="/tarot.html">Tarot</a>
+    <a href="/mapas-famosos.html" class="active">Mapas Famosos</a>
+  </nav>
+  <a class="topbar-cta" href="/horoscopo.html">Meu Mapa →</a>
+</div>
+<div class="hero">
+  <div class="hero-tag">✦ Astrologia & Fama ✦</div>
+  <h1>Mapas de Famosos</h1>
+  <p>Explore os mapas natais de personalidades que marcaram o mundo. Clique para ver os trânsitos atuais no mapa deles.</p>
+</div>
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-btn active" onclick="filterCat('all',this)">Todos</button>
+  <button class="filter-btn" onclick="filterCat('br',this)">🇧🇷 Brasileiros</button>
+  <button class="filter-btn" onclick="filterCat('musica',this)">🎵 Música</button>
+  <button class="filter-btn" onclick="filterCat('tech',this)">💻 Tech</button>
+  <button class="filter-btn" onclick="filterCat('historia',this)">📜 História</button>
+</div>
+<div class="grid" id="grid"></div>
+<footer>© 2026 Bússola Astral &nbsp;·&nbsp; <a href="/horoscopo.html">Ver Meu Mapa</a></footer>
+<script>
+const FAMOUS = [
+  { name:'Pelé', emoji:'⚽', sign:'Libra', date:'23/10/1940', city:'Três Corações, MG', lat:-21.4,lng:-45.25,
+    desc:'Maior jogador de futebol de todos os tempos. Sol em Libra, diplomacia e graça nos movimentos.', cat:['br'] },
+  { name:'Elon Musk', emoji:'🚀', sign:'Câncer', date:'28/06/1971', city:'Pretória, África do Sul', lat:-25.74,lng:28.18,
+    desc:'Visionário de Tesla e SpaceX. Lua em Virgem, obsessão por eficiência e inovação.', cat:['tech'] },
+  { name:'Taylor Swift', emoji:'🎤', sign:'Sagitário', date:'13/12/1989', city:'West Reading, PA', lat:40.33,lng:-75.95,
+    desc:'Fenômeno da música pop. Sol em Sagitário — liberdade, narrativas épicas e reinvenção constante.', cat:['musica'] },
+  { name:'Steve Jobs', emoji:'💻', sign:'Peixes', date:'24/02/1955', city:'San Francisco, CA', lat:37.77,lng:-122.41,
+    desc:'Co-fundador da Apple. Sol em Peixes com ascendente provável em Virgem — idealismo e perfecionismo.', cat:['tech'] },
+  { name:'Lula', emoji:'🫶', sign:'Escorpião', date:'27/10/1945', city:'Caetés, PE', lat:-8.77,lng:-36.61,
+    desc:'Presidente do Brasil. Sol em Escorpião — determinação, ressurgimento e poder transformador.', cat:['br'] },
+  { name:'Beyoncé', emoji:'🎶', sign:'Virgem', date:'04/09/1981', city:'Houston, TX', lat:29.76,lng:-95.36,
+    desc:'Ícone da música mundial. Sol em Virgem — perfeccionismo, dedicação e maestria artesanal.', cat:['musica'] },
+  { name:'Albert Einstein', emoji:'🧬', sign:'Peixes', date:'14/03/1879', city:'Ulm, Alemanha', lat:48.39,lng:9.99,
+    desc:'Físico que revolucionou a ciência. Sol em Peixes — imaginação transcendente e pensamento intuitivo.', cat:['historia'] },
+  { name:'Ivete Sangalo', emoji:'🎵', sign:'Escorpião', date:'27/10/1972', city:'Juazeiro, BA', lat:-9.41,lng:-40.5,
+    desc:'Rainha do axé. Sol em Escorpião — intensidade, magnetismo e voz que transforma energias.', cat:['br','musica'] },
+  { name:'Cleopatra', emoji:'👑', sign:'Capricórnio', date:'69 a.C. (est.)', city:'Alexandria, Egito', lat:31.2,lng:29.91,
+    desc:'Última faraó do Egito. Capricórnio — ambição estratégica, poder e legado imortal.', cat:['historia'] },
+  { name:'Ayrton Senna', emoji:'🏎️', sign:'Aries', date:'21/03/1960', city:'São Paulo, SP', lat:-23.54,lng:-46.63,
+    desc:'Tricampeão de F1. Sol em Áries — pioneirismo, velocidade e espírito de guerra nobre.', cat:['br'] },
+  { name:'Madonna', emoji:'🌟', sign:'Leão', date:'16/08/1958', city:'Bay City, MI', lat:43.59,lng:-83.88,
+    desc:'Rainha do pop. Sol em Leão — drama, reinvenção e necessidade de brilhar em qualquer época.', cat:['musica'] },
+  { name:'Nikola Tesla', emoji:'⚡', sign:'Câncer', date:'10/07/1856', city:'Smiljan, Sérvia', lat:44.57,lng:15.32,
+    desc:'Inventor visionário. Sol em Câncer com Marte forte — intuição científica e proteção da humanidade.', cat:['historia','tech'] },
+];
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.fcard');
+  cards.forEach(c => {
+    const cats = c.dataset.cats.split(',');
+    c.style.display = (cat==='all' || cats.includes(cat)) ? '' : 'none';
+  });
+}
+
+function openMap(idx) {
+  const f = FAMOUS[idx];
+  // Parse date
+  const parts = f.date.split('/');
+  if (parts.length !== 3 || isNaN(parseInt(parts[0]))) {
+    window.open('/horoscopo.html','_blank'); return;
+  }
+  const iso = `${parts[2].split(' ')[0]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+  const params = new URLSearchParams({
+    name: f.name,
+    date: iso,
+    city: f.city,
+    lat: f.lat,
+    lng: f.lng,
+    tz: '-3',
+    famous: '1'
+  });
+  window.open('/horoscopo.html?' + params.toString(), '_blank');
+}
+
+const grid = document.getElementById('grid');
+FAMOUS.forEach((f, idx) => {
+  const el = document.createElement('div');
+  el.className = 'fcard';
+  el.dataset.cats = f.cat.join(',');
+  el.innerHTML = `
+    <div class="fcard-avatar">${f.emoji}</div>
+    <div class="fcard-name">${f.name}</div>
+    <div class="fcard-sign">☀️ ${f.sign}</div>
+    <div class="fcard-date">📅 ${f.date}</div>
+    <div class="fcard-desc">${f.desc}</div>
+    <button class="fcard-btn" onclick="openMap(${idx})">Ver Mapa Astral →</button>`;
+  grid.appendChild(el);
+});
+</script>
+</body>
+</html>
