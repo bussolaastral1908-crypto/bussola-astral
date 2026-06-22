@@ -142,6 +142,54 @@ select option{background:#171732;}
 .transit-desc{font-size:.86rem;color:var(--muted2);line-height:1.7;}
 .read-more{font-size:.78rem;color:var(--purple3);cursor:pointer;margin-top:8px;display:inline-block;font-weight:700;}
 .read-more:hover{color:var(--purple2);}
+/* ── Transit detail modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .2s ease;}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--card2);border:1px solid var(--border);color:var(--muted);font-size:1rem;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:var(--border);color:var(--text);}
+.modal-planet-icon{font-size:2.4rem;margin-bottom:10px;display:block;}
+.modal-title{font-family:'Playfair Display SC',serif;font-size:1.12rem;font-weight:700;margin-bottom:6px;letter-spacing:.03em;line-height:1.35;}
+.modal-tech{font-size:.74rem;color:var(--purple3);background:rgba(155,92,240,.09);border-radius:8px;padding:7px 12px;margin-bottom:20px;font-weight:600;}
+.modal-section{margin-bottom:18px;}
+.modal-section h4{font-size:.74rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.modal-section p{font-size:.88rem;color:var(--muted2);line-height:1.8;}
+.modal-divider{height:1px;background:var(--border);margin:16px 0;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.modal-tag{padding:5px 13px;border-radius:20px;font-size:.72rem;font-weight:600;background:var(--card2);border:1px solid var(--border);color:var(--muted2);}
+.modal-tag.positive{border-color:rgba(63,207,142,.4);color:var(--green);}
+.modal-tag.negative{border-color:rgba(240,80,80,.3);color:#f06060;}
+.modal-tag.neutral{border-color:rgba(124,63,228,.35);color:var(--purple3);}
+/* ── Mapa astral panel ── */
+.mapa-header{text-align:center;padding:14px 0 18px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.mapa-header h2{font-family:'Playfair Display SC',serif;font-size:1.08rem;letter-spacing:.04em;margin-bottom:4px;}
+.mapa-header p{font-size:.78rem;color:var(--muted);}
+.mapa-asc-card{background:linear-gradient(135deg,rgba(124,63,228,.12),rgba(63,207,142,.06));border:1px solid rgba(63,207,142,.3);border-radius:14px;padding:16px;margin-bottom:18px;text-align:center;}
+.mapa-asc-card .asc-title{font-size:.72rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.mapa-asc-card .asc-value{font-size:1.22rem;font-weight:800;letter-spacing:.04em;}
+.mapa-asc-card .asc-sub{font-size:.76rem;color:var(--muted);margin-top:5px;}
+.mapa-section-title{font-size:.72rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
+.mapa-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px;}
+.mapa-planet-row{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;}
+.mapa-p-icon{font-size:1.25rem;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(155,92,240,.09);flex-shrink:0;}
+.mapa-p-info{min-width:0;}
+.mapa-p-name{font-size:.8rem;font-weight:700;color:var(--text);}
+.mapa-p-sign{font-size:.74rem;color:var(--purple3);font-weight:600;}
+.mapa-p-deg{font-size:.68rem;color:var(--muted);margin-top:1px;}
+.mapa-el-section{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;}
+.mapa-el-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.mapa-el-row:last-child{margin-bottom:0;}
+.mapa-el-bar{flex:1;height:6px;border-radius:3px;background:var(--border);}
+.mapa-el-fill{height:100%;border-radius:3px;}
+.mapa-aspects-title{font-size:.72rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 10px;}
+.mapa-aspect-row{display:flex;align-items:center;justify-content:space-between;font-size:.77rem;color:var(--muted2);padding:7px 0;border-bottom:1px solid var(--border);}
+.mapa-aspect-row:last-child{border-bottom:none;}
+.mapa-aspect-type{padding:2px 9px;border-radius:20px;font-size:.68rem;font-weight:700;}
+.aspect-conj{background:rgba(255,200,0,.12);color:#ffd700;}
+.aspect-trig{background:rgba(63,207,142,.12);color:var(--green);}
+.aspect-sext{background:rgba(100,180,255,.12);color:#7ec8ff;}
+.aspect-quad{background:rgba(240,80,80,.12);color:#f06060;}
+.aspect-oppo{background:rgba(240,100,50,.12);color:#f08060;}
+
 .lock-banner{background:linear-gradient(135deg,var(--card2),rgba(124,63,228,.06));border:1px solid rgba(63,207,142,.2);border-radius:var(--radius);padding:30px 24px;text-align:center;margin-top:12px;box-shadow:var(--shadow-card);}
 .lock-banner .lock-icon{font-size:2.8rem;margin-bottom:14px;}
 .lock-banner h3{font-family:'Playfair Display SC',serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;letter-spacing:.04em;}
@@ -349,10 +397,12 @@ select option{background:#171732;}
         <button class="mtab active" onclick="switchMTab('resumo',this)">📋 Resumo</button>
         <button class="mtab" onclick="switchMTab('transitos',this)">⚡ Trânsitos</button>
         <button class="mtab" onclick="switchMTab('futuro',this)">🔭 Futuro</button>
+        <button class="mtab" onclick="switchMTab('mapa',this)">🗺️ Mapa</button>
       </div>
       <div id="panel-resumo"   class="panel active"></div>
       <div id="panel-transitos" class="panel"></div>
       <div id="panel-futuro"   class="panel"></div>
+      <div id="panel-mapa"     class="panel"></div>
     </div>
 
   </main>
@@ -887,6 +937,7 @@ const ACCORDIONS = {
 let profile = null;
 let natalChart = null;
 let isPremium = false;
+let currentTransits = [];
 
 function saveProfile() {
   const name = document.getElementById('f-name').value.trim();
@@ -1080,13 +1131,14 @@ function renderTransitos(sk, natal) {
   const realMode = natal && natal.positions && transits.length > 0 &&
                    transits[0].tech && transits[0].tech.includes('→');
 
+  currentTransits = transits;
   document.getElementById('panel-transitos').innerHTML = `
     <p class="transits-count">
       Você tem <span>${transits.length} influências ativas</span> no seu mapa agora
       ${realMode ? '<span style="font-size:0.72rem;color:var(--green);margin-left:6px">• cálculo real</span>' : ''}
     </p>
-    ${transits.map(t => `
-      <div class="transit-card">
+    ${transits.map((t, idx) => `
+      <div class="transit-card" data-transit-idx="${idx}">
         <div class="transit-card-header">
           <div class="transit-icon ${t.type}">${t.icon}</div>
           <div>
@@ -1096,7 +1148,7 @@ function renderTransitos(sk, natal) {
         </div>
         <div class="transit-technical">${t.tech}</div>
         <div class="transit-desc">${t.desc}</div>
-        <span class="read-more">Ler interpretação completa ›</span>
+        <span class="read-more" data-transit-idx="${idx}">🔍 Ler interpretação completa ›</span>
       </div>`).join('')}`;
 }
 
@@ -1169,6 +1221,7 @@ function renderDashboard() {
   const sk = getSunSign(profile.date);
   renderResumo(sk);
   renderTransitos(sk, natalChart);
+  renderMapa();
   renderFuturo();
 }
 
@@ -1268,9 +1321,329 @@ async function openPremiumCheckout() {
   }
 }
 
+
+// ══════════════════════════════════════════════════════════════════
+// DEEP TRANSIT INTERPRETATIONS
+// ══════════════════════════════════════════════════════════════════
+const TRANSIT_FULL = {
+  pluto: {
+    positive: {
+      what: 'Plutão em harmonia catalisa uma transformação que vem de dentro para fora. É o momento em que o poder pessoal que você vinha cultivando finalmente encontra um canal de expressão real.',
+      how:  'Você está percebendo que antigas limitações não têm mais o mesmo peso. A capacidade de se reinventar está no pico — seja em carreira, relacionamentos ou identidade pessoal.',
+      tips: 'Aproveite para fechar ciclos que precisam ser encerrados. Plutão harmônico raramente bate duas vezes no mesmo ponto com tanta intensidade. Aja com intenção.',
+    },
+    negative: {
+      what: 'Plutão em tensão expõe o que está podre ou estagnado. O desconforto é real, mas é cirúrgico — ele só remove o que já não sustenta mais.',
+      how:  'Controle, poder, obsessão ou resistência à mudança podem emergir. Em relacionamentos, dinâmicas de poder ficam às claras. No trabalho, lutas de força se tornam inevitáveis.',
+      tips: 'Não tente controlar o que não pode ser controlado. Pergunte-se: o que eu preciso deixar morrer para que algo novo nasça? A resistência aqui custa mais do que a entrega.',
+    },
+    neutral: {
+      what: 'Plutão ativa uma área do seu mapa que pede transformação profunda. Não é ainda o pico da intensidade, mas o processo já começou.',
+      how:  'Você pode sentir uma inquietação difícil de nomear. Algo quer mudar, mas a forma ainda não está clara. Padrões antigos aparecem para ser revistos.',
+      tips: 'Este é um momento de observação antes da ação. Anote o que está vindo à tona — sonhos, memórias, tensões. O material está sendo processado.',
+    },
+  },
+  neptune: {
+    positive: {
+      what: 'Netuno em harmonia afina sua percepção para além do racional. A conexão com o invisível — intuição, criatividade, espiritualidade — está no pico.',
+      how:  'Sonhos tornam-se proféticos. Arte flui sem esforço. Conexões espirituais ou românticas assumem uma qualidade quase mágica. Empatia amplificada.',
+      tips: 'Use este período para criar, meditar e se conectar com o que transcende o cotidiano. Confie na intuição — ela está especialmente afinada agora.',
+    },
+    negative: {
+      what: 'Netuno em tensão dissolve fronteiras que precisam existir. A percepção da realidade pode ficar turva — ilusões, decepções ou confusão surgem.',
+      how:  'Dificuldade para tomar decisões claras. Vulnerabilidade a idealizar pessoas ou situações além do que merecem. Ansiedade difusa sem causa aparente.',
+      tips: 'Adie decisões importantes por enquanto. Evite contratos e acordos grandes. Foque no presente imediato. Práticas de aterramento (natureza, corpo) ajudam muito.',
+    },
+    neutral: {
+      what: 'Netuno ativa uma dimensão mais sutil da sua experiência. A fronteira entre o consciente e o inconsciente fica porosa.',
+      how:  'Sensibilidade aumentada para arte, música, espiritualidade. Sonhos mais vívidos. Pode haver alguma dificuldade de concentração no dia a dia.',
+      tips: 'Bom período para práticas contemplativas, meditação ou qualquer forma de expressão criativa. Não force clareza onde Netuno quer dissolução.',
+    },
+  },
+  uranus: {
+    positive: {
+      what: 'Urano em harmonia traz a energia da libertação. O que estava travado ou estagnado ganha movimento súbito e inesperado.',
+      how:  'Insights brilhantes aparecem do nada. Mudanças rápidas nas circunstâncias, mas a favor do seu desenvolvimento. Originalidade e genialidade em alta.',
+      tips: 'Esteja aberto para o inesperado. As melhores oportunidades deste período virão de onde você menos espera. Não filtre demais — permita-se ser surpreendido.',
+    },
+    negative: {
+      what: 'Urano em tensão quebra estruturas, às vezes sem avisar. A estabilidade pode ser sacudida em áreas onde você se apegou demais ao status quo.',
+      how:  'Interrupções súbitas, reversões inesperadas, rebeldia própria ou de outros. A necessidade de liberdade bate de frente com compromissos estabelecidos.',
+      tips: 'Mantenha a flexibilidade como palavra-chave. Quanto mais você tentar fixar o que está querendo mudar, mais violenta será a ruptura. Adapte-se.',
+    },
+    neutral: {
+      what: 'Urano ativa o impulso de mudar, questionar e inovar em uma área específica da sua vida. A estabilidade cede espaço para o novo.',
+      how:  'Inquietação, vontade de experimentar coisas fora da rotina, desconforto com o que parecia certo antes. A mudança está chegando.',
+      tips: 'Este período favorece experimentar novas abordagens. Não se prenda ao "sempre foi assim". Deixe Urano fazer seu trabalho.',
+    },
+  },
+  saturn: {
+    positive: {
+      what: 'Saturno em harmonia recompensa o trabalho consistente com estrutura sólida. O que você construiu com esforço real começa a dar frutos.',
+      how:  'Projetos de longo prazo avançam com solidez. Responsabilidades pesadas tornam-se mais manejáveis. Reconhecimento profissional pode surgir.',
+      tips: 'Período ideal para formalizar acordos, assumir compromissos sérios e estabelecer bases duradouras. O esforço aqui tem retorno garantido.',
+    },
+    negative: {
+      what: 'Saturno em tensão testa a solidez do que você construiu. Obstáculos, atrasos e responsabilidades pesadas emergem para revelar o que precisa ser reforçado.',
+      how:  'Sensação de estar carregando peso demais. Planos que resistem em avançar. Cobrança interna ou externa por resultados. Cansaço estrutural.',
+      tips: 'Não abandone — consolide. Saturno em tensão não pede que você desista, pede que você construa melhor. Identifique o que está fraco e fortaleça.',
+    },
+    neutral: {
+      what: 'Saturno ativa uma área que pede avaliação séria, estruturação e responsabilidade madura.',
+      how:  'Momento de confrontar a realidade dos seus projetos e relações. O que está funcionando de verdade? O que precisa de mais disciplina?',
+      tips: 'Use este período para planejar com seriedade. Saturno recompensa quem enfrenta a realidade sem ilusões.',
+    },
+  },
+  jupiter: {
+    positive: {
+      what: 'Júpiter em harmonia é um dos melhores trânsitos possíveis. Expansão, abundância e crescimento chegam com facilidade relativa.',
+      how:  'Oportunidades aparecem no caminho. Projetos ganham escala. Viagens, aprendizado e conexões internacionais são favorecidos. Otimismo genuíno.',
+      tips: 'Aja agora. Júpiter tem janelas — e esta janela está aberta. Mande a proposta, inicie o projeto, expanda o alcance. O timing está a seu favor.',
+    },
+    negative: {
+      what: 'Júpiter em tensão amplifica tanto o bem quanto o excesso. A energia expansiva pode empurrar além do que é saudável.',
+      how:  'Risco de exagerar em promessas, gastos ou comprometimentos. Otimismo excessivo que ignora detalhes importantes. Dispersão de energia.',
+      tips: 'Aproveite a energia, mas com discernimento. Pergunte: estou expandindo de forma sustentável, ou só aumentando o volume?',
+    },
+    neutral: {
+      what: 'Júpiter ativa o crescimento e a busca por significado em uma área importante da sua vida.',
+      how:  'Desejo de aprender, explorar e expandir os horizontes. Filosofia, espiritualidade e visão de longo prazo ganham importância.',
+      tips: 'Ótimo momento para estudar, ensinar, viajar e ampliar perspectivas. Júpiter abre portas — mas você precisa passar por elas.',
+    },
+  },
+  mars: {
+    positive: {
+      what: 'Marte em harmonia libera energia de ação direta. O impulso que estava represado encontra canal.',
+      how:  'Projetos que estavam travados ganham movimento. Assertividade saudável, competitividade produtiva, iniciativa sem hesitação.',
+      tips: 'Momento para agir, não planejar. Lance o projeto, tenha a conversa difícil, entre na competição. A janela de ação está aberta.',
+    },
+    negative: {
+      what: 'Marte em tensão traz energia intensa que precisa de canal — caso contrário, vira conflito, irritação ou acidentes.',
+      how:  'Impulsividade, raiva à flor da pele, confrontos acalorados. A energia está alta, mas sem direção clara pode se voltar contra você.',
+      tips: 'Exercício físico intenso ajuda a descarregar. Evite decisões no calor do momento. Encontre um projeto desafiador para canalizar a adrenalina.',
+    },
+    neutral: {
+      what: 'Marte ativa sua energia de ação e iniciativa em uma área específica.',
+      how:  'Inquietação produtiva. Vontade de se mover, iniciar, competir. A passividade passa a incomodar.',
+      tips: 'Marte recompensa quem age. Escolha uma iniciativa e comece — mesmo imperfeito.',
+    },
+  },
+  sun: {
+    positive: {
+      what: 'O Sol em harmonia ilumina e fortalece uma área importante do seu mapa. Visibilidade, vitalidade e senso de propósito em alta.',
+      how:  'Você se sente mais você mesmo. Reconhecimento natural, sem forçar. Energia para brilhar nos contextos onde isso importa.',
+      tips: 'Use essa janela para se posicionar, ser visto e tomar iniciativas que dependem de confiança e presença.',
+    },
+    negative: {
+      what: 'O Sol em tensão gera atrito entre sua identidade atual e as demandas externas ou internas de crescimento.',
+      how:  'Conflito de ego, visibilidade excessiva ou insuficiente, pressão por desempenho. A necessidade de ser reconhecido pode criar atritos.',
+      tips: 'Observe onde o ego está guiando em vez do propósito. A tensão aqui é um convite ao amadurecimento da identidade.',
+    },
+    neutral: {
+      what: 'O Sol ativa consciência e atenção em uma área importante. Um holofote temporário aponta para onde você precisa olhar.',
+      how:  'Atenção natural se volta para essa dimensão da vida. Pode ser momento de fazer escolhas conscientes sobre identidade e propósito.',
+      tips: 'Observe o que está sendo iluminado. O Sol aqui pede clareza, não ação imediata.',
+    },
+  },
+  venus: {
+    positive: {
+      what: 'Vênus em harmonia traz beleza, prazer e conexão genuína. Um dos melhores momentos para amor e criatividade.',
+      how:  'Relacionamentos fluem com mais facilidade. Novos encontros têm qualidade especial. Finanças relacionadas a artes ou prazer favorecem.',
+      tips: 'Invista na conexão afetiva agora. Declare sentimentos, faça planos românticos, crie algo belo. A energia está a favor.',
+    },
+    negative: {
+      what: 'Vênus em tensão expõe desequilíbrios nos valores, afetos ou finanças.',
+      how:  'Conflitos em relacionamentos por questões de valores ou dinheiro. Autoestima testada. Ciúme, possessividade ou dependência emocional à vista.',
+      tips: 'Observe o que está desequilibrado — dar demais, receber de menos, ou o contrário. Vênus pede harmonização, não guerra.',
+    },
+    neutral: {
+      what: 'Vênus ativa revisão do que você realmente valoriza em relacionamentos e em sua própria vida.',
+      how:  'Momento introspectivo sobre o que traz prazer genuíno versus o que é hábito ou medo de perder.',
+      tips: 'Boa época para redefinir o que você quer nos seus vínculos. O que você não abrirá mão? O que pode ser negociado?',
+    },
+  },
+  mercury: {
+    positive: {
+      what: 'Mercúrio em harmonia favorece comunicação, negociação e processamento mental.',
+      how:  'Ideias fluem, palavras chegam na hora certa. Contratos e acordos têm boa chance. Aprendizado acelerado.',
+      tips: 'Excelente momento para negociar, escrever, falar em público ou iniciar um curso. Coloque as ideias para fora.',
+    },
+    negative: {
+      what: 'Mercúrio em tensão gera mal-entendidos e ruído na comunicação.',
+      how:  'O que você diz pode ser mal interpretado. Documentos requerem revisão extra. Pensamento ansioso ou disperso.',
+      tips: 'Revise antes de enviar. Evite assinar contratos importantes sem ler tudo. Pergunte para confirmar que a mensagem chegou certa.',
+    },
+    neutral: {
+      what: 'Mercúrio ativa o foco mental e a necessidade de processar, analisar e comunicar.',
+      how:  'Boa energia para estudo, planejamento e conversas importantes. A mente está ativa.',
+      tips: 'Organize suas ideias, liste o que precisa ser comunicado e use o momento a favor.',
+    },
+  },
+  moon: {
+    positive: {
+      what: 'A Lua em harmonia cria sintonia entre seu mundo emocional interno e o momento externo.',
+      how:  'Intuição aguçada, empatia em alta. Relacionamentos próximos fluem com mais facilidade. Sensação de estar no lugar certo.',
+      tips: 'Confie no que sente. Conversas importantes sobre necessidades emocionais têm bom terreno agora.',
+    },
+    negative: {
+      what: 'A Lua em tensão traz ondas emocionais que precisam ser processadas, não suprimidas.',
+      how:  'Sensibilidade elevada, reações emocionais fora de proporção. Memórias antigas podem emergir com força.',
+      tips: 'Crie espaço para sentir sem agir impulsivamente. Evite decisões importantes no pico emocional. O que está vindo à tona tem um recado.',
+    },
+    neutral: {
+      what: 'A Lua convida à reflexão sobre suas necessidades emocionais mais profundas.',
+      how:  'Momento de olhar para dentro. O que você realmente precisa neste ciclo? O que está guardando que precisa ser expresso?',
+      tips: 'Journaling, meditação ou conversas honestas com pessoas de confiança são muito frutíferos agora.',
+    },
+  },
+};
+
+function generateFullInterpretation(t) {
+  const planetNameMap = {
+    'Plutão':'pluto','Netuno':'neptune','Urano':'uranus','Saturno':'saturn',
+    'Júpiter':'jupiter','Marte':'mars','Sol':'sun','Vênus':'venus',
+    'Mercúrio':'mercury','Lua':'moon'
+  };
+  let planetKey = 'sun';
+  for (const [pt, k] of Object.entries(planetNameMap)) {
+    if (t.tech && t.tech.startsWith(pt)) { planetKey = k; break; }
+  }
+  const data = (TRANSIT_FULL[planetKey] || TRANSIT_FULL.sun)[t.type] || TRANSIT_FULL.sun.neutral;
+  const durMap = {
+    pluto:'2 a 5 anos', neptune:'1 a 3 anos', uranus:'1 a 2 anos',
+    saturn:'3 a 6 meses', jupiter:'2 a 4 meses', mars:'3 a 4 semanas',
+    sun:'3 a 5 dias', venus:'1 a 2 semanas', mercury:'5 a 10 dias', moon:'1 a 2 dias'
+  };
+  const dur = durMap[planetKey] || t.period;
+  const typeLabel = {positive:'✅ Harmônico',negative:'⚡ Tensionado',neutral:'⚪ Ativador'}[t.type] || '';
+  const typeColor = t.type || 'neutral';
+  return { data, dur, typeLabel, typeColor };
+}
+
+function openTransitModal(t) {
+  const existing = document.getElementById('transit-modal-overlay');
+  if (existing) existing.remove();
+  const { data, dur, typeLabel, typeColor } = generateFullInterpretation(t);
+  const descExtra = t.desc && t.desc.includes('ativando') ? `<br><br><em>${t.desc}</em>` : '';
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'transit-modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <button class="modal-close" id="close-transit-modal">✕</button>
+      <span class="modal-planet-icon">${t.icon}</span>
+      <div class="modal-title">${t.title}</div>
+      <div class="modal-tech">${t.tech}</div>
+      <div class="modal-section">
+        <h4>🔭 O que está acontecendo</h4>
+        <p>${data.what}</p>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-section">
+        <h4>🪬 Como isso te afeta</h4>
+        <p>${data.how}${descExtra}</p>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-section">
+        <h4>✨ Orientações práticas</h4>
+        <p>${data.tips}</p>
+      </div>
+      <div class="modal-tags">
+        <span class="modal-tag ${typeColor}">${typeLabel}</span>
+        <span class="modal-tag">⏱ ${dur}</span>
+        <span class="modal-tag">📅 ${t.period}</span>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('close-transit-modal').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+
+// ══════════════════════════════════════════════════════════════════
+// MAPA ASTRAL — render
+// ══════════════════════════════════════════════════════════════════
+function renderMapa() {
+  const panel = document.getElementById('panel-mapa');
+  if (!panel) return;
+  if (!natalChart || !natalChart.positions) {
+    panel.innerHTML = '<div class="no-data-msg"><span class="nd-icon">🗺️</span><p>Calcule seu mapa astral primeiro.<br>Verifique se você tem data de nascimento cadastrada.</p></div>';
+    return;
+  }
+  const pos = natalChart.positions;
+  const asc = natalChart.asc;
+  const PLANET_ICONS = {sun:'☀️',moon:'🌙',mercury:'☿',venus:'♀',mars:'♂',jupiter:'♃',saturn:'♄',uranus:'♅',neptune:'♆',pluto:'♇'};
+  const PLANET_NAMES_PT = {sun:'Sol',moon:'Lua',mercury:'Mercúrio',venus:'Vênus',mars:'Marte',jupiter:'Júpiter',saturn:'Saturno',uranus:'Urano',neptune:'Netuno',pluto:'Plutão'};
+  const planetOrder = ['sun','moon','mercury','venus','mars','jupiter','saturn','uranus','neptune','pluto'];
+  const elCount = {Fogo:0,Terra:0,Ar:0,Água:0};
+  const EL_COLORS = {Fogo:'#f97316',Terra:'#84cc16',Ar:'#38bdf8',Água:'#818cf8'};
+  for (const pk of ['sun','moon','mercury','venus','mars','jupiter','saturn']) {
+    const p = pos[pk];
+    if (p && p.element) elCount[p.element] = (elCount[p.element]||0) + 1;
+  }
+  const elTotal = Object.values(elCount).reduce((a,b)=>a+b,0)||1;
+
+  // Ascendant
+  let ascHtml = '';
+  const ascLon = (asc !== null && asc !== undefined) ? (typeof asc==='object' ? asc.longitude : asc) : null;
+  if (ascLon !== null && !isNaN(ascLon)) {
+    const signIdx = Math.floor(((ascLon%360)+360)%360/30);
+    const SIGNS_PT=['Áries','Touro','Gêmeos','Câncer','Leão','Virgem','Libra','Escorpião','Sagitário','Capricórnio','Aquário','Peixes'];
+    const SIGNS_SYM=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+    const deg=(ascLon%30).toFixed(1);
+    ascHtml=`<div class="mapa-asc-card"><div class="asc-title">⬆️ Ascendente</div><div class="asc-value">${SIGNS_SYM[signIdx]} ${SIGNS_PT[signIdx]}</div><div class="asc-sub">${deg}° — sua máscara social e primeiro impacto no mundo</div></div>`;
+  } else {
+    ascHtml=`<div class="mapa-asc-card" style="opacity:.55"><div class="asc-title">⬆️ Ascendente</div><div class="asc-sub">Cadastre hora e cidade de nascimento para calcular o Ascendente</div></div>`;
+  }
+
+  const planetsHtml = planetOrder.map(pk => {
+    const p = pos[pk]; if (!p) return '';
+    const retro = p.retrograde ? ' <span style="color:#f06060;font-size:.65rem">℞</span>' : '';
+    const deg = p.degree ? p.degree.toFixed(1)+'°' : '';
+    return `<div class="mapa-planet-row"><div class="mapa-p-icon">${PLANET_ICONS[pk]||'🔮'}</div><div class="mapa-p-info"><div class="mapa-p-name">${PLANET_NAMES_PT[pk]}</div><div class="mapa-p-sign">${p.signSym||''} ${p.signName||p.sign||'—'}${retro}</div><div class="mapa-p-deg">${deg}</div></div></div>`;
+  }).join('');
+
+  const elBars = Object.entries(elCount).map(([el,cnt])=>{
+    const pct=Math.round(cnt/elTotal*100);
+    return `<div class="mapa-el-row"><span style="font-size:.74rem;color:var(--muted2);width:46px">${el}</span><div class="mapa-el-bar"><div class="mapa-el-fill" style="width:${pct}%;background:${EL_COLORS[el]||'#888'}"></div></div><span style="font-size:.72rem;color:var(--muted);width:26px;text-align:right">${cnt}/${elTotal}</span></div>`;
+  }).join('');
+
+  const aspects = natalChart.aspects || [];
+  const ASPECT_NAMES={conjunction:'Conjunção',sextile:'Sextil',trine:'Trígono',square:'Quadratura',opposition:'Oposição'};
+  const ASPECT_CLS={conjunction:'aspect-conj',sextile:'aspect-sext',trine:'aspect-trig',square:'aspect-quad',opposition:'aspect-oppo'};
+  const aspectsHtml = aspects.length>0
+    ? aspects.slice(0,8).map(a=>`<div class="mapa-aspect-row"><span>${PLANET_NAMES_PT[a.p1]||a.p1} × ${PLANET_NAMES_PT[a.p2]||a.p2}</span><span class="mapa-aspect-type ${ASPECT_CLS[a.type]||''}">${ASPECT_NAMES[a.type]||a.type}</span><span style="color:var(--muted);font-size:.7rem">${a.orb?a.orb.toFixed(1)+'°':''}</span></div>`).join('')
+    : '<p style="font-size:.82rem;color:var(--muted);padding:8px 0">Insira hora de nascimento para calcular aspectos natais detalhados.</p>';
+
+  panel.innerHTML = `
+    <div class="mapa-header"><h2>🗺️ Mapa Astral Natal</h2><p>Posições planetárias no momento do seu nascimento</p></div>
+    ${ascHtml}
+    <div class="mapa-section-title">🪐 Planetas Natais</div>
+    <div class="mapa-grid">${planetsHtml}</div>
+    <div class="mapa-section-title" style="margin-top:4px">🌊 Distribuição Elementar</div>
+    <div class="mapa-el-section">${elBars}</div>
+    <div class="mapa-aspects-title">✴️ Aspectos Natais</div>
+    ${aspectsHtml}`;
+}
+
 // Wire up buttons via event delegation (handles dynamically rendered buttons too)
 document.addEventListener('click', (e) => {
-  if (e.target.closest('.btn-premium') || e.target.closest('.btn-unlock') || e.target.closest('.read-more')) {
+  if (e.target.id === 'transit-modal-overlay') {
+    document.getElementById('transit-modal-overlay')?.remove();
+    return;
+  }
+  const rm = e.target.closest('.read-more');
+  if (rm) {
+    e.preventDefault();
+    if (isPremium) {
+      const idx = parseInt(rm.dataset.transitIdx ?? rm.getAttribute('data-transit-idx') ?? 0);
+      const t = currentTransits[idx];
+      if (t) openTransitModal(t);
+    } else {
+      openPremiumCheckout();
+    }
+    return;
+  }
+  if (e.target.closest('.btn-premium') || e.target.closest('.btn-unlock')) {
     e.preventDefault();
     openPremiumCheckout();
   }
