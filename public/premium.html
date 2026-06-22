@@ -425,7 +425,7 @@ footer a:hover{color:var(--purple3);}
 <script>
 const SUPA_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
-const CHECKOUT_URL='https://www.abacatepay.com/pay/pay_VwUZFl4R0jajKNiE';
+// Checkout URL is fetched dynamically from /api/create-checkout
 const db = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // Check if already logged in
@@ -484,7 +484,11 @@ async function doRegister(){
     }
     document.getElementById('modal-register-view').style.display='none';
     document.getElementById('modal-success-view').style.display='block';
-    setTimeout(()=>{ window.location.href=CHECKOUT_URL; },1800);
+    // Create checkout dynamically
+    const resp = await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'monthly'})});
+    const json = await resp.json();
+    if(json.url){ setTimeout(()=>{ window.location.href=json.url; },1200); }
+    else{ document.getElementById('modal-success-view').innerHTML='<p style="color:var(--red);text-align:center">Erro ao criar checkout. Tente novamente ou contate contato@bussolaastral.com</p>'; }
   }catch(e){
     showErr('reg-generic-err', e.message==='User already registered'
       ? 'Email já cadastrado. Entre com sua conta.'
@@ -509,7 +513,10 @@ async function doLogin(){
     } else {
       document.getElementById('modal-register-view').style.display='none';
       document.getElementById('modal-success-view').style.display='block';
-      setTimeout(()=>{ window.location.href=CHECKOUT_URL; },1800);
+      const resp = await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'monthly'})});
+      const chk = await resp.json();
+      if(chk.url){ setTimeout(()=>{ window.location.href=chk.url; },1200); }
+      else{ document.getElementById('modal-success-view').innerHTML='<p style="color:var(--red);text-align:center">Erro ao criar checkout. Tente novamente ou contate contato@bussolaastral.com</p>'; }
     }
   }catch(e){
     showErr('login-err',e.message.includes('Invalid')?'Email ou senha incorretos.':(e.message||'Erro ao entrar.'));
@@ -522,7 +529,6 @@ function toggleFaq(el){
   item.classList.toggle('open');
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
 </script>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 </body>
