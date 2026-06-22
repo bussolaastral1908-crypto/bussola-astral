@@ -1243,77 +1243,248 @@ function renderFuturo() {
 
 
 // ══════════════════════════════════════════════════════════════════
-// PREVISÃO 6 MESES
+// PREVISÃO 6 MESES — geração de conteúdo único por mês
 // ══════════════════════════════════════════════════════════════════
-const MONTH_THEMES = {
-  pluto:   { positive:'Transformação pessoal profunda', negative:'Ciclo de ruptura e renovação', neutral:'Reinvenção em andamento' },
-  neptune: { positive:'Espiritualidade e criatividade', negative:'Atenção à ilusão e confusão', neutral:'Sensibilidade amplificada' },
-  uranus:  { positive:'Libertação e mudanças positivas', negative:'Imprevistos e rupturas', neutral:'Necessidade de inovação' },
-  saturn:  { positive:'Resultados e reconhecimento', negative:'Obstáculos e responsabilidade', neutral:'Estruturação e disciplina' },
-  jupiter: { positive:'Expansão e abundância', negative:'Excesso e dispersão', neutral:'Crescimento e oportunidades' },
-  mars:    { positive:'Energia e iniciativa forte', negative:'Tensão e impulsividade', neutral:'Movimento e ação' },
-  sun:     { positive:'Vitalidade e propósito', negative:'Atrito de identidade', neutral:'Foco e visibilidade' },
-  venus:   { positive:'Amor e harmonia', negative:'Tensão nos afetos', neutral:'Revisão de valores' },
-  mercury: { positive:'Comunicação fluindo', negative:'Mal-entendidos possíveis', neutral:'Análise e planejamento' },
-  moon:    { positive:'Emoções em harmonia', negative:'Ondas emocionais', neutral:'Introspecção emocional' },
+
+// Mapa de planet PT→key
+const PT_PLANET_KEY = {
+  'Plutão':'pluto','Netuno':'neptune','Urano':'uranus','Saturno':'saturn',
+  'Júpiter':'jupiter','Marte':'mars','Sol':'sun','Vênus':'venus',
+  'Mercúrio':'mercury','Lua':'moon',
+};
+// Importância decrescente para ordenação
+const PLANET_SPEED = { moon:0, sun:1, mercury:2, venus:3, mars:4, jupiter:5, saturn:6, uranus:7, neptune:8, pluto:9 };
+
+// Extrai { transitKey, aspectKey, natalKey, natalSign } de t.tech
+function parseTech(tech) {
+  if (!tech) return {};
+  // tech: "Plutão transitando em Sextil com seu Vênus natal (5°♐ → 1°♐)"
+  const m = tech.match(/^(\S+)\s+transitando em\s+(\S+)\s+com seu\s+(.+?)\s+natal/i);
+  if (!m) return {};
+  const transitKey = PT_PLANET_KEY[m[1]] || 'sun';
+  const aspectRaw  = m[2]; // Sextil, Trígono, Quadratura, Oposição, Conjunção
+  const aspectKey  = { 'Sextil':'sextile','Trígono':'trine','Quadratura':'square','Oposição':'opposition','Conjunção':'conjunction' }[aspectRaw] || 'conjunction';
+  const natalKey   = PT_PLANET_KEY[m[3]] || 'sun';
+  // natal sign from desc: "ativando seu Sol natal em Touro"
+  return { transitKey, aspectKey, natalKey };
+}
+
+// Banco de interpretações: transitKey → aspectType → natalKey → { theme, narrative, love, career, finance, health }
+const INTERP = {
+  pluto: {
+    positive: {
+      sun:     { theme:'Reinvenção de Identidade', narrative:'Plutão em harmonia com seu Sol desperta um poder pessoal que você mal sabia que tinha. Este período favorece assumir a liderança de mudanças que antes pareciam impossíveis. Você está entrando em uma versão mais autêntica e poderosa de si mesmo.', love:'Atração magnética e vínculos que transformam', career:'Ascensão de poder e reconhecimento', finance:'Transformação positiva no fluxo financeiro', health:'Regeneração e força vital profunda' },
+      moon:    { theme:'Cura Emocional Profunda', narrative:'Plutão harmônico ativando sua Lua catalisa uma cura emocional que vem das raízes. Padrões herdados da infância podem ser revistos e transformados com mais facilidade do que o habitual. O que dói há anos pode finalmente soltar.', love:'Intimidade emocional intensa e transformadora', career:'Intuição como aliada nas decisões', finance:'Revisão de gastos inconscientes', health:'Saúde emocional em processo de renovação' },
+      venus:   { theme:'Magnetismo e Poder Afetivo', narrative:'Plutão em Trígono com seu Vênus potencializa o magnetismo pessoal e aprofunda vínculos existentes. Relacionamentos que entram neste período carregam um peso transformador. O que você atrai agora reflete quem você está se tornando.', love:'Amor intenso, transformador e magnético', career:'Criatividade e charme a seu favor', finance:'Oportunidades financeiras via parcerias', health:'Equilíbrio corpo-prazer-bem-estar' },
+      mars:    { theme:'Força e Determinação', narrative:'Plutão harmonizando com Marte natal libera uma energia de ação quase irresistível. Projetos que exigem coragem e perseverança estão com o vento a favor. É o momento de fazer o que sempre pareceu grande demais.', love:'Paixão intensa e desejo renovado', career:'Ambição e execução em alta', finance:'Iniciativas financeiras com potencial real', health:'Energia física e disposição excepcionais' },
+      mercury: { theme:'Mente Estratégica', narrative:'Plutão em aspecto harmônico com Mercúrio natal aguça a mente para perceber o que os outros não veem. Negociações, pesquisas e estratégias têm profundidade extra. Palavras ditas com intenção têm poder de transformar.', love:'Conversas que mudam relacionamentos', career:'Visão estratégica e pensamento poderoso', finance:'Análise financeira precisa e lucrativa', health:'Atenção ao sistema nervoso e descanso mental' },
+      jupiter: { theme:'Expansão Transformadora', narrative:'A combinação de Plutão e Júpiter natal cria uma das energias mais poderosas para crescimento real. Não é expansão superficial — é a construção de algo que dura. Oportunidades grandes chegam, mas exigem comprometimento profundo.', love:'Crescimento mútuo em relacionamentos', career:'Expansão profissional com substância', finance:'Abundância construída com intenção', health:'Saúde florescendo com novos hábitos' },
+      saturn:  { theme:'Poder e Estrutura', narrative:'Plutão em harmonia com Saturno natal constrói fundações que resistem ao tempo. O que você está construindo agora tem potencial para durar décadas. Cada esforço consciente neste período tem retorno composto.', love:'Compromissos sérios e duradouros', career:'Reconhecimento por trabalho consistente', finance:'Disciplina financeira com grandes resultados', health:'Rotina de saúde sólida e eficaz' },
+    },
+    negative: {
+      sun:     { theme:'Crise de Identidade e Poder', narrative:'Plutão em tensão com o Sol natal provoca um confronto interno sobre quem você é versus quem precisa ser. Questões de controle, poder e autenticidade estão em foco. O desconforto é real — e necessário.', love:'Relações de poder testadas', career:'Disputas e questões de autoridade', finance:'Atenção a perdas ou transformações bruscas', health:'Estresse e tensão — priorize o descanso' },
+      moon:    { theme:'Turbulência Emocional', narrative:'Plutão em quadratura com a Lua natal escava feridas emocionais antigas. Reações intensas a situações que normalmente seriam pequenas sinalizam algo mais profundo pedindo atenção. Terapia ou introspecção profunda são muito bem-vindas.', love:'Ciúme, possessividade ou intensidade excessiva', career:'Emoções afetando o desempenho', finance:'Gastos emocionais impulsivos', health:'Saúde emocional — pede cuidado urgente' },
+      venus:   { theme:'Vínculos em Transformação Forçada', narrative:'Plutão tensionando Vênus natal força o tema dos relacionamentos à superfície de forma intensa. O que estava latente — desequilíbrios, dependências, não-ditos — não pode mais ser ignorado. É doloroso, mas libera.', love:'Rupturas ou transformações radicais', career:'Conflitos em parcerias e colaborações', finance:'Atenção a dívidas e compromissos financeiros', health:'Bem-estar afetado por tensões relacionais' },
+      mars:    { theme:'Conflito e Força Descontrolada', narrative:'Plutão em tensão com Marte natal amplifica impulsos agressivos e competitivos além do saudável. Raiva reprimida pode emergir de forma inesperada. O antídoto é encontrar um projeto desafiador para canalizar essa força bruta.', love:'Confrontos e atritos nos relacionamentos', career:'Rivalidades e disputas de poder', finance:'Decisões financeiras impulsivas — cautela', health:'Tensão muscular e adrenal — mova o corpo' },
+    },
+    neutral: {
+      sun:     { theme:'Renovação Silenciosa', narrative:'Plutão se aproxima de uma ativação importante do seu Sol natal. O processo de transformação começou — talvez de forma imperceptível por enquanto. Observe os padrões que querem mudar, sem forçar.', love:'Revisão da dinâmica nos relacionamentos', career:'Avaliação profunda do propósito profissional', finance:'Olhar honesto para padrões financeiros', health:'Revisão de hábitos que não servem mais' },
+      moon:    { theme:'Processamento Emocional', narrative:'Plutão ativa sua Lua natal de forma gradual. Emoções que vinham sendo ignoradas pedem espaço. Sonhos podem intensificar. Um processo de limpeza interior silencioso está em curso.', love:'Necessidades emocionais aflorando', career:'Intuição guiando decisões importantes', finance:'Revisão de padrões financeiros inconscientes', health:'Sono e saúde emocional em foco' },
+    },
+  },
+  saturn: {
+    positive: {
+      sun:     { theme:'Reconhecimento e Autoridade', narrative:'Saturno em harmonia com o Sol natal é o momento em que o esforço acumulado começa a virar fruto visível. Há uma maturidade nova na forma como você ocupa espaço. Projetos sérios de longo prazo recebem impulso.', love:'Compromisso e maturidade afetiva', career:'Reconhecimento profissional e responsabilidades', finance:'Planejamento de longo prazo funcionando', health:'Disciplina de saúde gerando resultados' },
+      moon:    { theme:'Estrutura Emocional', narrative:'Saturno harmonizando com a Lua natal traz estabilidade emocional conquistada. A capacidade de lidar com sentimentos difíceis sem perder o equilíbrio está em alta. É uma maturidade emocional que chegou para ficar.', love:'Estabilidade e confiança nos laços', career:'Equilíbrio entre vida pessoal e profissional', finance:'Controle financeiro com equilíbrio emocional', health:'Rotinas de bem-estar consolidadas' },
+      venus:   { theme:'Amor com Solidez', narrative:'Saturno em Trígono com Vênus natal favorece vínculos que constroem algo real. Relacionamentos superficiais perdem apelo. O que tem substância — seja em amor ou finanças — é reforçado. Comprometimentos sérios têm bom terreno.', love:'Relações sólidas e comprometidas', career:'Parcerias profissionais duradouras', finance:'Gestão financeira disciplinada e eficaz', health:'Beleza e saúde através da disciplina' },
+      mars:    { theme:'Ação Disciplinada', narrative:'Saturno canalizando Marte natal transforma energia bruta em força direcionada. Projetos que exigem disciplina de longo prazo progridem com consistência. A frustração de antes vira combustível para conquistas reais.', love:'Comprometimento e lealdade', career:'Execução disciplinada de projetos grandes', finance:'Investimentos de longo prazo', health:'Treinos e hábitos físicos com regularidade' },
+      jupiter: { theme:'Crescimento Responsável', narrative:'Saturno em harmonia com Júpiter natal equilibra expansão com responsabilidade. As oportunidades que chegam neste mês são grandes — e sustentáveis. Não é hora de sonhar grande sem base, mas de construir grande com método.', love:'Crescimento mútuo com comprometimento', career:'Expansão profissional com estrutura sólida', finance:'Abundância através de disciplina e método', health:'Hábitos que produzem resultados duradouros' },
+    },
+    negative: {
+      sun:     { theme:'Obstáculos e Responsabilidade', narrative:'Saturno em tensão com o Sol natal testa a solidez da sua identidade e propósito. Obstáculos aparecem exatamente onde você é mais vulnerável. A mensagem é: fortaleça aqui. O que resiste, constrói.', love:'Distância emocional ou cobranças', career:'Pressão por resultados e reconhecimento', finance:'Responsabilidades financeiras pesadas', health:'Cansaço e esgotamento — respeite seus limites' },
+      moon:    { theme:'Pressão Emocional', narrative:'Saturno pressionando a Lua natal gera uma sensação de peso emocional que pode ser difícil de nomear. Solidão, responsabilidade excessiva ou falta de cuidado com si mesmo podem emergir. Peça ajuda — não é fraqueza.', love:'Frieza ou distância nos vínculos', career:'Trabalho excessivo afetando vida pessoal', finance:'Responsabilidades financeiras estressantes', health:'Atenção à saúde mental e descanso' },
+      venus:   { theme:'Amor em Teste', narrative:'Saturno tensionando Vênus natal coloca os relacionamentos sob pressão de realidade. O que não tem base genuína começa a rachar. Pode ser doloroso — mas o que sobrevive é o que realmente merece seu investimento.', love:'Testes nos relacionamentos e autoestima', career:'Criatividade restringida por estrutura', finance:'Gastos precisam de revisão urgente', health:'Autoestima e bem-estar pedem atenção' },
+    },
+    neutral: {
+      sun:     { theme:'Avaliação e Estrutura', narrative:'Saturno ativa seu Sol natal com uma energia de avaliação séria. Este não é um mês para grandes lançamentos — é para revisar o que foi construído, identificar falhas na estrutura e consolidar o que tem substância.', love:'Avaliação realista dos vínculos', career:'Análise crítica do caminho profissional', finance:'Revisão e planejamento financeiro', health:'Check-up e revisão de hábitos' },
+      moon:    { theme:'Responsabilidade com as Emoções', narrative:'Saturno e Lua natal em aspecto neutro convida a uma relação mais madura com as próprias emoções. Não suprimir, não dramatizar — processar com responsabilidade e maturidade.', love:'Diálogos honestos e maduros', career:'Equilíbrio emocional no trabalho', finance:'Decisões financeiras sem componente emocional', health:'Cuidado com saúde emocional e sono' },
+    },
+  },
+  jupiter: {
+    positive: {
+      sun:     { theme:'Expansão e Brilho Pessoal', narrative:'Júpiter em harmonia com o Sol natal é um dos melhores trânsitos do ano. Visibilidade, reconhecimento e expansão do propósito de vida chegam juntos. A confiança está alta — e justificada. Lance o que estava esperando o momento certo.', love:'Carisma e atratividade em alta', career:'Crescimento, promoção ou novo projeto', finance:'Oportunidades financeiras concretas', health:'Vitalidade e ânimo excepcionais' },
+      moon:    { theme:'Abundância Emocional', narrative:'Júpiter ativando a Lua natal expande o bem-estar emocional e traz uma sensação de gratidão e plenitude. Relacionamentos próximos floresceem. A generosidade e a alegria são contagiantes.', love:'Afeto, alegria e conexão genuína', career:'Intuição guiando boas decisões', finance:'Estabilidade emocional favorece escolhas', health:'Bem-estar emocional e físico elevados' },
+      venus:   { theme:'Abundância no Amor e Beleza', narrative:'Júpiter em Trígono com Vênus natal expande tudo que é belo, agradável e conectivo na sua vida. Amor, dinheiro, criatividade e prazer estão num ciclo de abundância. Receba sem culpa.', love:'Romance, prazer e vínculos que florescem', career:'Criatividade valorizada e recompensada', finance:'Finanças em expansão positiva', health:'Prazer sensorial e bem-estar em alta' },
+      mars:    { theme:'Expansão da Ação', narrative:'Júpiter amplificando Marte natal dá energia, iniciativa e coragem em doses extra. Projetos que pareciam grandes demais agora parecem possíveis. Cuidado com excesso de confiança — mas aproveite o impulso.', love:'Paixão e aventura nos relacionamentos', career:'Metas ambiciosas e energia para executar', finance:'Iniciativas financeiras com grande potencial', health:'Energia física excepcional — use bem' },
+      saturn:  { theme:'Crescimento com Solidez', narrative:'Júpiter e Saturno natal em harmonia criam a combinação mais favorável para construção sustentável. O que foi disciplinado se expande agora. O que foi planejado vira realidade. É um mês para colher.', love:'Comprometimento com alegria', career:'Reconhecimento e expansão profissional', finance:'Abundância como resultado de disciplina', health:'Saúde florescendo com rotina' },
+    },
+    negative: {
+      sun:     { theme:'Otimismo em Cheque', narrative:'Júpiter em tensão com o Sol natal amplifica tanto a confiança quanto os riscos. O perigo está no excesso — de compromissos, de gastos, de promessas. A energia está alta, mas a âncora é necessária.', love:'Atenção à tendência de exagerar expectativas', career:'Cuidado com comprometimentos excessivos', finance:'Risco de gastos ou investimentos exagerados', health:'Energia alta mas dispersa — foque' },
+      venus:   { theme:'Excesso Afetivo e Financeiro', narrative:'Júpiter tensionando Vênus natal amplifica o desejo de prazer além do sustentável. Gastos impulsivos, expectativas romantizadas e indulgência excessiva são os riscos. Aproveite a energia, mas com discernimento.', love:'Idealização excessiva nos relacionamentos', career:'Dispersão criativa — foque', finance:'Gastos impulsivos — revisão necessária', health:'Excessos afetando o bem-estar' },
+    },
+    neutral: {
+      sun:     { theme:'Crescimento em Construção', narrative:'Júpiter ativa seu Sol natal com uma energia de expansão que ainda está tomando forma. As oportunidades existem — mas pedem que você dê o primeiro passo. A porta está entreaberta: empurre.', love:'Otimismo e abertura para novos vínculos', career:'Oportunidades batendo à porta', finance:'Momento de avaliar onde investir energia', health:'Vitalidade crescente' },
+      moon:    { theme:'Expansão Interior', narrative:'Júpiter ativando a Lua natal expande sua capacidade de sentir e de se conectar. Um senso de gratidão pela vida cotidiana é o presente deste mês. Relações próximas ganham profundidade.', love:'Generosidade e abertura emocional', career:'Intuição ampliada para decisões', finance:'Otimismo financeiro moderado', health:'Bem-estar emocional em expansão' },
+    },
+  },
+  mars: {
+    positive: {
+      sun:     { theme:'Ação e Conquista', narrative:'Marte em harmonia com o Sol natal injeta uma dose extra de determinação e energia. Projetos que precisavam de impulso encontram o combustível certo. Aja com confiança — o timing está favorável.', love:'Atração e iniciativa nos relacionamentos', career:'Energia para lançar e executar', finance:'Iniciativas financeiras com bom timing', health:'Disposição física e mental em alta' },
+      venus:   { theme:'Paixão e Criação', narrative:'Marte ativando Vênus natal aquece o desejo — seja de amor, de criação ou de prazer. A energia sexual e criativa está alta. Relacionamentos ganham intensidade e vitalidade.', love:'Paixão, desejo e romantismo', career:'Projetos criativos com energia de execução', finance:'Iniciativas em áreas que você ama', health:'Vitalidade e prazer sensorial' },
+      mercury: { theme:'Comunicação Assertiva', narrative:'Marte em Sextil com Mercúrio natal afina a comunicação com assertividade. Conversas difíceis que precisavam acontecer fluem com mais facilidade. A mente está rápida e direta.', love:'Conversas honestas e diretas', career:'Negociações e apresentações favorecidas', finance:'Acordos e contratos com boa chance', health:'Mente ativa e foco em alta' },
+    },
+    negative: {
+      sun:     { theme:'Conflito e Impulsividade', narrative:'Marte em tensão com o Sol natal gera atrito entre o que você quer e o que encontra no caminho. Impulsividade e irritabilidade podem sabotar o que foi construído. Respire antes de agir.', love:'Conflitos e discussões acaloradas', career:'Atrito com líderes ou colegas', finance:'Decisões financeiras impulsivas — espere', health:'Atenção a inflamações e tensão muscular' },
+      venus:   { theme:'Tensão nos Afetos', narrative:'Marte tensionando Vênus natal acende conflitos em relacionamentos — especialmente os mais íntimos. Desejos não expressos ou expectativas frustradas vêm à tona de forma intensa. Canal: criação ou exercício físico.', love:'Conflitos, ciúme ou passionalidade excessiva', career:'Tensão em parcerias', finance:'Atenção a gastos impulsivos', health:'Libere tensão com movimento físico' },
+    },
+    neutral: {
+      sun:     { theme:'Energia em Movimento', narrative:'Marte ativa seu Sol natal com uma inquietação produtiva. A passividade começa a incomodar — algo quer ser iniciado. Escolha um projeto e comece, mesmo que imperfeito.', love:'Energia para iniciativas romantizadas', career:'Impulso para novos projetos', finance:'Ação em metas financeiras pendentes', health:'Boa fase para iniciar rotina física' },
+    },
+  },
+  venus: {
+    positive: {
+      sun:     { theme:'Charme e Harmonia', narrative:'Vênus em harmonia com o Sol natal coloca um brilho especial na sua presença. Você está mais atraente, carismático e receptivo ao que é belo. Encontros, criações e prazeres têm uma qualidade especial.', love:'Charme, atratividade e encontros especiais', career:'Criatividade e relações valorizadas', finance:'Finanças e arte/beleza favorecidas', health:'Bem-estar, beleza e prazer' },
+      moon:    { theme:'Harmonia Emocional', narrative:'Vênus ativando a Lua natal cria uma sintonia entre o que você sente e o que você atrai. Relações próximas têm uma qualidade especialmente nutritiva. Receber cuidado é tão importante quanto dar.', love:'Amor nutritivo e reciprocidade', career:'Ambiente de trabalho harmonioso', finance:'Equilíbrio nos gastos emocionais', health:'Descanso, prazer e autocuidado' },
+    },
+    negative: {
+      sun:     { theme:'Valores em Conflito', narrative:'Vênus em tensão com o Sol natal gera uma fricção entre o que você quer e o que você realmente precisa. Vaidade, dependência afetiva ou conflitos de valor podem emergir. Observe o que está sendo espelhado.', love:'Desentendimentos sobre valores e expectativas', career:'Tensão entre prazer e responsabilidade', finance:'Gastos por vaidade ou insegurança', health:'Autoestima em foco' },
+    },
+    neutral: {
+      sun:     { theme:'Revisão de Valores', narrative:'Vênus ativa seu Sol natal num momento de reflexão sobre o que realmente traz satisfação. O que você está valorizando de verdade? O que está mantendo por hábito?', love:'Revisão do que você busca nos vínculos', career:'Avaliação do que vale seu tempo', finance:'Revisão de gastos e prioridades', health:'Autocuidado e relação com o corpo' },
+    },
+  },
+  mercury: {
+    positive: {
+      sun:     { theme:'Mente Clara e Comunicação', narrative:'Mercúrio em harmonia com o Sol natal está em seu pico de clareza mental. Ideias fluem, palavras chegam no momento certo e negociações se inclinam ao seu favor. Coloque projetos mentais em movimento.', love:'Conversas que aprofundam conexões', career:'Apresentações, negociações e contratos', finance:'Análises financeiras precisas', health:'Mente ativa — canalize com foco' },
+      venus:   { theme:'Palavras que Conectam', narrative:'Mercúrio em Sextil com Vênus natal afina a comunicação afetiva e criativa. Declarações de sentimento têm impacto especial. Projetos que envolvem escrita, arte ou comunicação de beleza florescem.', love:'Palavras de afeto com impacto especial', career:'Comunicação criativa valorizada', finance:'Negociações no campo de arte ou prazer', health:'Expressão criativa como saúde' },
+    },
+    negative: {
+      sun:     { theme:'Ruído na Comunicação', narrative:'Mercúrio em tensão com o Sol natal pode causar mal-entendidos e desgastes na comunicação. Revise o que você envia antes de confirmar. Conversas importantes merecem cuidado extra.', love:'Desentendimentos — comunique com cuidado', career:'Atenção redobrada em contratos e acordos', finance:'Revise propostas antes de assinar', health:'Ansiedade e sobrecarga mental' },
+    },
+    neutral: {
+      sun:     { theme:'Processamento e Planejamento', narrative:'Mercúrio ativa o Sol natal com uma energia de análise e planejamento. Não é ainda o momento de lançar — é de organizar, pesquisar e afinar o que precisa ser comunicado.', love:'Diálogos e revisão de expectativas', career:'Planejamento e estudo', finance:'Pesquisa e planejamento financeiro', health:'Organização mental e rotina' },
+    },
+  },
+  sun: {
+    positive: {
+      sun:     { theme:'Vitalidade e Propósito', narrative:'O Sol em harmonia com o Sol natal traz uma dose extra de vitalidade e senso de direção. Você se sente mais alinhado com quem é e com o que quer. Visibilidade e iniciativas pessoais são favorecidas.', love:'Autoconfiança que atrai', career:'Reconhecimento e liderança', finance:'Iniciativas com boa chance de retorno', health:'Vitalidade e energia em alta' },
+      moon:    { theme:'Equilíbrio Interior', narrative:'Sol iluminando a Lua natal traz uma harmonia entre razão e emoção que raramente está tão disponível. Decisões que envolvem sentimento e lógica podem ser tomadas com mais clareza.', love:'Integração entre o que sente e o que quer', career:'Decisões alinhadas com o propósito', finance:'Clareza nas escolhas financeiras', health:'Bem-estar integral — corpo e emoções' },
+    },
+    negative: {
+      sun:     { theme:'Atrito de Identidade', narrative:'O Sol em tensão com o Sol natal gera uma fricção entre como você se apresenta e o que é cobrado de você externamente. Questões de ego, vaidade ou reconhecimento podem criar atritos desnecessários.', love:'Conflito entre necessidades próprias e do outro', career:'Tensão com figuras de autoridade', finance:'Ego afetando decisões financeiras', health:'Estresse por excesso de pressão' },
+    },
+    neutral: {
+      sun:     { theme:'Consciência e Foco', narrative:'O Sol ativa seu Sol natal com uma energia de consciência ampliada. Um bom momento para olhar para si com honestidade: o que está alinhado com quem você é? O que precisa ser ajustado?', love:'Autoanálise sobre o que busca nos vínculos', career:'Revisão do propósito profissional', finance:'Avaliação de onde investe energia e dinheiro', health:'Check-up interior — o que precisa de atenção?' },
+    },
+  },
+  moon: {
+    positive: {
+      sun:     { theme:'Harmonia Emocional', narrative:'A Lua em harmonia com o Sol natal cria uma sintonia especial entre o mundo interno e externo. Intuição aguçada, empatia em alta e uma sensação de estar no lugar certo no momento certo.', love:'Empatia e conexão emocional profunda', career:'Intuição como guia nas decisões', finance:'Sensibilidade para boas oportunidades', health:'Bem-estar emocional nutrido' },
+      moon:    { theme:'Fluxo Emocional', narrative:'Lua em harmonia com a Lua natal amplifica a inteligência emocional. É um mês para ouvir o que os sentimentos dizem sem filtrá-los demais. Relacionamentos próximos pedem e dão muito.', love:'Intimidade emocional em alta', career:'Criatividade e empatia valorizadas', finance:'Decisões guiadas pelo que realmente importa', health:'Saúde emocional florescendo' },
+    },
+    negative: {
+      sun:     { theme:'Ondas Emocionais', narrative:'A Lua em tensão com o Sol natal amplifica a reatividade emocional. Situações cotidianas podem ter ressonância emocional desproporcional. O que emerge é real — mas pede processamento, não explosão.', love:'Hipersensibilidade nos relacionamentos', career:'Emoções afetando o desempenho', finance:'Gastos por impulso emocional', health:'Sono, humor e energia emocional em foco' },
+    },
+    neutral: {
+      sun:     { theme:'Introspecção Emocional', narrative:'A Lua ativa o Sol natal com uma energia de introspecção. O que você sente mas ainda não nomeou está pedindo espaço. Journaling, meditação ou uma conversa com alguém de confiança fazem muito bem.', love:'Necessidade de conexão genuína', career:'Humor afeta produtividade — cuide-se', finance:'Decisões financeiras com cuidado emocional', health:'Descanso e cuidado com o corpo' },
+    },
+  },
+  neptune: {
+    positive: {
+      sun:     { theme:'Intuição e Espiritualidade', narrative:'Netuno em harmonia com o Sol natal afina a percepção espiritual e criativa. Sonhos são mais vívidos, insights mais profundos e a conexão com o que transcende o cotidiano está mais acessível.', love:'Amor espiritual e conexão profunda', career:'Criatividade, artes e intuição valorizadas', finance:'Confie na intuição em decisões', health:'Práticas espirituais e descanso profundo' },
+    },
+    negative: {
+      sun:     { theme:'Confusão e Ilusão', narrative:'Netuno em tensão com o Sol natal turva a percepção. O que parece claro pode ser ilusão. Adie decisões importantes e contratos significativos. Práticas de aterramento — natureza, corpo, rotina — são essenciais.', love:'Idealização excessiva — veja com clareza', career:'Atenção a promessas e acordos', finance:'Evite investimentos nebulosos', health:'Descanso, aterramento e hidratação' },
+    },
+    neutral: {
+      sun:     { theme:'Sonho e Transcendência', narrative:'Netuno ativa uma dimensão mais sutil da sua experiência solar. Um convite para ir além da lógica cotidiana — seja através da arte, da espiritualidade ou de um silêncio necessário.', love:'Sensibilidade e abertura emocional', career:'Projetos criativos ou espirituais em foco', finance:'Decisões pedem mais dados e clareza', health:'Descanso e práticas contemplativas' },
+    },
+  },
+  uranus: {
+    positive: {
+      sun:     { theme:'Liberdade e Inovação', narrative:'Urano em harmonia com o Sol natal libera energia de renovação e originalidade. O que estava estagnado ganha um impulso inesperado. Ideias inovadoras chegam com clareza — não as filtre demais.', love:'Liberdade e espontaneidade nos vínculos', career:'Inovação e originalidade valorizadas', finance:'Oportunidades inesperadas e favoráveis', health:'Mudanças de hábito que funcionam' },
+    },
+    negative: {
+      sun:     { theme:'Ruptura e Adaptação', narrative:'Urano em tensão com o Sol natal provoca interrupções e reversões inesperadas. A necessidade de liberdade bate de frente com compromissos. Flexibilidade é a palavra do mês.', love:'Distância ou surpresas nos relacionamentos', career:'Mudanças abruptas no trabalho', finance:'Entradas ou saídas financeiras inesperadas', health:'Nervosismo e necessidade de aterramento' },
+    },
+    neutral: {
+      sun:     { theme:'Mudança em Curso', narrative:'Urano ativa o impulso de inovar e se reinventar. A zona de conforto começa a apertar. Uma parte de você já sabe o que precisa mudar — este mês dá o primeiro sinal claro.', love:'Necessidade de mais liberdade ou autenticidade', career:'Inquietação com o status quo profissional', finance:'Revisão de onde você está estagnado', health:'Novos hábitos sendo testados' },
+    },
+  },
 };
 
-const AREA_MEANINGS = {
-  love:    { pluto:'Transformação profunda na vida amorosa', neptune:'Amor espiritual e idealizado', uranus:'Surpresas nos relacionamentos', saturn:'Compromisso ou afastamento', jupiter:'Expansão afetiva', mars:'Paixão e desejo intensos', sun:'Autoestima e atratividade', venus:'Romance em foco', mercury:'Conversas importantes', moon:'Necessidade de conexão emocional' },
-  career:  { pluto:'Poder e transformação profissional', neptune:'Projetos criativos em destaque', uranus:'Mudança brusca de rota', saturn:'Disciplina traz resultados', jupiter:'Promoção ou expansão', mars:'Energia para conquistas', sun:'Reconhecimento e liderança', venus:'Criatividade valorizada', mercury:'Negociações favoráveis', moon:'Intuição como guia' },
-  finance: { pluto:'Transformação financeira profunda', neptune:'Cuidado com gastos impulsivos', uranus:'Entradas ou saídas inesperadas', saturn:'Disciplina financeira necessária', jupiter:'Abundância e boas oportunidades', mars:'Iniciativa em ganhos', sun:'Autoconfiança em negócios', venus:'Prazer e luxo em foco', mercury:'Bons contratos possíveis', moon:'Gastos emocionais' },
-  health:  { pluto:'Regeneração e força vital', neptune:'Descanso e práticas espirituais', uranus:'Mudança de hábitos brusca', saturn:'Disciplina corporal recompensa', jupiter:'Vitalidade e bem-estar', mars:'Energia física alta — canalize', sun:'Saúde em foco positivo', venus:'Bem-estar e prazer sensorial', mercury:'Atenção ao sistema nervoso', moon:'Saúde emocional em primeiro lugar' },
-};
-
-const STAR_RATING = { positive:'★★★★★', negative:'★★☆☆☆', neutral:'★★★☆☆', mixed:'★★★☆☆' };
+// Fallback genérico se combinação não encontrada
+function getFallbackInterp(transitKey, aspectType, monthName) {
+  const fb = {
+    positive: { theme:'Energia Favorável', narrative:`${monthName} traz influências planetárias harmônicas ao seu mapa. Um bom momento para avançar em projetos que pedem confiança e visibilidade.`, love:'Vínculos fluindo com mais facilidade', career:'Energia a favor de conquistas', finance:'Oportunidades favoráveis', health:'Vitalidade e bem-estar' },
+    negative: { theme:'Período de Teste', narrative:`${monthName} apresenta desafios que pedem atenção e paciência. O que está sendo testado é exatamente o que precisa de fortalecimento.`, love:'Atenção às dinâmicas dos vínculos', career:'Obstáculos ensinando solidez', finance:'Disciplina financeira necessária', health:'Cuidado com estresse e limites' },
+    mixed:    { theme:'Dinâmica Contrastante', narrative:`${monthName} combina influências distintas. Haverá avanços e desafios — a chave é distinguir onde colocar energia agora.`, love:'Alternância entre harmonia e atrito', career:'Oportunidades misturadas com desafios', finance:'Cautela e oportunismo equilibrados', health:'Equilíbrio e atenção ao corpo' },
+    neutral:  { theme:'Período Reflexivo', narrative:`${monthName} convida a uma postura mais reflexiva. Consolidar o que foi construído e planejar o próximo passo com calma.`, love:'Aprofundamento e honestidade', career:'Planejamento e análise', finance:'Revisão e planejamento', health:'Rotina e cuidados básicos' },
+  };
+  return fb[aspectType] || fb.neutral;
+}
 
 function getMonthEnergy(transits) {
   if (!transits.length) return 'neutral';
-  let pos=0,neg=0;
+  let pos=0, neg=0;
   for (const t of transits) {
     if (t.type==='positive') pos++;
     else if (t.type==='negative') neg++;
   }
-  if (pos > neg+1) return 'positive';
-  if (neg > pos+1) return 'negative';
+  if (pos >= 3) return 'positive';
+  if (neg >= 3) return 'negative';
   if (pos > 0 && neg > 0) return 'mixed';
+  if (pos > 0) return 'positive';
+  if (neg > 0) return 'negative';
   return 'neutral';
 }
 
-function getMonthNarrative(transits, monthName, sign) {
-  if (!transits.length) return `${monthName} traz um período de relativa calma no seu mapa. Bom momento para consolidar o que foi construído e se preparar para os próximos movimentos planetários.`;
-  const top = transits[0];
-  const energy = getMonthEnergy(transits);
-  const planet = top.tech ? top.tech.split(' ')[0] : 'Os planetas';
-  const narratives = {
-    positive: `${monthName} se destaca como um dos períodos mais favoráveis do semestre para ${sign}. ${planet} ativa seu mapa de forma construtiva — aproveite para avançar em projetos que pedem coragem e visibilidade.`,
-    negative: `${monthName} pede atenção redobrada. As energias planetárias criam fricção que, bem trabalhada, produz crescimento real. ${planet} desafia você a fortalecer o que precisa de solidez.`,
-    mixed:    `${monthName} combina influências contrastantes. Haverá momentos de expansão e momentos de teste — a chave está em distinguir o que merece energia agora do que precisa esperar.`,
-    neutral:  `${monthName} convida a uma postura reflexiva. Os planetas ativam áreas importantes do seu mapa, mas o ritmo favorece planejamento e amadurecimento de ideias antes da ação.`,
-  };
-  return narratives[energy] || narratives.neutral;
+// Escolhe o trânsito "destaque" do mês: prioriza planetas rápidos (sol,venus,mercurio,marte)
+// para garantir que meses com apenas planetas lentos ainda mostrem variação
+function pickHighlightTransit(transits) {
+  if (!transits.length) return null;
+  // Try fast planets first (more likely to be different each month)
+  const fastOrder = ['sun','venus','mercury','mars','moon','jupiter','saturn','uranus','neptune','pluto'];
+  for (const pk of fastOrder) {
+    const t = transits.find(x => {
+      const { transitKey } = parseTech(x.tech);
+      return transitKey === pk;
+    });
+    if (t) return t;
+  }
+  return transits[0];
 }
 
-function getAreaInsights(transits) {
-  const areas = { love:null, career:null, finance:null, health:null };
-  const mapped = [];
-  for (const t of transits) {
-    const planetKey = Object.keys(AREA_MEANINGS.love).find(k =>
-      t.tech && t.tech.toLowerCase().startsWith({pluto:'plutão',neptune:'netuno',uranus:'urano',saturn:'saturno',jupiter:'júpiter',mars:'marte',sun:'sol',venus:'vênus',mercury:'mercúrio',moon:'lua'}[k] || k)
-    );
-    if (planetKey && !mapped.includes(planetKey)) {
-      mapped.push(planetKey);
-      for (const [area, dict] of Object.entries(AREA_MEANINGS)) {
-        if (!areas[area]) areas[area] = { text: dict[planetKey] || '—', type: t.type };
-      }
-    }
+function buildMonthInterp(transits, monthName) {
+  const highlight = pickHighlightTransit(transits);
+  if (!highlight) return getFallbackInterp('sun', 'neutral', monthName);
+
+  const { transitKey, aspectKey, natalKey } = parseTech(highlight.tech);
+  const aspectType = highlight.type; // positive/negative/neutral
+
+  // Try to find specific interpretation
+  const byPlanet  = INTERP[transitKey];
+  const byAspect  = byPlanet && byPlanet[aspectType];
+  const byNatal   = byAspect && byAspect[natalKey];
+  if (byNatal) return byNatal;
+
+  // Try any natal planet for this transit+aspect
+  if (byAspect) {
+    const keys = Object.keys(byAspect);
+    if (keys.length) return byAspect[keys[0]];
   }
-  // fallback
-  for (const [area] of Object.entries(areas)) {
-    if (!areas[area]) areas[area] = { text: area==='love'?'Vínculos em ritmo natural':area==='career'?'Foco e consistência':area==='finance'?'Equilíbrio financeiro':'Cuidado com o corpo', type:'neutral' };
-  }
-  return areas;
+
+  // Try neutral for this transit
+  const byNeutral = byPlanet && byPlanet['neutral'] && byPlanet['neutral'][natalKey];
+  if (byNeutral) return byNeutral;
+
+  return getFallbackInterp(transitKey, aspectType, monthName);
 }
+
+const STAR_RATING = { positive:'★★★★★', negative:'★★☆☆☆', neutral:'★★★☆☆', mixed:'★★★☆☆' };
+const ENERGY_LABEL = { positive:'✨ Expansivo', negative:'⚡ Desafiador', mixed:'☯ Dinâmico', neutral:'🌙 Reflexivo' };
+const BADGE_CLS    = { positive:'badge-positive', negative:'badge-negative', mixed:'badge-mixed', neutral:'badge-neutral' };
+const MONTH_NAMES  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
 function renderPrevisao6Meses() {
   const panel = document.getElementById('panel-previsao');
@@ -1321,60 +1492,60 @@ function renderPrevisao6Meses() {
 
   if (!isPremium) {
     panel.innerHTML = `
-      <div class="prev-header"><h2>📅 Previsão 6 Meses</h2><p>Leitura mensal personalizada com base no seu mapa natal</p></div>
-      <div class="month-card energy-positive" style="opacity:.35;filter:blur(3px);pointer-events:none">
-        <div class="month-title-row"><span class="month-name">Julho 2026</span><span class="month-energy-badge badge-positive">✨ Expansivo</span></div>
-        <p class="month-narrative">Júpiter ativa seu mapa de forma construtiva — aproveite para avançar em projetos que pedem coragem e visibilidade. Um período de expansão genuína está a caminho...</p>
+      <div class="prev-header"><h2>📅 Previsão 6 Meses</h2><p>Leitura mensal personalizada baseada no seu mapa natal</p></div>
+      <div class="month-card energy-positive" style="opacity:.35;filter:blur(3px);pointer-events:none;user-select:none">
+        <div class="month-title-row"><span class="month-name">Próximo Mês</span><span class="month-energy-badge badge-positive">✨ Expansivo</span></div>
+        <p class="month-narrative">Júpiter ativa seu mapa de forma construtiva — um período de expansão genuína. Aproveite para avançar em projetos que pedem coragem e visibilidade...</p>
+        <div class="month-areas">
+          <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">Charme em alta</div><div class="area-stars">★★★★☆</div></div>
+          <div class="area-box"><div class="area-label">💼 Carreira</div><div class="area-value">Crescimento e oportunidade</div><div class="area-stars">★★★★★</div></div>
+        </div>
       </div>
       <div class="prev-lock">
-        <div style="font-size:2.8rem;margin-bottom:14px">🔒</div>
+        <div style="font-size:2.6rem;margin-bottom:14px">🔒</div>
         <h3 style="font-family:'Playfair Display SC',serif;font-size:1.05rem;margin-bottom:10px">Previsão Completa de 6 Meses</h3>
-        <p style="font-size:.86rem;color:var(--muted2);margin-bottom:18px;line-height:1.7">Acesse sua leitura mensal personalizada, com análise de trânsitos, previsão por área de vida (amor, carreira, finanças, saúde) e orientações práticas para cada mês.</p>
+        <p style="font-size:.86rem;color:var(--muted2);margin-bottom:18px;line-height:1.7">Leitura mensal personalizada com trânsitos reais do seu mapa, análise por área de vida (amor, carreira, finanças, saúde) e orientações práticas para cada mês.</p>
         <button class="btn-unlock">⭐ Desbloquear Premium</button>
       </div>`;
     return;
   }
 
   if (!natalChart || !natalChart.positions) {
-    panel.innerHTML = '<div class="no-data-msg"><span class="nd-icon">📅</span><p>Mapa natal não encontrado. Verifique seu cadastro.</p></div>';
+    panel.innerHTML = '<div class="no-data-msg"><span class="nd-icon">📅</span><p>Mapa natal não encontrado.</p></div>';
     return;
   }
 
   const today = new Date();
-  const sign = natalChart.positions.sun ? natalChart.positions.sun.signName : 'seu signo';
-  const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  const ENERGY_LABEL = { positive:'✨ Expansivo', negative:'⚡ Desafiador', mixed:'☯ Dinâmico', neutral:'🌙 Reflexivo' };
-  const BADGE_CLS    = { positive:'badge-positive', negative:'badge-negative', mixed:'badge-mixed', neutral:'badge-neutral' };
-
   let cardsHtml = '';
 
   for (let m = 0; m < 6; m++) {
     const targetDate = new Date(today.getFullYear(), today.getMonth() + m + 1, 15);
     const monthName = MONTH_NAMES[targetDate.getMonth()] + ' ' + targetDate.getFullYear();
+
     let transits = [];
     try {
       const monthPos = getPlanetPositions(targetDate);
-      transits = getRealTransits(natalChart.positions, monthPos).slice(0, 4);
-    } catch(e) {
-      transits = [];
-    }
+      transits = getRealTransits(natalChart.positions, monthPos);
+    } catch(e) { transits = []; }
 
-    const energy = getMonthEnergy(transits);
-    const narrative = getMonthNarrative(transits, monthName, sign);
-    const areas = getAreaInsights(transits);
+    const energy    = getMonthEnergy(transits);
+    const interp    = buildMonthInterp(transits, monthName);
+    const highlight = pickHighlightTransit(transits);
 
+    // Top 3 transit rows (excluding the highlight to avoid repetition? No, keep all)
     const transitRowsHtml = transits.slice(0,3).map(t => `
       <div class="month-transit-row">
         <span class="mt-icon">${t.icon}</span>
-        <div><strong>${t.title}</strong><br>${t.tech}</div>
+        <div><strong>${t.title}</strong><br><span style="font-size:.73rem;color:var(--purple3)">${t.tech}</span></div>
       </div>`).join('');
 
+    // Area stars from transits
     const areasHtml = `
       <div class="month-areas">
-        <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">${areas.love.text}</div><div class="area-stars">${STAR_RATING[areas.love.type]}</div></div>
-        <div class="area-box"><div class="area-label">💼 Carreira</div><div class="area-value">${areas.career.text}</div><div class="area-stars">${STAR_RATING[areas.career.type]}</div></div>
-        <div class="area-box"><div class="area-label">💰 Finanças</div><div class="area-value">${areas.finance.text}</div><div class="area-stars">${STAR_RATING[areas.finance.type]}</div></div>
-        <div class="area-box"><div class="area-label">🌿 Saúde</div><div class="area-value">${areas.health.text}</div><div class="area-stars">${STAR_RATING[areas.health.type]}</div></div>
+        <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">${interp.love}</div><div class="area-stars">${STAR_RATING[energy]}</div></div>
+        <div class="area-box"><div class="area-label">💼 Carreira</div><div class="area-value">${interp.career}</div><div class="area-stars">${STAR_RATING[energy]}</div></div>
+        <div class="area-box"><div class="area-label">💰 Finanças</div><div class="area-value">${interp.finance}</div><div class="area-stars">${STAR_RATING[energy]}</div></div>
+        <div class="area-box"><div class="area-label">🌿 Saúde</div><div class="area-value">${interp.health}</div><div class="area-stars">${STAR_RATING[energy]}</div></div>
       </div>`;
 
     cardsHtml += `
@@ -1383,7 +1554,8 @@ function renderPrevisao6Meses() {
           <span class="month-name">${monthName}</span>
           <span class="month-energy-badge ${BADGE_CLS[energy]}">${ENERGY_LABEL[energy]}</span>
         </div>
-        <p class="month-narrative">${narrative}</p>
+        <div style="font-size:.7rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">${interp.theme}</div>
+        <p class="month-narrative">${interp.narrative}</p>
         ${transitRowsHtml ? `<div class="month-transits">${transitRowsHtml}</div>` : ''}
         ${areasHtml}
       </div>`;
