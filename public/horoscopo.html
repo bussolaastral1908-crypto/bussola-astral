@@ -886,6 +886,7 @@ const ACCORDIONS = {
 // ══════════════════════════════════════════════════════════════════
 let profile = null;
 let natalChart = null;
+let isPremium = false;
 
 function saveProfile() {
   const name = document.getElementById('f-name').value.trim();
@@ -1119,27 +1120,42 @@ function renderFuturo() {
   const today = new Date();
   const fmt = (n) => { const d=new Date(today); d.setDate(d.getDate()+n); return d.toLocaleDateString('pt-BR',{day:'numeric',month:'short'}); };
   const futureTransits = [
-    { icon:'🌟', type:'positive', title:'Grande janela de oportunidade', period:`${fmt(2)} – ${fmt(9)}`,   tech:'Júpiter em aspecto favorável ao seu Sol natal', desc:'Um dos trânsitos mais abençoados do ano. Oportunidades de crescimento em várias áreas da vida se multiplicam.' },
-    { icon:'🔮', type:'neutral',  title:'Revisão e aprofundamento emocional', period:`${fmt(5)} – ${fmt(18)}`, tech:'Netuno transitando pela sua Casa 12', desc:'Período de reflexão, intuição aguçada e possível necessidade de recolhimento criativo.' },
-    { icon:'⚡', type:'negative', title:'Tensão criativa em relacionamentos', period:`${fmt(8)} – ${fmt(15)}`, tech:'Marte em Quadratura ao seu Vênus natal', desc:'Confrontos podem surgir nos relacionamentos — mas a tensão, bem direcionada, cria clareza e novos acordos.' },
+    { icon:'🌟', type:'positive', title:'Grande janela de oportunidade', period:`${fmt(2)} – ${fmt(9)}`,   tech:'Júpiter em aspecto exato com seu Sol natal — expansão e sorte',       desc:'Uma das janelas mais poderosas do ano para lançar projetos, pedir aumento ou iniciar relacionamentos. A energia de Júpiter amplifica seus talentos naturais e atrai reconhecimento externo.' },
+    { icon:'🔮', type:'neutral',  title:'Revisão e aprofundamento emocional', period:`${fmt(5)} – ${fmt(18)}`, tech:'Netuno transitando sobre sua Lua natal — intuição elevada',         desc:'Período ideal para meditação, arte e trabalho espiritual. Você sentirá suas emoções com mais profundidade. Evite decisões importantes baseadas apenas em sentimentos — verifique os fatos.' },
+    { icon:'⚡', type:'negative', title:'Tensão criativa em relacionamentos', period:`${fmt(8)} – ${fmt(15)}`, tech:'Marte em Quadratura com Vênus natal — conflitos transformadores', desc:'Tensões surgem em relacionamentos próximos, mas têm potencial transformador. Canal essa energia para conversas honestas. Agressividade passiva pode criar cicatrizes — prefira clareza direta.' },
   ];
-  document.getElementById('panel-futuro').innerHTML = `
-    ${futureTransits.slice(0,1).map(t => `
-      <div class="transit-card" style="opacity:0.5;filter:blur(2px);pointer-events:none">
-        <div class="transit-card-header">
-          <div class="transit-icon ${t.type}">${t.icon}</div>
-          <div><div class="transit-title">${t.title}</div><div class="transit-period">📅 ${t.period}</div></div>
-        </div>
-        <div class="transit-technical">${t.tech}</div>
-        <div class="transit-desc">${t.desc.substring(0,40)}...</div>
-      </div>`).join('')}
-    <div class="lock-banner">
-      <div class="lock-icon">🔒</div>
-      <h3>${futureTransits.length} influências ativas nos próximos 30 dias</h3>
-      <p>Desbloqueie o recurso Premium para ver todas as previsões futuras, incluindo datas exatas dos trânsitos mais importantes do seu mapa.</p>
-      <button class="btn-unlock">⭐ Desbloquear Recurso!</button>
-      <div style="margin-top:10px"><a href="#" style="color:var(--purple3);font-size:0.78rem">Ver vantagens do plano Premium</a></div>
-    </div>`;
+  if (isPremium) {
+    document.getElementById('panel-futuro').innerHTML = `
+      <p class="transits-count">Você tem <span>${futureTransits.length} influências ativas</span> nos próximos 30 dias ✨</p>
+      ${futureTransits.map(t => `
+        <div class="transit-card">
+          <div class="transit-card-header">
+            <div class="transit-icon ${t.type}">${t.icon}</div>
+            <div><div class="transit-title">${t.title}</div><div class="transit-period">📅 ${t.period}</div></div>
+          </div>
+          <div class="transit-technical">${t.tech}</div>
+          <div class="transit-desc">${t.desc}</div>
+          <span style="color:var(--green);font-size:0.82rem;font-weight:600">⭐ Acesso Premium Ativo</span>
+        </div>`).join('')}`;
+  } else {
+    document.getElementById('panel-futuro').innerHTML = `
+      ${futureTransits.slice(0,1).map(t => `
+        <div class="transit-card" style="opacity:0.5;filter:blur(2px);pointer-events:none">
+          <div class="transit-card-header">
+            <div class="transit-icon ${t.type}">${t.icon}</div>
+            <div><div class="transit-title">${t.title}</div><div class="transit-period">📅 ${t.period}</div></div>
+          </div>
+          <div class="transit-technical">${t.tech}</div>
+          <div class="transit-desc">${t.desc.substring(0,40)}...</div>
+        </div>`).join('')}
+      <div class="lock-banner">
+        <div class="lock-icon">🔒</div>
+        <h3>${futureTransits.length} influências ativas nos próximos 30 dias</h3>
+        <p>Desbloqueie o recurso Premium para ver todas as previsões futuras, incluindo datas exatas dos trânsitos mais importantes para você.</p>
+        <button class="btn-unlock">⭐ Desbloquear Recurso!</button>
+        <div style="margin-top:10px"><a href="/#pricing" style="color:var(--purple3);font-size:0.78rem">Ver vantagens do plano Premium</a></div>
+      </div>`;
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1193,6 +1209,9 @@ async function logout(){
     const saved=localStorage.getItem('bussolaAstral_profile');
     if(saved)profile=JSON.parse(saved);
   }
+  isPremium = !!(prof && prof.is_premium) ||
+              !!(prof && prof.premium_expires_at && new Date(prof.premium_expires_at) > new Date());
+
   if(av&&profile&&profile.name)av.textContent=profile.name.charAt(0).toUpperCase();
 
   if(profile&&profile.date){
@@ -1209,6 +1228,11 @@ async function logout(){
 // PREMIUM CHECKOUT FLOW
 // ══════════════════════════════════════════════════════════════════
 async function openPremiumCheckout() {
+  if (isPremium) {
+    // Already premium — send to horoscopo rather than checkout
+    window.location.href = '#transitos';
+    return;
+  }
   // Show loading feedback immediately
   document.querySelectorAll('.btn-premium,.btn-unlock').forEach(b => {
     b.disabled = true;
@@ -1237,7 +1261,7 @@ async function openPremiumCheckout() {
 
 // Wire up buttons via event delegation (handles dynamically rendered buttons too)
 document.addEventListener('click', (e) => {
-  if (e.target.closest('.btn-premium') || e.target.closest('.btn-unlock')) {
+  if (e.target.closest('.btn-premium') || e.target.closest('.btn-unlock') || e.target.closest('.read-more')) {
     e.preventDefault();
     openPremiumCheckout();
   }
