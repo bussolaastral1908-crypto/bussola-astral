@@ -1,18 +1,25 @@
 // api/create-checkout.js — Vercel Serverless Function
-// Creates an AbacatePay billing charge and returns the checkout URL.
-// Env vars required: ABACATEPAY_KEY
+// Cria uma cobrança AbacatePay e retorna a URL de pagamento.
+// Env vars: ABACATEPAY_API_KEY, ABACATEPAY_PRODUCT_MENSAL, ABACATEPAY_PRODUCT_ANUAL
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  // CORS
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.bussolaastral.com');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email, name, plan } = req.body || {};
-  const key = process.env.ABACATEPAY_KEY;
+  const key = process.env.ABACATEPAY_API_KEY;
+  if (!key) return res.status(500).json({ error: 'Pagamento não configurado' });
 
-  if (!key) {
-    return res.status(500).json({ error: 'Payment provider not configured' });
-  }
+  const { email = '', name = '', plan = 'monthly' } = req.body || {};
+
+  // Seleciona o produto correto
+  const isAnual = plan === 'annual' || plan === 'anual';
+  const productId   = isAnual ? process.env.ABACATEPAY_PRODUCT_ANUAL : process.env.ABACATEPAY_PRODUCT_MENSAL;
+  const productName = isAnual ? 'Bússola Astral Premium — Anual' : 'Bússola Astral Premium — Mensal';
+  const price       = isAnual ? 24900 : 2900; // centavos: R$249 ou R$29
 
   try {
     const payload = {
@@ -20,19 +27,21 @@ export default async function handler(req, res) {
       methods: ['PIX'],
       products: [
         {
-          externalId: 'premium_monthly',
-          name: 'Bússola Astral Premium — 1 mês',
-          description: 'Acesso completo: trânsitos 30 dias, sinastria, revolução solar e mais.',
+          externalId: productId || (isAnual ? 'premium_anual' : 'premium_mensal'),
+          name: productName,
+          description: 'Acesso Premium: trânsitos 30 dias, sinastria, revolução solar e mais.',
           quantity: 1,
-          price: 2900  // R$ 29,00 in centavos
+          price
         }
       ],
-      returnUrl: 'https://bussolaastral.com/obrigado.html',
-      completionUrl: 'https://bussolaastral.com/obrigado.html',
-      customer: {
-        ...(name  ? { name }  : {}),
-        ...(email ? { email } : {})
-      }
+      returnUrl:     'https://www.bussolaastral.com/obrigado.html',
+      completionUrl: 'https://www.bussolaastral.com/obrigado.html',
+      ...(email || name ? {
+        customer: {
+          ...(name  ? { name }  : {}),
+          ...(email ? { email } : {})
+        }
+      } : {})
     };
 
     const abResp = await fetch('https://api.abacatepay.com/v1/billing/create', {
@@ -44,23 +53,19 @@ export default async function handler(req, res) {
       body: JSON.stringify(payload)
     });
 
-    if (!abResp.ok) {
-      const errBody = await abResp.text();
-      console.error('AbacatePay error:', abResp.status, errBody);
-      return res.status(502).json({ error: 'Payment provider error', detail: errBody });
-    }
-
     const data = await abResp.json();
-    // AbacatePay returns: { data: { url: "https://..." } }
-    const url = data?.data?.url || data?.url;
 
-    if (!url) {
-      return res.status(502).json({ error: 'No checkout URL returned', raw: data });
+    if (!abResp.ok) {
+      console.error('AbacatePay error:', abResp.status, JSON.stringify(data));
+      return res.status(502).json({ error: 'Erro no provedor de pagamento', detail: data });
     }
+
+    const url = data?.data?.url || data?.url;
+    if (!url) return res.status(502).json({ error: 'URL de checkout não retornada', raw: data });
 
     return res.status(200).json({ url });
   } catch (err) {
     console.error('create-checkout error:', err);
-    return res.status(500).json({ error: 'Internal error' });
+    return res.status(500).json({ error: 'Erro interno' });
   }
 }
