@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tarot do Dia — Bússola Astral</title>
+<meta name="description" content="Tire sua carta do Tarot do dia. Leitura gratuita com os 22 Arcanos Maiores do Tarot de Marselha.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display+SC:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09060f;--card-bg:#120920;--purple1:#7c3fe4;--purple2:#a06ff0;--purple3:#c9a7ff;--gold:#d4a853;--gold2:#f0c060;--text:#e8e0f0;--muted:#9a8db0;--muted2:#c4b8d8;--border:rgba(124,63,228,.22);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-height:100vh;display:flex;flex-direction:column;}
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;border-bottom:1px solid var(--border);background:rgba(9,6,15,.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.topbar-logo{font-family:'Cinzel',serif;font-weight:700;font-size:1.05rem;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.topbar-logo img{height:32px;width:auto;}
+.topbar-nav{display:flex;gap:1.6rem;}
+.topbar-nav a{color:var(--muted);font-family:'Cinzel',serif;font-size:.78rem;text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.topbar-nav a:hover,.topbar-nav a.active{color:var(--gold);}
+.topbar-cta{background:linear-gradient(135deg,var(--purple1),#5b21b6);color:#fff;border:none;padding:.45rem 1.1rem;border-radius:6px;font-family:'Cinzel',serif;font-size:.75rem;cursor:pointer;text-decoration:none;letter-spacing:.05em;transition:opacity .2s;}
+.topbar-cta:hover{opacity:.85;}
+/* hero */
+.hero{text-align:center;padding:3.5rem 1rem 2rem;background:radial-gradient(ellipse at 50% 0%,rgba(124,63,228,.12),transparent 60%);}
+.hero-tag{font-size:.72rem;color:var(--purple3);font-family:'Cinzel',serif;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.8rem;}
+.hero h1{font-family:'Playfair Display SC',serif;font-size:clamp(1.6rem,4vw,2.4rem);color:var(--gold);margin-bottom:.6rem;}
+.hero p{font-size:1rem;color:var(--muted2);max-width:520px;margin:0 auto;line-height:1.8;}
+/* card area */
+.card-area{display:flex;flex-direction:column;align-items:center;gap:2rem;padding:2.5rem 1rem 4rem;flex:1;}
+/* flip card */
+.flip-container{width:200px;height:340px;perspective:1000px;cursor:pointer;}
+.flipper{width:100%;height:100%;transition:transform .7s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;position:relative;}
+.flip-container.flipped .flipper{transform:rotateY(180deg);}
+.front,.back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.front{background:linear-gradient(135deg,#1a0533,#2d1060);border:2px solid var(--purple2);box-shadow:0 0 40px rgba(124,63,228,.35);}
+.front-inner{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.front-star{font-size:2.8rem;animation:pulse 2.5s ease-in-out infinite;}
+.front-text{font-family:'Cinzel',serif;font-size:.72rem;color:var(--purple3);letter-spacing:.12em;text-transform:uppercase;}
+.front-hint{font-size:.68rem;color:var(--muted);margin-top:4px;}
+@keyframes pulse{0%,100%{opacity:.7;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+.back{background:linear-gradient(135deg,#1a0533,#2d1060);border:2px solid var(--gold);box-shadow:0 0 50px rgba(212,168,83,.3);transform:rotateY(180deg);}
+.card-emoji{font-size:3.5rem;margin-bottom:8px;filter:drop-shadow(0 0 12px rgba(212,168,83,.5));}
+.card-num{font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold);letter-spacing:.14em;margin-bottom:4px;}
+.card-name{font-family:'Playfair Display SC',serif;font-size:1rem;color:var(--gold2);text-align:center;padding:0 12px;line-height:1.4;}
+/* interpretation card */
+.interp-card{max-width:560px;width:100%;background:linear-gradient(135deg,rgba(28,10,60,.6),rgba(18,9,32,.8));border:1px solid var(--border);border-radius:20px;padding:2rem;display:none;}
+.interp-card.visible{display:block;animation:fadeUp .5s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.interp-title{font-family:'Playfair Display SC',serif;font-size:1.3rem;color:var(--gold);margin-bottom:.4rem;}
+.interp-subtitle{font-size:.78rem;color:var(--purple3);font-family:'Cinzel',serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.2rem;}
+.interp-body{font-size:1rem;color:var(--muted2);line-height:1.9;}
+.interp-areas{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1.4rem;}
+.area-pill{background:rgba(124,63,228,.1);border:1px solid var(--border);border-radius:10px;padding:10px 14px;}
+.area-pill-label{font-size:.65rem;color:var(--purple3);font-family:'Cinzel',serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.area-pill-val{font-size:.85rem;color:var(--text);line-height:1.6;}
+.btn-redraw{margin-top:1.6rem;background:transparent;border:1px solid var(--border);color:var(--muted2);padding:.6rem 1.4rem;border-radius:8px;font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.07em;cursor:pointer;transition:all .2s;width:100%;}
+.btn-redraw:hover{border-color:var(--purple2);color:var(--purple3);}
+/* footer */
+footer{border-top:1px solid var(--border);padding:1.5rem;text-align:center;font-size:.75rem;color:var(--muted);}
+footer a{color:var(--muted);text-decoration:none;}
+@media(max-width:480px){.interp-areas{grid-template-columns:1fr;}.topbar-nav{display:none;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="topbar-logo" href="/"><img src="/logotipo.png" alt="Bússola Astral"> Bússola Astral</a>
+  <nav class="topbar-nav">
+    <a href="/horoscopo.html">Horóscopo</a>
+    <a href="/tarot.html" class="active">Tarot</a>
+    <a href="/mapas-famosos.html">Mapas Famosos</a>
+  </nav>
+  <a class="topbar-cta" href="/horoscopo.html">Meu Mapa →</a>
+</div>
+<div class="hero">
+  <div class="hero-tag">✦ Arcanos Maiores ✦</div>
+  <h1>Carta do Dia</h1>
+  <p>Concentre-se em sua intenção e revele a mensagem dos arcanos para este momento.</p>
+</div>
+<div class="card-area">
+  <div class="flip-container" id="flip-container" onclick="revealCard()">
+    <div class="flipper" id="flipper">
+      <div class="front">
+        <div class="front-inner">
+          <div class="front-star">✦</div>
+          <div class="front-text">Toque para revelar</div>
+          <div class="front-hint">Sua carta do dia</div>
+        </div>
+      </div>
+      <div class="back" id="card-back">
+        <div class="card-emoji" id="card-emoji">☀️</div>
+        <div class="card-num" id="card-num">Arcano XIX</div>
+        <div class="card-name" id="card-name">O Sol</div>
+      </div>
+    </div>
+  </div>
+  <div class="interp-card" id="interp-card">
+    <div class="interp-title" id="interp-title">O Sol</div>
+    <div class="interp-subtitle" id="interp-subtitle">Arcano XIX — Luz e Expansão</div>
+    <div class="interp-body" id="interp-body"></div>
+    <div class="interp-areas" id="interp-areas"></div>
+    <button class="btn-redraw" onclick="resetCard()">✦ Tirar outra carta</button>
+  </div>
+</div>
+<footer>© 2026 Bússola Astral &nbsp;·&nbsp; <a href="/horoscopo.html">Horóscopo Personalizado</a></footer>
+<script>
+const ARCANOS = [
+  { num:'0', name:'O Louco', emoji:'🌟', kw:'Início, aventura, ousadia',
+    body:'O Louco convida você a dar o salto. Este é um momento de começos puros — sem planos rígidos, sem medo do desconhecido. A energia do universo quer que você confie no processo e avance.',
+    amor:'Abertura para o novo. Relacionamentos inesperados surgem.',
+    carreira:'Um projeto ousado chama sua atenção. Aja antes de analisar demais.',
+    dinheiro:'Evite impulsividade financeira. O entusiasmo é bom — o planejamento, melhor.',
+    saude:'Liberdade e movimento. Saia da rotina física.' },
+  { num:'I', name:'O Mago', emoji:'🪄', kw:'Manifestação, habilidade, vontade',
+    body:'Você tem todos os elementos em mãos. O Mago diz que a manifestação começa agora — com intenção clara e ação focada. O universo responde à sua determinação.',
+    amor:'Comunicação magnética. Você atrai com facilidade.',
+    carreira:'Momento de usar suas habilidades com precisão. Resultados concretos chegam.',
+    dinheiro:'Oportunidade real de multiplicação. Use seus talentos.',
+    saude:'Energia vital em alta. É hora de iniciar novos hábitos.' },
+  { num:'II', name:'A Sacerdotisa', emoji:'🌙', kw:'Intuição, mistério, sabedoria interior',
+    body:'Nem tudo precisa ser explicado ou entendido racionalmente. A Sacerdotisa pede silêncio e escuta interior. Suas respostas estão dentro — não nos conselhos externos.',
+    amor:'Profundidade emocional. Observe mais, fale menos.',
+    carreira:'Pesquise antes de agir. O timing ainda não é o ideal.',
+    dinheiro:'Cautela. Não divulgue seus planos financeiros.',
+    saude:'Sono e descanso são prioridade.' },
+  { num:'III', name:'A Imperatriz', emoji:'🌸', kw:'Abundância, fertilidade, criatividade',
+    body:'A Imperatriz anuncia um tempo de florescimento. O que você plantou começa a crescer de forma visível e generosa. Nutra seus projetos, seus relacionamentos e seu corpo.',
+    amor:'Amor pleno, sensualidade e cuidado. Relações férteis.',
+    carreira:'Criatividade em alta. Projetos crescem organicamente.',
+    dinheiro:'Abundância natural. Confie no fluxo.',
+    saude:'Cuidado com o corpo e com a alimentação.' },
+  { num:'IV', name:'O Imperador', emoji:'👑', kw:'Estrutura, autoridade, liderança',
+    body:'É hora de assumir o comando da própria vida. O Imperador pede que você estabeleça estrutura, limite e clareza — nas suas finanças, relações e projetos.',
+    amor:'Estabilidade e comprometimento. Limite saudável é amor.',
+    carreira:'Liderança reconhecida. Hora de assumir responsabilidades maiores.',
+    dinheiro:'Planejamento e disciplina trazem resultados sólidos.',
+    saude:'Rotina e consistência são seus aliados.' },
+  { num:'V', name:'O Hierofante', emoji:'🏛️', kw:'Tradição, sabedoria, aprendizado',
+    body:'O Hierofante aponta para o valor da experiência acumulada — seja de mentores, tradições ou sua própria história. Busque orientação em fontes confiáveis.',
+    amor:'Compromisso, cerimônia, formalização.',
+    carreira:'Educação e treinamento trazem retorno agora.',
+    dinheiro:'Siga métodos testados. Evite apostas arriscadas.',
+    saude:'Consulte especialistas. Medicina preventiva.' },
+  { num:'VI', name:'Os Amantes', emoji:'💞', kw:'Escolha, amor, alinhamento',
+    body:'Os Amantes não falam só de romance — falam de escolhas alinhadas com seus valores mais profundos. Uma decisão importante está à sua frente. Escolha com o coração E a razão.',
+    amor:'União profunda. Período de clareza nos sentimentos.',
+    carreira:'Decisão importante a fazer. Confie nos seus valores.',
+    dinheiro:'Avalie parcerias com cuidado.',
+    saude:'Equilíbrio mente-corpo é fundamental.' },
+  { num:'VII', name:'O Carro', emoji:'⚡', kw:'Vitória, direção, controle',
+    body:'O Carro indica movimento decisivo e vitória conquistada pelo esforço próprio. Você está no controle — mas precisa manter o foco e não deixar as rédeas escaparem.',
+    amor:'Conquista ativa. Tome a iniciativa.',
+    carreira:'Momento de avançar rapidamente. Resultados concretos.',
+    dinheiro:'Movimentação financeira positiva. Avance com confiança.',
+    saude:'Atividade física e competição saudável.' },
+  { num:'VIII', name:'A Força', emoji:'🦁', kw:'Coragem, paciência, domínio interno',
+    body:'A Força não é bravata — é a capacidade de agir com calma diante do medo. Você tem dentro de si mais resistência do que imagina. Domine suas emoções sem suprimi-las.',
+    amor:'Paciência e cuidado vencem. Amor que transforma.',
+    carreira:'Persistência supera obstáculos aparentes.',
+    dinheiro:'Não ceda à pressão. Mantenha sua estratégia.',
+    saude:'Vitalidade. Cuide da saúde emocional.' },
+  { num:'IX', name:'O Eremita', emoji:'🕯️', kw:'Introspecção, guia, sabedoria solitária',
+    body:'O Eremita retira-se do barulho para encontrar a verdade. Este é um período de reflexão necessária — não de isolamento permanente, mas de reconexão com sua bússola interior.',
+    amor:'Solidão temporária traz clareza. Não force conexões.',
+    carreira:'Pesquisa profunda e planejamento estratégico.',
+    dinheiro:'Revise suas finanças com cuidado e calma.',
+    saude:'Meditação, natureza e introspecção.' },
+  { num:'X', name:'A Roda da Fortuna', emoji:'🎡', kw:'Ciclos, destino, virada',
+    body:'A Roda gira — e o que estava embaixo pode subir. Um ciclo se completa e outro começa. Posicione-se para o próximo giro em vez de lamentar o anterior.',
+    amor:'Mudança de ciclo. Novos encontros e possibilidades.',
+    carreira:'Oportunidade inesperada. Esteja pronto.',
+    dinheiro:'Virada financeira. Sorte favorece quem age.',
+    saude:'Mudança de hábitos tem impacto positivo.' },
+  { num:'XI', name:'A Justiça', emoji:'⚖️', kw:'Equilíbrio, verdade, consequência',
+    body:'A Justiça lembra que cada ação tem consequência. Este é um momento de acerto de contas — não como punição, mas como reequilíbrio natural. Aja com integridade.',
+    amor:'Clareza e honestidade são necessárias. Conversas difíceis mas necessárias.',
+    carreira:'Reconhecimento justo do seu trabalho.',
+    dinheiro:'Pague dívidas. Regularize situações pendentes.',
+    saude:'Equilíbrio em todos os aspectos.' },
+  { num:'XII', name:'O Enforcado', emoji:'🙃', kw:'Pausa, perspectiva, rendição voluntária',
+    body:'O Enforcado escolhe parar voluntariamente para ver o mundo de outro ângulo. Esta carta pede paciência consciente — às vezes, a ação certa é esperar e mudar a perspectiva.',
+    amor:'Sacrifício voluntário por algo maior. Deixe ir o que prende.',
+    carreira:'Pausa necessária. Reavalie antes de agir.',
+    dinheiro:'Espere o momento certo. Não force movimentos.',
+    saude:'Descanso profundo e renovação.' },
+  { num:'XIII', name:'A Morte', emoji:'🦋', kw:'Transformação, fim de ciclo, renascimento',
+    body:'A Morte no Tarot não é fim — é metamorfose. Um capítulo se fecha para que outro possa começar. Solte o que já cumpriu seu propósito em sua vida.',
+    amor:'Fim de um padrão antigo. Transformação profunda no amor.',
+    carreira:'Mudança necessária. Deixe ir o que não serve mais.',
+    dinheiro:'Corte gastos que não trazem retorno.',
+    saude:'Regeneração. Solte hábitos que drenam sua energia.' },
+  { num:'XIV', name:'A Temperança', emoji:'🌊', kw:'Equilíbrio, moderação, alquimia',
+    body:'A Temperança mistura opostos com maestria. Este é um período de integração — de aspectos da sua personalidade, das suas relações, dos seus planos. A harmonia vem do equilíbrio.',
+    amor:'Relacionamento harmonioso. Encontre o meio-termo.',
+    carreira:'Integração de habilidades diferentes. Projetos colaborativos.',
+    dinheiro:'Equilíbrio entre gastar e poupar.',
+    saude:'Moderação em tudo. Dieta e rotina balanceadas.' },
+  { num:'XV', name:'O Diabo', emoji:'⛓️', kw:'Apego, ilusão, sombra',
+    body:'O Diabo aponta para o que te prende por escolha própria — não por destino. Apegos, vícios, padrões que você sabe que não servem mais. A corrente é frouxa — você pode soltá-la.',
+    amor:'Observe padrões de dependência emocional.',
+    carreira:'Cuidado com ambição desmedida ou ambientes tóxicos.',
+    dinheiro:'Revise dívidas e gastos compulsivos.',
+    saude:'Vícios e excesses pedem atenção.' },
+  { num:'XVI', name:'A Torre', emoji:'🌩️', kw:'Ruptura, revelação, libertação',
+    body:'A Torre é a estrutura construída sobre base falsa que desmorona para dar lugar à verdade. A ruptura pode ser dolorosa — mas o que cai precisava cair. Confie no que fica.',
+    amor:'Crise revela a verdade. O que é sólido permanece.',
+    carreira:'Mudança repentina. Adapte-se rapidamente.',
+    dinheiro:'Imprevistos financeiros. Tenha reserva.',
+    saude:'Stress agudo. Cuide do sistema nervoso.' },
+  { num:'XVII', name:'A Estrela', emoji:'⭐', kw:'Esperança, cura, inspiração',
+    body:'Após a tempestade, a Estrela aparece. Ela traz esperança genuína, não ilusória — fundamentada na sua própria capacidade de renovação. Você está sendo guiado de volta à sua essência.',
+    amor:'Cura emocional. Amor que inspira e eleva.',
+    carreira:'Inspiração criativa em alta. Sonhos ganham forma.',
+    dinheiro:'Fluxo positivo se restabelece.',
+    saude:'Recuperação e vitalidade renovada.' },
+  { num:'XVIII', name:'A Lua', emoji:'🌕', kw:'Ilusão, inconsciente, medos',
+    body:'A Lua ilumina o que estava nas sombras — medos, ilusões, aspectos do inconsciente. Nem tudo é o que parece agora. Confie na sua intuição mais do que nas aparências.',
+    amor:'Confusão emocional. Espere antes de decidir.',
+    carreira:'Informações incompletas. Pesquise mais.',
+    dinheiro:'Evite grandes movimentos financeiros agora.',
+    saude:'Sonhos e saúde emocional merecem atenção.' },
+  { num:'XIX', name:'O Sol', emoji:'☀️', kw:'Alegria, sucesso, clareza',
+    body:'O Sol é a carta da alegria sem sombra — conquista, saúde, amor e sucesso se manifestam de forma visível e real. Celebre o que foi conquistado e brilhe sem vergonha.',
+    amor:'Alegria, plenitude e amor correspondido.',
+    carreira:'Reconhecimento e sucesso visível.',
+    dinheiro:'Prosperidade e abundância.',
+    saude:'Vitalidade e bem-estar excepcional.' },
+  { num:'XX', name:'O Julgamento', emoji:'🎺', kw:'Renascimento, chamado, absolvição',
+    body:'O Julgamento anuncia que um ciclo kármico se completa. Você é chamado a assumir quem realmente é — soltar o peso do passado e responder ao chamado da sua versão mais elevada.',
+    amor:'Reconciliação possível. Perdão que liberta.',
+    carreira:'Chamado para uma nova fase. Responda.',
+    dinheiro:'Acerto de pendências abre caminho novo.',
+    saude:'Cura profunda. Transformação física e mental.' },
+  { num:'XXI', name:'O Mundo', emoji:'🌍', kw:'Conclusão, integração, realização',
+    body:'O Mundo é a carta da realização completa — um ciclo se encerra com maestria. Você integrou as lições e está pronto para um novo nível. Celebre a chegada antes de partir.',
+    amor:'União completa. Amor maduro e integrado.',
+    carreira:'Conclusão bem-sucedida de projeto importante.',
+    dinheiro:'Ciclo financeiro positivo se completa.',
+    saude:'Saúde plena. Equilíbrio corpo-mente-espírito.' }
+];
+
+let revealed = false;
+let currentCard = null;
+
+function getCardOfDay() {
+  // Same card for same calendar day per browser session
+  const today = new Date().toDateString();
+  const stored = sessionStorage.getItem('tarot_day');
+  if (stored && JSON.parse(stored).day === today) {
+    return ARCANOS[JSON.parse(stored).idx];
+  }
+  const idx = Math.floor(Math.random() * ARCANOS.length);
+  sessionStorage.setItem('tarot_day', JSON.stringify({day:today, idx}));
+  return ARCANOS[idx];
+}
+
+function revealCard() {
+  if (revealed) return;
+  revealed = true;
+  currentCard = getCardOfDay();
+  document.getElementById('card-emoji').textContent = currentCard.emoji;
+  document.getElementById('card-num').textContent = `Arcano ${currentCard.num}`;
+  document.getElementById('card-name').textContent = currentCard.name;
+  document.getElementById('flip-container').classList.add('flipped');
+  setTimeout(() => {
+    const ic = document.getElementById('interp-card');
+    document.getElementById('interp-title').textContent = currentCard.name;
+    document.getElementById('interp-subtitle').textContent = `Arcano ${currentCard.num} — ${currentCard.kw}`;
+    document.getElementById('interp-body').textContent = currentCard.body;
+    document.getElementById('interp-areas').innerHTML = `
+      <div class="area-pill"><div class="area-pill-label">❤️ Amor</div><div class="area-pill-val">${currentCard.amor}</div></div>
+      <div class="area-pill"><div class="area-pill-label">💼 Carreira</div><div class="area-pill-val">${currentCard.carreira}</div></div>
+      <div class="area-pill"><div class="area-pill-label">💰 Dinheiro</div><div class="area-pill-val">${currentCard.dinheiro}</div></div>
+      <div class="area-pill"><div class="area-pill-label">🌿 Saúde</div><div class="area-pill-val">${currentCard.saude}</div></div>`;
+    ic.classList.add('visible');
+    ic.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }, 750);
+}
+
+function resetCard() {
+  sessionStorage.removeItem('tarot_day');
+  revealed = false;
+  document.getElementById('flip-container').classList.remove('flipped');
+  document.getElementById('interp-card').classList.remove('visible');
+  setTimeout(() => {
+    const c = getCardOfDay();
+    document.getElementById('card-emoji').textContent = c.emoji;
+    document.getElementById('card-num').textContent = `Arcano ${c.num}`;
+    document.getElementById('card-name').textContent = c.name;
+  }, 400);
+}
+</script>
+</body>
+</html>
