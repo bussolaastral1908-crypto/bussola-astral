@@ -1204,6 +1204,45 @@ async function logout(){
     renderDashboard();
   }
 })();
+
+// ══════════════════════════════════════════════════════════════════
+// PREMIUM CHECKOUT FLOW
+// ══════════════════════════════════════════════════════════════════
+async function openPremiumCheckout() {
+  // Show loading feedback immediately
+  document.querySelectorAll('.btn-premium,.btn-unlock').forEach(b => {
+    b.disabled = true;
+    b.textContent = '⏳ Carregando...';
+  });
+
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    const email = session?.user?.email || '';
+    const name  = session?.user?.user_metadata?.name || profile?.name || '';
+
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, plan: 'premium_monthly' })
+    });
+
+    if (!res.ok) throw new Error('checkout_error');
+    const { url } = await res.json();
+    window.location.href = url;
+  } catch(e) {
+    // Fallback: send to pricing section on landing page
+    window.location.href = '/#pricing';
+  }
+}
+
+// Wire up buttons via event delegation (handles dynamically rendered buttons too)
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.btn-premium') || e.target.closest('.btn-unlock')) {
+    e.preventDefault();
+    openPremiumCheckout();
+  }
+});
+
 </script>
 </body>
 </html>
