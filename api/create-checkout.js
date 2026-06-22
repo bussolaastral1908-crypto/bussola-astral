@@ -1,57 +1,66 @@
-// api/create-checkout.js
-// Vercel Serverless Function — cria sessão de checkout no AbacatePay
+// api/create-checkout.js — Vercel Serverless Function
+// Creates an AbacatePay billing charge and returns the checkout URL.
+// Env vars required: ABACATEPAY_KEY
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, plan = 'mensal' } = req.body || {};
+  const { email, name, plan } = req.body || {};
+  const key = process.env.ABACATEPAY_KEY;
 
-  if (!email) {
-    return res.status(400).json({ error: 'Email obrigatório' });
+  if (!key) {
+    return res.status(500).json({ error: 'Payment provider not configured' });
   }
-
-  const ABACATEPAY_API_KEY = process.env.ABACATEPAY_API_KEY;
-  if (!ABACATEPAY_API_KEY) {
-    return res.status(500).json({ error: 'Chave API não configurada' });
-  }
-
-  // Substitua pelos IDs reais dos produtos criados no painel AbacatePay
-  const PRODUCT_IDS = {
-    mensal: process.env.ABACATEPAY_PRODUCT_MENSAL || 'prod_mensal_placeholder',
-    anual:  process.env.ABACATEPAY_PRODUCT_ANUAL  || 'prod_anual_placeholder',
-  };
-
-  const productId = PRODUCT_IDS[plan] || PRODUCT_IDS.mensal;
 
   try {
-    const response = await fetch('https://api.abacatepay.com/v2/subscriptions/create', {
+    const payload = {
+      frequency: 'ONE_TIME',
+      methods: ['PIX'],
+      products: [
+        {
+          externalId: 'premium_monthly',
+          name: 'Bússola Astral Premium — 1 mês',
+          description: 'Acesso completo: trânsitos 30 dias, sinastria, revolução solar e mais.',
+          quantity: 1,
+          price: 2900  // R$ 29,00 in centavos
+        }
+      ],
+      returnUrl: 'https://bussolaastral.com/obrigado.html',
+      completionUrl: 'https://bussolaastral.com/obrigado.html',
+      customer: {
+        ...(name  ? { name }  : {}),
+        ...(email ? { email } : {})
+      }
+    };
+
+    const abResp = await fetch('https://api.abacatepay.com/v1/billing/create', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${ABACATEPAY_API_KEY}`,
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        products: [{ externalId: productId, quantity: 1 }],
-        customer: { email },
-        returnUrl:  'https://bussolaastral.com/obrigado',
-        cancelUrl:  'https://bussolaastral.com/premium',
-        metadata: { plan },
-      }),
+      body: JSON.stringify(payload)
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error('[AbacatePay] Erro:', data);
-      return res.status(response.status).json({ error: data.message || 'Erro no pagamento' });
+    if (!abResp.ok) {
+      const errBody = await abResp.text();
+      console.error('AbacatePay error:', abResp.status, errBody);
+      return res.status(502).json({ error: 'Payment provider error', detail: errBody });
     }
 
-    return res.status(200).json({ checkoutUrl: data.url, subscriptionId: data.id });
+    const data = await abResp.json();
+    // AbacatePay returns: { data: { url: "https://..." } }
+    const url = data?.data?.url || data?.url;
 
+    if (!url) {
+      return res.status(502).json({ error: 'No checkout URL returned', raw: data });
+    }
+
+    return res.status(200).json({ url });
   } catch (err) {
-    console.error('[create-checkout] Erro inesperado:', err);
-    return res.status(500).json({ error: 'Erro interno' });
+    console.error('create-checkout error:', err);
+    return res.status(500).json({ error: 'Internal error' });
   }
 }
