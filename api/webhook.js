@@ -1,3 +1,22 @@
+
+async function updateSupabasePremium(email, active) {
+  const secret = process.env.SUPABASE_WEBHOOK_KEY;
+  if (!secret) { console.warn('[webhook] SUPABASE_WEBHOOK_KEY not set — skipping Supabase update'); return; }
+  try {
+    const SUPA_URL = 'https://jnjdkfmzkppzqafhjsbl.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
+    const res = await fetch(`${SUPA_URL}/rest/v1/rpc/set_premium_via_webhook`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` },
+      body: JSON.stringify({ p_secret: secret, p_email: email, p_active: active })
+    });
+    const data = await res.json();
+    console.log(`[webhook] Supabase premium update: email=${email} active=${active} result=${JSON.stringify(data)}`);
+  } catch (err) {
+    console.error('[webhook] Supabase update error:', err.message);
+  }
+}
+
 // api/webhook.js
 // Vercel Serverless Function — recebe confirmações do AbacatePay e ativa Premium
 
@@ -100,10 +119,12 @@ export default async function handler(req, res) {
       }, { ex: 400 * 24 * 60 * 60 });
 
       console.log(`[webhook] ✅ Premium ativado: ${email}`);
+      await updateSupabasePremium(email, true);
 
     } else if (EVENTOS_CANCELAR.includes(eventType) || EVENTOS_CANCELAR.includes(event?.status)) {
       await kv.del(`premium:${email}`);
       console.log(`[webhook] ❌ Premium cancelado: ${email}`);
+      await updateSupabasePremium(email, false);
 
     } else {
       console.log(`[webhook] Evento ignorado: ${eventType}`);
