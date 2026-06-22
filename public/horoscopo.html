@@ -1607,12 +1607,11 @@ function renderMapa() {
     return `<div class="mapa-el-row"><span style="font-size:.74rem;color:var(--muted2);width:46px">${el}</span><div class="mapa-el-bar"><div class="mapa-el-fill" style="width:${pct}%;background:${EL_COLORS[el]||'#888'}"></div></div><span style="font-size:.72rem;color:var(--muted);width:26px;text-align:right">${cnt}/${elTotal}</span></div>`;
   }).join('');
 
-  const aspects = natalChart.aspects || [];
-  const ASPECT_NAMES={conjunction:'Conjunção',sextile:'Sextil',trine:'Trígono',square:'Quadratura',opposition:'Oposição'};
-  const ASPECT_CLS={conjunction:'aspect-conj',sextile:'aspect-sext',trine:'aspect-trig',square:'aspect-quad',opposition:'aspect-oppo'};
+  // getAspects uses only positions (no birth time needed)
+  const aspects = getAspects(natalChart.positions);
   const aspectsHtml = aspects.length>0
-    ? aspects.slice(0,8).map(a=>`<div class="mapa-aspect-row"><span>${PLANET_NAMES_PT[a.p1]||a.p1} × ${PLANET_NAMES_PT[a.p2]||a.p2}</span><span class="mapa-aspect-type ${ASPECT_CLS[a.type]||''}">${ASPECT_NAMES[a.type]||a.type}</span><span style="color:var(--muted);font-size:.7rem">${a.orb?a.orb.toFixed(1)+'°':''}</span></div>`).join('')
-    : '<p style="font-size:.82rem;color:var(--muted);padding:8px 0">Insira hora de nascimento para calcular aspectos natais detalhados.</p>';
+    ? aspects.map(asp=>`<div class="mapa-aspect-row"><span>${asp.a} × ${asp.b}</span><span class="mapa-aspect-type ${asp.cls}">${asp.name}</span></div>`).join('')
+    : '<p style="font-size:.82rem;color:var(--muted);padding:8px 0">Nenhum aspecto destacado encontrado.</p>';
 
   panel.innerHTML = `
     <div class="mapa-header"><h2>🗺️ Mapa Astral Natal</h2><p>Posições planetárias no momento do seu nascimento</p></div>
