@@ -142,6 +142,23 @@ select option{background:#171732;}
 .transit-desc{font-size:.86rem;color:var(--muted2);line-height:1.7;}
 .read-more{font-size:.78rem;color:var(--purple3);cursor:pointer;margin-top:8px;display:inline-block;font-weight:700;}
 .read-more:hover{color:var(--purple2);}
+/* ── Guia Semestral extras ── */
+.semester-overview{background:linear-gradient(135deg,rgba(124,63,228,.1),rgba(63,207,142,.05));border:1px solid rgba(63,207,142,.25);border-radius:16px;padding:18px;margin-bottom:20px;}
+.semester-overview h3{font-family:'Playfair Display SC',serif;font-size:.95rem;margin-bottom:12px;letter-spacing:.04em;}
+.sem-row{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:var(--muted2);margin-bottom:10px;line-height:1.6;}
+.sem-row:last-child{margin-bottom:0;}
+.sem-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.sem-event-title{font-weight:700;color:var(--text);}
+.month-dates-section{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.month-dates-title{font-size:.68rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.month-date-row{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted2);margin-bottom:6px;}
+.moon-icon{font-size:.9rem;flex-shrink:0;}
+.tarot-section{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.tarot-card-mini{width:38px;height:58px;border-radius:6px;background:linear-gradient(135deg,#1a0533,#2d1060);border:1px solid rgba(124,63,228,.5);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.tarot-info{flex:1;}
+.tarot-arcano{font-size:.73rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.tarot-msg{font-size:.8rem;color:var(--muted2);line-height:1.6;}
+
 /* ── Previsão 6 Meses ── */
 .prev-header{text-align:center;padding:14px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px;}
 .prev-header h2{font-family:'Playfair Display SC',serif;font-size:1.08rem;letter-spacing:.04em;margin-bottom:4px;}
@@ -1490,22 +1507,202 @@ function renderPrevisao6Meses() {
   const panel = document.getElementById('panel-previsao');
   if (!panel) return;
 
+  // ── Moon phase calculator ─────────────────────────────────────
+  function moonPhases(year, month) {
+    // Approximate new moons using mean synodic month
+    // Reference: New Moon 2000-01-06 18:14 UTC = JD 2451550.259
+    const REF_JD = 2451550.259;
+    const SYNODIC = 29.530589;
+    function toJD(d) {
+      const y=d.getFullYear(), m=d.getMonth()+1, day=d.getDate();
+      const a=Math.floor((14-m)/12), yy=y+4800-a, mm=m+12*a-3;
+      return day + Math.floor((153*mm+2)/5) + 365*yy + Math.floor(yy/4) - Math.floor(yy/100) + Math.floor(yy/400) - 32045;
+    }
+    function jdToDate(jd) {
+      const l=jd+68569|0, n=(4*l/146097)|0, ll=l-(146097*n+3)/4|0;
+      const i=(4000*(ll+1)/1461001)|0, lll=ll-1461*i/4|0+31, j=(80*lll/2447)|0;
+      const day=lll-2447*j/80|0, m2=j+2-12*(j/11|0), y2=100*(n-49)+i+(j/11|0);
+      return new Date(y2, m2-1, day);
+    }
+    const start = new Date(year, month-1, 1);
+    const end   = new Date(year, month, 0);
+    const sJD   = toJD(start), eJD = toJD(end);
+    const firstN = Math.ceil((sJD - REF_JD) / SYNODIC);
+    const result = [];
+    for (let k = firstN - 1; k <= firstN + 2; k++) {
+      const newJD  = REF_JD + k * SYNODIC;
+      const fullJD = newJD + SYNODIC / 2;
+      if (newJD  >= sJD && newJD  <= eJD) result.push({ type:'new',  date: jdToDate(Math.round(newJD)) });
+      if (fullJD >= sJD && fullJD <= eJD) result.push({ type:'full', date: jdToDate(Math.round(fullJD)) });
+    }
+    return result.sort((a,b) => a.date - b.date);
+  }
+
+  // ── Mercury retrograde detector ───────────────────────────────
+  function getMercuryRetroInMonth(year, month) {
+    // Step through month checking if Mercury longitude decreases
+    const retro = [];
+    let start = null;
+    for (let d = 1; d <= 31; d++) {
+      const dt = new Date(year, month-1, d);
+      if (dt.getMonth() !== month-1) break;
+      try {
+        const p1 = getPlanetPositions(dt).mercury;
+        const p2 = getPlanetPositions(new Date(year, month-1, d+1)).mercury;
+        if (!p1||!p2) continue;
+        let diff = p2.longitude - p1.longitude;
+        if (diff > 180) diff -= 360; if (diff < -180) diff += 360;
+        const isRetro = diff < -0.05;
+        if (isRetro && !start) start = d;
+        if (!isRetro && start) { retro.push({from:start, to:d-1}); start=null; }
+      } catch(e) {}
+    }
+    if (start) retro.push({from:start, to:28});
+    return retro;
+  }
+
+  // ── Eclipse detector (solar: Sun-Moon angle ≈ 0 at new moon) ─
+  function getEclipseInMonth(year, month) {
+    // Check each new moon — if within 18° of lunar node (simplified: |Sun lon - Moon lon| < 18 near new moon)
+    const phases = moonPhases(year, month);
+    const eclipses = [];
+    for (const ph of phases) {
+      if (ph.type !== 'new') continue;
+      try {
+        const pos = getPlanetPositions(ph.date);
+        const sunLon = pos.sun?.longitude ?? 0;
+        const moonLon = pos.moon?.longitude ?? 0;
+        let diff = Math.abs(sunLon - moonLon);
+        if (diff > 180) diff = 360 - diff;
+        if (diff < 18) eclipses.push({ type:'solar', date: ph.date });
+      } catch(e) {}
+    }
+    // Lunar eclipses: full moon near node
+    for (const ph of phases) {
+      if (ph.type !== 'full') continue;
+      try {
+        const pos = getPlanetPositions(ph.date);
+        const sunLon = pos.sun?.longitude ?? 0;
+        const moonLon = pos.moon?.longitude ?? 0;
+        let diff = Math.abs(sunLon - moonLon);
+        if (diff > 180) diff = 360 - diff;
+        if (Math.abs(diff - 180) < 18) eclipses.push({ type:'lunar', date: ph.date });
+      } catch(e) {}
+    }
+    return eclipses;
+  }
+
+  // ── Tarot per month energy ────────────────────────────────────
+  const TAROT_CARDS = [
+    { name:'O Sol',          emoji:'☀️', msg:'Clareza, alegria e sucesso visível. Confie no que está crescendo dentro de você.' },
+    { name:'A Estrela',      emoji:'⭐', msg:'Esperança renovada após um período difícil. Guie-se pela sua luz interior.' },
+    { name:'A Roda da Fortuna', emoji:'🎡', msg:'Ciclos se completam e novos começam. Posicione-se para o próximo giro.' },
+    { name:'O Mago',         emoji:'🪄', msg:'Você tem tudo que precisa para criar. A manifestação começa com intenção clara.' },
+    { name:'A Fortaleza',    emoji:'🦁', msg:'Coragem não é ausência de medo — é agir apesar dele. Você é mais forte do que imagina.' },
+    { name:'O Eremita',      emoji:'🕯️', msg:'Respostas estão dentro, não fora. Invista em silêncio e introspecção.' },
+    { name:'O Carro',        emoji:'⚡', msg:'Movimento decisivo. Você está no controle — dirija com propósito.' },
+    { name:'A Imperatriz',   emoji:'🌸', msg:'Abundância, criatividade e cuidado. Nutra o que quer que cresça.' },
+    { name:'O Julgamento',   emoji:'🎺', msg:'Uma transformação profunda se completa. Solte o que foi — renasça.' },
+    { name:'A Lua',          emoji:'🌙', msg:'Nem tudo está claro — e tudo bem. Confie no processo mesmo sem ver o fim.' },
+    { name:'O Hierofante',   emoji:'🏛️', msg:'Busque sabedoria em mestres, tradições e experiências testadas.' },
+    { name:'O Mundo',        emoji:'🌍', msg:'Ciclo completo. Celebre o que foi conquistado antes de iniciar o próximo.' },
+  ];
+  const TAROT_BY_ENERGY = {
+    positive: [0,1,2,3,6,7,11],  // índices acima
+    negative: [8,5,9,4],
+    mixed:    [2,3,6,4],
+    neutral:  [5,9,1,10],
+  };
+  function getMonthTarot(energy, monthIdx) {
+    const pool = TAROT_BY_ENERGY[energy] || TAROT_BY_ENERGY.neutral;
+    return TAROT_CARDS[pool[monthIdx % pool.length]];
+  }
+
+  // ── Semester overview ─────────────────────────────────────────
+  function buildSemesterOverview(today) {
+    const rows = [];
+    let mercuryRetroFound = false;
+    let eclipseFound = false;
+
+    for (let m = 1; m <= 6; m++) {
+      const d = new Date(today.getFullYear(), today.getMonth() + m, 15);
+      const yr = d.getFullYear(), mo = d.getMonth()+1;
+      const MN = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+      // Mercury retrograde
+      const retros = getMercuryRetroInMonth(yr, mo);
+      for (const r of retros) {
+        if (!mercuryRetroFound) {
+          rows.push({ icon:'☿', html:`<span class="sem-event-title">Mercúrio Retrógrado</span> — ${MN[mo-1]}/${yr}, dias ${r.from}–${r.to}. Atenção a contratos, comunicação e tecnologia.` });
+          mercuryRetroFound = true;
+        }
+      }
+
+      // Eclipses
+      const eclipses = getEclipseInMonth(yr, mo);
+      for (const e of eclipses) {
+        const label = e.type === 'solar' ? '☀️ Eclipse Solar' : '🌕 Eclipse Lunar';
+        rows.push({ icon:'🌑', html:`<span class="sem-event-title">${label}</span> — ${e.date.toLocaleDateString('pt-BR',{day:'numeric',month:'long'})}. Portão de transformação — intenções plantadas aqui têm peso especial.` });
+        eclipseFound = true;
+      }
+    }
+
+    if (!mercuryRetroFound) rows.push({ icon:'☿', html:`<span class="sem-event-title">Mercúrio</span> — sem retrogradação significativa no semestre. Comunicação e contratos favorecidos.` });
+    if (!eclipseFound)      rows.push({ icon:'🌑', html:`<span class="sem-event-title">Eclipses</span> — nenhum eclipse no período. Energias mais estáveis para projetos de longo prazo.` });
+
+    // Dominant slow planets
+    if (natalChart && natalChart.positions) {
+      try {
+        const d1 = new Date(today.getFullYear(), today.getMonth()+1, 15);
+        const d6 = new Date(today.getFullYear(), today.getMonth()+6, 15);
+        const p1 = getPlanetPositions(d1), p6 = getPlanetPositions(d6);
+        const slowPlanets = ['pluto','neptune','uranus','saturn','jupiter'];
+        const NAMES_PT = {pluto:'Plutão',neptune:'Netuno',uranus:'Urano',saturn:'Saturno',jupiter:'Júpiter'};
+        for (const pk of slowPlanets) {
+          if (p1[pk] && p6[pk]) {
+            const s1 = p1[pk].signName, s6 = p6[pk].signName;
+            if (s1 !== s6) rows.push({ icon:'🪐', html:`<span class="sem-event-title">${NAMES_PT[pk]}</span> muda de signo no semestre: ${s1} → ${s6}. Uma energia geracional se transforma.` });
+          }
+        }
+      } catch(e) {}
+    }
+
+    return rows.slice(0, 5);
+  }
+
+  // ── Non-premium gate ──────────────────────────────────────────
   if (!isPremium) {
     panel.innerHTML = `
       <div class="prev-header"><h2>📅 Previsão 6 Meses</h2><p>Leitura mensal personalizada baseada no seu mapa natal</p></div>
-      <div class="month-card energy-positive" style="opacity:.35;filter:blur(3px);pointer-events:none;user-select:none">
+      <div class="month-card energy-positive" style="opacity:.32;filter:blur(3px);pointer-events:none;user-select:none">
         <div class="month-title-row"><span class="month-name">Próximo Mês</span><span class="month-energy-badge badge-positive">✨ Expansivo</span></div>
+        <div style="font-size:.7rem;color:var(--purple3);font-weight:700;text-transform:uppercase;margin-bottom:6px">Expansão e Brilho Pessoal</div>
         <p class="month-narrative">Júpiter ativa seu mapa de forma construtiva — um período de expansão genuína. Aproveite para avançar em projetos que pedem coragem e visibilidade...</p>
         <div class="month-areas">
-          <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">Charme em alta</div><div class="area-stars">★★★★☆</div></div>
-          <div class="area-box"><div class="area-label">💼 Carreira</div><div class="area-value">Crescimento e oportunidade</div><div class="area-stars">★★★★★</div></div>
+          <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">Carisma e atratividade em alta</div><div class="area-stars">★★★★★</div></div>
+          <div class="area-box"><div class="area-label">💼 Carreira</div><div class="area-value">Crescimento e promoção</div><div class="area-stars">★★★★★</div></div>
+          <div class="area-box"><div class="area-label">💰 Finanças</div><div class="area-value">Oportunidades concretas</div><div class="area-stars">★★★★☆</div></div>
+          <div class="area-box"><div class="area-label">🌿 Saúde</div><div class="area-value">Vitalidade excepcional</div><div class="area-stars">★★★★★</div></div>
+        </div>
+        <div class="tarot-section">
+          <div class="tarot-card-mini">☀️</div>
+          <div class="tarot-info"><div class="tarot-arcano">Arcano do Mês</div><div class="tarot-msg">O Sol — Clareza, alegria e sucesso visível...</div></div>
         </div>
       </div>
       <div class="prev-lock">
         <div style="font-size:2.6rem;margin-bottom:14px">🔒</div>
         <h3 style="font-family:'Playfair Display SC',serif;font-size:1.05rem;margin-bottom:10px">Previsão Completa de 6 Meses</h3>
-        <p style="font-size:.86rem;color:var(--muted2);margin-bottom:18px;line-height:1.7">Leitura mensal personalizada com trânsitos reais do seu mapa, análise por área de vida (amor, carreira, finanças, saúde) e orientações práticas para cada mês.</p>
-        <button class="btn-unlock">⭐ Desbloquear Premium</button>
+        <p style="font-size:.86rem;color:var(--muted2);margin-bottom:4px;line-height:1.7">Acesso completo inclui:</p>
+        <ul style="font-size:.82rem;color:var(--muted2);margin:8px 0 18px;padding-left:18px;line-height:1.9">
+          <li>Leitura mensal com trânsitos reais do seu mapa natal</li>
+          <li>Previsão por área de vida (amor, carreira, finanças, saúde)</li>
+          <li>Datas de Lua Nova e Lua Cheia por mês</li>
+          <li>Arcano do Tarô com conselho por mês</li>
+          <li>Alerta de Mercúrio Retrógrado e Eclipses</li>
+          <li>Panorama completo do semestre</li>
+        </ul>
+        <button class="btn-unlock">⭐ Desbloquear — R$34,90</button>
+        <p style="font-size:.72rem;color:var(--muted);margin-top:10px">Garantia de 7 dias • Acesso imediato</p>
       </div>`;
     return;
   }
@@ -1516,11 +1713,17 @@ function renderPrevisao6Meses() {
   }
 
   const today = new Date();
+  const semRows = buildSemesterOverview(today);
+  const semHtml = semRows.map(r => `<div class="sem-row"><span class="sem-icon">${r.icon}</span><div>${r.html}</div></div>`).join('');
+
+  const MONTH_NAMES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
   let cardsHtml = '';
 
   for (let m = 0; m < 6; m++) {
     const targetDate = new Date(today.getFullYear(), today.getMonth() + m + 1, 15);
-    const monthName = MONTH_NAMES[targetDate.getMonth()] + ' ' + targetDate.getFullYear();
+    const yr = targetDate.getFullYear(), mo = targetDate.getMonth()+1;
+    const monthName = MONTH_NAMES_PT[mo-1] + ' ' + yr;
 
     let transits = [];
     try {
@@ -1528,18 +1731,31 @@ function renderPrevisao6Meses() {
       transits = getRealTransits(natalChart.positions, monthPos);
     } catch(e) { transits = []; }
 
-    const energy    = getMonthEnergy(transits);
-    const interp    = buildMonthInterp(transits, monthName);
-    const highlight = pickHighlightTransit(transits);
+    const energy  = getMonthEnergy(transits);
+    const interp  = buildMonthInterp(transits, monthName);
+    const tarot   = getMonthTarot(energy, m);
+    const phases  = moonPhases(yr, mo);
+    const retros  = getMercuryRetroInMonth(yr, mo);
 
-    // Top 3 transit rows (excluding the highlight to avoid repetition? No, keep all)
+    // Transit rows
     const transitRowsHtml = transits.slice(0,3).map(t => `
       <div class="month-transit-row">
         <span class="mt-icon">${t.icon}</span>
-        <div><strong>${t.title}</strong><br><span style="font-size:.73rem;color:var(--purple3)">${t.tech}</span></div>
+        <div><strong>${t.title}</strong><br><span style="font-size:.72rem;color:var(--purple3)">${t.tech}</span></div>
       </div>`).join('');
 
-    // Area stars from transits
+    // Moon phase dates
+    const phaseDatesFmt = phases.map(p => {
+      const label = p.type==='new' ? '🌑 Lua Nova' : '🌕 Lua Cheia';
+      const dt = p.date.toLocaleDateString('pt-BR',{day:'numeric',month:'short'});
+      return `<div class="month-date-row"><span class="moon-icon">${p.type==='new'?'🌑':'🌕'}</span><span>${label} — ${dt}</span></div>`;
+    }).join('');
+
+    const retroHtml = retros.length > 0
+      ? retros.map(r=>`<div class="month-date-row"><span class="moon-icon">☿</span><span style="color:#f59e0b;font-weight:600">Mercúrio Retrógrado — dias ${r.from}–${r.to}. Atenção a contratos e comunicação.</span></div>`).join('')
+      : '';
+
+    // 4-area grid
     const areasHtml = `
       <div class="month-areas">
         <div class="area-box"><div class="area-label">❤️ Amor</div><div class="area-value">${interp.love}</div><div class="area-stars">${STAR_RATING[energy]}</div></div>
@@ -1554,10 +1770,21 @@ function renderPrevisao6Meses() {
           <span class="month-name">${monthName}</span>
           <span class="month-energy-badge ${BADGE_CLS[energy]}">${ENERGY_LABEL[energy]}</span>
         </div>
-        <div style="font-size:.7rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">${interp.theme}</div>
+        <div style="font-size:.68rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">${interp.theme}</div>
         <p class="month-narrative">${interp.narrative}</p>
         ${transitRowsHtml ? `<div class="month-transits">${transitRowsHtml}</div>` : ''}
         ${areasHtml}
+        <div class="month-dates-section">
+          <div class="month-dates-title">📅 Datas importantes</div>
+          ${phaseDatesFmt}${retroHtml}
+        </div>
+        <div class="tarot-section">
+          <div class="tarot-card-mini">${tarot.emoji}</div>
+          <div class="tarot-info">
+            <div class="tarot-arcano">Arcano do Mês — ${tarot.name}</div>
+            <div class="tarot-msg">${tarot.msg}</div>
+          </div>
+        </div>
       </div>`;
   }
 
@@ -1565,6 +1792,10 @@ function renderPrevisao6Meses() {
     <div class="prev-header">
       <h2>📅 Previsão 6 Meses</h2>
       <p>Leitura personalizada baseada no seu mapa natal</p>
+    </div>
+    <div class="semester-overview">
+      <h3>🗓️ Destaques do Semestre</h3>
+      ${semHtml || '<div class="sem-row"><span class="sem-icon">✨</span><div>Semestre sem grandes perturbações planetárias — energia mais estável para projetos de longo prazo.</div></div>'}
     </div>
     ${cardsHtml}`;
 }
