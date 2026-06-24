@@ -102,7 +102,9 @@ input:focus,select:focus{border-color:var(--purple2);box-shadow:0 0 0 3px rgba(1
 select option{background:#171732;}
 .btn-primary{width:100%;margin-top:8px;padding:15px;background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;border-radius:var(--radius-sm);color:white;font-size:1rem;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.03em;box-shadow:0 4px 20px rgba(124,63,228,.35);font-family:'Lora', serif;}
 .btn-primary:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 6px 26px rgba(124,63,228,.45);}
-.resumo-date{font-size:.8rem;color:var(--muted);margin-bottom:18px;text-transform:capitalize;}
+.resumo-header{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.resumo-date{font-size:1rem;color:var(--gold,#c8973a);margin-bottom:16px;text-transform:capitalize;font-weight:700;letter-spacing:.01em;}
+.resumo-badge{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.25);border-radius:20px;padding:2px 8px;margin-left:8px;vertical-align:middle;font-weight:600;}
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
 .summary-box{background:var(--card2);border-radius:var(--radius);padding:20px;border:1px solid var(--border2);box-shadow:var(--shadow-card);}
 .summary-box.positive{border-color:rgba(63,207,142,.2);background:rgba(63,207,142,.03);}
@@ -1112,11 +1114,74 @@ function renderNatalSidebar(natal) {
 }
 
 // ══════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════
+// DAILY FOCUS — rotação por dia da semana (0=Dom … 6=Sab)
+// ══════════════════════════════════════════════════════════════════
+const DAILY_FOCUS = {
+  amor: [
+    'Domingo convida à renovação afetiva — momentos de calma juntos valem mais do que grandes gestos.',
+    'A energia de segunda ativa conversas honestas. O que ficou por dizer merece espaço hoje.',
+    'Marte acende a paixão nesta terça. Espontaneidade e leveza são os ingredientes do dia.',
+    'Quarta traz profundidade emocional. Olhe além da superfície nos seus relacionamentos.',
+    'Júpiter expande o coração nesta quinta. Generosidade afetiva abre portas inesperadas.',
+    'Vênus governa esta sexta com graça. O amor floresce quando você age com autenticidade.',
+    'Sábado é dia de celebrar conexões. Um gesto simples de carinho pode transformar o dia.',
+  ],
+  dinheiro: [
+    'Domingo é dia de revisar, não de decidir. Analise as contas com calma antes da semana começar.',
+    'Segunda ativa o planejamento financeiro. Organize prioridades antes de assumir novos compromissos.',
+    'Mercúrio facilita negociações nesta terça. Uma proposta bem apresentada encontra terreno fértil.',
+    'Quarta pede foco em produtividade. Projetos em andamento pedem atenção antes de novos começos.',
+    'Quinta é propícia para expansão. Oportunidades de crescimento aparecem para quem está atento.',
+    'Sexta ativa o networking. Conexões feitas hoje podem gerar resultados financeiros em breve.',
+    'Sábado convida à reflexão sobre propósito. O que motiva seu trabalho além do dinheiro?',
+  ],
+  familia: [
+    'Domingo é o dia da família por excelência. Uma refeição compartilhada cria memórias duradouras.',
+    'Segunda traz rotinas que conectam. Pequenos rituais familiares constroem vínculos sólidos.',
+    'Terça ativa a comunicação familiar. Uma conversa pendente pode ser iniciada com leveza hoje.',
+    'Quarta convida a olhar para as necessidades alheias. Quem próximo de você precisa de apoio?',
+    'Quinta expande os laços afetivos. Um gesto de apoio a um parente reforça o que é essencial.',
+    'Sexta libera a leveza nas relações. Humor e descontração fortalecem vínculos familiares.',
+    'Sábado é para celebrar. Planejar um momento com quem você ama traz alegria genuína.',
+  ],
+  saude: [
+    'Domingo é dia de restauração. Sono reparador e alimentação consciente preparam a semana.',
+    'Segunda reinicia o corpo. Um hábito saudável inserido agora tende a se manter durante a semana.',
+    'Terça ativa a energia física. Exercício de alta intensidade encontra o corpo receptivo hoje.',
+    'Quarta pede equilíbrio. Alternância entre ação e descanso é o segredo da vitalidade hoje.',
+    'Quinta amplia o bem-estar. Atividades ao ar livre e contato com a natureza são especialmente benéficos.',
+    'Sexta convida a relaxar a tensão acumulada. Massagem, alongamento ou banho quente fazem maravilhas.',
+    'Sábado é para cuidar de si. Dedique tempo a uma prática de bem-estar que costuma adiar.',
+  ],
+  espiritualidade: [
+    'Domingo abre o canal espiritual. Silêncio, meditação ou contato com a natureza elevam a vibração.',
+    'Segunda inicia ciclos. Uma intenção clara definida hoje energiza toda a semana.',
+    'Terça ativa a ação consciente. Espiritualidade se manifesta no modo como você trata os outros.',
+    'Quarta é dia de introspecção. O que você aprende no silêncio vale mais do que mil palavras.',
+    'Quinta expande a perspectiva espiritual. Um livro, conversa ou prática nova podem revelar algo valioso.',
+    'Sexta convida à gratidão. Listar o que você tem de bom muda a frequência energética do dia.',
+    'Sábado é de renovação. Um ritual simples — acender uma vela, respirar fundo — conecta você ao sagrado.',
+  ],
+  periodo: [
+    'Este domingo marca um momento de pausa necessária antes de novos ciclos começarem.',
+    'A semana se abre com potencial renovado. As escolhas de segunda-feira definem o ritmo dos próximos dias.',
+    'Esta terça intensifica a fase atual com energia de Marte — ação e iniciativa estão favorecidas.',
+    'A meio da semana, Mercúrio convida a revisitar planos e ajustar rotas com clareza.',
+    'Quinta amplifica o ciclo em que você se encontra, com a generosidade de Júpiter no horizonte.',
+    'Vênus marca esta sexta com uma nota harmoniosa no período atual — momentos de beleza e conexão.',
+    'O sábado encerra a semana com um convite de Saturno: o que você colheu? O que ainda precisa cultivar?',
+  ],
+};
+
 // RENDER: RESUMO
 // ══════════════════════════════════════════════════════════════════
 function renderResumo(sk) {
   const acc = ACCORDIONS[sk] || ACCORDIONS.aries;
   const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  const _dayIdx = new Date().getDay();
+  const _df = (key) => (DAILY_FOCUS[key] || DAILY_FOCUS.periodo)[_dayIdx];
   const categories = [
     { key:'amor',            icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="9" r="6" fill="none" stroke="#e08090" stroke-width="2.5"/><line x1="12" y1="15" x2="12" y2="22" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="19" x2="16" y2="19" stroke="#e08090" stroke-width="2.5" stroke-linecap="round"/></svg>', label:'Amor e Relacionamentos',  color:'#f472b6', bg:'rgba(244,114,182,0.08)' },
     { key:'dinheiro',        icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><line x1="16" y1="4" x2="16" y2="20" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><path d="M10 4 L10 12 Q5 12 5 8 Q5 4 10 4" fill="none" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/><line x1="4" y1="12" x2="20" y2="12" stroke="#c8973a" stroke-width="2.5" stroke-linecap="round"/></svg>', label:'Dinheiro e Carreira',      color:'#facc15', bg:'rgba(250,204,21,0.08)'  },
@@ -1126,6 +1191,7 @@ function renderResumo(sk) {
     { key:'periodo',         icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4.5" fill="#e8b550"/><circle cx="12" cy="12" r="7" fill="none" stroke="#e8b550" stroke-width="1.5" opacity="0.5"/><line x1="12" y1="2" x2="12" y2="5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="22" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="5" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="12" x2="22" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="5.5" y1="5.5" x2="7.6" y2="7.6" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="16.4" y1="16.4" x2="18.5" y2="18.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="5.5" y1="18.5" x2="7.6" y2="16.4" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="16.4" y1="7.6" x2="18.5" y2="5.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/></svg>', label:'O seu período atual',      color:'#60a5fa', bg:'rgba(96,165,250,0.08)'  },
   ];
   document.getElementById('panel-resumo').innerHTML = `
+    <div class="resumo-header">⭐ Horóscopo do dia <span class="resumo-badge">🔄 Atualizado diariamente</span></div>
     <div class="resumo-date">📅 ${today}</div>
     <div class="summary-grid">
       <div class="summary-box positive">
@@ -1145,7 +1211,7 @@ function renderResumo(sk) {
           <div class="acc-chevron">▼</div>
         </div>
         <div class="accordion-body">
-          <div class="accordion-content"><p>${acc[c.key]}</p></div>
+          <div class="accordion-content"><p><em style="color:var(--muted);font-size:.88em">${_df(c.key)}</em><br><br>${acc[c.key]}</p></div>
         </div>
       </div>`).join('')}
     <div class="feedback-bar">
