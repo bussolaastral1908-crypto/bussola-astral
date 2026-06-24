@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Redefinir Senha — Bússola Astral</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display+SC:wght@400&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bg:#09060f;--surface:rgba(18,9,32,.95);
+  --purple1:#7c3fe4;--purple2:#a06ff0;--purple3:#c9a7ff;
+  --gold:#d4a853;--green:#22c55e;--red:#ef4444;
+  --text:#e8e0f0;--muted:#9a8db0;--muted2:#c4b8d8;
+  --border:rgba(124,63,228,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;
+  background-image:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(124,63,228,.12),transparent 60%);}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:400px;text-align:center;}
+
+.logo{font-family:'Cinzel',serif;font-weight:700;color:var(--gold);font-size:1rem;text-decoration:none;display:block;margin-bottom:1.8rem;letter-spacing:.06em;}
+
+/* States */
+.state{display:none;}
+.state.active{display:block;}
+
+/* Loading */
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--purple2);border-radius:50%;animation:spin 1s linear infinite;margin:1rem auto;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.state-title{font-family:'Playfair Display SC',serif;font-size:1.3rem;color:var(--gold);margin-bottom:.5rem;}
+.state-sub{font-size:.88rem;color:var(--muted2);line-height:1.8;margin-bottom:1.2rem;}
+
+/* Form */
+.form-group{margin-bottom:1rem;text-align:left;}
+.form-group label{display:block;font-family:'Cinzel',serif;font-size:.65rem;color:var(--purple3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+.form-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.65rem .9rem;color:var(--text);font-size:.95rem;outline:none;font-family:'EB Garamond',serif;transition:border-color .2s;}
+.form-input:focus{border-color:var(--purple2);}
+.form-input::placeholder{color:var(--muted);}
+.strength-bar{height:4px;border-radius:2px;margin-top:.4rem;background:rgba(255,255,255,.07);overflow:hidden;}
+.strength-fill{height:4px;border-radius:2px;width:0%;transition:width .3s,background .3s;}
+.strength-label{font-size:.68rem;color:var(--muted);margin-top:.3rem;text-align:right;}
+
+.btn{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--purple1),#5b21b6);color:#fff;font-family:'Cinzel',serif;font-weight:700;font-size:.88rem;letter-spacing:.06em;border:none;border-radius:10px;cursor:pointer;transition:opacity .2s;margin-top:.5rem;}
+.btn:hover:not(:disabled){opacity:.88;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#a07020);color:#1a0a00;margin-top:1rem;}
+
+.alert{padding:.7rem .9rem;border-radius:8px;font-size:.8rem;margin-bottom.8rem;display:none;margin-bottom:.8rem;}
+.alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
+.alert.success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86efac;}
+
+.back-link{display:block;margin-top:1.2rem;font-size:.78rem;color:var(--muted);text-decoration:none;transition:color .2s;}
+.back-link:hover{color:var(--purple3);}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <a class="logo" href="/">✦ Bússola Astral</a>
+
+  <!-- Loading -->
+  <div class="state active" id="state-loading">
+    <div class="spinner"></div>
+    <p style="font-size:.85rem;color:var(--muted)">Verificando link de recuperação…</p>
+  </div>
+
+  <!-- Form: new password -->
+  <div class="state" id="state-form">
+    <div class="state-title">Nova senha</div>
+    <p class="state-sub">Escolha uma senha segura para sua conta.</p>
+    <div class="alert error" id="err-msg"></div>
+    <div class="form-group">
+      <label>Nova senha</label>
+      <input class="form-input" id="new-pass" type="password" placeholder="Mínimo 8 caracteres" oninput="checkStrength(this.value)">
+      <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+      <div class="strength-label" id="strength-label"></div>
+    </div>
+    <div class="form-group">
+      <label>Confirmar senha</label>
+      <input class="form-input" id="confirm-pass" type="password" placeholder="Repita a senha">
+    </div>
+    <button class="btn" id="btn-save" onclick="savePassword()">Salvar nova senha</button>
+    <a class="back-link" href="/login.html">← Voltar ao login</a>
+  </div>
+
+  <!-- Success -->
+  <div class="state" id="state-success">
+    <div style="font-size:2.2rem;margin-bottom:.8rem">✅</div>
+    <div class="state-title">Senha redefinida!</div>
+    <p class="state-sub">Sua senha foi atualizada com sucesso. Clique abaixo para acessar seu mapa astral.</p>
+    <a href="/horoscopo.html" class="btn btn-gold" style="display:block;text-decoration:none;padding:.85rem">✦ Acessar meu mapa</a>
+  </div>
+
+  <!-- Error: invalid/expired link -->
+  <div class="state" id="state-error">
+    <div style="font-size:2rem;margin-bottom:.8rem">⚠️</div>
+    <div class="state-title" style="font-size:1.1rem">Link inválido ou expirado</div>
+    <p class="state-sub">O link de recuperação já foi usado ou expirou. Solicite um novo.</p>
+    <a href="/login.html" class="btn" style="display:block;text-decoration:none;padding:.85rem">Solicitar novo link</a>
+  </div>
+</div>
+
+<script>
+const SUPA_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
+const db = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+function show(id){
+  document.querySelectorAll('.state').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Supabase v2: listen for PASSWORD_RECOVERY event
+// The SDK auto-detects the hash tokens from the URL
+db.auth.onAuthStateChange(async (event, session) => {
+  if(event === 'PASSWORD_RECOVERY'){
+    show('state-form');
+  } else if(event === 'SIGNED_IN' && session){
+    // Already handled — do nothing extra here
+  }
+});
+
+// Fallback: if no event fires within 4s, check URL hash manually
+setTimeout(()=>{
+  const hash = window.location.hash;
+  const currentState = document.querySelector('.state.active')?.id;
+  if(currentState === 'state-loading'){
+    // Still loading — check if there's a code in URL (PKCE flow)
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if(code){
+      // PKCE flow — exchange code for session
+      db.auth.exchangeCodeForSession(code).then(({data, error})=>{
+        if(error || !data?.session) show('state-error');
+        else show('state-form');
+      });
+    } else if(hash.includes('type=recovery') || hash.includes('access_token')){
+      show('state-form');
+    } else {
+      show('state-error');
+    }
+  }
+}, 3000);
+
+function checkStrength(val){
+  const fill = document.getElementById('strength-fill');
+  const label = document.getElementById('strength-label');
+  let score = 0;
+  if(val.length >= 8) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+  const colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+  const labels = ['Muito fraca','Fraca','Boa','Forte'];
+  const pct = [25,50,75,100];
+  fill.style.width = val.length ? pct[score-1]+'%' : '0%';
+  fill.style.background = val.length ? colors[score-1] : 'transparent';
+  label.textContent = val.length ? labels[score-1] : '';
+}
+
+async function savePassword(){
+  const pass = document.getElementById('new-pass').value;
+  const confirm = document.getElementById('confirm-pass').value;
+  const errEl = document.getElementById('err-msg');
+  errEl.style.display='none';
+
+  if(pass.length < 8){ errEl.textContent='A senha precisa ter pelo menos 8 caracteres.'; errEl.style.display='block'; return; }
+  if(pass !== confirm){ errEl.textContent='As senhas não coincidem.'; errEl.style.display='block'; return; }
+
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true; btn.textContent = 'Salvando…';
+
+  const {error} = await db.auth.updateUser({password: pass});
+  if(error){
+    errEl.textContent = error.message || 'Erro ao atualizar senha. Tente novamente.';
+    errEl.style.display='block';
+    btn.disabled=false; btn.textContent='Salvar nova senha';
+  } else {
+    show('state-success');
+  }
+}
+</script>
+</body>
+</html>
