@@ -208,7 +208,7 @@ async function sendReset(){
   if(!email){el.textContent='Informe seu email.';el.className='alert bad';return}
   const btn=document.getElementById('btnReset');
   btn.disabled=true;btn.textContent='Enviando...';
-  const{error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/horoscopo.html'});
+  const{error}=await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/redefinir-senha.html'});
   if(error){el.textContent='Erro: '+error.message;el.className='alert bad';}
   else{el.textContent='✓ Link enviado! Verifique seu email.';el.className='alert ok';}
   btn.disabled=false;btn.textContent='Enviar link';
