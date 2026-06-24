@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Compatibilidade entre Signos no Amor — Bússola Astral</title>
+<meta name="description" content="Descubra se você e seu par são compatíveis no amor. Selecione os dois signos e veja a análise completa de compatibilidade astrológica.">
+<link rel="canonical" href="https://www.bussolaastral.com/compatibilidade.html">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display+SC:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09060f;--bg2:#0f0a1e;--surface:rgba(18,9,32,.92);
+  --purple1:#7c3fe4;--purple2:#a06ff0;--purple3:#c9a7ff;
+  --gold:#d4a853;--gold2:#f0c060;
+  --green:#22c55e;--red:#ef4444;--rose:#f472b6;
+  --text:#e8e0f0;--muted:#9a8db0;--muted2:#c4b8d8;
+  --border:rgba(124,63,228,.22);--border2:rgba(124,63,228,.38);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-height:100vh;overflow-x:hidden;}
+
+/* Stars */
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s);}
+@keyframes twinkle{0%,100%{opacity:.08}50%{opacity:.7}}
+
+/* Topbar */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(9,6,15,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.topbar-logo{font-family:'Cinzel',serif;font-weight:700;color:var(--gold);font-size:.9rem;text-decoration:none;display:flex;align-items:center;gap:8px;}
+.topbar-logo img{height:26px;width:auto;}
+.topbar-links{display:flex;gap:20px;align-items:center;}
+.topbar-links a{font-family:'Cinzel',serif;font-size:.68rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.topbar-links a:hover{color:var(--purple3);}
+
+/* Hero */
+.hero{padding:7rem 1.5rem 2.5rem;text-align:center;position:relative;z-index:1;
+  background:radial-gradient(ellipse 90% 40% at 50% 0%,rgba(244,114,182,.08),transparent 55%);}
+.hero-tag{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.18em;color:var(--rose);text-transform:uppercase;border:1px solid rgba(244,114,182,.25);padding:.3rem .9rem;border-radius:20px;display:inline-block;margin-bottom:1rem;}
+.hero h1{font-family:'Playfair Display SC',serif;font-size:clamp(1.8rem,5vw,3rem);color:var(--gold);line-height:1.2;margin-bottom:.7rem;}
+.hero-sub{font-size:1rem;color:var(--muted2);max-width:520px;margin:0 auto;line-height:1.9;}
+
+/* Main card */
+.main-wrap{max-width:800px;margin:0 auto;padding:0 1.5rem 4rem;position:relative;z-index:1;}
+
+/* Selector */
+.selector-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:2.5rem;margin-bottom:1.5rem;
+  box-shadow:0 0 60px rgba(244,114,182,.06);}
+.selector-row{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-bottom:1.8rem;}
+.vs-badge{font-family:'Cinzel',serif;font-size:.9rem;color:var(--rose);text-align:center;font-weight:700;background:rgba(244,114,182,.1);border:1px solid rgba(244,114,182,.25);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin:0 auto;}
+.sign-picker label{font-family:'Cinzel',serif;font-size:.65rem;color:var(--purple3);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:.6rem;text-align:center;}
+.sign-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.sign-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.5rem .3rem;cursor:pointer;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.sign-btn:hover{border-color:var(--purple2);background:rgba(124,63,228,.12);}
+.sign-btn.selected{border-color:var(--rose);background:rgba(244,114,182,.12);box-shadow:0 0 12px rgba(244,114,182,.2);}
+.sign-glyph{font-size:1.3rem;line-height:1;}
+.sign-name{font-family:'Cinzel',serif;font-size:.52rem;color:var(--muted);letter-spacing:.04em;}
+.sign-btn.selected .sign-name{color:var(--rose);}
+
+.btn-calcular{width:100%;padding:.9rem;background:linear-gradient(135deg,#be185d,#9d174d);color:#fff;font-family:'Cinzel',serif;font-weight:700;font-size:.9rem;letter-spacing:.08em;border:none;border-radius:12px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.btn-calcular:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(244,114,182,.35);}
+.btn-calcular:disabled{opacity:.4;cursor:not-allowed;}
+.btn-calcular .heart{font-size:1rem;}
+
+/* Result card */
+.result-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:2.5rem;margin-top:1.5rem;display:none;animation:fadeUp .5s ease-out;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Score ring */
+.score-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:2rem;}
+.ring-container{position:relative;width:140px;height:140px;margin-bottom:1rem;}
+.ring-svg{width:140px;height:140px;transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.07);stroke-width:10;}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1);stroke-dasharray:345;}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-pct{font-family:'Cinzel',serif;font-size:2.2rem;font-weight:900;line-height:1;}
+.ring-sub{font-size:.65rem;color:var(--muted);letter-spacing:.08em;font-family:'Cinzel',serif;}
+.pairing-signs{font-size:2rem;margin-bottom:.3rem;letter-spacing:8px;}
+.pairing-title{font-family:'Playfair Display SC',serif;font-size:1.3rem;color:var(--gold);margin-bottom:.3rem;text-align:center;}
+.pairing-tag{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;padding:.3rem .8rem;border-radius:12px;display:inline-block;}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:1.8rem 0;}
+.metric{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:1rem;}
+.metric-label{font-family:'Cinzel',serif;font-size:.65rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:6px;}
+.metric-bar-bg{height:6px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
+.metric-bar{height:6px;border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1);width:0%;}
+.metric-val{font-family:'Cinzel',serif;font-size:.8rem;color:var(--text);margin-top:.5rem;font-weight:700;}
+
+/* Description */
+.result-desc{font-size:.95rem;color:var(--muted2);line-height:2;margin-bottom:1.8rem;border-left:2px solid rgba(244,114,182,.3);padding-left:1rem;}
+
+/* Share + CTA */
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn-share{background:transparent;border:1px solid var(--border2);color:var(--muted2);font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.06em;padding:.75rem;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-share:hover{border-color:var(--purple3);color:var(--purple3);}
+.btn-premium{background:linear-gradient(135deg,var(--gold),#a07020);color:#1a0a00;font-family:'Cinzel',serif;font-weight:700;font-size:.75rem;letter-spacing:.06em;padding:.75rem;border-radius:10px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-premium:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,83,.3);}
+
+/* Info strip */
+.info-strip{margin-top:1.5rem;background:rgba(124,63,228,.06);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;font-size:.8rem;color:var(--muted);line-height:1.8;text-align:center;}
+.info-strip strong{color:var(--muted2);}
+
+/* FAQ mini */
+.faq-mini{margin-top:2rem;}
+.faq-mini h3{font-family:'Playfair Display SC',serif;font-size:1.1rem;color:var(--gold);margin-bottom:1rem;text-align:center;}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+.faq-q{padding:.9rem 1.1rem;font-size:.85rem;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.faq-q:hover{color:var(--purple3);}
+.faq-arrow{font-size:.65rem;color:var(--purple3);transition:transform .2s;}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{display:none;padding:0 1.1rem .9rem;font-size:.83rem;color:var(--muted2);line-height:1.9;border-top:1px solid var(--border);}
+.faq-item.open .faq-a{display:block;}
+
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:.75rem;color:var(--muted);position:relative;z-index:1;}
+footer a{color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--purple3);}
+
+@media(max-width:580px){
+  .selector-row{grid-template-columns:1fr;gap:12px;}
+  .vs-badge{display:none;}
+  .sign-grid{grid-template-columns:repeat(3,1fr);}
+  .metrics{grid-template-columns:1fr;}
+  .result-actions{grid-template-columns:1fr;}
+  .topbar-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="topbar">
+  <a class="topbar-logo" href="/"><img src="/logotipo.png" alt="Bússola Astral"> Bússola Astral</a>
+  <div class="topbar-links">
+    <a href="/horoscopo.html">Meu Mapa</a>
+    <a href="/tarot.html">Tarot</a>
+    <a href="/premium.html">Premium</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">💕 Compatibilidade amorosa</div>
+  <h1>Você e ela(e) combinam?</h1>
+  <p class="hero-sub">Selecione os dois signos e descubra o que os astros dizem sobre essa união — amor, paixão, comunicação e futuro.</p>
+</div>
+
+<div class="main-wrap">
+
+  <div class="selector-card">
+    <div class="selector-row">
+      <div class="sign-picker">
+        <label>Seu signo</label>
+        <div class="sign-grid" id="grid-a"></div>
+      </div>
+      <div><div class="vs-badge">VS</div></div>
+      <div class="sign-picker">
+        <label>Signo do par</label>
+        <div class="sign-grid" id="grid-b"></div>
+      </div>
+    </div>
+    <button class="btn-calcular" id="btn-calc" disabled onclick="calcular()">
+      <span class="heart">💕</span> Ver Compatibilidade
+    </button>
+  </div>
+
+  <div class="result-card" id="result-card">
+    <div class="score-wrap">
+      <div class="ring-container">
+        <svg class="ring-svg" viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="54"/>
+          <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="54" stroke-dashoffset="345"/>
+        </svg>
+        <div class="ring-label">
+          <span class="ring-pct" id="ring-pct">0%</span>
+          <span class="ring-sub">MATCH</span>
+        </div>
+      </div>
+      <div class="pairing-signs" id="pairing-signs">♈ ♌</div>
+      <div class="pairing-title" id="pairing-title">—</div>
+      <span class="pairing-tag" id="pairing-tag">—</span>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">❤️ Amor</div>
+        <div class="metric-bar-bg"><div class="metric-bar" id="bar-amor" style="background:linear-gradient(90deg,#f472b6,#ec4899)"></div></div>
+        <div class="metric-val" id="val-amor">—</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">🔥 Paixão</div>
+        <div class="metric-bar-bg"><div class="metric-bar" id="bar-paixao" style="background:linear-gradient(90deg,#f97316,#ea580c)"></div></div>
+        <div class="metric-val" id="val-paixao">—</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">💬 Comunicação</div>
+        <div class="metric-bar-bg"><div class="metric-bar" id="bar-comm" style="background:linear-gradient(90deg,#a06ff0,#7c3fe4)"></div></div>
+        <div class="metric-val" id="val-comm">—</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">🌙 Longo Prazo</div>
+        <div class="metric-bar-bg"><div class="metric-bar" id="bar-futuro" style="background:linear-gradient(90deg,#d4a853,#a07020)"></div></div>
+        <div class="metric-val" id="val-futuro">—</div>
+      </div>
+    </div>
+
+    <div class="result-desc" id="result-desc">—</div>
+
+    <div class="result-actions">
+      <button class="btn-share" onclick="compartilhar()">📤 Compartilhar resultado</button>
+      <a href="/premium.html" class="btn-premium">✦ Ver meu mapa completo</a>
+    </div>
+  </div>
+
+  <div class="info-strip">
+    <strong>Dica:</strong> A compatibilidade por signo solar é apenas uma camada da análise. No mapa astral completo, Ascendente, Vênus e Marte revelam muito mais sobre como você ama — e por que atrai quem atrai.
+  </div>
+
+  <div class="faq-mini">
+    <h3>Perguntas frequentes</h3>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Signos "incompatíveis" nunca dão certo? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Não. O signo solar é apenas um dos fatores. Pessoas com Vênus, Marte ou Ascendente compatíveis podem ter uma relação excelente mesmo com signos solares desafiadores. A análise aqui é uma visão geral, não um veredicto.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">O que é Vênus no mapa astral? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Vênus representa como você ama, o que você atrai e o que busca em um relacionamento. No Premium da Bússola, você vê o posicionamento de Vênus no seu mapa com interpretação completa.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Por que dois Escorpiões podem ser tão intensos juntos? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Signos iguais tendem a se entender profundamente mas também potencializam os pontos negativos um do outro. Escorpião + Escorpião = profundidade máxima, mas também ciúme e poder em dobro. A intensidade vai depender dos outros planetas natais.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Bússola Astral &nbsp;·&nbsp;
+  <a href="/horoscopo.html">Meu Horóscopo</a> &nbsp;·&nbsp;
+  <a href="/tarot.html">Tarot</a> &nbsp;·&nbsp;
+  <a href="/mapas-famosos.html">Mapas Famosos</a>
+</footer>
+
+<script>
+// ── SIGNS ──────────────────────────────────────────────────────
+const SIGNS = [
+  {name:'Áries',    glyph:'♈', el:'fogo'},
+  {name:'Touro',    glyph:'♉', el:'terra'},
+  {name:'Gêmeos',   glyph:'♊', el:'ar'},
+  {name:'Câncer',   glyph:'♋', el:'água'},
+  {name:'Leão',     glyph:'♌', el:'fogo'},
+  {name:'Virgem',   glyph:'♍', el:'terra'},
+  {name:'Libra',    glyph:'♎', el:'ar'},
+  {name:'Escorpião',glyph:'♏', el:'água'},
+  {name:'Sagitário',glyph:'♐', el:'fogo'},
+  {name:'Capricórnio',glyph:'♑',el:'terra'},
+  {name:'Aquário',  glyph:'♒', el:'ar'},
+  {name:'Peixes',   glyph:'♓', el:'água'},
+];
+
+// ── COMPATIBILITY DATA ─────────────────────────────────────────
+// 12×12 matrix [a][b] — symmetric, only need upper triangle
+// Fields: score, amor, paixao, comm, futuro, title, tag, desc
+// Tag colors: 🔴 desafiador | 🟡 possível | 🟢 harmonioso | 💜 intenso | 💕 apaixonante | ⭐ ideal
+const C = {};
+
+function pair(a,b,score,amor,paixao,comm,futuro,title,tag,tagColor,desc){
+  const k=`${Math.min(a,b)}-${Math.max(a,b)}`;
+  C[k]={score,amor,paixao,comm,futuro,title,tag,tagColor,desc};
+}
+
+// ÁRIES (0) combos
+pair(0,0,78,75,92,62,60,'Dois Guerreiros','Explosivo e apaixonante','#dc2626','Dois Áries juntos é pura energia bruta. A paixão é imediata e intensa, mas a teimosia de ambos cria choques constantes. Funciona se cada um aprender a ceder. A aventura está garantida — a estabilidade, nem tanto.');
+pair(0,1,58,55,72,48,52,'Fogo e Terra','Desafiador','#b45309','Áries e Touro operam em velocidades completamente diferentes. Áries quer tudo agora; Touro precisa de tempo. A atração inicial pode existir, mas a longo prazo a impaciência de Áries e a teimosia de Touro se chocam. Requer muito esforço mútuo.');
+pair(0,2,85,82,80,90,72,'Faísca Intelectual','Muito compatível','#7c3fe4','Áries e Gêmeos se divertem muito juntos. Gêmeos alimenta a mente de Áries enquanto Áries dá a energia que Gêmeos precisa para sair das ideias e agir. A comunicação é excelente e a paixão tem vida longa nessa dupla.');
+pair(0,3,52,55,65,42,45,'Impulso vs Sensibilidade','Desafiador','#b45309','Áries é direto e às vezes rude — e Câncer é profundamente sensível. As intenções de Áries são boas, mas frequentemente machucam Câncer sem querer. Precisa de paciência enorme dos dois lados para funcionar.');
+pair(0,4,92,90,95,80,82,'Dois Reis','Casal de fogo','#dc2626','Áries e Leão formam um dos casais mais magnéticos do zodíaco. Ambos são apaixonados, corajosos e amam ser admirados. A competição por atenção pode criar atrito, mas o respeito mútuo e a intensidade da paixão mantêm tudo vivo.');
+pair(0,5,50,48,58,45,48,'Choque de Mundos','Difícil','#b45309','Áries age por impulso; Virgem analisa cada detalhe. A crítica de Virgem frustra Áries, e o caos de Áries deixa Virgem ansiosa. Podem aprender muito um com o outro, mas a convivência diária exige sacrifícios.');
+pair(0,6,88,85,82,88,78,'Opostos que Atraem','Muito compatível','#7c3fe4','Áries e Libra são opostos no zodíaco — e se atraem magneticamente. Áries dá decisão onde Libra hesita; Libra dá diplomacia onde Áries é bruto. Quando funcionam, são complementares de um jeito raro.');
+pair(0,7,75,72,92,58,55,'Poder e Intensidade','Intenso','#6d28d9','Áries e Escorpião são regidos por Marte — a paixão é animal, instintiva. Mas Escorpião é muito mais complexo e intenso do que Áries consegue acompanhar. O ciúme de Escorpião enlouquece Áries. Alta voltagem, alto risco.');
+pair(0,8,90,88,92,82,85,'Aventura Sem Fim','Ideal','#15803d','Áries e Sagitário são dois dos signos mais energéticos do zodíaco. Adoram aventura, liberdade e não têm medo de se comprometer de verdade quando encontram alguém à altura. Essa dupla literalmente não para.');
+pair(0,9,55,52,60,50,58,'Impulso vs Estrutura','Desafiador','#b45309','Áries é impulsivo e Capricórnio é calculado. Há respeito mútuo pela ambição, mas os métodos são opostos. Áries quer queimar etapas; Capricórnio não abre mão do processo. Podem funcionar no trabalho, mas no amor exige esforço.');
+pair(0,10,82,78,80,88,72,'Rebeldes Juntos','Harmonioso','#166534','Áries e Aquário compartilham o amor por independência e originalidade. Aquário fascina Áries com suas ideias; Áries dá ação ao que Aquário só planeja. A liberdade que ambos precisam é respeitada nessa dupla.');
+pair(0,11,65,68,72,55,58,'Fogo e Mar','Possível','#92400e','Áries é impetuoso; Peixes é sonhador. Peixes admira a coragem de Áries; Áries é encantado pela profundidade de Peixes. O problema é que Áries pode ser insensível demais para a natureza delicada de Peixes.');
+
+// TOURO (1) combos
+pair(1,1,80,80,75,65,85,'Dois Sensuais','Estável e sensual','#7c3fe4','Dois Touros entendem perfeitamente a necessidade do outro por segurança, prazer e rotina. A vida a dois é confortável e luxuosa — mas pode estagnar. A teimosia dobrada é o maior obstáculo. Quando concordam, é perfeito; quando discordam, é uma batalha sem fim.');
+pair(1,2,62,58,65,72,55,'Terra e Vento','Difícil','#b45309','Touro quer estabilidade; Gêmeos precisa de movimento. Gêmeos acha Touro entediante; Touro acha Gêmeos inconsistente. Podem se atrair — Gêmeos traz novidade à vida de Touro — mas construir algo duradouro é um desafio real.');
+pair(1,3,92,90,80,85,95,'Amor Verdadeiro','Ideal','#15803d','Touro e Câncer formam um dos casais mais sólidos do zodíaco. Ambos buscam segurança, lar e amor profundo. Touro oferece estabilidade material; Câncer oferece cuidado emocional. É a relação que as pessoas ao redor invejam.');
+pair(1,4,60,58,72,52,55,'Poder e Vaidade','Difícil','#b45309','Touro e Leão são dois dos signos mais teimosos. Ambos adoram o luxo e o conforto, mas brigam pelo controle da relação. Leão quer admiração; Touro quer lealdade silenciosa. Podem coexistir, mas raramente sem atrito.');
+pair(1,5,88,85,72,88,90,'Perfeição Terrena','Harmonioso','#166534','Touro e Virgem são do mesmo elemento e se entendem profundamente. Virgem aprecia a confiabilidade de Touro; Touro valoriza a dedicação de Virgem. Uma relação construída com cuidado e muito afeto prático. Pode faltar intensidade, mas não falta amor.');
+pair(1,6,65,62,70,68,62,'Prazer vs Equilíbrio','Possível','#92400e','Touro e Libra são regidos por Vênus — ambos amam beleza e romance. Mas Touro quer profundidade e Libra às vezes fica na superfície. A indecisão de Libra irrita Touro; a possessividade de Touro sufoca Libra. Bonito por fora, exige trabalho por dentro.');
+pair(1,7,85,85,88,72,82,'Profundidade Total','Muito compatível','#7c3fe4','Touro e Escorpião são opostos e se atraem inevitavelmente. A lealdade de Touro encontra a intensidade de Escorpião. A atração é magnética e física. O maior risco é o ciúme dos dois lados — ambos são possessivos.');
+pair(1,8,58,55,68,52,50,'Estabilidade vs Liberdade','Difícil','#b45309','Touro quer criar raízes; Sagitário quer voar. A filosofia de vida é oposta: Touro constrói, Sagitário explora. Podem aprender um com o outro, mas a necessidade de liberdade de Sagitário vai entrar em conflito com a necessidade de segurança de Touro.');
+pair(1,9,90,88,75,85,92,'Base de Granito','Ideal','#15803d','Touro e Capricórnio são uma das combinações mais sólidas do zodíaco. Ambos são práticos, ambiciosos e constroem com paciência. A relação pode ser menos dramática, mas é incrivelmente estável. Constroem patrimônio, família e futuro juntos.');
+pair(1,10,55,52,60,62,50,'Sentir vs Pensar','Desafiador','#b45309','Touro é sensorial e presente; Aquário está sempre no futuro e nas ideias. Touro busca rotina; Aquário foge dela. A atração existe — o diferente sempre fascina — mas a convivência é um campo minado de incompreensões.');
+pair(1,11,82,85,75,72,80,'Sonho e Realidade','Muito compatível','#7c3fe4','Touro e Peixes se completam de forma delicada. Touro dá a estabilidade que o sonhador Peixes precisa para não se perder; Peixes traz a poesia e sensibilidade que desperta o lado mais profundo de Touro. Uma relação linda.');
+
+// GÊMEOS (2) combos
+pair(2,2,70,65,80,88,58,'Duas Mentes Vivas','Estimulante','#7c3fe4','Dois Gêmeos juntos é uma festa intelectual que nunca para. A conversa é infinita e o humor é afiado. Mas dois indivíduos que fogem de profundidade emocional podem criar uma relação brilhante por fora e vazia por dentro. Quem vai ancorar quem?');
+pair(2,3,58,60,65,52,52,'Ar e Água','Difícil','#b45309','Gêmeos é leve e racional; Câncer é profundo e emocional. Gêmeos lida com sentimentos com palavras; Câncer os sente até os ossos. Câncer pode se sentir não levado a sério; Gêmeos pode se sentir sufocado. Exige muita paciência dos dois.');
+pair(2,4,82,80,80,88,72,'Brilho Duplo','Muito compatível','#7c3fe4','Gêmeos e Leão brilham juntos. Leão ama ser admirado e Gêmeos é o melhor fã — e também o melhor crítico. Gêmeos estimula a mente de Leão; Leão dá calor e lealdade a Gêmeos. A vida social dos dois juntos é inesquecível.');
+pair(2,5,72,68,65,82,68,'Mente vs Detalhe','Harmonioso','#166534','Gêmeos e Virgem são ambos regidos por Mercúrio — pensam rápido e se comunicam bem. Virgem aprecia a versatilidade de Gêmeos; Gêmeos aprecia a precisão de Virgem. O problema é que Virgem quer profundidade onde Gêmeos prefere leveza.');
+pair(2,6,90,85,82,92,82,'Alma Gêmea Intelectual','Ideal','#15803d','Gêmeos e Libra são dois dos signos de Ar mais compatíveis. A conversa nunca acaba, os valores se alinham e a liberdade de ambos é respeitada. Libra traz equilíbrio para o caos de Gêmeos; Gêmeos traz espontaneidade para a vida de Libra.');
+pair(2,7,60,58,70,52,50,'Superfície vs Profundeza','Difícil','#b45309','Escorpião quer profundidade total; Gêmeos vive na superfície. Escorpião interpreta a leveza de Gêmeos como falta de seriedade. Gêmeos acha Escorpião intenso demais. Podem se fascinar mutuamente, mas a convivência revela mundos opostos.');
+pair(2,8,88,85,88,90,78,'Irmãos de Elemento','Muito compatível','#7c3fe4','Gêmeos e Sagitário são opostos complementares — o mensageiro e o filósofo. A curiosidade de ambos é insaciável e a relação nunca fica parada. Sagitário expande os horizontes de Gêmeos; Gêmeos traz novidades constantes a Sagitário.');
+pair(2,9,52,50,58,55,50,'Velocidade vs Seriedade','Desafiador','#b45309','Gêmeos muda de ideia a todo momento; Capricórnio planeja a longo prazo. Para Capricórnio, Gêmeos parece irresponsável. Para Gêmeos, Capricórnio parece inflexível. Há coisas a aprender um com o outro, mas o ritmo diferente cria atrito constante.');
+pair(2,10,85,80,82,90,75,'Rebeldes com Causa','Muito compatível','#7c3fe4','Gêmeos e Aquário são dois rebeldes intelectuais que se entendem sem precisar explicar. Ambos valorizam liberdade, originalidade e conversas que expandem a mente. A amizade é tão forte quanto o amor nessa dupla.');
+pair(2,11,65,68,70,58,60,'Vento e Mar','Possível','#92400e','Gêmeos é racional; Peixes é intuitivo. Há uma atração mística e curiosa entre eles, mas Peixes pode se sentir incompreendido pela leveza de Gêmeos, e Gêmeos pode se sentir perdido na profundidade emocional de Peixes.');
+
+// CÂNCER (3) combos
+pair(3,3,82,85,75,78,88,'Dois Oceanos','Profundo e cuidador','#7c3fe4','Dois Câncer criam um ninho de afeto e cuidado. A empatia entre eles é total — entendem o que o outro sente sem precisar falar. O risco é o excesso de sensibilidade criar crises onde não há e o mundo externo ser esquecido.');
+pair(3,4,65,68,75,58,62,'Coração e Orgulho','Possível','#92400e','Câncer nutre e Leão reina — pode funcionar se Leão aprender a cuidar tanto quanto recebe cuidado. Câncer pode se sentir invisível na sombra de Leão. Mas quando há respeito e reciprocidade, esse casal tem muito calor e afeto.');
+pair(3,5,88,85,78,80,90,'Cuidado com Precisão','Harmonioso','#166534','Câncer e Virgem são dois dos signos mais dedicados aos seus entes queridos. Ambos se mostram no amor através de atos práticos — cozinhar, cuidar, estar presente. A relação é nutritiva, madura e construída para durar.');
+pair(3,6,72,70,68,70,70,'Sentir vs Pesar','Harmonioso','#166534','Câncer e Libra têm em comum o desejo de harmonia e relacionamentos bonitos. Mas Câncer ama com a emoção crua e Libra com a razão equilibrada. Podem se complementar bem se aprenderem a respeitar essas diferenças.');
+pair(3,7,92,90,92,80,90,'Amor Profundo Demais','Ideal','#15803d','Câncer e Escorpião formam um dos vínculos mais profundos do zodíaco. Ambos são de Água, intensamente emocionais e leais. A confiança que constroem é rara. A paixão é total. Quando estão alinhados, parece que foram feitos um para o outro.');
+pair(3,8,55,52,62,50,48,'Lar vs Aventura','Difícil','#b45309','Câncer quer construir um lar; Sagitário quer explorar o mundo. O apelo à liberdade de Sagitário pode parecer abandono para o sensível Câncer. Sagitário sente o cuidado de Câncer como aprisionamento. Precisam de muito espaço e diálogo.');
+pair(3,9,82,80,72,75,88,'Construção Emocional e Material','Muito compatível','#7c3fe4','Câncer e Capricórnio são opostos que se completam lindamente. Câncer dá o calor emocional que Capricórnio raramente pede mas precisa; Capricórnio dá a estabilidade material que Câncer busca. Um cuida da casa por dentro, o outro por fora.');
+pair(3,10,55,52,58,52,50,'Sentir vs Analisar','Difícil','#b45309','Câncer precisa de conexão emocional profunda; Aquário preza pela independência racional. Câncer pode sentir Aquário como frio e distante; Aquário pode sentir Câncer como dependente demais. Mundos muito diferentes.');
+pair(3,11,90,92,82,80,88,'Dois Sonhadores','Ideal','#15803d','Câncer e Peixes são uma das combinações mais poéticas do zodíaco. Ambos sentem o mundo profundamente e se comunicam mais pela emoção do que pelas palavras. A cumplicidade é imediata e rara. Cuidar um do outro é natural e belo.');
+
+// LEÃO (4) combos
+pair(4,4,75,72,88,70,65,'Dois Sóis','Brilhante e intenso','#dc2626','Dois Leões juntos brilham intensamente — e brigam pelo mesmo holofote. A paixão é enorme, mas o ego também. Quando decidem somar em vez de competir, são um casal inesquecível. Quando um sente que o outro rouba a cena, o rugido começa.');
+pair(4,5,65,62,70,65,68,'Calor vs Precisão','Possível','#92400e','Leão e Virgem têm abordagens opostas: Leão é grandioso, Virgem é detalhista. A crítica de Virgem pode diminuir Leão; a exuberância de Leão pode deixar Virgem ansiosa. Mas Virgem admira a confiança de Leão, e Leão valoriza a dedicação de Virgem.');
+pair(4,6,88,85,85,85,82,'Carisma ao Quadrado','Muito compatível','#7c3fe4','Leão e Libra são um casal socialmente irresistível. Leão ama ser admirado e Libra é mestre em fazer as pessoas se sentirem especiais. Ambos amam o belo, o luxo e o romance. A generosidade de Leão encanta Libra, e o charme de Libra conquista Leão.');
+pair(4,7,70,70,85,60,62,'Fogo e Sombra','Intenso','#6d28d9','Leão e Escorpião se atraem poderosamente — dois dos signos mais magneticos do zodíaco. Mas o poder de Escorpião ameaça o ego de Leão. Escorpião não suporta ser ignorado; Leão não suporta ser controlado. Alta paixão, alta tensão.');
+pair(4,8,85,82,88,80,80,'Dois Aventureiros','Harmonioso','#166534','Leão e Sagitário são grandes parceiros de vida. Ambos são generosos, entusiastas e apaixonados. Sagitário expande os horizontes de Leão; Leão dá a lealdade que Sagitário precisa mas raramente encontra. Uma relação vibrante e calorosa.');
+pair(4,9,65,62,68,60,68,'Coração vs Plano','Possível','#92400e','Leão quer reconhecimento e afeto demonstrado; Capricórnio é reservado e focado em metas. Leão pode sentir Capricórnio como frio; Capricórnio pode sentir Leão como dramático. Mas ambos são ambiciosos — se respeitam nisso.');
+pair(4,10,72,70,78,78,65,'Orgulho vs Igualdade','Harmonioso','#166534','Leão e Aquário são opostos fascinantes. Leão é o indivíduo brilhante; Aquário é o coletivo consciente. Aquário desafia Leão a pensar além do ego; Leão dá calor e coração à visão fria de Aquário. Podem crescer muito juntos.');
+pair(4,11,68,70,72,62,62,'Sol e Lua','Possível','#92400e','Leão e Peixes têm uma atração encantada. Peixes admira o brilho de Leão; Leão é tocado pela profundidade de Peixes. Mas a necessidade de reconhecimento de Leão pode ser muito para o introspectivo Peixes, que prefere sentir a exibir.');
+
+// VIRGEM (5) combos
+pair(5,5,78,72,70,82,85,'Dois Perfeccionistas','Estável e dedicado','#7c3fe4','Dois Virgem juntos se entendem na busca por melhoria constante. A convivência é organizada, o cuidado é mútuo e detalhista. O risco é a crítica em excesso — quando os dois perfeccionistas se voltam um para o outro, pode ficar pesado.');
+pair(5,6,80,78,72,82,80,'Mente e Beleza','Muito compatível','#7c3fe4','Virgem e Libra compartilham o gosto pela harmonia e pela boa comunicação. Virgem aprecia a elegância de Libra; Libra valoriza a inteligência de Virgem. A relação é intelectualmente rica e afetivamente equilibrada. Um dos pares mais civilizados do zodíaco.');
+pair(5,7,72,70,75,68,72,'Análise e Profundeza','Harmonioso','#166534','Virgem e Escorpião se respeitam na intensidade — ambos observam o mundo com precisão. Escorpião aprecia que Virgem não é superficial; Virgem admira a determinação de Escorpião. O relacionamento é sério, leal e cresce com o tempo.');
+pair(5,8,60,58,65,62,55,'Detalhe vs Visão Grande','Difícil','#b45309','Virgem vê os detalhes; Sagitário vê o panorama. Virgem pode achar Sagitário irresponsável; Sagitário pode achar Virgem excessivamente crítica. A leveza que Sagitário busca entra em conflito com a seriedade que Virgem valoriza.');
+pair(5,9,90,88,75,88,92,'Perfeição Prática','Ideal','#15803d','Virgem e Capricórnio são um dos casais mais funcionais e duradouros do zodíaco. Ambos são práticos, dedicados e trabalham para o que querem. A relação é construída com paciência e muito respeito mútuo. Não é a mais dramática — é a mais sólida.');
+pair(5,10,72,68,70,80,70,'Ordem e Caos','Harmonioso','#166534','Virgem e Aquário têm em comum a inteligência e o desejo de melhorar o mundo. Aquário inspira Virgem a pensar maior; Virgem ajuda Aquário a organizar suas ideias brilhantes. A conexão intelectual é forte, embora a emocional exija atenção.');
+pair(5,11,75,78,70,72,78,'Cuidado e Sonho','Muito compatível','#7c3fe4','Virgem e Peixes são opostos complementares. Virgem traz organização ao mundo sonhador de Peixes; Peixes ensina Virgem a sentir mais e controlar menos. Quando se equilibram, formam uma parceria de cuidado genuíno e beleza.');
+
+// LIBRA (6) combos
+pair(6,6,75,72,78,82,70,'Dois Diplomatas','Equilibrado e elegante','#7c3fe4','Dois Libra juntos criam uma relação linda na aparência. O problema: dois indecisos se paralisam. Nenhum quer o conflito, então problemas se acumulam em silêncio. Se aprenderem a ser honestos em vez de apenas harmoniosos, pode ser muito bom.');
+pair(6,7,78,78,82,72,72,'Elegância e Poder','Muito compatível','#7c3fe4','Libra e Escorpião formam um casal de forte atração. Libra é charmoso e suave — encanta Escorpião, que raramente se deixa encantar. Escorpião dá profundidade que Libra secretamente busca. A tensão entre ar e água cria uma relação complexa e fascinante.');
+pair(6,8,85,82,82,85,80,'Filosofia e Charme','Muito compatível','#7c3fe4','Libra e Sagitário se entendem no plano das ideias e nos valores de liberdade. Sagitário é honesto de um jeito que Libra, habituado à diplomacia, nunca seria — e isso é refrescante. Ambos são sociáveis, otimistas e adoram a vida.');
+pair(6,9,68,65,65,68,72,'Beleza vs Estrutura','Possível','#92400e','Libra quer romance e relacionamentos bonitos; Capricórnio é pragmático e reservado. Libra pode sentir Capricórnio como frio; Capricórnio pode achar Libra superficial. Mas Capricórnio admira a elegância de Libra e Libra respeita a seriedade de Capricórnio.');
+pair(6,10,88,85,80,90,82,'Visão e Harmonia','Muito compatível','#7c3fe4','Libra e Aquário são dois signos de Ar com visões de mundo compatíveis. Ambos valorizam igualdade, liberdade e conversas que expandem horizontes. A amizade é a base da relação, e isso é uma vantagem enorme. Um dos casais mais compatíveis do zodíaco.');
+pair(6,11,80,82,75,72,78,'Romance e Intuição','Muito compatível','#7c3fe4','Libra e Peixes compartilham o amor pelo belo, pelo romântico e pela paz. Libra dá leveza ao mundo às vezes pesado de Peixes; Peixes dá profundidade emocional que Libra precisa mas evita buscar. Uma relação cheia de poesia.');
+
+// ESCORPIÃO (7) combos
+pair(7,7,85,82,95,72,80,'Profundeza Total','Intenso e apaixonante','#6d28d9','Dois Escorpião juntos é uma imersão total. A lealdade e a profundidade emocional são incomparáveis. Mas o ciúme, o controle e a dificuldade de perdoar são multiplicados por dois. Quando está bem, é o relacionamento mais intenso que existe. Quando está mal, é guerra.');
+pair(7,8,68,68,80,60,62,'Profundeza vs Liberdade','Possível','#92400e','Escorpião e Sagitário têm muito a aprender um com o outro mas pouco em comum. Escorpião quer fusão total; Sagitário precisa de espaço para respirar. A atração é real, mas o longo prazo exige que Escorpião aprenda a soltar e Sagitário a mergulhar.');
+pair(7,9,88,85,80,80,88,'Poder e Perseverança','Muito compatível','#7c3fe4','Escorpião e Capricórnio se entendem na determinação e na lealdade. Ambos são sérios, estratégicos e não desistem do que querem. A relação é sólida e apaixonada — a profundidade de Escorpião encontra a solidez de Capricórnio de forma poderosa.');
+pair(7,10,60,58,68,55,55,'Emoção vs Razão','Difícil','#b45309','Escorpião mergulha nas emoções; Aquário observa de fora. Escorpião quer intimidade total; Aquário precisa de espaço independente. A frieza percebida de Aquário desperta a insegurança de Escorpião. Precisam de muita comunicação para funcionar.');
+pair(7,11,90,92,88,80,88,'Almas do Fundo do Mar','Ideal','#15803d','Escorpião e Peixes formam um vínculo espiritual profundo. Ambos sentem o que os outros nem percebem. Peixes flui e Escorpião aprofunda — juntos criam uma realidade emocional própria. É um dos relacionamentos mais místicos e intensos do zodíaco.');
+
+// SAGITÁRIO (8) combos
+pair(8,8,80,78,88,82,72,'Dois Centauros','Aventura e liberdade','#7c3fe4','Dois Sagitário juntos é uma viagem sem destino — e eles adoram isso. A compatibilidade é alta na diversão e nos valores, mas nenhum dos dois quer ancorar o outro. Construir algo de longo prazo exige que ao menos um assuma essa responsabilidade.');
+pair(8,9,60,58,65,62,60,'Visão vs Estrutura','Difícil','#b45309','Sagitário voa; Capricórnio constrói. Sagitário acha Capricórnio sério demais; Capricórnio acha Sagitário irresponsável. Mas há respeito mútuo — Sagitário admira a disciplina de Capricórnio; Capricórnio admira a coragem de Sagitário. Pode funcionar com esforço.');
+pair(8,10,88,85,85,88,82,'Liberdade Compartilhada','Muito compatível','#7c3fe4','Sagitário e Aquário são dois dos signos mais independentes — e por isso se respeitam como poucos. A relação é leve, intelectualmente estimulante e nunca sufocante. Ambos dão espaço e recebem espaço. Uma parceria de iguais.');
+pair(8,11,72,72,78,65,65,'Fé e Sonho','Harmonioso','#166534','Sagitário e Peixes são dois signos de Júpiter com alma expansiva. A conexão espiritual é forte e natural. Mas Sagitário é direto e Peixes é nebuloso — a comunicação pode ser um campo de mal-entendidos. Quando funciona, é uma relação de crescimento mútuo.');
+
+// CAPRICÓRNIO (9) combos
+pair(9,9,80,75,72,78,88,'Duas Montanhas','Sólido e duradouro','#7c3fe4','Dois Capricórnio constroem uma relação de admiração mútua e respeito profundo. São igualmente sérios, ambiciosos e responsáveis. O perigo é que nenhum dos dois abre muito o coração — podem construir tudo materialmente e deixar a intimidade emocional de lado.');
+pair(9,10,65,62,68,72,65,'Tradição vs Revolução','Possível','#92400e','Capricórnio respeita o que foi construído; Aquário quer demolir e reconstruir. Há tensão entre o conservador e o revolucionário. Mas ambos são inteligentes e podem se respeitar nisso. É uma relação que cresce com diálogo e respeito às diferenças.');
+pair(9,11,75,75,70,72,80,'Terra e Água','Muito compatível','#7c3fe4','Capricórnio e Peixes se complementam de modo sutil mas poderoso. Capricórnio dá estrutura e direção ao sonhador Peixes; Peixes ensina Capricórnio a sentir e imaginar. Uma parceria em que cada um oferece o que o outro mais precisa.');
+
+// AQUÁRIO (10) combos
+pair(10,10,78,72,80,88,72,'Dois Revolucionários','Único e original','#7c3fe4','Dois Aquário juntos entendem a necessidade de liberdade um do outro como ninguém mais entende. A amizade é profunda e a relação é incomum. O risco é que ambos fujam da intimidade emocional — podem se amar muito e nunca realmente mergulhar um no outro.');
+pair(10,11,68,68,72,72,68,'Razão e Intuição','Possível','#92400e','Aquário pensa; Peixes sente. Há uma atração de opostos que pode criar uma relação bonita e complementar. Aquário dá clareza ao mundo nebuloso de Peixes; Peixes dá profundidade emocional ao Aquário racionalista. Exige disposição para se encontrar no meio.');
+
+// PEIXES (11) combos
+pair(11,11,85,88,80,78,85,'Dois Sonhadores','Profundo e espiritual','#7c3fe4','Dois Peixes juntos criam um mundo próprio de beleza, intuição e cumplicidade. A conexão emocional é imediata e profunda. O perigo é que sem ninguém para ancorar, os dois se perdem juntos. Precisam construir alguma estrutura ou o sonho vira névoa.');
+
+// ── RENDER GRIDS ───────────────────────────────────────────────
+let selA=-1,selB=-1;
+
+function buildGrid(containerId,slot){
+  const el=document.getElementById(containerId);
+  SIGNS.forEach((s,i)=>{
+    const btn=document.createElement('button');
+    btn.className='sign-btn';
+    btn.innerHTML=`<span class="sign-glyph">${s.glyph}</span><span class="sign-name">${s.name}</span>`;
+    btn.onclick=()=>selectSign(slot,i,containerId);
+    btn.id=`${containerId}-${i}`;
+    el.appendChild(btn);
+  });
+}
+
+function selectSign(slot,idx,grid){
+  // Deselect previous
+  const prev = slot==='a'?selA:selB;
+  if(prev>=0) document.getElementById(`${grid}-${prev}`)?.classList.remove('selected');
+  if(slot==='a') selA=idx; else selB=idx;
+  document.getElementById(`${grid}-${idx}`)?.classList.add('selected');
+  document.getElementById('btn-calc').disabled = selA<0||selB<0;
+}
+
+// ── SCORE COLOR ─────────────────────────────────────────────────
+function scoreColor(s){
+  if(s>=85) return '#22c55e';
+  if(s>=70) return '#a06ff0';
+  if(s>=55) return '#f97316';
+  return '#ef4444';
+}
+function scoreLabel(s){
+  if(s>=88) return '⭐ Altamente compatíveis';
+  if(s>=78) return '💜 Muito compatíveis';
+  if(s>=68) return '💛 Compatíveis';
+  if(s>=55) return '🟠 Desafiador';
+  return '🔴 Difícil, mas possível';
+}
+
+// ── CALCULAR ────────────────────────────────────────────────────
+function calcular(){
+  if(selA<0||selB<0) return;
+  const k=`${Math.min(selA,selB)}-${Math.max(selA,selB)}`;
+  const data=C[k];
+  if(!data) return;
+
+  const sa=SIGNS[selA], sb=SIGNS[selB];
+  const card=document.getElementById('result-card');
+  card.style.display='block';
+  card.scrollIntoView({behavior:'smooth',block:'start'});
+
+  // Signs display
+  document.getElementById('pairing-signs').textContent=`${sa.glyph} ${sb.glyph}`;
+  document.getElementById('pairing-title').textContent=data.title;
+
+  // Tag
+  const tagEl=document.getElementById('pairing-tag');
+  tagEl.textContent=data.tag;
+  tagEl.style.background=data.tagColor+'22';
+  tagEl.style.color=data.tagColor;
+  tagEl.style.border=`1px solid ${data.tagColor}44`;
+
+  // Description
+  document.getElementById('result-desc').textContent=data.desc;
+
+  // Ring
+  const ringFill=document.getElementById('ring-fill');
+  const pctEl=document.getElementById('ring-pct');
+  const circumference=345;
+  const color=scoreColor(data.score);
+  ringFill.style.stroke=color;
+  pctEl.style.color=color;
+
+  // Animate ring + number
+  ringFill.style.strokeDashoffset=circumference;
+  pctEl.textContent='0%';
+  let frame=0;
+  const target=data.score;
+  const totalFrames=60;
+  const raf=requestAnimationFrame;
+  function step(){
+    frame++;
+    const pct=Math.round(target*(frame/totalFrames));
+    pctEl.textContent=pct+'%';
+    const offset=circumference-(circumference*pct/100);
+    ringFill.style.strokeDashoffset=offset;
+    if(frame<totalFrames) raf(step);
+  }
+  raf(step);
+
+  // Bars
+  const bars=[
+    ['bar-amor','val-amor',data.amor],
+    ['bar-paixao','val-paixao',data.paixao],
+    ['bar-comm','val-comm',data.comm],
+    ['bar-futuro','val-futuro',data.futuro],
+  ];
+  bars.forEach(([bid,vid,val])=>{
+    const b=document.getElementById(bid);
+    const v=document.getElementById(vid);
+    b.style.width='0%';
+    v.textContent='';
+    setTimeout(()=>{
+      b.style.width=val+'%';
+      v.textContent=val+'%';
+    },300);
+  });
+}
+
+// ── COMPARTILHAR ────────────────────────────────────────────────
+function compartilhar(){
+  if(selA<0||selB<0) return;
+  const k=`${Math.min(selA,selB)}-${Math.max(selA,selB)}`;
+  const d=C[k];
+  const sa=SIGNS[selA],sb=SIGNS[selB];
+  const text=`${sa.glyph} ${sa.name} + ${sb.glyph} ${sb.name}: ${d.score}% de compatibilidade! "${d.title}" — veja a análise completa em bussolaastral.com/compatibilidade.html`;
+  if(navigator.share){navigator.share({text,url:'https://bussolaastral.com/compatibilidade.html'});}
+  else if(navigator.clipboard){navigator.clipboard.writeText(text);alert('Copiado! Cole onde quiser 💕');}
+}
+
+// ── STARS ────────────────────────────────────────────────────────
+const starsEl=document.getElementById('stars');
+for(let i=0;i<100;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*1.8+.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*6}s;`;
+  starsEl.appendChild(s);
+}
+
+// Init grids
+buildGrid('grid-a','a');
+buildGrid('grid-b','b');
+</script>
+</body>
+</html>
