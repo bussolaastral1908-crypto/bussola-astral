@@ -140,6 +140,28 @@ footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-si
 footer a{color:var(--muted);text-decoration:none;}
 footer a:hover{color:var(--purple3);}
 @media(max-width:600px){.comp-grid{grid-template-columns:1fr;}.proof-inner{grid-template-columns:repeat(2,1fr);}.price-num{font-size:2.8rem;}}
+
+/* ── Compat Section ── */
+.compat-section{background:linear-gradient(180deg,var(--bg2),var(--bg));padding:4rem 1.5rem;}
+.compat-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.compat-text .section-tag{margin-bottom:.6rem;}
+.compat-text h2{font-family:'Playfair Display SC',serif;font-size:clamp(1.3rem,3vw,2rem);color:var(--gold);margin-bottom:.8rem;}
+.compat-text p{font-size:.95rem;color:var(--muted2);line-height:1.9;margin-bottom:1.5rem;}
+.compat-card{background:var(--surface);border:1px solid rgba(244,114,182,.25);border-radius:20px;padding:1.8rem;box-shadow:0 0 40px rgba(244,114,182,.07);}
+.compat-card-title{font-family:'Cinzel',serif;font-size:.72rem;color:#f472b6;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;text-align:center;}
+.compat-preview-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1.4rem;}
+.compat-sign-demo{text-align:center;background:rgba(244,114,182,.07);border:1px solid rgba(244,114,182,.2);border-radius:12px;padding:.7rem .9rem;min-width:72px;}
+.compat-sign-demo .glyph{font-size:1.8rem;display:block;line-height:1.2;}
+.compat-sign-demo .sname{font-family:'Cinzel',serif;font-size:.58rem;color:#f472b6;letter-spacing:.06em;}
+.compat-vs{font-family:'Cinzel',serif;font-size:.8rem;color:rgba(244,114,182,.6);font-weight:700;}
+.compat-score-bar{margin-bottom:.6rem;}
+.compat-score-label{font-family:'Cinzel',serif;font-size:.62rem;color:var(--muted);letter-spacing:.06em;margin-bottom:.4rem;display:flex;justify-content:space-between;}
+.compat-bar-bg{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;}
+.compat-bar-fill{height:8px;border-radius:4px;background:linear-gradient(90deg,#f472b6,#ec4899);}
+.btn-compat{display:block;width:100%;text-align:center;background:linear-gradient(135deg,#be185d,#9d174d);color:#fff;font-family:'Cinzel',serif;font-weight:700;font-size:.8rem;letter-spacing:.08em;padding:.8rem;border-radius:10px;text-decoration:none;transition:all .25s;margin-top:1.2rem;}
+.btn-compat:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(244,114,182,.3);}
+.compat-badge{display:inline-block;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:10px;font-family:'Cinzel',serif;font-size:.62rem;color:#22c55e;padding:.2rem .7rem;letter-spacing:.06em;margin-bottom:1rem;}
+@media(max-width:640px){.compat-inner{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -175,6 +197,47 @@ footer a:hover{color:var(--purple3);}
     <div class="proof-item"><span class="proof-num">VSOP87</span><span class="proof-label">Precisão de observatório</span></div>
   </div>
 </div>
+
+
+<!-- ── COMPATIBILITY FEATURE ── -->
+<section class="compat-section">
+  <div class="compat-inner">
+    <div class="compat-text">
+      <div class="section-tag">💕 Grátis para todos</div>
+      <h2>Você e seu par combinam?</h2>
+      <p>Descubra a compatibilidade entre dois signos no amor — análise completa com score, paixão, comunicação e perspectiva de futuro. Gratuito, sem cadastro.</p>
+      <span class="compat-badge">✓ 78 combinações de signos</span><br>
+      <a href="/compatibilidade.html" class="btn-compat" style="display:inline-block;width:auto;padding:.75rem 2rem;margin-top:.8rem">
+        💕 Testar compatibilidade →
+      </a>
+    </div>
+    <div class="compat-card">
+      <div class="compat-card-title">💕 Prévia — Leão + Sagitário</div>
+      <div class="compat-preview-row">
+        <div class="compat-sign-demo"><span class="glyph">♌</span><span class="sname">Leão</span></div>
+        <div class="compat-vs">VS</div>
+        <div class="compat-sign-demo"><span class="glyph">♐</span><span class="sname">Sagitário</span></div>
+      </div>
+      <div class="compat-score-bar">
+        <div class="compat-score-label"><span>❤️ Amor</span><span>88%</span></div>
+        <div class="compat-bar-bg"><div class="compat-bar-fill" style="width:88%"></div></div>
+      </div>
+      <div class="compat-score-bar">
+        <div class="compat-score-label"><span>🔥 Paixão</span><span>92%</span></div>
+        <div class="compat-bar-bg"><div class="compat-bar-fill" style="width:92%;background:linear-gradient(90deg,#f97316,#ea580c)"></div></div>
+      </div>
+      <div class="compat-score-bar">
+        <div class="compat-score-label"><span>💬 Comunicação</span><span>80%</span></div>
+        <div class="compat-bar-bg"><div class="compat-bar-fill" style="width:80%;background:linear-gradient(90deg,#a06ff0,#7c3fe4)"></div></div>
+      </div>
+      <div class="compat-score-bar">
+        <div class="compat-score-label"><span>🌙 Longo Prazo</span><span>80%</span></div>
+        <div class="compat-bar-bg"><div class="compat-bar-fill" style="width:80%;background:linear-gradient(90deg,#d4a853,#a07020)"></div></div>
+      </div>
+      <a href="/compatibilidade.html" class="btn-compat">Ver minha compatibilidade</a>
+    </div>
+  </div>
+</section>
 
 <!-- ── COMPARISON ── -->
 <section class="comparison">
