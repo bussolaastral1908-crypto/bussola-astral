@@ -1428,6 +1428,486 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/$1.js"
+    },
+    {
+      "src": "/signo-planeta/sol-em-aries",
+      "dest": "/signo-planeta/sol-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-touro",
+      "dest": "/signo-planeta/sol-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-gemeos",
+      "dest": "/signo-planeta/sol-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-cancer",
+      "dest": "/signo-planeta/sol-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-leao",
+      "dest": "/signo-planeta/sol-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-virgem",
+      "dest": "/signo-planeta/sol-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-libra",
+      "dest": "/signo-planeta/sol-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-escorpiao",
+      "dest": "/signo-planeta/sol-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-sagitario",
+      "dest": "/signo-planeta/sol-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-capricornio",
+      "dest": "/signo-planeta/sol-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-aquario",
+      "dest": "/signo-planeta/sol-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/sol-em-peixes",
+      "dest": "/signo-planeta/sol-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-aries",
+      "dest": "/signo-planeta/lua-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-touro",
+      "dest": "/signo-planeta/lua-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-gemeos",
+      "dest": "/signo-planeta/lua-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-cancer",
+      "dest": "/signo-planeta/lua-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-leao",
+      "dest": "/signo-planeta/lua-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-virgem",
+      "dest": "/signo-planeta/lua-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-libra",
+      "dest": "/signo-planeta/lua-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-escorpiao",
+      "dest": "/signo-planeta/lua-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-sagitario",
+      "dest": "/signo-planeta/lua-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-capricornio",
+      "dest": "/signo-planeta/lua-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-aquario",
+      "dest": "/signo-planeta/lua-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/lua-em-peixes",
+      "dest": "/signo-planeta/lua-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-aries",
+      "dest": "/signo-planeta/mercurio-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-touro",
+      "dest": "/signo-planeta/mercurio-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-gemeos",
+      "dest": "/signo-planeta/mercurio-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-cancer",
+      "dest": "/signo-planeta/mercurio-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-leao",
+      "dest": "/signo-planeta/mercurio-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-virgem",
+      "dest": "/signo-planeta/mercurio-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-libra",
+      "dest": "/signo-planeta/mercurio-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-escorpiao",
+      "dest": "/signo-planeta/mercurio-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-sagitario",
+      "dest": "/signo-planeta/mercurio-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-capricornio",
+      "dest": "/signo-planeta/mercurio-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-aquario",
+      "dest": "/signo-planeta/mercurio-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/mercurio-em-peixes",
+      "dest": "/signo-planeta/mercurio-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-aries",
+      "dest": "/signo-planeta/venus-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-touro",
+      "dest": "/signo-planeta/venus-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-gemeos",
+      "dest": "/signo-planeta/venus-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-cancer",
+      "dest": "/signo-planeta/venus-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-leao",
+      "dest": "/signo-planeta/venus-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-virgem",
+      "dest": "/signo-planeta/venus-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-libra",
+      "dest": "/signo-planeta/venus-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-escorpiao",
+      "dest": "/signo-planeta/venus-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-sagitario",
+      "dest": "/signo-planeta/venus-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-capricornio",
+      "dest": "/signo-planeta/venus-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-aquario",
+      "dest": "/signo-planeta/venus-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/venus-em-peixes",
+      "dest": "/signo-planeta/venus-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-aries",
+      "dest": "/signo-planeta/marte-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-touro",
+      "dest": "/signo-planeta/marte-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-gemeos",
+      "dest": "/signo-planeta/marte-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-cancer",
+      "dest": "/signo-planeta/marte-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-leao",
+      "dest": "/signo-planeta/marte-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-virgem",
+      "dest": "/signo-planeta/marte-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-libra",
+      "dest": "/signo-planeta/marte-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-escorpiao",
+      "dest": "/signo-planeta/marte-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-sagitario",
+      "dest": "/signo-planeta/marte-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-capricornio",
+      "dest": "/signo-planeta/marte-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-aquario",
+      "dest": "/signo-planeta/marte-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/marte-em-peixes",
+      "dest": "/signo-planeta/marte-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-aries",
+      "dest": "/signo-planeta/jupiter-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-touro",
+      "dest": "/signo-planeta/jupiter-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-gemeos",
+      "dest": "/signo-planeta/jupiter-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-cancer",
+      "dest": "/signo-planeta/jupiter-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-leao",
+      "dest": "/signo-planeta/jupiter-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-virgem",
+      "dest": "/signo-planeta/jupiter-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-libra",
+      "dest": "/signo-planeta/jupiter-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-escorpiao",
+      "dest": "/signo-planeta/jupiter-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-sagitario",
+      "dest": "/signo-planeta/jupiter-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-capricornio",
+      "dest": "/signo-planeta/jupiter-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-aquario",
+      "dest": "/signo-planeta/jupiter-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/jupiter-em-peixes",
+      "dest": "/signo-planeta/jupiter-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-aries",
+      "dest": "/signo-planeta/saturno-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-touro",
+      "dest": "/signo-planeta/saturno-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-gemeos",
+      "dest": "/signo-planeta/saturno-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-cancer",
+      "dest": "/signo-planeta/saturno-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-leao",
+      "dest": "/signo-planeta/saturno-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-virgem",
+      "dest": "/signo-planeta/saturno-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-libra",
+      "dest": "/signo-planeta/saturno-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-escorpiao",
+      "dest": "/signo-planeta/saturno-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-sagitario",
+      "dest": "/signo-planeta/saturno-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-capricornio",
+      "dest": "/signo-planeta/saturno-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-aquario",
+      "dest": "/signo-planeta/saturno-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/saturno-em-peixes",
+      "dest": "/signo-planeta/saturno-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-aries",
+      "dest": "/signo-planeta/urano-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-touro",
+      "dest": "/signo-planeta/urano-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-gemeos",
+      "dest": "/signo-planeta/urano-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-cancer",
+      "dest": "/signo-planeta/urano-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-leao",
+      "dest": "/signo-planeta/urano-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-virgem",
+      "dest": "/signo-planeta/urano-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-libra",
+      "dest": "/signo-planeta/urano-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-escorpiao",
+      "dest": "/signo-planeta/urano-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-sagitario",
+      "dest": "/signo-planeta/urano-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-capricornio",
+      "dest": "/signo-planeta/urano-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-aquario",
+      "dest": "/signo-planeta/urano-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/urano-em-peixes",
+      "dest": "/signo-planeta/urano-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-aries",
+      "dest": "/signo-planeta/netuno-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-touro",
+      "dest": "/signo-planeta/netuno-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-gemeos",
+      "dest": "/signo-planeta/netuno-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-cancer",
+      "dest": "/signo-planeta/netuno-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-leao",
+      "dest": "/signo-planeta/netuno-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-virgem",
+      "dest": "/signo-planeta/netuno-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-libra",
+      "dest": "/signo-planeta/netuno-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-escorpiao",
+      "dest": "/signo-planeta/netuno-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-sagitario",
+      "dest": "/signo-planeta/netuno-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-capricornio",
+      "dest": "/signo-planeta/netuno-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-aquario",
+      "dest": "/signo-planeta/netuno-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/netuno-em-peixes",
+      "dest": "/signo-planeta/netuno-em-peixes.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-aries",
+      "dest": "/signo-planeta/plutao-em-aries.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-touro",
+      "dest": "/signo-planeta/plutao-em-touro.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-gemeos",
+      "dest": "/signo-planeta/plutao-em-gemeos.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-cancer",
+      "dest": "/signo-planeta/plutao-em-cancer.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-leao",
+      "dest": "/signo-planeta/plutao-em-leao.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-virgem",
+      "dest": "/signo-planeta/plutao-em-virgem.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-libra",
+      "dest": "/signo-planeta/plutao-em-libra.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-escorpiao",
+      "dest": "/signo-planeta/plutao-em-escorpiao.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-sagitario",
+      "dest": "/signo-planeta/plutao-em-sagitario.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-capricornio",
+      "dest": "/signo-planeta/plutao-em-capricornio.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-aquario",
+      "dest": "/signo-planeta/plutao-em-aquario.html"
+    },
+    {
+      "src": "/signo-planeta/plutao-em-peixes",
+      "dest": "/signo-planeta/plutao-em-peixes.html"
     }
   ]
 }
