@@ -2,6 +2,90 @@
   "version": 2,
   "routes": [
     {
+      "src": "/celebridades",
+      "dest": "/celebridades.html"
+    },
+    {
+      "src": "/celebridades/anitta",
+      "dest": "/celebridades/anitta.html"
+    },
+    {
+      "src": "/celebridades/neymar",
+      "dest": "/celebridades/neymar.html"
+    },
+    {
+      "src": "/celebridades/bruna-marquezine",
+      "dest": "/celebridades/bruna-marquezine.html"
+    },
+    {
+      "src": "/celebridades/virginia-fonseca",
+      "dest": "/celebridades/virginia-fonseca.html"
+    },
+    {
+      "src": "/celebridades/xuxa",
+      "dest": "/celebridades/xuxa.html"
+    },
+    {
+      "src": "/celebridades/ivete-sangalo",
+      "dest": "/celebridades/ivete-sangalo.html"
+    },
+    {
+      "src": "/celebridades/ludmilla",
+      "dest": "/celebridades/ludmilla.html"
+    },
+    {
+      "src": "/celebridades/jade-picon",
+      "dest": "/celebridades/jade-picon.html"
+    },
+    {
+      "src": "/celebridades/whindersson-nunes",
+      "dest": "/celebridades/whindersson-nunes.html"
+    },
+    {
+      "src": "/celebridades/marilia-mendonca",
+      "dest": "/celebridades/marilia-mendonca.html"
+    },
+    {
+      "src": "/celebridades/tata-werneck",
+      "dest": "/celebridades/tata-werneck.html"
+    },
+    {
+      "src": "/celebridades/sabrina-sato",
+      "dest": "/celebridades/sabrina-sato.html"
+    },
+    {
+      "src": "/celebridades/pedro-scooby",
+      "dest": "/celebridades/pedro-scooby.html"
+    },
+    {
+      "src": "/celebridades/gil-do-vigor",
+      "dest": "/celebridades/gil-do-vigor.html"
+    },
+    {
+      "src": "/celebridades/gracyanne-barbosa",
+      "dest": "/celebridades/gracyanne-barbosa.html"
+    },
+    {
+      "src": "/celebridades/ronaldo-fenomeno",
+      "dest": "/celebridades/ronaldo-fenomeno.html"
+    },
+    {
+      "src": "/celebridades/caetano-veloso",
+      "dest": "/celebridades/caetano-veloso.html"
+    },
+    {
+      "src": "/celebridades/larissa-manoela",
+      "dest": "/celebridades/larissa-manoela.html"
+    },
+    {
+      "src": "/celebridades/ze-felipe",
+      "dest": "/celebridades/ze-felipe.html"
+    },
+    {
+      "src": "/celebridades/luan-santana",
+      "dest": "/celebridades/luan-santana.html"
+    },
+    {
       "src": "/",
       "dest": "/premium.html"
     },
