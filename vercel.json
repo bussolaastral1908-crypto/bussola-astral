@@ -1908,6 +1908,1062 @@
     {
       "src": "/signo-planeta/plutao-em-peixes",
       "dest": "/signo-planeta/plutao-em-peixes.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-1",
+      "dest": "/public/signo-casa/aries-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-2",
+      "dest": "/public/signo-casa/aries-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-3",
+      "dest": "/public/signo-casa/aries-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-4",
+      "dest": "/public/signo-casa/aries-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-5",
+      "dest": "/public/signo-casa/aries-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-6",
+      "dest": "/public/signo-casa/aries-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-7",
+      "dest": "/public/signo-casa/aries-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-8",
+      "dest": "/public/signo-casa/aries-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-9",
+      "dest": "/public/signo-casa/aries-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-10",
+      "dest": "/public/signo-casa/aries-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-11",
+      "dest": "/public/signo-casa/aries-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/aries-casa-12",
+      "dest": "/public/signo-casa/aries-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-1",
+      "dest": "/public/signo-casa/touro-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-2",
+      "dest": "/public/signo-casa/touro-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-3",
+      "dest": "/public/signo-casa/touro-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-4",
+      "dest": "/public/signo-casa/touro-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-5",
+      "dest": "/public/signo-casa/touro-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-6",
+      "dest": "/public/signo-casa/touro-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-7",
+      "dest": "/public/signo-casa/touro-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-8",
+      "dest": "/public/signo-casa/touro-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-9",
+      "dest": "/public/signo-casa/touro-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-10",
+      "dest": "/public/signo-casa/touro-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-11",
+      "dest": "/public/signo-casa/touro-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/touro-casa-12",
+      "dest": "/public/signo-casa/touro-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-1",
+      "dest": "/public/signo-casa/gemeos-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-2",
+      "dest": "/public/signo-casa/gemeos-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-3",
+      "dest": "/public/signo-casa/gemeos-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-4",
+      "dest": "/public/signo-casa/gemeos-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-5",
+      "dest": "/public/signo-casa/gemeos-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-6",
+      "dest": "/public/signo-casa/gemeos-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-7",
+      "dest": "/public/signo-casa/gemeos-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-8",
+      "dest": "/public/signo-casa/gemeos-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-9",
+      "dest": "/public/signo-casa/gemeos-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-10",
+      "dest": "/public/signo-casa/gemeos-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-11",
+      "dest": "/public/signo-casa/gemeos-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/gemeos-casa-12",
+      "dest": "/public/signo-casa/gemeos-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-1",
+      "dest": "/public/signo-casa/cancer-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-2",
+      "dest": "/public/signo-casa/cancer-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-3",
+      "dest": "/public/signo-casa/cancer-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-4",
+      "dest": "/public/signo-casa/cancer-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-5",
+      "dest": "/public/signo-casa/cancer-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-6",
+      "dest": "/public/signo-casa/cancer-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-7",
+      "dest": "/public/signo-casa/cancer-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-8",
+      "dest": "/public/signo-casa/cancer-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-9",
+      "dest": "/public/signo-casa/cancer-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-10",
+      "dest": "/public/signo-casa/cancer-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-11",
+      "dest": "/public/signo-casa/cancer-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/cancer-casa-12",
+      "dest": "/public/signo-casa/cancer-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-1",
+      "dest": "/public/signo-casa/leao-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-2",
+      "dest": "/public/signo-casa/leao-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-3",
+      "dest": "/public/signo-casa/leao-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-4",
+      "dest": "/public/signo-casa/leao-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-5",
+      "dest": "/public/signo-casa/leao-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-6",
+      "dest": "/public/signo-casa/leao-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-7",
+      "dest": "/public/signo-casa/leao-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-8",
+      "dest": "/public/signo-casa/leao-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-9",
+      "dest": "/public/signo-casa/leao-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-10",
+      "dest": "/public/signo-casa/leao-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-11",
+      "dest": "/public/signo-casa/leao-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/leao-casa-12",
+      "dest": "/public/signo-casa/leao-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-1",
+      "dest": "/public/signo-casa/virgem-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-2",
+      "dest": "/public/signo-casa/virgem-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-3",
+      "dest": "/public/signo-casa/virgem-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-4",
+      "dest": "/public/signo-casa/virgem-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-5",
+      "dest": "/public/signo-casa/virgem-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-6",
+      "dest": "/public/signo-casa/virgem-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-7",
+      "dest": "/public/signo-casa/virgem-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-8",
+      "dest": "/public/signo-casa/virgem-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-9",
+      "dest": "/public/signo-casa/virgem-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-10",
+      "dest": "/public/signo-casa/virgem-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-11",
+      "dest": "/public/signo-casa/virgem-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/virgem-casa-12",
+      "dest": "/public/signo-casa/virgem-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-1",
+      "dest": "/public/signo-casa/libra-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-2",
+      "dest": "/public/signo-casa/libra-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-3",
+      "dest": "/public/signo-casa/libra-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-4",
+      "dest": "/public/signo-casa/libra-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-5",
+      "dest": "/public/signo-casa/libra-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-6",
+      "dest": "/public/signo-casa/libra-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-7",
+      "dest": "/public/signo-casa/libra-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-8",
+      "dest": "/public/signo-casa/libra-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-9",
+      "dest": "/public/signo-casa/libra-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-10",
+      "dest": "/public/signo-casa/libra-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-11",
+      "dest": "/public/signo-casa/libra-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/libra-casa-12",
+      "dest": "/public/signo-casa/libra-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-1",
+      "dest": "/public/signo-casa/escorpiao-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-2",
+      "dest": "/public/signo-casa/escorpiao-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-3",
+      "dest": "/public/signo-casa/escorpiao-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-4",
+      "dest": "/public/signo-casa/escorpiao-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-5",
+      "dest": "/public/signo-casa/escorpiao-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-6",
+      "dest": "/public/signo-casa/escorpiao-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-7",
+      "dest": "/public/signo-casa/escorpiao-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-8",
+      "dest": "/public/signo-casa/escorpiao-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-9",
+      "dest": "/public/signo-casa/escorpiao-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-10",
+      "dest": "/public/signo-casa/escorpiao-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-11",
+      "dest": "/public/signo-casa/escorpiao-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/escorpiao-casa-12",
+      "dest": "/public/signo-casa/escorpiao-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-1",
+      "dest": "/public/signo-casa/sagitario-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-2",
+      "dest": "/public/signo-casa/sagitario-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-3",
+      "dest": "/public/signo-casa/sagitario-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-4",
+      "dest": "/public/signo-casa/sagitario-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-5",
+      "dest": "/public/signo-casa/sagitario-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-6",
+      "dest": "/public/signo-casa/sagitario-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-7",
+      "dest": "/public/signo-casa/sagitario-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-8",
+      "dest": "/public/signo-casa/sagitario-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-9",
+      "dest": "/public/signo-casa/sagitario-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-10",
+      "dest": "/public/signo-casa/sagitario-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-11",
+      "dest": "/public/signo-casa/sagitario-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/sagitario-casa-12",
+      "dest": "/public/signo-casa/sagitario-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-1",
+      "dest": "/public/signo-casa/capricornio-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-2",
+      "dest": "/public/signo-casa/capricornio-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-3",
+      "dest": "/public/signo-casa/capricornio-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-4",
+      "dest": "/public/signo-casa/capricornio-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-5",
+      "dest": "/public/signo-casa/capricornio-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-6",
+      "dest": "/public/signo-casa/capricornio-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-7",
+      "dest": "/public/signo-casa/capricornio-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-8",
+      "dest": "/public/signo-casa/capricornio-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-9",
+      "dest": "/public/signo-casa/capricornio-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-10",
+      "dest": "/public/signo-casa/capricornio-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-11",
+      "dest": "/public/signo-casa/capricornio-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/capricornio-casa-12",
+      "dest": "/public/signo-casa/capricornio-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-1",
+      "dest": "/public/signo-casa/aquario-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-2",
+      "dest": "/public/signo-casa/aquario-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-3",
+      "dest": "/public/signo-casa/aquario-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-4",
+      "dest": "/public/signo-casa/aquario-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-5",
+      "dest": "/public/signo-casa/aquario-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-6",
+      "dest": "/public/signo-casa/aquario-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-7",
+      "dest": "/public/signo-casa/aquario-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-8",
+      "dest": "/public/signo-casa/aquario-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-9",
+      "dest": "/public/signo-casa/aquario-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-10",
+      "dest": "/public/signo-casa/aquario-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-11",
+      "dest": "/public/signo-casa/aquario-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/aquario-casa-12",
+      "dest": "/public/signo-casa/aquario-casa-12.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-1",
+      "dest": "/public/signo-casa/peixes-casa-1.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-2",
+      "dest": "/public/signo-casa/peixes-casa-2.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-3",
+      "dest": "/public/signo-casa/peixes-casa-3.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-4",
+      "dest": "/public/signo-casa/peixes-casa-4.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-5",
+      "dest": "/public/signo-casa/peixes-casa-5.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-6",
+      "dest": "/public/signo-casa/peixes-casa-6.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-7",
+      "dest": "/public/signo-casa/peixes-casa-7.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-8",
+      "dest": "/public/signo-casa/peixes-casa-8.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-9",
+      "dest": "/public/signo-casa/peixes-casa-9.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-10",
+      "dest": "/public/signo-casa/peixes-casa-10.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-11",
+      "dest": "/public/signo-casa/peixes-casa-11.html"
+    },
+    {
+      "src": "/signo-casa/peixes-casa-12",
+      "dest": "/public/signo-casa/peixes-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-1",
+      "dest": "/public/planeta-casa/sol-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-2",
+      "dest": "/public/planeta-casa/sol-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-3",
+      "dest": "/public/planeta-casa/sol-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-4",
+      "dest": "/public/planeta-casa/sol-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-5",
+      "dest": "/public/planeta-casa/sol-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-6",
+      "dest": "/public/planeta-casa/sol-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-7",
+      "dest": "/public/planeta-casa/sol-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-8",
+      "dest": "/public/planeta-casa/sol-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-9",
+      "dest": "/public/planeta-casa/sol-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-10",
+      "dest": "/public/planeta-casa/sol-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-11",
+      "dest": "/public/planeta-casa/sol-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/sol-casa-12",
+      "dest": "/public/planeta-casa/sol-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-1",
+      "dest": "/public/planeta-casa/lua-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-2",
+      "dest": "/public/planeta-casa/lua-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-3",
+      "dest": "/public/planeta-casa/lua-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-4",
+      "dest": "/public/planeta-casa/lua-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-5",
+      "dest": "/public/planeta-casa/lua-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-6",
+      "dest": "/public/planeta-casa/lua-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-7",
+      "dest": "/public/planeta-casa/lua-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-8",
+      "dest": "/public/planeta-casa/lua-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-9",
+      "dest": "/public/planeta-casa/lua-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-10",
+      "dest": "/public/planeta-casa/lua-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-11",
+      "dest": "/public/planeta-casa/lua-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/lua-casa-12",
+      "dest": "/public/planeta-casa/lua-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-1",
+      "dest": "/public/planeta-casa/mercurio-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-2",
+      "dest": "/public/planeta-casa/mercurio-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-3",
+      "dest": "/public/planeta-casa/mercurio-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-4",
+      "dest": "/public/planeta-casa/mercurio-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-5",
+      "dest": "/public/planeta-casa/mercurio-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-6",
+      "dest": "/public/planeta-casa/mercurio-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-7",
+      "dest": "/public/planeta-casa/mercurio-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-8",
+      "dest": "/public/planeta-casa/mercurio-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-9",
+      "dest": "/public/planeta-casa/mercurio-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-10",
+      "dest": "/public/planeta-casa/mercurio-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-11",
+      "dest": "/public/planeta-casa/mercurio-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/mercurio-casa-12",
+      "dest": "/public/planeta-casa/mercurio-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-1",
+      "dest": "/public/planeta-casa/venus-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-2",
+      "dest": "/public/planeta-casa/venus-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-3",
+      "dest": "/public/planeta-casa/venus-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-4",
+      "dest": "/public/planeta-casa/venus-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-5",
+      "dest": "/public/planeta-casa/venus-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-6",
+      "dest": "/public/planeta-casa/venus-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-7",
+      "dest": "/public/planeta-casa/venus-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-8",
+      "dest": "/public/planeta-casa/venus-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-9",
+      "dest": "/public/planeta-casa/venus-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-10",
+      "dest": "/public/planeta-casa/venus-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-11",
+      "dest": "/public/planeta-casa/venus-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/venus-casa-12",
+      "dest": "/public/planeta-casa/venus-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-1",
+      "dest": "/public/planeta-casa/marte-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-2",
+      "dest": "/public/planeta-casa/marte-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-3",
+      "dest": "/public/planeta-casa/marte-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-4",
+      "dest": "/public/planeta-casa/marte-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-5",
+      "dest": "/public/planeta-casa/marte-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-6",
+      "dest": "/public/planeta-casa/marte-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-7",
+      "dest": "/public/planeta-casa/marte-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-8",
+      "dest": "/public/planeta-casa/marte-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-9",
+      "dest": "/public/planeta-casa/marte-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-10",
+      "dest": "/public/planeta-casa/marte-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-11",
+      "dest": "/public/planeta-casa/marte-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/marte-casa-12",
+      "dest": "/public/planeta-casa/marte-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-1",
+      "dest": "/public/planeta-casa/jupiter-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-2",
+      "dest": "/public/planeta-casa/jupiter-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-3",
+      "dest": "/public/planeta-casa/jupiter-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-4",
+      "dest": "/public/planeta-casa/jupiter-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-5",
+      "dest": "/public/planeta-casa/jupiter-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-6",
+      "dest": "/public/planeta-casa/jupiter-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-7",
+      "dest": "/public/planeta-casa/jupiter-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-8",
+      "dest": "/public/planeta-casa/jupiter-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-9",
+      "dest": "/public/planeta-casa/jupiter-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-10",
+      "dest": "/public/planeta-casa/jupiter-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-11",
+      "dest": "/public/planeta-casa/jupiter-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/jupiter-casa-12",
+      "dest": "/public/planeta-casa/jupiter-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-1",
+      "dest": "/public/planeta-casa/saturno-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-2",
+      "dest": "/public/planeta-casa/saturno-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-3",
+      "dest": "/public/planeta-casa/saturno-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-4",
+      "dest": "/public/planeta-casa/saturno-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-5",
+      "dest": "/public/planeta-casa/saturno-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-6",
+      "dest": "/public/planeta-casa/saturno-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-7",
+      "dest": "/public/planeta-casa/saturno-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-8",
+      "dest": "/public/planeta-casa/saturno-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-9",
+      "dest": "/public/planeta-casa/saturno-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-10",
+      "dest": "/public/planeta-casa/saturno-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-11",
+      "dest": "/public/planeta-casa/saturno-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/saturno-casa-12",
+      "dest": "/public/planeta-casa/saturno-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-1",
+      "dest": "/public/planeta-casa/urano-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-2",
+      "dest": "/public/planeta-casa/urano-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-3",
+      "dest": "/public/planeta-casa/urano-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-4",
+      "dest": "/public/planeta-casa/urano-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-5",
+      "dest": "/public/planeta-casa/urano-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-6",
+      "dest": "/public/planeta-casa/urano-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-7",
+      "dest": "/public/planeta-casa/urano-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-8",
+      "dest": "/public/planeta-casa/urano-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-9",
+      "dest": "/public/planeta-casa/urano-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-10",
+      "dest": "/public/planeta-casa/urano-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-11",
+      "dest": "/public/planeta-casa/urano-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/urano-casa-12",
+      "dest": "/public/planeta-casa/urano-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-1",
+      "dest": "/public/planeta-casa/netuno-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-2",
+      "dest": "/public/planeta-casa/netuno-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-3",
+      "dest": "/public/planeta-casa/netuno-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-4",
+      "dest": "/public/planeta-casa/netuno-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-5",
+      "dest": "/public/planeta-casa/netuno-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-6",
+      "dest": "/public/planeta-casa/netuno-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-7",
+      "dest": "/public/planeta-casa/netuno-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-8",
+      "dest": "/public/planeta-casa/netuno-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-9",
+      "dest": "/public/planeta-casa/netuno-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-10",
+      "dest": "/public/planeta-casa/netuno-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-11",
+      "dest": "/public/planeta-casa/netuno-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/netuno-casa-12",
+      "dest": "/public/planeta-casa/netuno-casa-12.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-1",
+      "dest": "/public/planeta-casa/plutao-casa-1.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-2",
+      "dest": "/public/planeta-casa/plutao-casa-2.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-3",
+      "dest": "/public/planeta-casa/plutao-casa-3.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-4",
+      "dest": "/public/planeta-casa/plutao-casa-4.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-5",
+      "dest": "/public/planeta-casa/plutao-casa-5.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-6",
+      "dest": "/public/planeta-casa/plutao-casa-6.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-7",
+      "dest": "/public/planeta-casa/plutao-casa-7.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-8",
+      "dest": "/public/planeta-casa/plutao-casa-8.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-9",
+      "dest": "/public/planeta-casa/plutao-casa-9.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-10",
+      "dest": "/public/planeta-casa/plutao-casa-10.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-11",
+      "dest": "/public/planeta-casa/plutao-casa-11.html"
+    },
+    {
+      "src": "/planeta-casa/plutao-casa-12",
+      "dest": "/public/planeta-casa/plutao-casa-12.html"
     }
   ]
 }
