@@ -162,6 +162,19 @@ footer a:hover{color:var(--purple3);}
 .btn-compat:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(244,114,182,.3);}
 .compat-badge{display:inline-block;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:10px;font-family:'Cinzel',serif;font-size:.62rem;color:#22c55e;padding:.2rem .7rem;letter-spacing:.06em;margin-bottom:1rem;}
 @media(max-width:640px){.compat-inner{grid-template-columns:1fr;}}
+
+  /* NÚMEROS ANJOS SECTION */
+  .numeros-section{padding:60px 20px;position:relative}
+  .numeros-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  @media(max-width:700px){.numeros-inner{grid-template-columns:1fr}}
+  .numeros-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .np-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;transition:all .2s}
+  .np-card:hover{border-color:rgba(200,151,58,.5);transform:translateY(-2px)}
+  .np-num{font-size:1.1rem;font-weight:800;color:var(--gold2);margin-bottom:2px}
+  .np-label{font-size:.58rem;color:var(--muted);line-height:1.3}
+  .np-card.highlight{border-color:rgba(200,151,58,.4);background:rgba(200,151,58,.06)}
+  .btn-numeros{display:inline-flex;align-items:center;gap:8px;background:rgba(200,151,58,.1);border:1px solid rgba(200,151,58,.3);color:var(--gold2);text-decoration:none;padding:12px 24px;border-radius:24px;font-size:.88rem;font-weight:700;transition:all .2s;margin-top:20px}
+  .btn-numeros:hover{background:rgba(200,151,58,.2);border-color:var(--gold2)}
 </style>
 </head>
 <body>
@@ -187,6 +200,30 @@ footer a:hover{color:var(--purple3);}
     <span>⭐ +4.200 mapas gerados</span>
   </div>
 </section>
+
+<!-- ── NÚMEROS ANJOS SECTION ── -->
+<section class="numeros-section">
+  <div class="numeros-inner">
+    <div class="compat-text">
+      <div class="section-tag">🔢 Grátis para todos</div>
+      <h2>Viu 11:11 hoje?</h2>
+      <p style="color:var(--muted);line-height:1.7;margin:16px 0">Você olha pro celular e vê 11:11. Acorda às 3:33. O número 444 aparece em todo lugar. <strong style="color:var(--text)">Isso não é coincidência</strong> — é o universo mandando uma mensagem direta pra você.</p>
+      <p style="color:var(--muted);line-height:1.7;margin-bottom:4px">Descubra o significado de todas as <strong style="color:var(--text)">horas espelho</strong> (00:00 a 23:23) e <strong style="color:var(--text)">números anjos</strong> (111, 222, 333…) — com mensagem, áreas de vida e afirmação do dia.</p>
+      <a href="/numeros-anjos" class="btn-numeros">🔢 Decifrar meu número →</a>
+    </div>
+    <div class="numeros-preview">
+      <div class="np-card highlight"><div class="np-num">11:11</div><div class="np-label">Portal de Manifestação</div></div>
+      <div class="np-card"><div class="np-num">22:22</div><div class="np-label">Mestre Construtor</div></div>
+      <div class="np-card"><div class="np-num">444</div><div class="np-label">Proteção Angelical</div></div>
+      <div class="np-card"><div class="np-num">333</div><div class="np-label">Guias Espirituais</div></div>
+      <div class="np-card"><div class="np-num">00:00</div><div class="np-label">Portal da Meia-Noite</div></div>
+      <div class="np-card highlight"><div class="np-num">777</div><div class="np-label">Sorte Máxima</div></div>
+      <div class="np-card"><div class="np-num">888</div><div class="np-label">Abundância Infinita</div></div>
+      <div class="np-card"><div class="np-num">555</div><div class="np-label">Grande Mudança</div></div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ── PROOF BAR ── -->
 <div class="proof-bar">
