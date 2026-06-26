@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Números Anjos e Horas Espelho — Bússola Astral</title>
+<meta name="description" content="Descubra o significado espiritual dos números que você fica vendo: 11:11, 22:22, 333, 444 e muito mais. Mensagens do universo decifradas.">
+<meta name="keywords" content="horas espelho, números anjos, 11:11, 22:22, 333, 444, numerologia, significado espiritual">
+<meta property="og:title" content="Horas Espelho e Números Anjos — Bússola Astral">
+<meta property="og:description" content="O universo está tentando te dizer algo. Descubra a mensagem por trás dos números que você não para de ver.">
+<link rel="icon" href="/favicon.ico">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a26;
+    --border: rgba(255,255,255,.07);
+    --text: #e8e6f0;
+    --muted: #7a7890;
+    --gold: #c8973a;
+    --gold2: #e8b550;
+    --purple: #7c3fe4;
+    --purple2: #9b5cf0;
+    --teal: #3fcf8e;
+    --pink: #f472b6;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+
+  /* STARS BG */
+  body::before{content:'';position:fixed;inset:0;background:
+    radial-gradient(ellipse 80% 50% at 50% 0%,rgba(124,63,228,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 30% at 80% 30%,rgba(200,151,58,.06) 0%,transparent 50%);
+    pointer-events:none;z-index:0}
+
+  /* TOPBAR */
+  .topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+  .topbar-logo{font-size:1.1rem;font-weight:700;color:var(--gold2);text-decoration:none;display:flex;align-items:center;gap:8px}
+  .topbar-nav{display:flex;align-items:center;gap:4px}
+  .topbar-nav a{color:var(--muted);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px;transition:all .2s}
+  .topbar-nav a:hover,.topbar-nav a.active{color:var(--text);background:rgba(255,255,255,.06)}
+  .btn-premium{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff!important;padding:7px 16px!important;border-radius:20px!important;font-size:.8rem!important;font-weight:600!important}
+
+  /* HERO */
+  .hero{position:relative;z-index:1;text-align:center;padding:60px 20px 40px}
+  .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(200,151,58,.1);border:1px solid rgba(200,151,58,.25);color:var(--gold2);border-radius:20px;padding:4px 14px;font-size:.75rem;font-weight:600;margin-bottom:18px;letter-spacing:.04em}
+  .hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:14px;background:linear-gradient(135deg,#fff 30%,var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{color:var(--muted);max-width:520px;margin:0 auto 30px;font-size:1rem;line-height:1.6}
+  .time-display{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 24px;font-size:1.4rem;font-weight:700;color:var(--gold2);margin-bottom:8px}
+  .time-label{font-size:.7rem;color:var(--muted);letter-spacing:.06em;margin-bottom:30px}
+
+  /* TABS */
+  .tabs-wrap{position:relative;z-index:1;max-width:480px;margin:0 auto 36px;padding:0 20px}
+  .tabs{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px}
+  .tab-btn{flex:1;padding:10px;border:none;background:none;color:var(--muted);font-size:.88rem;font-weight:600;border-radius:9px;cursor:pointer;transition:all .2s}
+  .tab-btn.active{background:var(--surface2);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+  /* GRID */
+  .main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 20px 80px}
+  .section-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;padding-left:2px}
+
+  .numbers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:40px}
+  .num-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+  .num-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,63,228,.0),rgba(124,63,228,.06));opacity:0;transition:opacity .22s}
+  .num-card:hover{border-color:rgba(124,63,228,.4);transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,63,228,.15)}
+  .num-card:hover::before{opacity:1}
+  .num-card.active{border-color:var(--purple2);background:rgba(124,63,228,.1);box-shadow:0 0 20px rgba(124,63,228,.2)}
+  .num-card .num{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:4px}
+  .num-card .num-sub{font-size:.62rem;color:var(--muted);line-height:1.3}
+  .num-card .num-emoji{font-size:1.3rem;margin-bottom:6px}
+
+  /* Power tier colors */
+  .tier-1 .num{color:var(--gold2)}
+  .tier-2 .num{color:var(--purple2)}
+  .tier-3 .num{color:var(--teal)}
+  .tier-1.active,.tier-1:hover{border-color:rgba(200,151,58,.6);box-shadow:0 8px 24px rgba(200,151,58,.2)}
+  .tier-2.active,.tier-2:hover{border-color:rgba(155,92,240,.6);box-shadow:0 8px 24px rgba(155,92,240,.2)}
+  .tier-3.active,.tier-3:hover{border-color:rgba(63,207,142,.4);box-shadow:0 8px 24px rgba(63,207,142,.15)}
+
+  /* MEANING PANEL */
+  .meaning-wrap{margin-top:24px}
+  .meaning-panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;display:none;animation:fadeUp .3s ease}
+  .meaning-panel.visible{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .mp-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+  .mp-number{font-size:2.2rem;font-weight:900;color:var(--gold2);min-width:80px;text-align:center;background:rgba(200,151,58,.08);border:1px solid rgba(200,151,58,.2);border-radius:12px;padding:8px}
+  .mp-title-wrap{}
+  .mp-title{font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:4px}
+  .mp-subtitle{font-size:.8rem;color:var(--muted)}
+  .mp-badge{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;border-radius:20px;padding:2px 10px;font-weight:700;margin-top:6px}
+
+  .mp-message{font-size:1rem;color:var(--text);line-height:1.75;margin-bottom:24px;padding:18px;background:rgba(124,63,228,.05);border:1px solid rgba(124,63,228,.12);border-radius:12px}
+  .mp-message em{color:var(--gold2);font-style:normal;font-weight:600}
+
+  .mp-areas{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:22px}
+  .mp-area{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px}
+  .mp-area-icon{font-size:1.2rem;margin-bottom:6px}
+  .mp-area-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .mp-area-text{font-size:.82rem;color:var(--text);line-height:1.4}
+
+  .mp-affirmation{background:linear-gradient(135deg,rgba(124,63,228,.12),rgba(200,151,58,.06));border:1px solid rgba(124,63,228,.2);border-radius:12px;padding:16px;text-align:center}
+  .mp-affirmation-label{font-size:.65rem;color:var(--purple2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-weight:700}
+  .mp-affirmation-text{font-size:.95rem;color:var(--text);font-style:italic;line-height:1.6}
+
+  .mp-cta{margin-top:20px;padding:16px;background:rgba(200,151,58,.06);border:1px solid rgba(200,151,58,.15);border-radius:12px;text-align:center}
+  .mp-cta p{font-size:.82rem;color:var(--muted);margin-bottom:10px}
+  .mp-cta a{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;text-decoration:none;padding:10px 22px;border-radius:20px;font-size:.82rem;font-weight:700;transition:opacity .2s}
+  .mp-cta a:hover{opacity:.85}
+
+  /* FOOTER */
+  .footer{position:relative;z-index:1;text-align:center;padding:30px 20px;border-top:1px solid var(--border);color:var(--muted);font-size:.78rem}
+  .footer a{color:var(--muted);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="/" class="topbar-logo">✦ Bússola Astral</a>
+  <div class="topbar-nav">
+    <a href="/horoscopo">Horóscopo</a>
+    <a href="/compatibilidade">Compatibilidade</a>
+    <a href="/numeros-anjos" class="active">Números</a>
+    <a href="/premium" class="btn-premium">✨ Premium</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">🔢 Numerologia Angelical</div>
+  <h1>O universo está<br>tentando te dizer algo</h1>
+  <p>Você olha pro celular e vê 11:11. Acorda às 3:33. O número 444 aparece em todo lugar. Isso não é coincidência — é uma mensagem.</p>
+  <div class="time-display" id="live-time">00:00</div>
+  <div class="time-label">HORÁRIO ATUAL — CONFIRA SE É UMA HORA ESPELHO</div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('espelho')">🕐 Horas Espelho</button>
+    <button class="tab-btn" onclick="switchTab('anjos')">✨ Números Anjos</button>
+  </div>
+</div>
+
+<main class="main">
+  <!-- HORAS ESPELHO -->
+  <div id="tab-espelho">
+    <div class="section-label">Selecione a hora que você viu</div>
+    <div class="numbers-grid" id="grid-espelho"></div>
+  </div>
+
+  <!-- NÚMEROS ANJOS -->
+  <div id="tab-anjos" style="display:none">
+    <div class="section-label">Selecione o número que aparece na sua vida</div>
+    <div class="numbers-grid" id="grid-anjos"></div>
+  </div>
+
+  <!-- PAINEL DE SIGNIFICADO -->
+  <div class="meaning-wrap">
+    <div class="meaning-panel" id="meaning-panel"></div>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>✦ <a href="/">Bússola Astral</a> · Numerologia Angelical · <a href="/horoscopo">Horóscopo Personalizado</a></p>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════
+// DADOS — HORAS ESPELHO
+// ════════════════════════════════════════════════
+const ESPELHO = {
+  '00:00': {
+    emoji: '🌑',
+    title: 'Portal da Meia-Noite',
+    subtitle: 'O grande reinício',
+    badge: '🌀 Ponto Zero',
+    badgeColor: '#a78bfa',
+    power: 1,
+    message: 'Você cruzou o portal mais sagrado do dia. <em>00:00 é o ponto zero</em> — onde tudo termina e tudo começa ao mesmo tempo. O universo está zerando o contador para você. Este é um momento de intenção pura: o que você deseja criar no novo ciclo que começa agora? Sua energia está no ponto de máxima receptividade.',
+    areas: [
+      {icon:'🔄',label:'Ciclos',text:'Um capítulo se fecha. O que você carrega desnecessariamente?'},
+      {icon:'🌱',label:'Recomeço',text:'Oportunidade rara de definir intenções com máximo poder'},
+      {icon:'🛡️',label:'Proteção',text:'Escudo energético ativo — você está seguro'},
+      {icon:'💫',label:'Manifestação',text:'Pensamentos desta hora têm peso dobrado'},
+    ],
+    affirmation: '"Eu libero o passado e recebo o novo com o coração aberto."',
+  },
+  '01:01': {
+    emoji: '🌟',
+    title: 'Missão de Alma',
+    subtitle: 'Você está no caminho certo',
+    badge: '✨ Início',
+    badgeColor: '#facc15',
+    power: 2,
+    message: 'O número 1 duplicado é um sinal de que você está em perfeita sintonia com sua missão de alma. <em>O universo confirma: continue</em>. Se você estava em dúvida sobre uma decisão, essa hora é um "sim" cósmico. Confie nos seus instintos — eles estão mais afinados do que nunca agora.',
+    areas: [
+      {icon:'🎯',label:'Propósito',text:'Você está alinhado com sua missão mais profunda'},
+      {icon:'💪',label:'Autoconfiança',text:'Momento de afirmar quem você é sem pedir desculpas'},
+      {icon:'🚀',label:'Novos começos',text:'Ideal para iniciar projetos que ficaram na gaveta'},
+      {icon:'❤️',label:'Amor próprio',text:'Pratique se colocar em primeiro lugar hoje'},
+    ],
+    affirmation: '"Eu confio no meu caminho. Estou exatamente onde preciso estar."',
+  },
+  '02:02': {
+    emoji: '🤝',
+    title: 'Equilíbrio e Parceria',
+    subtitle: 'Cooperação é a chave',
+    badge: '⚖️ Harmonia',
+    badgeColor: '#34d399',
+    power: 2,
+    message: 'A energia do 2 duplicado fala de <em>parcerias, cooperação e equilíbrio</em>. Alguém importante está pensando em você neste exato momento. Relacionamentos — românticos, amizades ou profissionais — estão em foco. Hora de ser mais receptivo e menos controlador. O que você mais precisa chega quando você abre espaço para receber.',
+    areas: [
+      {icon:'💞',label:'Relacionamentos',text:'Conexões se aprofundam — alguém pensa em você'},
+      {icon:'⚖️',label:'Equilíbrio',text:'Encontre o meio-termo em um conflito pendente'},
+      {icon:'🙌',label:'Colaboração',text:'Projetos em parceria recebem bênção cósmica'},
+      {icon:'🧘',label:'Paz interior',text:'Sua harmonia interna atrai harmonia externa'},
+    ],
+    affirmation: '"Eu me abro para receber amor, apoio e cooperação em todas as formas."',
+  },
+  '03:03': {
+    emoji: '👼',
+    title: 'Mestres Ascendentes',
+    subtitle: 'Você não está sozinho',
+    badge: '🌈 Guia',
+    badgeColor: '#60a5fa',
+    power: 2,
+    message: 'Os <em>Mestres Ascendentes</em> — Jesus, Buda, Maria, São Francisco e outros grandes guias espirituais — estão especialmente próximos de você agora. O 3 é o número da Trindade e da criatividade divina. Se você pediu orientação, ajuda ou um sinal, esta é a resposta: você tem apoio espiritual total. Expresse-se sem medo.',
+    areas: [
+      {icon:'🙏',label:'Espiritualidade',text:'Canal espiritual aberto — meditação muito eficaz agora'},
+      {icon:'🎨',label:'Criatividade',text:'Ideias que surgem agora vêm de fonte elevada'},
+      {icon:'💬',label:'Expressão',text:'Diga o que está guardado — é hora de ser ouvido'},
+      {icon:'✨',label:'Milagres',text:'Sincronicidades e coincidências estão se acelerando'},
+    ],
+    affirmation: '"Estou rodeado de amor e proteção divina. Minha voz importa."',
+  },
+  '04:04': {
+    emoji: '🛡️',
+    title: 'Proteção Angelical',
+    subtitle: 'Anjos trabalhando por você',
+    badge: '👼 Anjos',
+    badgeColor: '#a78bfa',
+    power: 2,
+    message: 'Seus <em>anjos guardiões estão em plena atividade</em> ao seu redor. O número 4 é o número da proteção, estabilidade e da construção de alicerces sólidos. Quando você vê 04:04, é um sinal de que não está sozinho em suas batalhas — forças invisíveis estão trabalhando a seu favor. Confie. Faça sua parte e deixe o universo cuidar do resto.',
+    areas: [
+      {icon:'🛡️',label:'Proteção',text:'Você está seguro — os anjos estão de guarda'},
+      {icon:'🏗️',label:'Fundações',text:'Construa com paciência — o que você faz agora dura'},
+      {icon:'🧱',label:'Estabilidade',text:'Momento de organizar, estruturar e planejar'},
+      {icon:'❤️',label:'Apoio',text:'Pessoas certas aparecerão para te ajudar'},
+    ],
+    affirmation: '"Estou protegido, guiado e amado pelo universo. Confio no processo."',
+  },
+  '05:05': {
+    emoji: '🌀',
+    title: 'Grandes Mudanças',
+    subtitle: 'Transformação a caminho',
+    badge: '🔄 Mudança',
+    badgeColor: '#f472b6',
+    power: 2,
+    message: 'Algo está prestes a mudar — e <em>essa mudança é necessária e positiva</em>. O 5 é o número da liberdade, aventura e transformação. Se você estava resistindo a uma mudança, este é o sinal para soltar o controle. O universo está reorganizando peças para que algo melhor caiba na sua vida. Abra espaço.',
+    areas: [
+      {icon:'🦋',label:'Transformação',text:'Uma metamorfose importante está em curso'},
+      {icon:'🗝️',label:'Liberdade',text:'Liberte-se de padrões e situações limitantes'},
+      {icon:'🌍',label:'Novos horizontes',text:'Oportunidades de expansão chegam em breve'},
+      {icon:'💫',label:'Adaptação',text:'Seja flexível — o melhor caminho pode ser inesperado'},
+    ],
+    affirmation: '"Eu abraço a mudança com coragem. O novo que chega é perfeito para mim."',
+  },
+  '06:06': {
+    emoji: '💚',
+    title: 'Equilíbrio Material-Espiritual',
+    subtitle: 'Cuide de você e dos seus',
+    badge: '🌿 Cuidado',
+    badgeColor: '#34d399',
+    power: 2,
+    message: 'O 6 é o número do amor incondicional, do lar e dos relacionamentos. Ver 06:06 é um lembrete de que <em>o equilíbrio entre o mundo material e espiritual precisa de atenção</em>. Você pode estar tão focado em trabalho e conquistas que negligenciou as pessoas e conexões que realmente importam. Reconecte-se.',
+    areas: [
+      {icon:'🏡',label:'Lar',text:'O lar precisa de sua energia e presença'},
+      {icon:'💚',label:'Família',text:'Demonstre amor por gestos concretos'},
+      {icon:'⚖️',label:'Equilíbrio',text:'Trabalho e vida pessoal pedem realinhamento'},
+      {icon:'🌱',label:'Autocuidado',text:'Cuide do seu corpo e da sua saúde'},
+    ],
+    affirmation: '"Cuido de mim e dos meus com amor e presença. Equilíbrio é minha escolha."',
+  },
+  '07:07': {
+    emoji: '🍀',
+    title: 'Sorte e Despertar',
+    subtitle: 'Alinhamento espiritual total',
+    badge: '⭐ Sorte',
+    badgeColor: '#facc15',
+    power: 1,
+    message: 'O 7 é considerado o número mais espiritual e sortudo de todos. Ver <em>07:07 é um sinal poderoso de despertar espiritual e alinhamento</em>. O universo aprova as escolhas que você vem fazendo. Você está em um período de crescimento interno profundo. Sonhos, intuições e insights são especialmente confiáveis agora.',
+    areas: [
+      {icon:'🔮',label:'Intuição',text:'Sua intuição está no pico — confie nos insights'},
+      {icon:'📚',label:'Conhecimento',text:'Momento de aprender, estudar e expandir a mente'},
+      {icon:'🌙',label:'Sonhos',text:'Preste atenção nos sonhos — trazem mensagens'},
+      {icon:'🍀',label:'Sorte',text:'Coincidências favoráveis estão se acumulando'},
+    ],
+    affirmation: '"Estou em perfeito alinhamento com o fluxo do universo."',
+  },
+  '08:08': {
+    emoji: '💰',
+    title: 'Portal da Abundância',
+    subtitle: 'Fluxo financeiro e poder pessoal',
+    badge: '♾️ Infinito',
+    badgeColor: '#c8973a',
+    power: 1,
+    message: 'O 8 deitado é o símbolo do infinito — e ver <em>08:08 é um dos sinais mais poderosos de abundância e prosperidade</em>. Este número anuncia que um ciclo de colheita está chegando. Esforços que você fez no passado estão prestes a se materializar em resultados concretos. Financeiramente, o fluxo está voltando.',
+    areas: [
+      {icon:'💎',label:'Prosperidade',text:'Abundância financeira se aproxima — esteja receptivo'},
+      {icon:'🏆',label:'Conquistas',text:'Resultados de esforços passados chegam agora'},
+      {icon:'💪',label:'Poder pessoal',text:'Você tem mais força e influência do que percebe'},
+      {icon:'🌊',label:'Fluxo',text:'Pare de bloquear receber — permita a abundância'},
+    ],
+    affirmation: '"Eu mereço abundância em todas as áreas da minha vida. Estou aberto para receber."',
+  },
+  '09:09': {
+    emoji: '🌅',
+    title: 'Fechamento de Ciclo',
+    subtitle: 'Completude e preparação',
+    badge: '🔚 Ciclo',
+    badgeColor: '#f97316',
+    power: 2,
+    message: 'O 9 é o número da completude e da sabedoria adquirida. Ver <em>09:09 significa que um importante ciclo da sua vida está chegando ao fim</em>. Não resista — este fechamento é necessário para que algo novo e muito melhor possa entrar. Perdoe, agradeça, solte. O que vai vai para abrir espaço para o que vem.',
+    areas: [
+      {icon:'🌅',label:'Encerramento',text:'Deixe ir o que não serve mais — com gratidão'},
+      {icon:'🤝',label:'Perdão',text:'Perdoar é o ato mais poderoso que você pode fazer agora'},
+      {icon:'🌸',label:'Gratidão',text:'Agradeça pelas lições do ciclo que passa'},
+      {icon:'🌱',label:'Preparo',text:'Um novo e belo ciclo está se preparando para começar'},
+    ],
+    affirmation: '"Eu agradeço por tudo que foi. Eu solto com amor e abro espaço para o novo."',
+  },
+  '10:10': {
+    emoji: '✅',
+    title: 'No Caminho Certo',
+    subtitle: 'O universo confirma sua direção',
+    badge: '🎯 Alinhado',
+    badgeColor: '#34d399',
+    power: 2,
+    message: 'Ver 10:10 é como receber uma mensagem direta: <em>"você está no caminho certo — continue"</em>. O 1 e o 0 juntos representam novos começos com o apoio da energia divina. Se você estava duvidando de uma decisão ou de um caminho, o universo está dizendo: confie. Você está mais alinhado do que imagina.',
+    areas: [
+      {icon:'🎯',label:'Direção',text:'Sua intuição está correta — siga em frente'},
+      {icon:'🌟',label:'Potencial',text:'Você tem exatamente o que precisa para ter sucesso'},
+      {icon:'🚀',label:'Momentum',text:'O momento é agora — não espere a hora perfeita'},
+      {icon:'💡',label:'Clareza',text:'A clareza que você buscava está chegando'},
+    ],
+    affirmation: '"Eu confio no meu caminho. Cada passo me leva exatamente onde preciso ir."',
+  },
+  '11:11': {
+    emoji: '🌌',
+    title: 'Portal da Manifestação',
+    subtitle: 'O momento mais poderoso do dia',
+    badge: '⚡ Máximo Poder',
+    badgeColor: '#facc15',
+    power: 1,
+    message: '<em>11:11 é o portal de manifestação mais poderoso que existe.</em> Neste exato momento, o véu entre o mundo físico e espiritual está no ponto mais fino. Seus pensamentos têm poder de criação multiplicado. Toda intenção que você coloca agora é ouvida pelo universo com máxima clareza. Faça um pedido. Visualize. Sinta como se já tivesse. Este é o momento.',
+    areas: [
+      {icon:'⚡',label:'Manifestação',text:'Seus pensamentos criam realidade com velocidade máxima'},
+      {icon:'🌌',label:'Portal',text:'Acesso direto ao campo quântico de possibilidades'},
+      {icon:'💫',label:'Despertar',text:'Sua consciência está se expandindo rapidamente'},
+      {icon:'🔮',label:'Intuição',text:'Mensagens espirituais chegam em flash — preste atenção'},
+    ],
+    affirmation: '"Eu manifesto com intenção pura. O universo conspira a meu favor agora."',
+  },
+  '12:12': {
+    emoji: '🌠',
+    title: 'Alinhamento Divino',
+    subtitle: 'Sonhos se tornando realidade',
+    badge: '🌟 Divino',
+    badgeColor: '#a78bfa',
+    power: 1,
+    message: '12:12 marca um <em>alinhamento celestial completo</em>. Este é o número do discípulo, da completude e da ordem divina. Algo que você deseja há muito tempo está entrando na fase final de materialização. Confie no timing do universo — o que parece demora é apenas o perfil de uma entrega perfeita.',
+    areas: [
+      {icon:'🌟',label:'Realização',text:'Sonhos de longa data estão prestes a se realizar'},
+      {icon:'🔄',label:'Ciclo completo',text:'Um círculo se fecha em perfeita ordem divina'},
+      {icon:'❤️',label:'Amor',text:'Relacionamentos entram em fase de profundidade real'},
+      {icon:'🏆',label:'Conquista',text:'Reconhecimento e mérito chegam no tempo certo'},
+    ],
+    affirmation: '"Confio no timing divino. Tudo se alinha perfeitamente na minha vida."',
+  },
+  '13:13': {
+    emoji: '🌙',
+    title: 'Sabedoria Feminina',
+    subtitle: 'Transformação pela intuição',
+    badge: '🌙 Feminino Sagrado',
+    badgeColor: '#f472b6',
+    power: 2,
+    message: 'Ao contrário do que muitos pensam, <em>13 é o número sagrado do feminino</em> — ligado aos 13 ciclos lunares do ano. Ver 13:13 é um convite a confiar na sua intuição profunda, acessar sua sabedoria interior e abraçar a transformação sem medo. Algo que parecia ruim está revelando sua face de presente.',
+    areas: [
+      {icon:'🌙',label:'Intuição',text:'Sua sabedoria interior é seu maior guia agora'},
+      {icon:'🦋',label:'Transformação',text:'O que parece caos é na verdade evolução'},
+      {icon:'🌺',label:'Feminino sagrado',text:'Honre os ciclos — eles têm sabedoria'},
+      {icon:'🔮',label:'Mistério',text:'O que está oculto começa a se revelar'},
+    ],
+    affirmation: '"Eu confio na minha sabedoria interior. Minha intuição é meu guia mais confiável."',
+  },
+  '14:14': {
+    emoji: '💑',
+    title: 'Proteção nos Laços',
+    subtitle: 'Amor e vínculos abençoados',
+    badge: '💫 Vínculos',
+    badgeColor: '#f472b6',
+    power: 2,
+    message: 'O 14 combina a energia de novos começos (1) com a estabilidade e a ordem (4). Ver <em>14:14 é um sinal de proteção especial nos seus relacionamentos</em>. Laços que são verdadeiros estão sendo fortalecidos. Conexões que não são saudáveis estão sendo naturalmente afastadas. Confie nas pessoas que ficam.',
+    areas: [
+      {icon:'💑',label:'Relacionamentos',text:'Laços genuínos são protegidos e fortalecidos'},
+      {icon:'🌿',label:'Cura',text:'Feridas emocionais antigas podem ser tratadas agora'},
+      {icon:'🤝',label:'Compromisso',text:'Momento favorável para aprofundar vínculos'},
+      {icon:'🚪',label:'Seleção',text:'Deixe sair quem não soma — isso é proteção, não perda'},
+    ],
+    affirmation: '"Meus relacionamentos são protegidos e abençoados. Atraio amor verdadeiro."',
+  },
+  '15:15': {
+    emoji: '🦅',
+    title: 'Liberdade e Aventura',
+    subtitle: 'Sua alma pede expansão',
+    badge: '🌍 Expansão',
+    badgeColor: '#facc15',
+    power: 2,
+    message: 'A energia do 15 é de liberdade, aventura e expansão de horizontes. Ver <em>15:15 é um chamado da sua alma para quebrar limitações</em>. Talvez você esteja num padrão repetitivo, numa situação que já deu o que tinha para dar. O universo está abrindo novas portas — você precisa se permitir passar por elas.',
+    areas: [
+      {icon:'🦅',label:'Liberdade',text:'Liberte-se de situações e padrões que te prendem'},
+      {icon:'🌍',label:'Novos horizontes',text:'Viagens, mudanças e novas experiências estão no ar'},
+      {icon:'💡',label:'Criatividade',text:'Soluções inovadoras para velhos problemas surgem agora'},
+      {icon:'🔓',label:'Desbloqueio',text:'Travas inconscientes estão sendo removidas'},
+    ],
+    affirmation: '"Sou livre para expandir, crescer e explorar novas possibilidades."',
+  },
+  '16:16': {
+    emoji: '🌊',
+    title: 'Solte o Controle',
+    subtitle: 'Confie no plano maior',
+    badge: '🌊 Entrega',
+    badgeColor: '#60a5fa',
+    power: 2,
+    message: 'O 16 traz um aviso importante: <em>cuidado com o ego e com a necessidade de controlar tudo</em>. Você pode estar se desgastando tentando forçar resultados que precisam de mais tempo. Soltar não é desistir — é confiar que o universo tem um plano melhor que o seu. A rendição consciente é um ato de sabedoria.',
+    areas: [
+      {icon:'🌊',label:'Rendição',text:'Solte o que não pode controlar — é libertação'},
+      {icon:'🪞',label:'Reflexão',text:'Momento de honestidade consigo mesmo'},
+      {icon:'🌱',label:'Humildade',text:'Há sempre mais a aprender — mantenha a mente aberta'},
+      {icon:'🛤️',label:'Fé',text:'O caminho certo se revela para quem confia'},
+    ],
+    affirmation: '"Confio no plano divino. Solto o controle e permito que o melhor aconteça."',
+  },
+  '17:17': {
+    emoji: '🏆',
+    title: 'Vitória Merecida',
+    subtitle: 'Reconhecimento a caminho',
+    badge: '🏆 Conquista',
+    badgeColor: '#c8973a',
+    power: 2,
+    message: 'O 17 combina a energia de liderança (1) com o número da sorte espiritual (7). Ver <em>17:17 é um presságio de vitória, reconhecimento e sucesso merecido</em>. O que você construiu com esforço e integridade está prestes a ser recompensado. Continue no caminho — você está muito mais perto do que imagina.',
+    areas: [
+      {icon:'🏆',label:'Reconhecimento',text:'Seus esforços serão vistos e valorizados em breve'},
+      {icon:'🌟',label:'Liderança',text:'Sua posição de influência e respeito cresce'},
+      {icon:'💎',label:'Mérito',text:'O que você construiu com honestidade prevalece'},
+      {icon:'🎯',label:'Foco',text:'Continue no caminho — a linha de chegada está próxima'},
+    ],
+    affirmation: '"Meu esforço é reconhecido. O sucesso que construo com integridade é duradouro."',
+  },
+  '18:18': {
+    emoji: '💫',
+    title: 'Independência e Poder',
+    subtitle: 'Fluxo financeiro em movimento',
+    badge: '💰 Prosperidade',
+    badgeColor: '#c8973a',
+    power: 2,
+    message: 'O 18 reúne início, ação e abundância infinita (1+8). Ver <em>18:18 anuncia um ciclo de independência financeira e empoderamento pessoal</em>. Algo que te prendia — uma dívida, uma dependência, uma situação desfavorável — está chegando ao fim. Sua autonomia está se restaurando. Seja ousado nas próximas ações.',
+    areas: [
+      {icon:'💰',label:'Finanças',text:'Movimento financeiro positivo se aproxima'},
+      {icon:'🗝️',label:'Independência',text:'Libertação de uma dependência financeira ou emocional'},
+      {icon:'💪',label:'Empoderamento',text:'Sua força pessoal está em ascensão'},
+      {icon:'🎯',label:'Ousadia',text:'Este é o momento de tomar a decisão corajosa'},
+    ],
+    affirmation: '"Sou financeiramente livre e poderoso. Crio minha própria abundância."',
+  },
+  '19:19': {
+    emoji: '🌠',
+    title: 'Ciclo se Completa',
+    subtitle: 'Prepare-se para o novo começo',
+    badge: '🔚 Completude',
+    badgeColor: '#f97316',
+    power: 2,
+    message: 'O 19 combina o início (1) com a completude (9) — <em>o fim de um ciclo e o nascimento simultâneo de um novo</em>. Você está numa encruzilhada poderosa. Uma fase importante da sua vida está se concluindo, e com ela vêm sabedoria, maturidade e preparação para algo maior. Celebre o que foi. Abrace o que vem.',
+    areas: [
+      {icon:'🌠',label:'Transição',text:'Você está entre dois capítulos — honre os dois'},
+      {icon:'📖',label:'Sabedoria',text:'Integre as lições antes de avançar'},
+      {icon:'🌱',label:'Novo começo',text:'Um novo e empolgante capítulo se abre em breve'},
+      {icon:'🎊',label:'Celebração',text:'Celebre o quanto você cresceu até aqui'},
+    ],
+    affirmation: '"Honro meu passado e me abro com alegria para o meu futuro brilhante."',
+  },
+  '20:20': {
+    emoji: '🌙',
+    title: 'Parceria e Conexão',
+    subtitle: 'Relacionamentos em foco',
+    badge: '💞 Vínculos',
+    badgeColor: '#a78bfa',
+    power: 2,
+    message: 'O 20 amplifica a energia do 2 — parceria, equilíbrio e conexão profunda. Ver <em>20:20 é um convite a investir nas suas relações mais importantes</em>. Alguém próximo precisa da sua atenção e presença. Ao mesmo tempo, você também precisa de conexão — não lute sozinho quando pode pedir e receber apoio.',
+    areas: [
+      {icon:'👫',label:'Relacionamentos',text:'Invista nas conexões que realmente importam'},
+      {icon:'🤝',label:'Apoio',text:'Peça ajuda — receber é tão nobre quanto dar'},
+      {icon:'💬',label:'Comunicação',text:'Conversas honestas fortalecem vínculos agora'},
+      {icon:'🌙',label:'Intuição',text:'Sua sensibilidade emocional está elevada — use bem'},
+    ],
+    affirmation: '"Dou e recebo amor com igual abertura. Minhas conexões me elevam."',
+  },
+  '21:21': {
+    emoji: '🎊',
+    title: 'Sucesso Aproximando',
+    subtitle: 'Realização e vitória próximas',
+    badge: '🌟 Vitória',
+    badgeColor: '#facc15',
+    power: 1,
+    message: '<em>21:21 é um dos sinais mais animadores que existem</em>: sucesso, realização e conclusão vitoriosa estão ao alcance. O 2 e o 1 juntos falam de cooperação que gera liderança — você unificou forças internas e externas, e os resultados estão chegando. Não desista agora, seja o que for que você esteja perseguindo.',
+    areas: [
+      {icon:'🎊',label:'Celebração',text:'Chegou a hora de colher o que plantou'},
+      {icon:'🏆',label:'Sucesso',text:'Um objetivo importante está prestes a ser alcançado'},
+      {icon:'💫',label:'Reconhecimento',text:'Seu trabalho será visto e apreciado'},
+      {icon:'🚀',label:'Impulso final',text:'Dê o último esforço — a linha de chegada está próxima'},
+    ],
+    affirmation: '"O sucesso é meu por direito. Atravesso a linha de chegada com graça."',
+  },
+  '22:22': {
+    emoji: '🌍',
+    title: 'O Mestre Construtor',
+    subtitle: 'Seus sonhos se materializam',
+    badge: '⚡ Número Mestre',
+    badgeColor: '#c8973a',
+    power: 1,
+    message: '<em>22:22 é o número do Mestre Construtor</em> — um dos mais poderosos de toda a numerologia. Quatro doses do 2 representam a capacidade máxima de transformar sonhos em realidade concreta. Você está num período raro onde o que você visualiza e trabalha tem alto potencial de se materializar de forma extraordinária. Este é o seu momento de construção de legado.',
+    areas: [
+      {icon:'🏗️',label:'Construção',text:'Sonhos grandiosos se tornam realidade concreta agora'},
+      {icon:'⚡',label:'Poder máximo',text:'Número Mestre — energia e potencial fora do comum'},
+      {icon:'🌍',label:'Legado',text:'O que você constrói agora pode durar gerações'},
+      {icon:'💫',label:'Materialização',text:'O invisível está se tornando visível — confie'},
+    ],
+    affirmation: '"Sou um mestre construtor. Manifesto minha visão mais elevada com poder e graça."',
+  },
+  '23:23': {
+    emoji: '🎨',
+    title: 'Criatividade e Expressão',
+    subtitle: 'Sua alma pede para se expressar',
+    badge: '✨ Criação',
+    badgeColor: '#f472b6',
+    power: 2,
+    message: '23:23 é a última hora espelho do dia — e ela chega com uma mensagem de <em>criatividade, autoexpressão e leveza</em>. O universo pede que você se expresse de forma autêntica. Escreva, pinte, dance, cante, fale — de alguma forma, deixe o que está dentro de você sair. A criatividade não usada vira angústia. A criatividade expressa vira libertação.',
+    areas: [
+      {icon:'🎨',label:'Criatividade',text:'Expresse-se sem censura — o que sai de você é valioso'},
+      {icon:'💬',label:'Comunicação',text:'Suas palavras têm poder de inspirar agora'},
+      {icon:'🎵',label:'Arte',text:'Qualquer forma de arte traz cura e clareza'},
+      {icon:'🌙',label:'Encerramento',text:'Feche o dia com intenção — amanhã começa limpo'},
+    ],
+    affirmation: '"Me expresso com autenticidade e leveza. Minha criatividade é um presente para o mundo."',
+  },
+};
+
+// ════════════════════════════════════════════════
+// DADOS — NÚMEROS ANJOS
+// ════════════════════════════════════════════════
+const ANJOS = {
+  '000': {
+    emoji: '⭕',
+    title: 'Ponto Zero Divino',
+    subtitle: 'Proteção total e novo ciclo',
+    badge: '🌀 Origem',
+    badgeColor: '#a78bfa',
+    power: 1,
+    message: 'O zero é o número do Criador — infinito, sem início nem fim. Ver <em>000 ou 0000 é um sinal de que você tem proteção divina total</em> e está prestes a iniciar um ciclo completamente novo. É um reset poderoso: o universo está te devolvendo ao estado original de pureza e possibilidade. Aproveite este momento de recomeço.',
+    areas: [
+      {icon:'⭕',label:'Reinício',text:'Um resetagem completa está acontecendo na sua vida'},
+      {icon:'🛡️',label:'Proteção',text:'Você está completamente protegido pelo Criador'},
+      {icon:'✨',label:'Possibilidades',text:'Tudo é possível a partir deste ponto zero'},
+      {icon:'🙏',label:'Espiritualidade',text:'Seu caminho espiritual tem suporte total'},
+    ],
+    affirmation: '"Estou no ponto zero — cheio de potencial e totalmente protegido."',
+  },
+  '111': {
+    emoji: '⚡',
+    title: 'Portal de Manifestação',
+    subtitle: 'Atenção total aos pensamentos',
+    badge: '⚡ Manifestação',
+    badgeColor: '#facc15',
+    power: 1,
+    message: '<em>111 é o número da manifestação rápida</em>. Seus pensamentos neste momento têm poder de criação acelerado. O que você foca cresce — tanto o positivo quanto o negativo. Por isso, quando você vê 111, é um aviso: cuide da qualidade dos seus pensamentos. Afaste o que não quer criar. Foque com intenção no que deseja manifestar.',
+    areas: [
+      {icon:'⚡',label:'Manifestação',text:'Pensamentos criam realidade com velocidade incomum'},
+      {icon:'🧠',label:'Mente',text:'Cuide da qualidade dos seus pensamentos agora'},
+      {icon:'🎯',label:'Intenção',text:'Defina com clareza o que você quer criar'},
+      {icon:'🚀',label:'Novos começos',text:'Ideal para iniciar projetos e tomar decisões'},
+    ],
+    affirmation: '"Meus pensamentos são positivos e criadores. Manifesto o que desejo com clareza."',
+  },
+  '222': {
+    emoji: '☯️',
+    title: 'Fé e Equilíbrio',
+    subtitle: 'Continue — está valendo a pena',
+    badge: '☯️ Equilíbrio',
+    badgeColor: '#34d399',
+    power: 2,
+    message: 'Ver 222 é uma mensagem direta: <em>"continue, está valendo a pena, tenha fé"</em>. Mesmo que os resultados ainda não estejam visíveis, as sementes que você plantou estão crescendo. O universo pede paciência e equilíbrio. Não abandone o caminho agora — você está mais perto do que imagina.',
+    areas: [
+      {icon:'☯️',label:'Equilíbrio',text:'Encontre o centro entre agir e esperar'},
+      {icon:'🌱',label:'Paciência',text:'As sementes estão crescendo — não as desenterre'},
+      {icon:'💞',label:'Relacionamentos',text:'Parcerias e vínculos recebem energia positiva'},
+      {icon:'🙏',label:'Fé',text:'Confie: o universo está trabalhando para você'},
+    ],
+    affirmation: '"Tenho fé no processo. O que é meu está chegando no tempo perfeito."',
+  },
+  '333': {
+    emoji: '👼',
+    title: 'Apoio dos Guias',
+    subtitle: 'Mestres Ascendentes ao seu lado',
+    badge: '🌈 Guias',
+    badgeColor: '#60a5fa',
+    power: 1,
+    message: '<em>333 é a assinatura dos Mestres Ascendentes</em> — os grandes guias espirituais da humanidade estão próximos de você. Este número aparece quando você tem suporte espiritual elevado para uma decisão ou situação. Também é o número da criatividade e da autoexpressão. Use sua voz. Crie. O universo apoia.',
+    areas: [
+      {icon:'👼',label:'Guias',text:'Apoio espiritual elevado — você não está sozinho'},
+      {icon:'🎨',label:'Criatividade',text:'Expresse-se — sua criatividade tem origem divina'},
+      {icon:'💬',label:'Expressão',text:'Fale, escreva, compartilhe — sua voz importa'},
+      {icon:'✨',label:'Milagres',text:'Sincronicidades e coincidências se aceleram'},
+    ],
+    affirmation: '"Sou apoiado e guiado. Me expresso com confiança e criatividade."',
+  },
+  '444': {
+    emoji: '🛡️',
+    title: 'Proteção Angelical',
+    subtitle: 'Você está completamente protegido',
+    badge: '👼 Anjos',
+    badgeColor: '#a78bfa',
+    power: 1,
+    message: '<em>444 é o número mais diretamente associado aos anjos</em>. Quando você vê 444, seus anjos guardiões estão literalmente ao seu lado neste momento. Eles querem que você saiba: você está seguro. Não há nada a temer. O caminho está protegido. Se você passou por um período difícil, este número é a confirmação de que você tem suporte invisível e poderoso.',
+    areas: [
+      {icon:'🛡️',label:'Proteção',text:'Anjos ao seu redor — você está completamente seguro'},
+      {icon:'🏗️',label:'Fundações',text:'Construa com solidez — o alicerce está firme'},
+      {icon:'💪',label:'Força',text:'Você tem mais suporte do que percebe'},
+      {icon:'🌟',label:'Confiança',text:'Siga em frente sem medo — o caminho está aberto'},
+    ],
+    affirmation: '"Estou protegido, amado e guiado pelos anjos. Sigo em frente com confiança."',
+  },
+  '555': {
+    emoji: '🌀',
+    title: 'Grande Mudança',
+    subtitle: 'Transformação transformadora chegando',
+    badge: '🔄 Mudança',
+    badgeColor: '#f472b6',
+    power: 1,
+    message: '<em>555 anuncia que uma grande mudança está chegando</em> — ou já está acontecendo e você ainda não percebeu. Esta mudança pode parecer turbulenta no início, mas é necessária e positiva. O universo está reorganizando sua vida para acomodar algo muito melhor. Quanto menos você resistir, mais suave será a transição.',
+    areas: [
+      {icon:'🌀',label:'Transformação',text:'Uma mudança significativa e positiva está em curso'},
+      {icon:'🦋',label:'Evolução',text:'Você está se tornando uma versão maior de si mesmo'},
+      {icon:'🗝️',label:'Liberdade',text:'Padrões e limitações estão sendo quebrados'},
+      {icon:'🌅',label:'Novo horizonte',text:'O que vem depois desta mudança é muito melhor'},
+    ],
+    affirmation: '"Abraço a mudança com coragem. O que está chegando supera tudo que fica para trás."',
+  },
+  '666': {
+    emoji: '⚖️',
+    title: 'Reequilíbrio Necessário',
+    subtitle: 'Material e espiritual em desacordo',
+    badge: '⚖️ Equilíbrio',
+    badgeColor: '#34d399',
+    power: 2,
+    message: 'Ao contrário do que muitos pensam, <em>666 em numerologia espiritual não é negativo</em> — é um alerta de reequilíbrio. Você pode estar muito focado no lado material (trabalho, dinheiro, ambição) e negligenciando o espiritual, o emocional ou os relacionamentos. O universo pede que você rebalanceie. Cuide também da sua alma.',
+    areas: [
+      {icon:'⚖️',label:'Equilíbrio',text:'Rebalanceie material e espiritual na sua vida'},
+      {icon:'💚',label:'Autocuidado',text:'Invista no seu bem-estar emocional e espiritual'},
+      {icon:'🏡',label:'Casa e família',text:'Conexões próximas precisam de atenção'},
+      {icon:'🧘',label:'Paz interior',text:'Encontre paz além das conquistas materiais'},
+    ],
+    affirmation: '"Equilibro com sabedoria o material e o espiritual. Cuido do todo que sou."',
+  },
+  '777': {
+    emoji: '🍀',
+    title: 'Sorte Espiritual Máxima',
+    subtitle: 'Você está em perfeito alinhamento',
+    badge: '⭐ Sorte',
+    badgeColor: '#facc15',
+    power: 1,
+    message: '<em>777 é considerado o número mais sortudo e espiritualmente elevado de todos.</em> Quando aparece na sua vida, é confirmação de que você está em perfeito alinhamento com sua alma e com o plano divino. Suas escolhas recentes foram corretas. Sua intuição está afiada. Continue no caminho — resultados extraordinários estão se aproximando.',
+    areas: [
+      {icon:'🍀',label:'Sorte',text:'Coincidências favoráveis se multiplicam na sua vida'},
+      {icon:'🔮',label:'Intuição',text:'Sua intuição está em nível máximo — confie nela'},
+      {icon:'📚',label:'Sabedoria',text:'Aprendizados profundos estão disponíveis agora'},
+      {icon:'🌟',label:'Alinhamento',text:'Você está no caminho de destino da sua alma'},
+    ],
+    affirmation: '"Estou em perfeito alinhamento com minha alma. A sorte é minha companheira natural."',
+  },
+  '888': {
+    emoji: '♾️',
+    title: 'Abundância Infinita',
+    subtitle: 'Fluxo financeiro e prosperidade',
+    badge: '♾️ Abundância',
+    badgeColor: '#c8973a',
+    power: 1,
+    message: '<em>888 é o número da abundância infinita</em> — o 8 deitado é o símbolo do infinito, e ver três deles juntos é extraordinariamente poderoso. Este número anuncia um período de colheita: financeiramente, profissionalmente e em termos de reconhecimento. Esforços que você fez estão prestes a se converter em resultados concretos e generosos.',
+    areas: [
+      {icon:'♾️',label:'Abundância',text:'Prosperidade em todas as formas está chegando'},
+      {icon:'💰',label:'Finanças',text:'Fluxo financeiro positivo em movimento'},
+      {icon:'🏆',label:'Colheita',text:'Período de colher o que plantou com esforço'},
+      {icon:'💪',label:'Poder pessoal',text:'Você está numa fase de empoderamento máximo'},
+    ],
+    affirmation: '"Sou um imã de abundância. Prospero em todas as áreas da minha vida."',
+  },
+  '999': {
+    emoji: '🌅',
+    title: 'Fechamento de Era',
+    subtitle: 'Um capítulo maior se encerra',
+    badge: '🔚 Ciclo Final',
+    badgeColor: '#f97316',
+    power: 1,
+    message: '<em>999 é o número de maior completude da numerologia</em>. Ele aparece quando uma fase muito significativa da sua vida — não apenas um ciclo, mas uma era — está chegando ao fim. Isso pode envolver relacionamentos, carreira, residência, identidade. Solte com gratidão. O que vem depois de 999 é renascimento total.',
+    areas: [
+      {icon:'🌅',label:'Fim de era',text:'Um capítulo importante se fecha definitivamente'},
+      {icon:'🤝',label:'Perdão total',text:'Perdoe a todos — incluindo a si mesmo — e solte'},
+      {icon:'🙏',label:'Gratidão',text:'Agradeça cada experiência, mesmo as difíceis'},
+      {icon:'🌱',label:'Renascimento',text:'Após este fechamento, uma versão nova de você surge'},
+    ],
+    affirmation: '"Solto o passado com amor e gratidão. Renasço mais sábio, mais forte e mais livre."',
+  },
+  '1111': {
+    emoji: '🌌',
+    title: 'Portal Máximo',
+    subtitle: 'O mais poderoso de todos',
+    badge: '⚡⚡ Super Portal',
+    badgeColor: '#facc15',
+    power: 1,
+    message: '<em>1111 é o portal mais poderoso que existe</em> — quatro doses de energia de manifestação pura. Este número é tão poderoso que não é coincidência vê-lo: é um chamado direto do universo para acordar, para prestar atenção, para fazer um pedido poderoso agora. Toda intenção colocada neste momento tem poder máximo de materialização.',
+    areas: [
+      {icon:'🌌',label:'Portal máximo',text:'Acesso direto ao campo de manifestação mais poderoso'},
+      {icon:'⚡',label:'Despertar',text:'Sua consciência está em processo de expansão acelerada'},
+      {icon:'💫',label:'Intenção',text:'Faça um pedido agora — o universo está ouvindo'},
+      {icon:'🔮',label:'Vidência',text:'Mensagens espirituais chegam com clareza máxima'},
+    ],
+    affirmation: '"Desperto. Manifesto com poder máximo. O universo conspira a meu favor."',
+  },
+  '2222': {
+    emoji: '🌍',
+    title: 'Mestre Construtor Máximo',
+    subtitle: 'Sonhos se tornam realidade',
+    badge: '⚡⚡ Número Mestre',
+    badgeColor: '#c8973a',
+    power: 1,
+    message: '<em>2222 amplifica ao extremo a energia do Mestre Construtor 22</em>. Se 22:22 já é poderoso, 2222 vai além: é a confirmação de que você está numa janela rara de materialização de visões grandiosas. Projetos que servirão muitas pessoas, legados que durarão décadas — é esse nível de construção que o universo está habilitando agora.',
+    areas: [
+      {icon:'🌍',label:'Legado',text:'O que você constrói agora pode mudar vidas'},
+      {icon:'⚡',label:'Poder máximo',text:'Energia de Mestre Construtor em nível máximo'},
+      {icon:'🏗️',label:'Materialização',text:'Visões grandiosas se tornam projetos concretos'},
+      {icon:'💫',label:'Missão',text:'Você está cumprindo sua missão de alma'},
+    ],
+    affirmation: '"Sou um Mestre Construtor. Manifesto minha visão mais elevada para o bem de todos."',
+  },
+};
+
+// ════════════════════════════════════════════════
+// LÓGICA
+// ════════════════════════════════════════════════
+let currentTab = 'espelho';
+let selectedKey = null;
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (i===0 && tab==='espelho')||(i===1 && tab==='anjos')));
+  document.getElementById('tab-espelho').style.display = tab==='espelho' ? '' : 'none';
+  document.getElementById('tab-anjos').style.display = tab==='anjos' ? '' : 'none';
+  document.getElementById('meaning-panel').classList.remove('visible');
+  selectedKey = null;
+  document.querySelectorAll('.num-card').forEach(c => c.classList.remove('active'));
+}
+
+function showMeaning(key, data) {
+  if (selectedKey === key) {
+    document.getElementById('meaning-panel').classList.remove('visible');
+    document.querySelectorAll('.num-card').forEach(c => c.classList.remove('active'));
+    selectedKey = null;
+    return;
+  }
+  selectedKey = key;
+  document.querySelectorAll('.num-card').forEach(c => c.classList.remove('active'));
+  document.getElementById(`card-${key.replace(':','-')}`).classList.add('active');
+
+  const panel = document.getElementById('meaning-panel');
+  panel.innerHTML = `
+    <div class="mp-header">
+      <div class="mp-number">${key}</div>
+      <div class="mp-title-wrap">
+        <div class="mp-title">${data.emoji} ${data.title}</div>
+        <div class="mp-subtitle">${data.subtitle}</div>
+        <span class="mp-badge" style="background:${data.badgeColor}22;color:${data.badgeColor};border:1px solid ${data.badgeColor}44">${data.badge}</span>
+      </div>
+    </div>
+    <div class="mp-message">${data.message}</div>
+    <div class="mp-areas">
+      ${data.areas.map(a=>`
+        <div class="mp-area">
+          <div class="mp-area-icon">${a.icon}</div>
+          <div class="mp-area-label">${a.label}</div>
+          <div class="mp-area-text">${a.text}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="mp-affirmation">
+      <div class="mp-affirmation-label">✨ Afirmação do dia</div>
+      <div class="mp-affirmation-text">${data.affirmation}</div>
+    </div>
+    <div class="mp-cta">
+      <p>Quer entender como esse número ressoa com o seu mapa astral?</p>
+      <a href="/premium">🌌 Ver meu horóscopo completo →</a>
+    </div>
+  `;
+  panel.classList.add('visible');
+  setTimeout(() => panel.scrollIntoView({behavior:'smooth', block:'nearest'}), 100);
+}
+
+function buildGrid(containerId, data) {
+  const grid = document.getElementById(containerId);
+  const powerLabels = {1:'🔥 Máximo poder', 2:'⭐ Alto poder', 3:'Energético'};
+  Object.entries(data).forEach(([key, d]) => {
+    const card = document.createElement('div');
+    card.className = `num-card tier-${d.power}`;
+    card.id = `card-${key.replace(':','-')}`;
+    card.innerHTML = `<div class="num-emoji">${d.emoji}</div><div class="num">${key}</div><div class="num-sub">${d.title}</div>`;
+    card.onclick = () => showMeaning(key, d);
+    grid.appendChild(card);
+  });
+}
+
+// Relógio ao vivo
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const timeStr = `${h}:${m}`;
+  document.getElementById('live-time').textContent = timeStr;
+
+  // Destaca se for hora espelho
+  const isEspelho = ESPELHO[timeStr];
+  document.getElementById('live-time').style.color = isEspelho ? '#facc15' : 'var(--gold2)';
+  document.getElementById('live-time').style.boxShadow = isEspelho ? '0 0 20px rgba(250,204,21,.3)' : 'none';
+  if (isEspelho && !document.getElementById('espelho-alert')) {
+    const alert = document.createElement('div');
+    alert.id = 'espelho-alert';
+    alert.style.cssText = 'color:#facc15;font-size:.82rem;font-weight:700;margin-bottom:20px;animation:fadeUp .3s ease';
+    alert.textContent = `✨ Agora é ${timeStr} — ${ESPELHO[timeStr].title}! Clique abaixo para ver a mensagem.`;
+    document.querySelector('.hero').appendChild(alert);
+    setTimeout(() => alert.remove(), 60000);
+  }
+}
+
+// Init
+buildGrid('grid-espelho', ESPELHO);
+buildGrid('grid-anjos', ANJOS);
+updateClock();
+setInterval(updateClock, 10000);
+</script>
+</body>
+</html>
