@@ -2,6 +2,154 @@
   "version": 2,
   "routes": [
     {
+      "src": "/numerologia",
+      "dest": "/numeros-anjos.html"
+    },
+    {
+      "src": "/numerologia/hora-00-00",
+      "dest": "/numerologia/hora-00-00.html"
+    },
+    {
+      "src": "/numerologia/hora-01-01",
+      "dest": "/numerologia/hora-01-01.html"
+    },
+    {
+      "src": "/numerologia/hora-02-02",
+      "dest": "/numerologia/hora-02-02.html"
+    },
+    {
+      "src": "/numerologia/hora-03-03",
+      "dest": "/numerologia/hora-03-03.html"
+    },
+    {
+      "src": "/numerologia/hora-04-04",
+      "dest": "/numerologia/hora-04-04.html"
+    },
+    {
+      "src": "/numerologia/hora-05-05",
+      "dest": "/numerologia/hora-05-05.html"
+    },
+    {
+      "src": "/numerologia/hora-06-06",
+      "dest": "/numerologia/hora-06-06.html"
+    },
+    {
+      "src": "/numerologia/hora-07-07",
+      "dest": "/numerologia/hora-07-07.html"
+    },
+    {
+      "src": "/numerologia/hora-08-08",
+      "dest": "/numerologia/hora-08-08.html"
+    },
+    {
+      "src": "/numerologia/hora-09-09",
+      "dest": "/numerologia/hora-09-09.html"
+    },
+    {
+      "src": "/numerologia/hora-10-10",
+      "dest": "/numerologia/hora-10-10.html"
+    },
+    {
+      "src": "/numerologia/hora-11-11",
+      "dest": "/numerologia/hora-11-11.html"
+    },
+    {
+      "src": "/numerologia/hora-12-12",
+      "dest": "/numerologia/hora-12-12.html"
+    },
+    {
+      "src": "/numerologia/hora-13-13",
+      "dest": "/numerologia/hora-13-13.html"
+    },
+    {
+      "src": "/numerologia/hora-14-14",
+      "dest": "/numerologia/hora-14-14.html"
+    },
+    {
+      "src": "/numerologia/hora-15-15",
+      "dest": "/numerologia/hora-15-15.html"
+    },
+    {
+      "src": "/numerologia/hora-16-16",
+      "dest": "/numerologia/hora-16-16.html"
+    },
+    {
+      "src": "/numerologia/hora-17-17",
+      "dest": "/numerologia/hora-17-17.html"
+    },
+    {
+      "src": "/numerologia/hora-18-18",
+      "dest": "/numerologia/hora-18-18.html"
+    },
+    {
+      "src": "/numerologia/hora-19-19",
+      "dest": "/numerologia/hora-19-19.html"
+    },
+    {
+      "src": "/numerologia/hora-20-20",
+      "dest": "/numerologia/hora-20-20.html"
+    },
+    {
+      "src": "/numerologia/hora-21-21",
+      "dest": "/numerologia/hora-21-21.html"
+    },
+    {
+      "src": "/numerologia/hora-22-22",
+      "dest": "/numerologia/hora-22-22.html"
+    },
+    {
+      "src": "/numerologia/hora-23-23",
+      "dest": "/numerologia/hora-23-23.html"
+    },
+    {
+      "src": "/numerologia/numero-000",
+      "dest": "/numerologia/numero-000.html"
+    },
+    {
+      "src": "/numerologia/numero-111",
+      "dest": "/numerologia/numero-111.html"
+    },
+    {
+      "src": "/numerologia/numero-222",
+      "dest": "/numerologia/numero-222.html"
+    },
+    {
+      "src": "/numerologia/numero-333",
+      "dest": "/numerologia/numero-333.html"
+    },
+    {
+      "src": "/numerologia/numero-444",
+      "dest": "/numerologia/numero-444.html"
+    },
+    {
+      "src": "/numerologia/numero-555",
+      "dest": "/numerologia/numero-555.html"
+    },
+    {
+      "src": "/numerologia/numero-666",
+      "dest": "/numerologia/numero-666.html"
+    },
+    {
+      "src": "/numerologia/numero-777",
+      "dest": "/numerologia/numero-777.html"
+    },
+    {
+      "src": "/numerologia/numero-888",
+      "dest": "/numerologia/numero-888.html"
+    },
+    {
+      "src": "/numerologia/numero-999",
+      "dest": "/numerologia/numero-999.html"
+    },
+    {
+      "src": "/numerologia/numero-1111",
+      "dest": "/numerologia/numero-1111.html"
+    },
+    {
+      "src": "/numerologia/numero-2222",
+      "dest": "/numerologia/numero-2222.html"
+    },
+    {
       "src": "/celebridades",
       "dest": "/celebridades.html"
     },
