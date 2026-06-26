@@ -2,6 +2,1158 @@
   "version": 2,
   "routes": [
     {
+      "src": "/horoscopo-mensal/aries-janeiro-2026",
+      "dest": "/horoscopo-mensal/aries-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-janeiro",
+      "dest": "/horoscopo-mensal/aries-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-fevereiro-2026",
+      "dest": "/horoscopo-mensal/aries-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-fevereiro",
+      "dest": "/horoscopo-mensal/aries-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-marco-2026",
+      "dest": "/horoscopo-mensal/aries-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-marco",
+      "dest": "/horoscopo-mensal/aries-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-abril-2026",
+      "dest": "/horoscopo-mensal/aries-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-abril",
+      "dest": "/horoscopo-mensal/aries-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-maio-2026",
+      "dest": "/horoscopo-mensal/aries-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-maio",
+      "dest": "/horoscopo-mensal/aries-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-junho-2026",
+      "dest": "/horoscopo-mensal/aries-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-junho",
+      "dest": "/horoscopo-mensal/aries-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-julho-2026",
+      "dest": "/horoscopo-mensal/aries-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-julho",
+      "dest": "/horoscopo-mensal/aries-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-agosto-2026",
+      "dest": "/horoscopo-mensal/aries-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-agosto",
+      "dest": "/horoscopo-mensal/aries-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-setembro-2026",
+      "dest": "/horoscopo-mensal/aries-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-setembro",
+      "dest": "/horoscopo-mensal/aries-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-outubro-2026",
+      "dest": "/horoscopo-mensal/aries-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-outubro",
+      "dest": "/horoscopo-mensal/aries-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-novembro-2026",
+      "dest": "/horoscopo-mensal/aries-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-novembro",
+      "dest": "/horoscopo-mensal/aries-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-dezembro-2026",
+      "dest": "/horoscopo-mensal/aries-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aries-dezembro",
+      "dest": "/horoscopo-mensal/aries-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-janeiro-2026",
+      "dest": "/horoscopo-mensal/touro-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-janeiro",
+      "dest": "/horoscopo-mensal/touro-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-fevereiro-2026",
+      "dest": "/horoscopo-mensal/touro-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-fevereiro",
+      "dest": "/horoscopo-mensal/touro-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-marco-2026",
+      "dest": "/horoscopo-mensal/touro-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-marco",
+      "dest": "/horoscopo-mensal/touro-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-abril-2026",
+      "dest": "/horoscopo-mensal/touro-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-abril",
+      "dest": "/horoscopo-mensal/touro-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-maio-2026",
+      "dest": "/horoscopo-mensal/touro-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-maio",
+      "dest": "/horoscopo-mensal/touro-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-junho-2026",
+      "dest": "/horoscopo-mensal/touro-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-junho",
+      "dest": "/horoscopo-mensal/touro-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-julho-2026",
+      "dest": "/horoscopo-mensal/touro-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-julho",
+      "dest": "/horoscopo-mensal/touro-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-agosto-2026",
+      "dest": "/horoscopo-mensal/touro-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-agosto",
+      "dest": "/horoscopo-mensal/touro-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-setembro-2026",
+      "dest": "/horoscopo-mensal/touro-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-setembro",
+      "dest": "/horoscopo-mensal/touro-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-outubro-2026",
+      "dest": "/horoscopo-mensal/touro-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-outubro",
+      "dest": "/horoscopo-mensal/touro-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-novembro-2026",
+      "dest": "/horoscopo-mensal/touro-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-novembro",
+      "dest": "/horoscopo-mensal/touro-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-dezembro-2026",
+      "dest": "/horoscopo-mensal/touro-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/touro-dezembro",
+      "dest": "/horoscopo-mensal/touro-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-janeiro-2026",
+      "dest": "/horoscopo-mensal/gemeos-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-janeiro",
+      "dest": "/horoscopo-mensal/gemeos-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-fevereiro-2026",
+      "dest": "/horoscopo-mensal/gemeos-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-fevereiro",
+      "dest": "/horoscopo-mensal/gemeos-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-marco-2026",
+      "dest": "/horoscopo-mensal/gemeos-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-marco",
+      "dest": "/horoscopo-mensal/gemeos-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-abril-2026",
+      "dest": "/horoscopo-mensal/gemeos-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-abril",
+      "dest": "/horoscopo-mensal/gemeos-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-maio-2026",
+      "dest": "/horoscopo-mensal/gemeos-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-maio",
+      "dest": "/horoscopo-mensal/gemeos-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-junho-2026",
+      "dest": "/horoscopo-mensal/gemeos-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-junho",
+      "dest": "/horoscopo-mensal/gemeos-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-julho-2026",
+      "dest": "/horoscopo-mensal/gemeos-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-julho",
+      "dest": "/horoscopo-mensal/gemeos-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-agosto-2026",
+      "dest": "/horoscopo-mensal/gemeos-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-agosto",
+      "dest": "/horoscopo-mensal/gemeos-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-setembro-2026",
+      "dest": "/horoscopo-mensal/gemeos-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-setembro",
+      "dest": "/horoscopo-mensal/gemeos-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-outubro-2026",
+      "dest": "/horoscopo-mensal/gemeos-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-outubro",
+      "dest": "/horoscopo-mensal/gemeos-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-novembro-2026",
+      "dest": "/horoscopo-mensal/gemeos-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-novembro",
+      "dest": "/horoscopo-mensal/gemeos-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-dezembro-2026",
+      "dest": "/horoscopo-mensal/gemeos-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/gemeos-dezembro",
+      "dest": "/horoscopo-mensal/gemeos-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-janeiro-2026",
+      "dest": "/horoscopo-mensal/cancer-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-janeiro",
+      "dest": "/horoscopo-mensal/cancer-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-fevereiro-2026",
+      "dest": "/horoscopo-mensal/cancer-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-fevereiro",
+      "dest": "/horoscopo-mensal/cancer-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-marco-2026",
+      "dest": "/horoscopo-mensal/cancer-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-marco",
+      "dest": "/horoscopo-mensal/cancer-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-abril-2026",
+      "dest": "/horoscopo-mensal/cancer-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-abril",
+      "dest": "/horoscopo-mensal/cancer-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-maio-2026",
+      "dest": "/horoscopo-mensal/cancer-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-maio",
+      "dest": "/horoscopo-mensal/cancer-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-junho-2026",
+      "dest": "/horoscopo-mensal/cancer-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-junho",
+      "dest": "/horoscopo-mensal/cancer-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-julho-2026",
+      "dest": "/horoscopo-mensal/cancer-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-julho",
+      "dest": "/horoscopo-mensal/cancer-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-agosto-2026",
+      "dest": "/horoscopo-mensal/cancer-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-agosto",
+      "dest": "/horoscopo-mensal/cancer-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-setembro-2026",
+      "dest": "/horoscopo-mensal/cancer-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-setembro",
+      "dest": "/horoscopo-mensal/cancer-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-outubro-2026",
+      "dest": "/horoscopo-mensal/cancer-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-outubro",
+      "dest": "/horoscopo-mensal/cancer-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-novembro-2026",
+      "dest": "/horoscopo-mensal/cancer-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-novembro",
+      "dest": "/horoscopo-mensal/cancer-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-dezembro-2026",
+      "dest": "/horoscopo-mensal/cancer-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/cancer-dezembro",
+      "dest": "/horoscopo-mensal/cancer-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-janeiro-2026",
+      "dest": "/horoscopo-mensal/leao-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-janeiro",
+      "dest": "/horoscopo-mensal/leao-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-fevereiro-2026",
+      "dest": "/horoscopo-mensal/leao-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-fevereiro",
+      "dest": "/horoscopo-mensal/leao-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-marco-2026",
+      "dest": "/horoscopo-mensal/leao-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-marco",
+      "dest": "/horoscopo-mensal/leao-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-abril-2026",
+      "dest": "/horoscopo-mensal/leao-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-abril",
+      "dest": "/horoscopo-mensal/leao-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-maio-2026",
+      "dest": "/horoscopo-mensal/leao-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-maio",
+      "dest": "/horoscopo-mensal/leao-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-junho-2026",
+      "dest": "/horoscopo-mensal/leao-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-junho",
+      "dest": "/horoscopo-mensal/leao-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-julho-2026",
+      "dest": "/horoscopo-mensal/leao-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-julho",
+      "dest": "/horoscopo-mensal/leao-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-agosto-2026",
+      "dest": "/horoscopo-mensal/leao-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-agosto",
+      "dest": "/horoscopo-mensal/leao-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-setembro-2026",
+      "dest": "/horoscopo-mensal/leao-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-setembro",
+      "dest": "/horoscopo-mensal/leao-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-outubro-2026",
+      "dest": "/horoscopo-mensal/leao-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-outubro",
+      "dest": "/horoscopo-mensal/leao-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-novembro-2026",
+      "dest": "/horoscopo-mensal/leao-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-novembro",
+      "dest": "/horoscopo-mensal/leao-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-dezembro-2026",
+      "dest": "/horoscopo-mensal/leao-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/leao-dezembro",
+      "dest": "/horoscopo-mensal/leao-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-janeiro-2026",
+      "dest": "/horoscopo-mensal/virgem-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-janeiro",
+      "dest": "/horoscopo-mensal/virgem-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-fevereiro-2026",
+      "dest": "/horoscopo-mensal/virgem-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-fevereiro",
+      "dest": "/horoscopo-mensal/virgem-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-marco-2026",
+      "dest": "/horoscopo-mensal/virgem-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-marco",
+      "dest": "/horoscopo-mensal/virgem-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-abril-2026",
+      "dest": "/horoscopo-mensal/virgem-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-abril",
+      "dest": "/horoscopo-mensal/virgem-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-maio-2026",
+      "dest": "/horoscopo-mensal/virgem-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-maio",
+      "dest": "/horoscopo-mensal/virgem-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-junho-2026",
+      "dest": "/horoscopo-mensal/virgem-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-junho",
+      "dest": "/horoscopo-mensal/virgem-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-julho-2026",
+      "dest": "/horoscopo-mensal/virgem-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-julho",
+      "dest": "/horoscopo-mensal/virgem-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-agosto-2026",
+      "dest": "/horoscopo-mensal/virgem-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-agosto",
+      "dest": "/horoscopo-mensal/virgem-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-setembro-2026",
+      "dest": "/horoscopo-mensal/virgem-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-setembro",
+      "dest": "/horoscopo-mensal/virgem-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-outubro-2026",
+      "dest": "/horoscopo-mensal/virgem-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-outubro",
+      "dest": "/horoscopo-mensal/virgem-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-novembro-2026",
+      "dest": "/horoscopo-mensal/virgem-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-novembro",
+      "dest": "/horoscopo-mensal/virgem-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-dezembro-2026",
+      "dest": "/horoscopo-mensal/virgem-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/virgem-dezembro",
+      "dest": "/horoscopo-mensal/virgem-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-janeiro-2026",
+      "dest": "/horoscopo-mensal/libra-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-janeiro",
+      "dest": "/horoscopo-mensal/libra-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-fevereiro-2026",
+      "dest": "/horoscopo-mensal/libra-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-fevereiro",
+      "dest": "/horoscopo-mensal/libra-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-marco-2026",
+      "dest": "/horoscopo-mensal/libra-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-marco",
+      "dest": "/horoscopo-mensal/libra-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-abril-2026",
+      "dest": "/horoscopo-mensal/libra-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-abril",
+      "dest": "/horoscopo-mensal/libra-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-maio-2026",
+      "dest": "/horoscopo-mensal/libra-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-maio",
+      "dest": "/horoscopo-mensal/libra-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-junho-2026",
+      "dest": "/horoscopo-mensal/libra-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-junho",
+      "dest": "/horoscopo-mensal/libra-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-julho-2026",
+      "dest": "/horoscopo-mensal/libra-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-julho",
+      "dest": "/horoscopo-mensal/libra-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-agosto-2026",
+      "dest": "/horoscopo-mensal/libra-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-agosto",
+      "dest": "/horoscopo-mensal/libra-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-setembro-2026",
+      "dest": "/horoscopo-mensal/libra-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-setembro",
+      "dest": "/horoscopo-mensal/libra-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-outubro-2026",
+      "dest": "/horoscopo-mensal/libra-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-outubro",
+      "dest": "/horoscopo-mensal/libra-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-novembro-2026",
+      "dest": "/horoscopo-mensal/libra-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-novembro",
+      "dest": "/horoscopo-mensal/libra-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-dezembro-2026",
+      "dest": "/horoscopo-mensal/libra-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/libra-dezembro",
+      "dest": "/horoscopo-mensal/libra-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-janeiro-2026",
+      "dest": "/horoscopo-mensal/escorpiao-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-janeiro",
+      "dest": "/horoscopo-mensal/escorpiao-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-fevereiro-2026",
+      "dest": "/horoscopo-mensal/escorpiao-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-fevereiro",
+      "dest": "/horoscopo-mensal/escorpiao-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-marco-2026",
+      "dest": "/horoscopo-mensal/escorpiao-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-marco",
+      "dest": "/horoscopo-mensal/escorpiao-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-abril-2026",
+      "dest": "/horoscopo-mensal/escorpiao-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-abril",
+      "dest": "/horoscopo-mensal/escorpiao-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-maio-2026",
+      "dest": "/horoscopo-mensal/escorpiao-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-maio",
+      "dest": "/horoscopo-mensal/escorpiao-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-junho-2026",
+      "dest": "/horoscopo-mensal/escorpiao-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-junho",
+      "dest": "/horoscopo-mensal/escorpiao-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-julho-2026",
+      "dest": "/horoscopo-mensal/escorpiao-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-julho",
+      "dest": "/horoscopo-mensal/escorpiao-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-agosto-2026",
+      "dest": "/horoscopo-mensal/escorpiao-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-agosto",
+      "dest": "/horoscopo-mensal/escorpiao-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-setembro-2026",
+      "dest": "/horoscopo-mensal/escorpiao-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-setembro",
+      "dest": "/horoscopo-mensal/escorpiao-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-outubro-2026",
+      "dest": "/horoscopo-mensal/escorpiao-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-outubro",
+      "dest": "/horoscopo-mensal/escorpiao-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-novembro-2026",
+      "dest": "/horoscopo-mensal/escorpiao-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-novembro",
+      "dest": "/horoscopo-mensal/escorpiao-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-dezembro-2026",
+      "dest": "/horoscopo-mensal/escorpiao-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/escorpiao-dezembro",
+      "dest": "/horoscopo-mensal/escorpiao-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-janeiro-2026",
+      "dest": "/horoscopo-mensal/sagitario-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-janeiro",
+      "dest": "/horoscopo-mensal/sagitario-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-fevereiro-2026",
+      "dest": "/horoscopo-mensal/sagitario-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-fevereiro",
+      "dest": "/horoscopo-mensal/sagitario-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-marco-2026",
+      "dest": "/horoscopo-mensal/sagitario-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-marco",
+      "dest": "/horoscopo-mensal/sagitario-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-abril-2026",
+      "dest": "/horoscopo-mensal/sagitario-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-abril",
+      "dest": "/horoscopo-mensal/sagitario-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-maio-2026",
+      "dest": "/horoscopo-mensal/sagitario-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-maio",
+      "dest": "/horoscopo-mensal/sagitario-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-junho-2026",
+      "dest": "/horoscopo-mensal/sagitario-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-junho",
+      "dest": "/horoscopo-mensal/sagitario-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-julho-2026",
+      "dest": "/horoscopo-mensal/sagitario-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-julho",
+      "dest": "/horoscopo-mensal/sagitario-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-agosto-2026",
+      "dest": "/horoscopo-mensal/sagitario-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-agosto",
+      "dest": "/horoscopo-mensal/sagitario-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-setembro-2026",
+      "dest": "/horoscopo-mensal/sagitario-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-setembro",
+      "dest": "/horoscopo-mensal/sagitario-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-outubro-2026",
+      "dest": "/horoscopo-mensal/sagitario-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-outubro",
+      "dest": "/horoscopo-mensal/sagitario-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-novembro-2026",
+      "dest": "/horoscopo-mensal/sagitario-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-novembro",
+      "dest": "/horoscopo-mensal/sagitario-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-dezembro-2026",
+      "dest": "/horoscopo-mensal/sagitario-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/sagitario-dezembro",
+      "dest": "/horoscopo-mensal/sagitario-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-janeiro-2026",
+      "dest": "/horoscopo-mensal/capricornio-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-janeiro",
+      "dest": "/horoscopo-mensal/capricornio-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-fevereiro-2026",
+      "dest": "/horoscopo-mensal/capricornio-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-fevereiro",
+      "dest": "/horoscopo-mensal/capricornio-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-marco-2026",
+      "dest": "/horoscopo-mensal/capricornio-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-marco",
+      "dest": "/horoscopo-mensal/capricornio-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-abril-2026",
+      "dest": "/horoscopo-mensal/capricornio-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-abril",
+      "dest": "/horoscopo-mensal/capricornio-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-maio-2026",
+      "dest": "/horoscopo-mensal/capricornio-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-maio",
+      "dest": "/horoscopo-mensal/capricornio-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-junho-2026",
+      "dest": "/horoscopo-mensal/capricornio-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-junho",
+      "dest": "/horoscopo-mensal/capricornio-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-julho-2026",
+      "dest": "/horoscopo-mensal/capricornio-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-julho",
+      "dest": "/horoscopo-mensal/capricornio-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-agosto-2026",
+      "dest": "/horoscopo-mensal/capricornio-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-agosto",
+      "dest": "/horoscopo-mensal/capricornio-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-setembro-2026",
+      "dest": "/horoscopo-mensal/capricornio-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-setembro",
+      "dest": "/horoscopo-mensal/capricornio-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-outubro-2026",
+      "dest": "/horoscopo-mensal/capricornio-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-outubro",
+      "dest": "/horoscopo-mensal/capricornio-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-novembro-2026",
+      "dest": "/horoscopo-mensal/capricornio-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-novembro",
+      "dest": "/horoscopo-mensal/capricornio-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-dezembro-2026",
+      "dest": "/horoscopo-mensal/capricornio-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/capricornio-dezembro",
+      "dest": "/horoscopo-mensal/capricornio-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-janeiro-2026",
+      "dest": "/horoscopo-mensal/aquario-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-janeiro",
+      "dest": "/horoscopo-mensal/aquario-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-fevereiro-2026",
+      "dest": "/horoscopo-mensal/aquario-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-fevereiro",
+      "dest": "/horoscopo-mensal/aquario-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-marco-2026",
+      "dest": "/horoscopo-mensal/aquario-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-marco",
+      "dest": "/horoscopo-mensal/aquario-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-abril-2026",
+      "dest": "/horoscopo-mensal/aquario-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-abril",
+      "dest": "/horoscopo-mensal/aquario-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-maio-2026",
+      "dest": "/horoscopo-mensal/aquario-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-maio",
+      "dest": "/horoscopo-mensal/aquario-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-junho-2026",
+      "dest": "/horoscopo-mensal/aquario-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-junho",
+      "dest": "/horoscopo-mensal/aquario-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-julho-2026",
+      "dest": "/horoscopo-mensal/aquario-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-julho",
+      "dest": "/horoscopo-mensal/aquario-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-agosto-2026",
+      "dest": "/horoscopo-mensal/aquario-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-agosto",
+      "dest": "/horoscopo-mensal/aquario-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-setembro-2026",
+      "dest": "/horoscopo-mensal/aquario-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-setembro",
+      "dest": "/horoscopo-mensal/aquario-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-outubro-2026",
+      "dest": "/horoscopo-mensal/aquario-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-outubro",
+      "dest": "/horoscopo-mensal/aquario-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-novembro-2026",
+      "dest": "/horoscopo-mensal/aquario-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-novembro",
+      "dest": "/horoscopo-mensal/aquario-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-dezembro-2026",
+      "dest": "/horoscopo-mensal/aquario-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/aquario-dezembro",
+      "dest": "/horoscopo-mensal/aquario-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-janeiro-2026",
+      "dest": "/horoscopo-mensal/peixes-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-janeiro",
+      "dest": "/horoscopo-mensal/peixes-janeiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-fevereiro-2026",
+      "dest": "/horoscopo-mensal/peixes-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-fevereiro",
+      "dest": "/horoscopo-mensal/peixes-fevereiro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-marco-2026",
+      "dest": "/horoscopo-mensal/peixes-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-marco",
+      "dest": "/horoscopo-mensal/peixes-marco-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-abril-2026",
+      "dest": "/horoscopo-mensal/peixes-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-abril",
+      "dest": "/horoscopo-mensal/peixes-abril-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-maio-2026",
+      "dest": "/horoscopo-mensal/peixes-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-maio",
+      "dest": "/horoscopo-mensal/peixes-maio-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-junho-2026",
+      "dest": "/horoscopo-mensal/peixes-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-junho",
+      "dest": "/horoscopo-mensal/peixes-junho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-julho-2026",
+      "dest": "/horoscopo-mensal/peixes-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-julho",
+      "dest": "/horoscopo-mensal/peixes-julho-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-agosto-2026",
+      "dest": "/horoscopo-mensal/peixes-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-agosto",
+      "dest": "/horoscopo-mensal/peixes-agosto-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-setembro-2026",
+      "dest": "/horoscopo-mensal/peixes-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-setembro",
+      "dest": "/horoscopo-mensal/peixes-setembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-outubro-2026",
+      "dest": "/horoscopo-mensal/peixes-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-outubro",
+      "dest": "/horoscopo-mensal/peixes-outubro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-novembro-2026",
+      "dest": "/horoscopo-mensal/peixes-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-novembro",
+      "dest": "/horoscopo-mensal/peixes-novembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-dezembro-2026",
+      "dest": "/horoscopo-mensal/peixes-dezembro-2026.html"
+    },
+    {
+      "src": "/horoscopo-mensal/peixes-dezembro",
+      "dest": "/horoscopo-mensal/peixes-dezembro-2026.html"
+    },
+    {
       "src": "/numerologia",
       "dest": "/numeros-anjos.html"
     },
