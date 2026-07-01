@@ -1187,6 +1187,42 @@ const DAILY_FOCUS = {
 
 // RENDER: RESUMO
 // ══════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════
+// IA HORÓSCOPO — Premium only
+// ══════════════════════════════════════════════════════════════════
+async function loadAIHoroscopo(sk) {
+  if (!isPremium) return;
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Mostrar loading nos textos
+  document.querySelectorAll('.ai-daily-text').forEach(el => {
+    el.innerHTML = '<span class="ai-text-loading">...</span>';
+  });
+  const badge = document.getElementById('horo-badge');
+  if (badge) badge.innerHTML = '🔄 Atualizado diariamente';
+
+  try {
+    const res = await fetch(`/api/daily-horoscope?sign=${sk}&date=${today}`);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+
+    // Atualizar cada texto com a resposta da IA
+    document.querySelectorAll('.ai-daily-text').forEach(el => {
+      const key = el.dataset.key;
+      if (data[key]) el.textContent = data[key];
+    });
+
+    // Atualizar badge
+    if (badge) badge.innerHTML = '✦ Gerado por IA para hoje <span class="resumo-badge-ai">Premium</span>';
+
+  } catch(e) {
+    // Falha silenciosa — mantém textos estáticos
+    console.warn('AI horoscope fallback:', e.message);
+    if (badge) badge.innerHTML = '🔄 Atualizado diariamente';
+  }
+}
+
 function renderResumo(sk) {
   const acc = ACCORDIONS[sk] || ACCORDIONS.aries;
   const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
@@ -1201,7 +1237,7 @@ function renderResumo(sk) {
     { key:'periodo',         icon:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4.5" fill="#e8b550"/><circle cx="12" cy="12" r="7" fill="none" stroke="#e8b550" stroke-width="1.5" opacity="0.5"/><line x1="12" y1="2" x2="12" y2="5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="22" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="5" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="12" x2="22" y2="12" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="5.5" y1="5.5" x2="7.6" y2="7.6" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="16.4" y1="16.4" x2="18.5" y2="18.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="5.5" y1="18.5" x2="7.6" y2="16.4" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/><line x1="16.4" y1="7.6" x2="18.5" y2="5.5" stroke="#e8b550" stroke-width="2" stroke-linecap="round"/></svg>', label:'O seu período atual',      color:'#60a5fa', bg:'rgba(96,165,250,0.08)'  },
   ];
   document.getElementById('panel-resumo').innerHTML = `
-    <div class="resumo-header">⭐ Horóscopo do dia <span class="resumo-badge">🔄 Atualizado diariamente</span></div>
+    <div class="resumo-header">⭐ Horóscopo do dia <span class="resumo-badge" id="horo-badge">🔄 Atualizado diariamente</span></div>
     <div class="resumo-date">📅 ${today}</div>
     <div class="summary-grid">
       <div class="summary-box positive">
@@ -1221,7 +1257,7 @@ function renderResumo(sk) {
           <div class="acc-chevron">▼</div>
         </div>
         <div class="accordion-body">
-          <div class="accordion-content"><p><em style="color:var(--muted);font-size:.88em">${_df(c.key)}</em><br><br>${acc[c.key]}</p></div>
+          <div class="accordion-content"><p><em class="ai-daily-text" data-key="${c.key}" style="color:var(--muted);font-size:.88em">${_df(c.key)}</em><br><br>${acc[c.key]}</p></div>
         </div>
       </div>`).join('')}
     <div class="feedback-bar">
@@ -1950,6 +1986,10 @@ async function logout(){
     document.getElementById('f-city').value=profile.city||'';
     natalChart=getNatalChart(profile);
     renderDashboard();
+    if (isPremium) {
+      const sk = getSunSign(profile);
+      loadAIHoroscopo(sk);
+    }
   }
 })();
 
