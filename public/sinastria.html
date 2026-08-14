@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sinastria em Dupla — Descubra a Química Astral de Vocês | Bússola Astral</title>
+<meta name="description" content="Compare o mapa astral de vocês dois e descubra a sinastria real entre seus signos, planetas e aspectos. Envie o link pro seu par preencher a parte dele!">
+<meta property="og:title" content="Sinastria em Dupla — Bússola Astral">
+<meta property="og:description" content="Descubra a química astral de vocês dois com cálculos reais de sinastria.">
+<meta property="og:type" content="website">
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88SSP1E8VP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-88SSP1E8VP');</script>
+<!-- Clarity -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","xg4m3sqb72");
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<!-- Astronomy Engine: mesma engine real usada em horoscopo.html -->
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2/astronomy.browser.min.js" onerror="console.warn('[BússolaAstral] Astronomy Engine indisponível — modo simplificado ativo')"></script>
+
+<style>
+:root {
+  --bg:#06040e;--bg2:#0c0818;--bg3:#12092a;
+  --surface:rgba(255,255,255,.04);--surface2:rgba(255,255,255,.07);
+  --purple:#7c3fe4;--purple2:#9b5cf0;--purple3:#c4a0ff;
+  --gold:#d4a853;--gold2:#f0c060;--gold3:#fff4d6;
+  --green:#22c55e;--red:#ef4444;
+  --text:#ede8f8;--muted:#7a6f95;--muted2:#b8aed0;
+  --border:rgba(124,63,228,.15);--border2:rgba(124,63,228,.3);
+  --glow-p:rgba(124,63,228,.35);--glow-g:rgba(212,168,83,.35);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7}
+
+.wrap{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+
+.topbar-logo{font-family:'Cinzel',serif;font-weight:700;color:var(--gold);font-size:1.1rem;display:flex;align-items:center;gap:.5rem;justify-content:center;margin-bottom:2.5rem}
+
+.section-tag{
+  font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;color:var(--purple3);
+  text-transform:uppercase;display:flex;align-items:center;gap:.5rem;justify-content:center;margin-bottom:.8rem;
+}
+.section-tag::before,.section-tag::after{content:'';display:block;width:24px;height:1px;background:var(--purple3)}
+
+h1{
+  font-family:'Playfair Display',serif;font-weight:900;font-style:italic;
+  font-size:clamp(1.8rem,6vw,2.6rem);text-align:center;line-height:1.15;margin-bottom:.6rem;
+  background:linear-gradient(135deg,var(--gold) 20%,var(--gold2) 60%,var(--purple3));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.subtitle{text-align:center;color:var(--muted2);font-size:1.05rem;margin-bottom:2.2rem;line-height:1.5}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:1.8rem;backdrop-filter:blur(12px);margin-bottom:1.4rem;
+}
+.card-partner{
+  display:flex;align-items:center;gap:1rem;padding:1.2rem 1.4rem;margin-bottom:1.6rem;
+  background:linear-gradient(135deg,rgba(212,168,83,.1),rgba(124,63,228,.08));
+  border:1px solid var(--border2);border-radius:16px;
+}
+.card-partner .emoji{font-size:2rem}
+.card-partner .info{flex:1}
+.card-partner .info b{color:var(--gold2);font-family:'Cinzel',serif}
+.card-partner .info span{display:block;color:var(--muted2);font-size:.9rem;margin-top:2px}
+
+label{display:block;font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.05em;color:var(--purple3);text-transform:uppercase;margin-bottom:.4rem;margin-top:1.1rem}
+label:first-of-type{margin-top:0}
+input{
+  width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.03);border:1px solid var(--border2);
+  border-radius:12px;color:var(--text);font-family:'EB Garamond',serif;font-size:1.05rem;outline:none;
+  transition:border-color .2s;
+}
+input:focus{border-color:var(--gold)}
+.hint{font-size:.8rem;color:var(--muted);margin-top:.4rem}
+
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;
+  padding:1rem 1.5rem;border-radius:999px;border:none;cursor:pointer;
+  font-family:'Cinzel',serif;font-weight:700;font-size:.95rem;letter-spacing:.03em;
+  margin-top:1.6rem;transition:transform .2s,box-shadow .2s;
+}
+.btn:active{transform:scale(.98)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold) 0%,#9a6010 100%);color:#1a1005;
+  box-shadow:0 8px 24px var(--glow-g);
+}
+.btn-purple{
+  background:linear-gradient(135deg,var(--purple) 0%,var(--purple2) 100%);color:#fff;
+  box-shadow:0 8px 24px var(--glow-p);
+}
+.btn-outline{background:transparent;border:1px solid var(--border2);color:var(--purple3)}
+
+.share-box{
+  display:flex;gap:.6rem;align-items:center;background:rgba(255,255,255,.03);
+  border:1px dashed var(--border2);border-radius:14px;padding:.9rem 1rem;margin-top:1rem;
+}
+.share-box input{border:none;background:transparent;padding:0;font-size:.85rem;color:var(--muted2)}
+.share-box button{flex-shrink:0;padding:.5rem 1rem;border-radius:999px;border:none;background:var(--gold);color:#1a1005;font-family:'Cinzel',serif;font-weight:700;font-size:.8rem;cursor:pointer}
+
+/* ── Resultado ── */
+.score-ring{width:180px;height:180px;margin:0 auto 1.4rem;position:relative}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .bg{stroke:rgba(255,255,255,.06)}
+.score-ring .fg{stroke:url(#scoreGrad);stroke-linecap:round;transition:stroke-dashoffset 1.4s ease}
+.score-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num b{font-family:'Playfair Display',serif;font-size:2.6rem;color:var(--gold2)}
+.score-num span{font-size:.75rem;color:var(--muted2);font-family:'Cinzel',serif;letter-spacing:.05em}
+
+.category{margin-bottom:1.2rem}
+.category-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem}
+.category-head b{font-family:'Cinzel',serif;font-size:.85rem;color:var(--text)}
+.category-head span{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold2)}
+.bar-track{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--gold));transition:width 1.2s ease}
+.category-desc{font-size:.92rem;color:var(--muted2);line-height:1.5;margin-top:.5rem}
+
+.aspect-list{display:flex;flex-direction:column;gap:.6rem;margin-top:.6rem}
+.aspect-item{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;background:rgba(255,255,255,.03);border-radius:12px;font-size:.88rem}
+.aspect-item .glow{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.upsell{
+  text-align:center;padding:1.6rem;border-radius:18px;margin-top:1.6rem;
+  background:linear-gradient(135deg,rgba(212,168,83,.12),rgba(124,63,228,.12));
+  border:1px solid var(--border2);
+}
+.upsell b{display:block;font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;color:var(--gold2);margin-bottom:.5rem}
+.upsell p{color:var(--muted2);font-size:.92rem;margin-bottom:1rem;line-height:1.5}
+
+.hidden{display:none !important}
+.footer-link{display:block;text-align:center;color:var(--muted);font-size:.85rem;margin-top:2rem}
+.footer-link:hover{color:var(--purple3)}
+
+@media(max-width:480px){.wrap{padding:1.6rem 1.1rem 4rem}}
+</style>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<div class="wrap">
+  <a href="/horoscopo.html" class="topbar-logo">🔮 Bússola Astral</a>
+
+  <!-- ═══ ESTADO 1: convite (sem ?p1=) ═══ -->
+  <div id="state-invite">
+    <div class="section-tag">Sinastria em Dupla</div>
+    <h1>A química astral de vocês dois, revelada</h1>
+    <p class="subtitle">Preencha seus dados, gere um link e mande pro seu par. Quando ele(a) preencher, a sinastria completa aparece pra vocês dois. 💫</p>
+
+    <div class="card">
+      <label for="inv-name">Seu nome</label>
+      <input type="text" id="inv-name" placeholder="Ex: Marina" autocomplete="given-name">
+
+      <label for="inv-date">Sua data de nascimento</label>
+      <input type="date" id="inv-date">
+
+      <label for="inv-time">Horário de nascimento (opcional)</label>
+      <input type="time" id="inv-time">
+      <p class="hint">Com o horário, calculamos também seu Ascendente — a sinastria fica mais precisa.</p>
+
+      <label for="inv-city">Cidade de nascimento (opcional)</label>
+      <input type="text" id="inv-city" placeholder="Ex: São Paulo" list="city-suggestions">
+      <datalist id="city-suggestions"></datalist>
+
+      <button class="btn btn-gold" id="btn-generate-link">✨ Gerar meu link de sinastria</button>
+    </div>
+
+    <div id="share-result" class="hidden">
+      <div class="share-box">
+        <input type="text" id="share-url" readonly>
+        <button id="btn-copy-link">Copiar</button>
+      </div>
+      <a class="btn btn-purple" id="btn-whatsapp-share" target="_blank">📲 Enviar direto no WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- ═══ ESTADO 2: par preenchendo os dados dele(a) ═══ -->
+  <div id="state-partner-form" class="hidden">
+    <div class="section-tag">Sinastria em Dupla</div>
+    <div class="card-partner">
+      <span class="emoji">💌</span>
+      <div class="info">
+        <b id="partner-name-label">Alguém</b>
+        <span>quer descobrir a sinastria de vocês. Preencha seus dados:</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <label for="p2-name">Seu nome</label>
+      <input type="text" id="p2-name" placeholder="Seu nome" autocomplete="given-name">
+
+      <label for="p2-date">Sua data de nascimento</label>
+      <input type="date" id="p2-date">
+
+      <label for="p2-time">Horário de nascimento (opcional)</label>
+      <input type="time" id="p2-time">
+
+      <label for="p2-city">Cidade de nascimento (opcional)</label>
+      <input type="text" id="p2-city" placeholder="Ex: Rio de Janeiro" list="city-suggestions-2">
+      <datalist id="city-suggestions-2"></datalist>
+
+      <button class="btn btn-gold" id="btn-calc-synastry">🔮 Revelar nossa sinastria</button>
+    </div>
+  </div>
+
+  <!-- ═══ ESTADO 3: resultado ═══ -->
+  <div id="state-result" class="hidden">
+    <div class="section-tag">Resultado da Sinastria</div>
+    <h1 id="result-title">A conexão de vocês</h1>
+    <p class="subtitle" id="result-subtitle"></p>
+
+    <div class="score-ring">
+      <svg width="180" height="180" viewBox="0 0 180 180">
+        <defs>
+          <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c3fe4"/>
+            <stop offset="100%" stop-color="#f0c060"/>
+          </linearGradient>
+        </defs>
+        <circle class="bg" cx="90" cy="90" r="78" fill="none" stroke-width="12"/>
+        <circle class="fg" id="score-circle" cx="90" cy="90" r="78" fill="none" stroke-width="12"
+          stroke-dasharray="490" stroke-dashoffset="490"/>
+      </svg>
+      <div class="score-num"><b id="score-value">0%</b><span>COMPATIBILIDADE</span></div>
+    </div>
+
+    <div class="card">
+      <div class="category">
+        <div class="category-head"><b>💕 Romance & Atração</b><span id="cat-romance-pct"></span></div>
+        <div class="bar-track"><div class="bar-fill" id="cat-romance-bar" style="width:0%"></div></div>
+        <p class="category-desc" id="cat-romance-desc"></p>
+      </div>
+      <div class="category">
+        <div class="category-head"><b>💬 Comunicação</b><span id="cat-comm-pct"></span></div>
+        <div class="bar-track"><div class="bar-fill" id="cat-comm-bar" style="width:0%"></div></div>
+        <p class="category-desc" id="cat-comm-desc"></p>
+      </div>
+      <div class="category">
+        <div class="category-head"><b>🏛️ Longo Prazo</b><span id="cat-longterm-pct"></span></div>
+        <div class="bar-track"><div class="bar-fill" id="cat-longterm-bar" style="width:0%"></div></div>
+        <p class="category-desc" id="cat-longterm-desc"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <b style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--purple3);display:block;margin-bottom:.8rem">ASPECTOS ENCONTRADOS ENTRE OS MAPAS</b>
+      <div class="aspect-list" id="aspect-list"></div>
+    </div>
+
+    <div class="upsell">
+      <b>Quer o relatório completo? 🌙</b>
+      <p>Assine o Premium e desbloqueie a análise completa de sinastria — todos os planetas, casas e um plano de relacionamento personalizado gerado por IA.</p>
+      <a href="/premium.html" class="btn btn-gold" style="margin-top:0">Conhecer o Premium</a>
+    </div>
+
+    <button class="btn btn-outline" id="btn-share-result">📤 Compartilhar esse resultado</button>
+    <a href="/horoscopo.html" class="footer-link">Quero descobrir meu mapa astral completo grátis →</a>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   MOTOR ASTRAL — mesma lógica de horoscopo.html (Astronomy Engine)
+   ══════════════════════════════════════════════════════════ */
+const ZODIAC_NAMES = ['Áries','Touro','Gêmeos','Câncer','Leão','Virgem','Libra','Escorpião','Sagitário','Capricórnio','Aquário','Peixes'];
+const ZODIAC_SYMS  = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+
+const PLANET_META = {
+  sun:     { name:'Sol',      emoji:'🌞', bodyName:'Sun'     },
+  moon:    { name:'Lua',      emoji:'🌙', bodyName:'Moon'    },
+  mercury: { name:'Mercúrio', emoji:'☿',  bodyName:'Mercury' },
+  venus:   { name:'Vênus',    emoji:'♀️', bodyName:'Venus'   },
+  mars:    { name:'Marte',    emoji:'♂️', bodyName:'Mars'    },
+};
+
+const PLANET_L0L1 = {
+  sun:{L0:280.46646,L1:36000.76983}, moon:{L0:218.31665,L1:481267.88134},
+  mercury:{L0:252.25032,L1:149472.67411}, venus:{L0:181.97980,L1:58517.81539},
+  mars:{L0:355.43300,L1:19140.30268},
+};
+
+const CITIES_BR = {
+  'sao paulo':{lat:-23.5505,lng:-46.6333,tz:-3,display:'São Paulo'},
+  'rio de janeiro':{lat:-22.9068,lng:-43.1729,tz:-3,display:'Rio de Janeiro'},
+  'brasilia':{lat:-15.7801,lng:-47.9292,tz:-3,display:'Brasília'},
+  'belo horizonte':{lat:-19.9167,lng:-43.9345,tz:-3,display:'Belo Horizonte'},
+  'salvador':{lat:-12.9714,lng:-38.5014,tz:-3,display:'Salvador'},
+  'curitiba':{lat:-25.4290,lng:-49.2671,tz:-3,display:'Curitiba'},
+  'fortaleza':{lat:-3.7172,lng:-38.5433,tz:-3,display:'Fortaleza'},
+  'manaus':{lat:-3.1190,lng:-60.0217,tz:-4,display:'Manaus'},
+  'recife':{lat:-8.0539,lng:-34.8811,tz:-3,display:'Recife'},
+  'porto alegre':{lat:-30.0346,lng:-51.2177,tz:-3,display:'Porto Alegre'},
+  'goiania':{lat:-16.6869,lng:-49.2648,tz:-3,display:'Goiânia'},
+  'campinas':{lat:-22.9056,lng:-47.0608,tz:-3,display:'Campinas'},
+  'florianopolis':{lat:-27.5954,lng:-48.5480,tz:-3,display:'Florianópolis'},
+};
+
+function normLon(lon){return ((lon%360)+360)%360}
+function lonToSign(lon){const idx=Math.floor(normLon(lon)/30)%12;return{signIndex:idx,signName:ZODIAC_NAMES[idx],signSym:ZODIAC_SYMS[idx]}}
+function julianDate(date){
+  let y=date.getFullYear(),m=date.getMonth()+1,d=date.getDate();
+  const h=date.getHours()+date.getMinutes()/60+date.getSeconds()/3600;
+  if(m<=2){y--;m+=12}
+  const A=Math.floor(y/100),B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+h/24+B-1524.5;
+}
+function getEclipticLon(bodyKey,date){
+  const AE=window.Astronomy;
+  if(AE){
+    try{
+      if(bodyKey==='sun')return normLon(AE.SunPosition(date).elon);
+      const bn=PLANET_META[bodyKey]&&PLANET_META[bodyKey].bodyName;
+      if(bn){const vec=AE.GeoVector(bn,date,false);return normLon(AE.Ecliptic(vec).elon)}
+    }catch(e){}
+  }
+  const jd=julianDate(date),T=(jd-2451545.0)/36525,p=PLANET_L0L1[bodyKey];
+  return p?normLon(p.L0+p.L1*T):0;
+}
+function getPlanetPositions(date){
+  const result={};
+  for(const[key,meta]of Object.entries(PLANET_META)){
+    const lon=getEclipticLon(key,date);
+    result[key]={...meta,longitude:lon,...lonToSign(lon)};
+  }
+  return result;
+}
+function calcAscendant(date,lat,lng){
+  const AE=window.Astronomy;let gast;
+  if(AE){try{gast=AE.SiderealTime(date)}catch(e){}}
+  if(gast===undefined||gast===null){
+    const jd=julianDate(date),T=(jd-2451545.0)/36525;
+    gast=((6.697374558+2400.0513369*T+0.0000258622*T*T)%24+24)%24;
+  }
+  const ramc=((gast+lng/15)*15%360+360)%360;
+  const eps=23.4393*Math.PI/180,latr=lat*Math.PI/180,ramcr=ramc*Math.PI/180;
+  const y=-Math.cos(ramcr),x=Math.sin(ramcr)*Math.cos(eps)+Math.tan(latr)*Math.sin(eps);
+  return normLon(Math.atan2(y,x)*180/Math.PI);
+}
+function normCity(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z\s]/g,'').trim()}
+function findCity(str){
+  if(!str)return null;
+  const n=normCity(str);
+  for(const[k,v]of Object.entries(CITIES_BR))if(k===n)return v;
+  for(const[k,v]of Object.entries(CITIES_BR))if(k.startsWith(n)||n.startsWith(k))return v;
+  for(const[k,v]of Object.entries(CITIES_BR))if(k.includes(n)||n.includes(k))return v;
+  return null;
+}
+function getNatalChart(p){
+  let birthDate = p.time ? new Date(p.date+'T'+p.time+':00') : new Date(p.date+'T12:00:00');
+  const positions=getPlanetPositions(birthDate);
+  let asc=null;
+  if(p.time&&p.city){
+    const cityData=findCity(p.city);
+    if(cityData){
+      const[yr,mo,dy]=p.date.split('-').map(Number);
+      const[hr,mn]=p.time.split(':').map(Number);
+      const utcMs=Date.UTC(yr,mo-1,dy,hr-cityData.tz,mn,0);
+      asc=calcAscendant(new Date(utcMs),cityData.lat,cityData.lng);
+    }
+  }
+  return{positions,asc};
+}
+
+/* ══════════════════════════════════════════════════════════
+   SINASTRIA — aspectos entre os DOIS mapas
+   ══════════════════════════════════════════════════════════ */
+const ASPECT_DEFS=[
+  {name:'Conjunção',a:0,orb:8,tier:2},
+  {name:'Sextil',a:60,orb:6,tier:3},
+  {name:'Quadratura',a:90,orb:7,tier:1},
+  {name:'Trígono',a:120,orb:8,tier:3},
+  {name:'Oposição',a:180,orb:7,tier:1},
+];
+function findAspect(lonA,lonB){
+  let diff=Math.abs(lonA-lonB);if(diff>180)diff=360-diff;
+  for(const def of ASPECT_DEFS){if(Math.abs(diff-def.a)<=def.orb)return def}
+  return null;
+}
+// tier 3 = harmonioso forte, tier 2 = intenso/neutro, tier 1 = tenso mas significativo
+const PAIR_WEIGHTS={
+  romance: [['venus','mars'],['mars','venus'],['sun','venus'],['venus','sun'],['moon','mars']],
+  comm:    [['mercury','mercury'],['sun','mercury'],['mercury','sun'],['moon','mercury'],['mercury','moon']],
+  longterm:[['sun','sun'],['moon','moon'],['sun','moon'],['moon','sun'],['venus','venus']],
+};
+function scoreCategory(posA,posB,pairs){
+  let total=0,max=0,foundAspects=[];
+  for(const[keyA,keyB]of pairs){
+    max+=15;
+    if(!posA[keyA]||!posB[keyB])continue;
+    const asp=findAspect(posA[keyA].longitude,posB[keyB].longitude);
+    if(asp){
+      total+=asp.tier===3?15:asp.tier===2?11:8;
+      foundAspects.push({planetA:posA[keyA],planetB:posB[keyB],keyA,keyB,aspect:asp});
+    }
+  }
+  const pct=max>0?Math.round((total/max)*100):50;
+  return{pct:Math.min(96,Math.max(28,pct)),foundAspects};
+}
+const CATEGORY_TEXT={
+  romance:{
+    high:'A química é inegável — Vênus e Marte conversam entre os mapas de vocês, trazendo atração magnética e paixão genuína.',
+    mid:'Existe uma atração real, que pede tempo e presença pra amadurecer em algo mais profundo.',
+    low:'A atração inicial pode não ser óbvia à primeira vista, mas costuma crescer com afinidade construída aos poucos.',
+  },
+  comm:{
+    high:'Vocês se entendem quase sem precisar explicar — Mercúrio conecta os dois mapas com fluidez rara.',
+    mid:'A comunicação flui bem na maior parte do tempo, com alguns momentos que pedem mais paciência pra se fazer entender.',
+    low:'Vocês pensam de formas bem diferentes — o que pode ser um desafio, mas também a maior fonte de crescimento mútuo.',
+  },
+  longterm:{
+    high:'Sol e Lua se conectam entre os mapas — um sinal clássico de conexão emocional profunda e duradoura.',
+    mid:'A base pra construir algo sólido está presente, mas vai exigir escolha consciente dos dois, dia após dia.',
+    low:'Vocês são bem diferentes na essência — o tipo de conexão que ensina mais do que confirma, e que pode ser tão valiosa quanto qualquer outra.',
+  },
+};
+function textFor(cat,pct){return pct>=70?CATEGORY_TEXT[cat].high:pct>=45?CATEGORY_TEXT[cat].mid:CATEGORY_TEXT[cat].low}
+
+/* ══════════════════════════════════════════════════════════
+   UI — estados e navegação
+   ══════════════════════════════════════════════════════════ */
+function fillCitySuggestions(id){
+  const dl=document.getElementById(id);
+  Object.values(CITIES_BR).forEach(c=>{const o=document.createElement('option');o.value=c.display;dl.appendChild(o)});
+}
+fillCitySuggestions('city-suggestions');
+fillCitySuggestions('city-suggestions-2');
+
+function encodeP1(data){return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))))}
+function decodeP1(str){try{return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(str)))))}catch(e){return null}}
+
+const params=new URLSearchParams(location.search);
+const p1raw=params.get('p1');
+const p1Data=p1raw?decodeP1(p1raw):null;
+
+if(p1Data&&p1Data.date){
+  document.getElementById('state-invite').classList.add('hidden');
+  document.getElementById('state-partner-form').classList.remove('hidden');
+  document.getElementById('partner-name-label').textContent=(p1Data.name||'Alguém especial');
+}
+
+document.getElementById('btn-generate-link')?.addEventListener('click',()=>{
+  const name=document.getElementById('inv-name').value.trim();
+  const date=document.getElementById('inv-date').value;
+  const time=document.getElementById('inv-time').value;
+  const city=document.getElementById('inv-city').value.trim();
+  if(!name||!date){alert('Preencha pelo menos seu nome e data de nascimento 💫');return}
+  const encoded=encodeP1({name,date,time,city});
+  const url=location.origin+location.pathname+'?p1='+encoded;
+  document.getElementById('share-url').value=url;
+  document.getElementById('share-result').classList.remove('hidden');
+  const waMsg=encodeURIComponent(`${name} quer descobrir a sinastria de vocês! Clica aqui e preenche seus dados: ${url}`);
+  document.getElementById('btn-whatsapp-share').href='https://wa.me/?text='+waMsg;
+  gtag('event','sinastria_link_generated');
+});
+
+document.getElementById('btn-copy-link')?.addEventListener('click',()=>{
+  const input=document.getElementById('share-url');
+  input.select();navigator.clipboard?.writeText(input.value);
+  const btn=document.getElementById('btn-copy-link');
+  btn.textContent='Copiado! ✓';setTimeout(()=>btn.textContent='Copiar',2000);
+});
+
+document.getElementById('btn-calc-synastry')?.addEventListener('click',()=>{
+  const name=document.getElementById('p2-name').value.trim();
+  const date=document.getElementById('p2-date').value;
+  const time=document.getElementById('p2-time').value;
+  const city=document.getElementById('p2-city').value.trim();
+  if(!name||!date){alert('Preencha pelo menos seu nome e data de nascimento 💫');return}
+
+  const chartA=getNatalChart(p1Data);
+  const chartB=getNatalChart({name,date,time,city});
+
+  const romance=scoreCategory(chartA.positions,chartB.positions,PAIR_WEIGHTS.romance);
+  const comm=scoreCategory(chartA.positions,chartB.positions,PAIR_WEIGHTS.comm);
+  const longterm=scoreCategory(chartA.positions,chartB.positions,PAIR_WEIGHTS.longterm);
+  const overall=Math.round((romance.pct+comm.pct+longterm.pct)/3);
+
+  document.getElementById('state-partner-form').classList.add('hidden');
+  document.getElementById('state-result').classList.remove('hidden');
+
+  document.getElementById('result-title').textContent=`${p1Data.name} & ${name}`;
+  document.getElementById('result-subtitle').textContent=
+    `${chartA.positions.sun.signName} ${chartA.positions.sun.signSym} com ${chartB.positions.sun.signName} ${chartB.positions.sun.signSym}`;
+
+  const circumference=2*Math.PI*78;
+  const circle=document.getElementById('score-circle');
+  circle.style.strokeDasharray=circumference;
+  requestAnimationFrame(()=>{
+    circle.style.strokeDashoffset=circumference-(overall/100)*circumference;
+  });
+  document.getElementById('score-value').textContent=overall+'%';
+
+  const cats=[['romance',romance],['comm',comm],['longterm',longterm]];
+  for(const[key,data]of cats){
+    document.getElementById(`cat-${key}-pct`).textContent=data.pct+'%';
+    setTimeout(()=>{document.getElementById(`cat-${key}-bar`).style.width=data.pct+'%'},100);
+    document.getElementById(`cat-${key}-desc`).textContent=textFor(key,data.pct);
+  }
+
+  const allAspects=[...romance.foundAspects,...comm.foundAspects,...longterm.foundAspects];
+  const seen=new Set();
+  const listEl=document.getElementById('aspect-list');
+  listEl.innerHTML='';
+  if(allAspects.length===0){
+    listEl.innerHTML='<p style="color:var(--muted);font-size:.9rem">Os mapas têm uma conexão sutil, sem aspectos exatos entre os planetas principais — o tipo de vínculo que se constrói na convivência, não que já vem pronto.</p>';
+  }
+  for(const item of allAspects){
+    const dedupKey=item.keyA+item.keyB+item.aspect.name;
+    if(seen.has(dedupKey))continue;seen.add(dedupKey);
+    const glowColor=item.aspect.tier===3?'#22c55e':item.aspect.tier===2?'#f0c060':'#c4a0ff';
+    const div=document.createElement('div');
+    div.className='aspect-item';
+    div.innerHTML=`<span class="glow" style="background:${glowColor};box-shadow:0 0 8px ${glowColor}"></span>
+      <span>${item.planetA.emoji} ${item.planetA.name} de ${p1Data.name} em ${item.aspect.name.toLowerCase()} com ${item.planetB.emoji} ${item.planetB.name} de ${name}</span>`;
+    listEl.appendChild(div);
+  }
+
+  gtag('event','sinastria_calculada',{valor:overall});
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+document.getElementById('btn-share-result')?.addEventListener('click',async()=>{
+  const url=location.href;
+  if(navigator.share){
+    try{await navigator.share({title:'Nossa Sinastria — Bússola Astral',url})}catch(e){}
+  }else{
+    navigator.clipboard?.writeText(url);
+    alert('Link copiado! Cole onde quiser compartilhar. ✨');
+  }
+});
+
+/* ── STARFIELD ── */
+(function(){
+  const c=document.getElementById('starfield');
+  const ctx=c.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;stars=[];for(let i=0;i<140;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,a:Math.random(),s:Math.random()*.003+.001})}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.s;if(s.a>1||s.a<0)s.s*=-1;
+      ctx.fillStyle=`rgba(255,255,255,${s.a*.9})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();draw();
+})();
+</script>
+</body>
+</html>
