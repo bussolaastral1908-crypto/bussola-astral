@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-88SSP1E8VP"></script>
 <script>
@@ -752,6 +757,39 @@ section, div, header, footer, nav, main, article {
   .hora-cards {
     grid-template-columns: 1fr !important;
   }
+}
+
+
+/* ─── BLINDAGEM ABSOLUTA DE LAYOUT VERTICAL E DESATIVAÇÃO DE CACHE ─────────────── */
+body {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+section {
+  display: block !important;
+  float: none !important;
+  clear: both !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.section-inner, .contrast-inner, .pricing-inner, .faq-inner, .stats-inner {
+  display: block !important;
+  float: none !important;
+  clear: both !important;
+  width: 100% !important;
+  max-width: 1040px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
 }
 
 </style>
