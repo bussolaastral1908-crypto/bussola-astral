@@ -475,14 +475,14 @@ function updateStats() {
   document.getElementById('stat-paid-payments').textContent = paid.length;
   const revenue = paid.reduce((acc, p) => acc + (p.paidAmount || p.amount || 0), 0);
   document.getElementById('stat-revenue').textContent = (revenue / 100).toFixed(2).replace('.', ',');
-  // MRR: count active premium users × R$34,90
+  // MRR: count active premium users × R$ 9,90
   const activePrem = allUsers.filter(u => {
     if (!u.is_premium) return false;
     if (!u.premium_expires_at) return false;
     const exp = new Date(u.premium_expires_at);
     return exp.getFullYear() < 2090 && exp > new Date();
   }).length;
-  document.getElementById('stat-mrr').textContent = (activePrem * 34.90).toFixed(2).replace('.', ',');
+  document.getElementById('stat-mrr').textContent = (activePrem * 9.90).toFixed(2).replace('.', ',');
 }
 
 // ── Pending Premiums ───────────────────────────────────────
