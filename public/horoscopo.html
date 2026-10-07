@@ -273,8 +273,6 @@ select option{background:#171732;}
 @keyframes zodiac-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 .topbar,.layout{position:relative;z-index:1;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="/js/supabase-client.js"></script>
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -283,10 +281,7 @@ select option{background:#171732;}
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "xg4m3sqb72");
     </script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="/js/firebase-client.js"></script>
+<script src="/js/conta-client.js"></script>
 </head>
 <body>
 
@@ -1018,7 +1013,7 @@ function saveProfile() {
   if (!date) { alert('Data de nascimento obrigatória!'); return; }
   profile = { name: name || 'Você', date, time, city };
   localStorage.setItem('bussolaAstral_profile', JSON.stringify(profile));
-  if(currentUser){db.from('profiles').update({name:profile.name,birth_date:profile.date,birth_time:profile.time||null,birth_city:profile.city}).eq('id',currentUser.id).then(({error})=>{if(error)console.warn('Supabase save:',error.message)});}
+  if(window.BAConta&&BAConta.hasSession()){BAConta.saveProfile({name:profile.name,birth_date:profile.date,birth_time:profile.time||'',birth_city:profile.city||''}).catch(e=>console.warn('[perfil] não salvou no servidor:',e.message));}
   natalChart = getNatalChart(profile);
   renderDashboard();
 }
@@ -1956,28 +1951,26 @@ renderSky();
 
 // ── Auth + logout ───────────────────────────────────────────────
 async function logout(){
-  await db.auth.signOut();
   localStorage.removeItem('bussolaAstral_profile');
-  window.location.href='/login.html';
+  BAConta.logout();
 }
 
-// ── Auth check + load profile from Supabase ─────────────────────
+// ── Sessão + perfil + Premium vindos do servidor (/api/conta) ───────────
 (async()=>{
-  const{data:{session}}=await db.auth.getSession();
-  if(!session){window.location.href='/login.html';return;}
-  currentUser=session.user;
+  if(!window.BAConta||!BAConta.hasSession()){window.location.href='/login.html';return;}
+  const prof=await BAConta.fetchProfile();
+  if(!prof){window.location.href='/login.html';return;}
+  currentUser={email:prof.email};
   const av=document.getElementById('topbar-avatar');
 
-  const{data:prof,error:profErr}=await db.from('profiles').select('*').eq('id',currentUser.id).single();
-  if(prof&&(prof.birth_date||prof.birth_city)){
-    profile={name:prof.name||'',date:prof.birth_date||'',time:prof.birth_time?prof.birth_time.substring(0,5):'',city:prof.birth_city||''};
+  if(prof.birth_date||prof.birth_city){
+    profile={name:prof.name||'',date:prof.birth_date||'',time:prof.birth_time?String(prof.birth_time).substring(0,5):'',city:prof.birth_city||''};
     localStorage.setItem('bussolaAstral_profile',JSON.stringify(profile));
   }else{
     const saved=localStorage.getItem('bussolaAstral_profile');
     if(saved)profile=JSON.parse(saved);
   }
-  isPremium = !!(prof && prof.is_premium) ||
-              !!(prof && prof.premium_expires_at && new Date(prof.premium_expires_at) > new Date());
+  isPremium = prof.is_premium === true;
 
   if(av&&profile&&profile.name)av.textContent=profile.name.charAt(0).toUpperCase();
 
@@ -2020,9 +2013,9 @@ async function openPremiumCheckout() {
   });
 
   try {
-    const { data: { session } } = await db.auth.getSession();
-    const email = session?.user?.email || '';
-    const name  = session?.user?.user_metadata?.name || profile?.name || '';
+    const me = (window.getActiveProfile && getActiveProfile()) || {};
+    const email = me.email || '';
+    const name  = me.name || profile?.name || '';
 
     const res = await fetch('/api/create-checkout', {
       method: 'POST',

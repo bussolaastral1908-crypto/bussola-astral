@@ -13,7 +13,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Redefinir Senha — Bússola Astral</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display+SC:wght@400&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --bg:#09060f;--surface:rgba(18,9,32,.95);
@@ -106,7 +105,7 @@ body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-
     <div style="font-size:2.2rem;margin-bottom:.8rem">✅</div>
     <div class="state-title">Senha redefinida!</div>
     <p class="state-sub">Sua senha foi atualizada com sucesso. Clique abaixo para acessar seu mapa astral.</p>
-    <a href="/horoscopo.html" class="btn btn-gold" style="display:block;text-decoration:none;padding:.85rem">✦ Acessar meu mapa</a>
+    <a href="/login.html" class="btn btn-gold" style="display:block;text-decoration:none;padding:.85rem">✦ Entrar com a nova senha</a>
   </div>
 
   <!-- Error: invalid/expired link -->
@@ -119,46 +118,13 @@ body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-
 </div>
 
 <script>
-const SUPA_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
-const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
-const db = supabase.createClient(SUPA_URL, SUPA_KEY);
-
 function show(id){
   document.querySelectorAll('.state').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-
-// Supabase v2: listen for PASSWORD_RECOVERY event
-// The SDK auto-detects the hash tokens from the URL
-db.auth.onAuthStateChange(async (event, session) => {
-  if(event === 'PASSWORD_RECOVERY'){
-    show('state-form');
-  } else if(event === 'SIGNED_IN' && session){
-    // Already handled — do nothing extra here
-  }
-});
-
-// Fallback: if no event fires within 4s, check URL hash manually
-setTimeout(()=>{
-  const hash = window.location.hash;
-  const currentState = document.querySelector('.state.active')?.id;
-  if(currentState === 'state-loading'){
-    // Still loading — check if there's a code in URL (PKCE flow)
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    if(code){
-      // PKCE flow — exchange code for session
-      db.auth.exchangeCodeForSession(code).then(({data, error})=>{
-        if(error || !data?.session) show('state-error');
-        else show('state-form');
-      });
-    } else if(hash.includes('type=recovery') || hash.includes('access_token')){
-      show('state-form');
-    } else {
-      show('state-error');
-    }
-  }
-}, 3000);
+// Link do e-mail: /redefinir-senha.html?token=...
+const resetToken = new URLSearchParams(window.location.search).get('token') || '';
+show(resetToken ? 'state-form' : 'state-error');
 
 function checkStrength(val){
   const fill = document.getElementById('strength-fill');
@@ -188,9 +154,14 @@ async function savePassword(){
   const btn = document.getElementById('btn-save');
   btn.disabled = true; btn.textContent = 'Salvando…';
 
-  const {error} = await db.auth.updateUser({password: pass});
-  if(error){
-    errEl.textContent = error.message || 'Erro ao atualizar senha. Tente novamente.';
+  let r, data = {};
+  try {
+    r = await fetch('/api/conta?acao=redefinir', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token: resetToken, password: pass }) });
+    data = await r.json().catch(()=>({}));
+  } catch(e) { r = null; }
+  if(!r || !r.ok){
+    if(r && r.status === 400 && /expirado/.test(data.error||'')){ show('state-error'); return; }
+    errEl.textContent = (data && data.error) || 'Sem conexão. Tente novamente.';
     errEl.style.display='block';
     btn.disabled=false; btn.textContent='Salvar nova senha';
   } else {

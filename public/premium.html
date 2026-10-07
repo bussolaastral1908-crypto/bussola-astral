@@ -19,7 +19,7 @@
 <title>Premium — Bússola Astral | Mapa Astral com Cálculo Real</title>
 <meta name="description" content="Previsão personalizada de 6 meses, todos os trânsitos, arcanos do mês e datas lunares. Calculado com sua data e hora exata de nascimento. R$ 9,90.">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/js/conta-client.js"></script>
 <style>
 :root {
   --bg:#07051A; --bg2:#0D0A24; --card:rgba(22,16,48,.78); --card2:rgba(30,22,62,.85);
@@ -542,12 +542,15 @@ header.nav { position:sticky; top:0; z-index:50; background:rgba(7,5,26,.82); ba
 
 <!-- ═══════════════════ SCRIPTS ════════════════════════════ -->
 <script>
-/* ── SUPABASE ── */
-const SUPA_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
-const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
-const db=supabase.createClient(SUPA_URL,SUPA_KEY);
-(async()=>{const{data:{session}}=await db.auth.getSession();if(!session)return;const{data:p}=await db.from('profiles').select('is_premium').eq('id',session.user.id).single();if(p?.is_premium)window.location.href='/horoscopo';})();
+/* ── QUEM JÁ É PREMIUM VAI DIRETO PRO HORÓSCOPO ── */
+(async()=>{if(!window.BAConta||!BAConta.hasSession())return;const p=await BAConta.fetchProfile();if(p&&p.is_premium)window.location.href='/horoscopo';})();
 
+async function irParaCheckout(){
+  const resp=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'monthly'})});
+  const json=await resp.json().catch(()=>({}));
+  if(json.url){setTimeout(()=>{window.location.href=json.url;},1200);}
+  else{document.getElementById('modal-success-view').innerHTML='<p style="color:var(--red);text-align:center">Erro ao criar checkout. Tente novamente ou contate contato@bussolaastral.com</p>';}
+}
 
 /* ── STARFIELD CANVAS ── */
 (function(){
@@ -589,26 +592,19 @@ async function doRegister(){
   if(!ok)return;
   const btn=document.getElementById('reg-btn');btn.disabled=true;btn.textContent='Criando conta...';
   try{
-    const{error}=await db.auth.signUp({email,password:pass,options:{data:{name,birth_date:date}}});
-    if(error)throw error;
-    const{data:{session}}=await db.auth.getSession();
-    if(session)await db.from('profiles').upsert({id:session.user.id,email,name,birth_date:date},{onConflict:'id'});
+    await registerUser(email,pass,{name,birth_date:date});
     document.getElementById('modal-register-view').style.display='none';document.getElementById('modal-success-view').style.display='block';
-    const resp=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'monthly'})});
-    const json=await resp.json();
-    if(json.url){setTimeout(()=>{window.location.href=json.url;},1200);}
-    else{document.getElementById('modal-success-view').innerHTML='<p style="color:var(--red);text-align:center">Erro ao criar checkout. Tente novamente ou contate contato@bussolaastral.com</p>';}
-  }catch(e){showErr('reg-generic-err',e.message==='User already registered'?'Email já cadastrado. Entre com sua conta.':(e.message||'Erro ao criar conta.'));btn.disabled=false;btn.textContent='✦ Criar conta e pagar';}
+    await irParaCheckout();
+  }catch(e){showErr('reg-generic-err',e.message||'Erro ao criar conta.');btn.disabled=false;btn.textContent='✦ Criar conta e pagar';}
 }
 async function doLogin(){
   const email=document.getElementById('login-email').value.trim();const pass=document.getElementById('login-pass').value;hideErr('login-err');
   const btn=document.getElementById('login-btn');btn.disabled=true;btn.textContent='Entrando...';
   try{
-    const{data,error}=await db.auth.signInWithPassword({email,password:pass});if(error)throw error;
-    const{data:p}=await db.from('profiles').select('is_premium').eq('id',data.session.user.id).single();
-    if(p?.is_premium){document.getElementById('modal-register-view').style.display='none';document.getElementById('modal-already-premium').style.display='block';}
-    else{document.getElementById('modal-register-view').style.display='none';document.getElementById('modal-success-view').style.display='block';const resp=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'monthly'})});const chk=await resp.json();if(chk.url){setTimeout(()=>{window.location.href=chk.url;},1200);}else{document.getElementById('modal-success-view').innerHTML='<p style="color:var(--red);text-align:center">Erro ao criar checkout.</p>';}}
-  }catch(e){showErr('login-err',e.message.includes('Invalid')?'Email ou senha incorretos.':(e.message||'Erro ao entrar.'));btn.disabled=false;btn.textContent='✦ Entrar e pagar';}
+    const{profile:p}=await loginUser(email,pass);
+    if(p&&p.is_premium){document.getElementById('modal-register-view').style.display='none';document.getElementById('modal-already-premium').style.display='block';}
+    else{document.getElementById('modal-register-view').style.display='none';document.getElementById('modal-success-view').style.display='block';await irParaCheckout();}
+  }catch(e){showErr('login-err',e.message||'Erro ao entrar.');btn.disabled=false;btn.textContent='✦ Entrar e pagar';}
 }
 function toggleFaq(el){el.parentElement.classList.toggle('open');}
 

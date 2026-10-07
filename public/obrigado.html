@@ -13,7 +13,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Obrigado! — Bússola Astral Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display+SC:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/js/conta-client.js"></script>
 <style>
 :root{
   --bg:#09060f;--bg2:#0f0a1e;--surface:rgba(18,9,32,.9);
@@ -162,10 +162,6 @@ body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-
 </div>
 
 <script>
-const SUPA_URL='https://jnjdkfmzkppzqafhjsbl.supabase.co';
-const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
-const db = supabase.createClient(SUPA_URL, SUPA_KEY);
-
 function show(id){
   ['loading-view','success-view','pending-view','noauth-view'].forEach(v=>
     document.getElementById(v).style.display = v===id?'':'none'
@@ -196,41 +192,20 @@ function launchConfetti(){
 }
 
 (async()=>{
-  const {data:{session}} = await db.auth.getSession();
-
-  if(!session){
-    // Not logged in — show noauth
-    show('noauth-view');
-    return;
-  }
-
-  const {data:p} = await db.from('profiles')
-    .select('is_premium,premium_expires_at')
-    .eq('id',session.user.id)
-    .single();
-
-  if(p?.is_premium){
-    show('success-view');
-    launchConfetti();
-  } else {
-    // May have paid but webhook not synced yet
-    show('pending-view');
-    // Poll every 5s for up to 2 min
-    let polls=0;
-    const timer=setInterval(async()=>{
-      polls++;
-      const {data:pp} = await db.from('profiles')
-        .select('is_premium')
-        .eq('id',session.user.id)
-        .single();
-      if(pp?.is_premium){
-        clearInterval(timer);
-        show('success-view');
-        launchConfetti();
-      }
-      if(polls>=24) clearInterval(timer);
-    },5000);
-  }
+  // Sem sessão: pede para entrar (o pagamento fica registrado pelo e-mail da compra).
+  if(!window.BAConta || !BAConta.hasSession()){ show('noauth-view'); return; }
+  const p = await BAConta.fetchProfile();
+  if(!p){ show('noauth-view'); return; }
+  if(p.is_premium){ show('success-view'); launchConfetti(); return; }
+  // Pode ter pago e o aviso da AbacatePay ainda não chegou: confere a cada 5s por 2 min.
+  show('pending-view');
+  let polls=0;
+  const timer=setInterval(async()=>{
+    polls++;
+    const pp = await BAConta.fetchProfile();
+    if(pp && pp.is_premium){ clearInterval(timer); show('success-view'); launchConfetti(); }
+    if(polls>=24) clearInterval(timer);
+  },5000);
 })();
 </script>
 </body>
