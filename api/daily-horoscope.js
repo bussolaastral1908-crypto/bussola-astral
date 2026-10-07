@@ -6,7 +6,9 @@
 //    reserva); 3. guarda por signo+dia no banco (api/_lib/store.js) — 12 gerações por dia.
 // Gratuito para todos (a página /hoje usa); o Premium é o mapa completo e os 6 meses.
 // Env: GEMINI_API_KEY e/ou OPENAI_API_KEY, DATABASE_URL.
-import * as A from 'astronomy-engine';
+import { createRequire } from 'module';
+// Versão CommonJS da biblioteca: a versão ESM dela não carrega nas funções da Vercel.
+const A = createRequire(import.meta.url)('astronomy-engine');
 import { kv } from './_lib/store.js';
 
 const SIGNS = ['aries', 'touro', 'gemeos', 'cancer', 'leao', 'virgem', 'libra', 'escorpiao', 'sagitario', 'capricornio', 'aquario', 'peixes'];
