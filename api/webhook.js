@@ -2,7 +2,7 @@
 // api/webhook.js
 // Vercel Serverless Function — recebe confirmações do AbacatePay e ativa Premium
 
-import { kv } from '@vercel/kv';
+import { kv } from './_lib/store.js';
 import crypto from 'crypto';
 
 // Vercel parseia o body antes de chegar aqui; precisamos do raw body para verificar HMAC.

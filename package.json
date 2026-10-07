@@ -5,6 +5,7 @@
   "description": "Bússola Astral — Horóscopo Pessoal com cálculos astronômicos reais",
   "type": "module",
   "dependencies": {
-    "@vercel/kv": "^1.0.0"
+    "@vercel/kv": "^1.0.0",
+    "pg": "^8.13.1"
   }
 }

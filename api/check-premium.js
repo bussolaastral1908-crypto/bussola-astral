@@ -1,7 +1,7 @@
 // api/check-premium.js
 // Vercel Serverless Function — verifica se um email tem Premium ativo
 
-import { kv } from '@vercel/kv';
+import { kv } from './_lib/store.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

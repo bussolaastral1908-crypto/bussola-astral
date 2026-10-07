@@ -1,14 +1,14 @@
 // api/conta.js — Contas da Bússola Astral (cadastro, login, perfil, Premium, exclusão, senha).
 // Uma função só, rota /api/conta?acao=... (o vercel.json mapeia /api/x → /api/x.js).
 //
-// Dados no Vercel KV (o mesmo onde o webhook da AbacatePay grava premium:<email>):
+// Dados no Postgres (api/_lib/store.js, tabela kv) — o mesmo onde o webhook grava premium:<email>:
 //   conta:<email>   → { id, email, name, passHash, birth_date, birth_time, birth_city, phone, createdAt, ver }
 //   reset:<sha256>  → email (1h)
 // Sessão: token assinado (HMAC) com SESSION_SECRET — email.versão.expira.assinatura (30 dias).
 // Trocar a senha ou excluir a conta muda a "versão" e derruba as sessões antigas.
 //
-// Env: KV_* (já existentes), SESSION_SECRET, opcional RESEND_API_KEY + RESEND_FROM (e-mail de senha).
-import { kv } from '@vercel/kv';
+// Env: DATABASE_URL, SESSION_SECRET, opcional RESEND_API_KEY + RESEND_FROM (e-mail de senha).
+import { kv } from './_lib/store.js';
 import crypto from 'crypto';
 import { promisify } from 'util';
 
