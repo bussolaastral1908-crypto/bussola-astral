@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88SSP1E8VP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-88SSP1E8VP');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Horóscopo de Hoje — Bússola Astral</title>
+<meta name="description" content="Seu horóscopo de hoje calculado com o céu real do dia: amor, trabalho, dinheiro, família, saúde e espiritualidade para os 12 signos.">
+<link rel="icon" href="/logotipo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="/js/conta-client.js"></script>
+<style>
+:root{
+  --bg:#08061A; --card:rgba(20,15,44,.82); --card2:rgba(28,20,58,.9);
+  --line:rgba(150,110,255,.2); --line-gold:rgba(242,184,75,.4);
+  --gold:#F2B84B; --gold2:#FFD27A; --gold3:#E39A2C;
+  --text:#EEE9FF; --muted:#A79BC9; --muted2:#CAC0E6;
+  --green:#22C55E; --pink:#F0477A; --blue:#3B9BF5; --amber:#F2A93B; --violet:#9B6BF5;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1000px 520px at 70% -10%,#3A1A52 0%,transparent 60%),radial-gradient(800px 600px at -10% 90%,#2A1238 0%,transparent 60%),var(--bg);color:var(--text);font-family:'Jost',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.55;min-height:100vh;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.15;text-wrap:balance}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1440px;margin:0 auto;padding-inline:20px}
+
+/* topo */
+header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(150,110,255,.14)}
+.top-row{display:flex;align-items:center;gap:24px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:21px;color:var(--gold)}
+.logo img{width:34px;height:34px;object-fit:contain}
+.top-nav{display:flex;gap:26px;margin-left:56px;font-size:15px;color:var(--muted2)}
+.top-nav a:hover,.top-nav a[aria-current]{color:var(--text)}
+.top-nav a[aria-current]{font-weight:600}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#9B6BF5,#E8308C);font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:600;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(180deg,var(--gold2),var(--gold) 45%,var(--gold3));color:#2A1704;box-shadow:0 8px 24px rgba(242,184,75,.25)}
+.btn-ghost{border:1px solid var(--line-gold);color:var(--gold2)}
+.btn-sm{padding:8px 16px;font-size:14px}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr) 340px;gap:24px;padding-block:22px 48px}
+
+/* signos */
+.signs{position:sticky;top:78px;align-self:start}
+.signs h2{font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:500;margin:6px 0 10px 8px}
+.signs ul{list-style:none;display:grid;gap:4px}
+.sign-btn{width:100%;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:none;color:var(--muted2);font-size:15px;text-align:left}
+.sign-btn .g{width:26px;text-align:center;font-size:20px;color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols',serif}
+.sign-btn:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.sign-btn[aria-pressed="true"]{background:linear-gradient(90deg,rgba(242,184,75,.16),rgba(242,184,75,.04));border-color:var(--line-gold);color:var(--text);font-weight:600}
+
+/* centro */
+.hero{position:relative;min-height:290px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}
+.hero h1{font-size:clamp(26px,2.6vw,34px)}
+.sign-title{font-family:'Playfair Display',serif;font-size:clamp(46px,5.4vw,72px);color:var(--gold);line-height:1.05;display:flex;align-items:center;gap:14px;text-shadow:0 2px 34px rgba(242,184,75,.25)}
+.sign-title .g{font-family:'Segoe UI Symbol','Noto Sans Symbols',serif;font-size:.8em}
+.date{color:var(--muted2);font-size:18px;margin:6px 0 14px}
+.resumo{font-size:17px;max-width:60ch}
+.hero-art{width:min(360px,34vw);align-self:start;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 22%);mask-image:linear-gradient(90deg,transparent 0,#000 22%)}
+.hero-glyph{width:min(300px,30vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-size:min(150px,15vw);color:var(--gold);font-family:'Segoe UI Symbol','Noto Sans Symbols',serif;background:radial-gradient(circle,rgba(242,184,75,.22) 0%,rgba(242,184,75,.04) 55%,transparent 70%);border:1px solid rgba(242,184,75,.25);box-shadow:inset 0 0 60px rgba(242,184,75,.12)}
+
+.meters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:22px}
+.meter{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center}
+.meter .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:19px}
+.meter small{display:block;color:var(--muted2);font-size:13px}
+.meter b{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.meter .bar{grid-column:1/-1;height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
+.meter .bar i{display:block;height:100%;border-radius:6px}
+
+.atencao{margin-top:14px;display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,rgba(242,169,59,.16),rgba(242,169,59,.05));border:1px solid rgba(242,169,59,.45);border-radius:14px;padding:12px 16px;font-size:15px}
+.atencao .ic{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--amber);color:#2A1704;display:grid;place-items:center;font-weight:700}
+.atencao b{color:var(--gold2)}
+
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.area{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.area-top{position:relative;height:96px;background:#1a1236}
+.area-top img{width:100%;height:100%;object-fit:cover;object-position:right center}
+.area-top::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(20,15,44,.95))}
+.area-ic{position:absolute;left:16px;top:14px;z-index:1;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:19px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.area-body{padding:2px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.area h3{font-size:19px}
+.area .tit{color:var(--gold2);font-size:14.5px;font-weight:500}
+.area p{color:var(--muted2);font-size:14.5px}
+.area p.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.area .more{margin-top:auto;align-self:flex-start;background:none;border:0;color:var(--gold);text-decoration:underline;text-underline-offset:3px;font-size:14.5px;padding-top:6px}
+
+.porque{margin-top:18px;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.porque h2{font-size:22px;color:var(--gold);margin-bottom:8px}
+.porque p{color:var(--muted2)}
+.porque ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.porque li{border:1px solid var(--line-gold);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--gold2);background:rgba(242,184,75,.05)}
+
+.momento{margin-top:18px;position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) 240px;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;padding:16px 0 16px 20px}
+.momento .moon{font-size:34px}
+.momento h2{font-size:20px;margin-bottom:4px}
+.momento p{color:var(--muted2);font-size:14.5px}
+.momento img{height:100%;width:100%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent,#000 35%);mask-image:linear-gradient(90deg,transparent,#000 35%)}
+
+/* coluna direita */
+.side{display:grid;gap:16px;align-self:start;position:sticky;top:78px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.box-head{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;margin-bottom:12px}
+.box-head .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:22px;color:var(--gold);border:1px solid var(--line-gold);background:rgba(242,184,75,.06)}
+.box h2{font-size:19px}
+.box .sub{font-size:13px;color:var(--muted)}
+.plist{list-style:none;display:grid}
+.plist li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:9px 2px;border-top:1px solid rgba(255,255,255,.06);font-size:15px}
+.pdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:15px}
+.plist .grau{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.plist .rx{color:#F87171;font-size:12px;margin-left:6px}
+.toggle{width:100%;margin-top:12px;padding:10px;border-radius:12px;border:1px solid var(--line-gold);background:rgba(242,184,75,.05);color:var(--gold2);font-weight:500}
+.moonbox{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
+.moonvis{width:72px;height:72px;border-radius:50%;background:#e9e6f5;position:relative;overflow:hidden;box-shadow:0 0 24px rgba(220,215,255,.25)}
+.moonvis i{position:absolute;inset:0;border-radius:50%;background:#0c0920}
+.moonbox b{display:block;font-size:16px}
+.moonbox small{color:var(--muted2);font-size:13.5px}
+.tlist{list-style:none;display:grid;gap:2px;margin-top:4px}
+.tlist li{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:center;padding:9px 0;border-top:1px solid rgba(255,255,255,.06)}
+.tlist .tdot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:14px}
+.tlist b{font-size:14.5px;font-weight:500;display:block}
+.tlist small{color:var(--muted);font-size:13px}
+.cta{background:linear-gradient(160deg,rgba(90,45,20,.55),rgba(30,18,50,.9));border:1px solid var(--line-gold);border-radius:16px;padding:20px;display:grid;gap:12px}
+.cta h2{font-size:22px;color:var(--gold);display:flex;gap:10px;align-items:center}
+.cta p{color:var(--muted2);font-size:14.5px}
+.cta .btn{padding:13px 18px;font-size:16px}
+
+/* estados */
+.skel{background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.09),rgba(255,255,255,.04));background-size:200% 100%;animation:sh 1.4s infinite;border-radius:10px}
+@keyframes sh{to{background-position:-200% 0}}
+.erro{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);border-radius:14px;padding:16px;margin-top:18px}
+.erro button{margin-top:10px}
+[hidden]{display:none!important}
+
+@media (max-width:1240px){.layout{grid-template-columns:180px minmax(0,1fr)}.side{grid-column:1/-1;position:static;grid-template-columns:repeat(3,minmax(0,1fr))}.top-nav{margin-left:24px}}
+@media (max-width:980px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.meters{grid-template-columns:repeat(3,minmax(0,1fr))}.side{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.top-nav{display:none}}
+@media (max-width:760px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .signs{position:static}.signs h2{display:none}
+  .signs ul{display:flex;overflow-x:auto;gap:8px;padding-bottom:6px;scrollbar-width:none}
+  .sign-btn{white-space:nowrap;width:auto;border:1px solid var(--line);padding:8px 12px}
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0}
+  .hero-art,.hero-glyph{display:none}
+  .side{grid-template-columns:minmax(0,1fr)}
+  .momento{grid-template-columns:44px minmax(0,1fr);padding-right:16px}.momento img{display:none}
+}
+@media (max-width:520px){.cards,.meters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.meter:last-child{grid-column:1/-1}.cards{grid-template-columns:minmax(0,1fr)}.top-right .btn-ghost{display:none}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}.btn{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-row">
+    <a class="logo" href="/"><img src="/logotipo.png" alt="" width="34" height="34"><span>Bússola Astral</span></a>
+    <nav class="top-nav" aria-label="Seções">
+      <a href="/hoje" aria-current="page">Horóscopo</a>
+      <a href="/tarot">Tarot</a>
+      <a href="/compatibilidade">Compatibilidade</a>
+      <a href="/horoscopo">Mapa Astral</a>
+      <a href="/numeros-anjos">Números</a>
+    </nav>
+    <div class="top-right" id="top-right">
+      <a class="btn btn-ghost btn-sm" href="/login.html">Entrar</a>
+      <a class="btn btn-gold btn-sm" href="/cadastro.html">Criar conta grátis</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <aside class="signs" aria-label="Escolha o signo">
+    <h2>SEU SIGNO</h2>
+    <ul id="sign-list"></ul>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Seu horóscopo de hoje</h1>
+        <div class="sign-title"><span id="sign-name">—</span><span class="g" id="sign-glyph" aria-hidden="true"></span></div>
+        <p class="date" id="date"></p>
+        <p class="resumo" id="resumo"><span class="skel" style="display:block;height:76px"></span></p>
+      </div>
+      <div id="hero-art"></div>
+    </section>
+
+    <div class="meters" id="meters" aria-label="Como está seu dia"></div>
+    <div class="atencao" id="atencao" hidden><span class="ic" aria-hidden="true">!</span><span><b>Ponto de atenção:</b> <span id="atencao-txt"></span></span></div>
+    <div class="erro" id="erro" hidden><p id="erro-txt"></p><button class="btn btn-ghost btn-sm" id="retry">Tentar de novo</button></div>
+
+    <div class="cards" id="cards"></div>
+
+    <section class="porque" id="porque" hidden>
+      <h2>Por que hoje está diferente?</h2>
+      <p id="porque-txt"></p>
+      <ul id="porque-itens"></ul>
+    </section>
+
+    <section class="momento" id="momento" hidden>
+      <span class="moon" aria-hidden="true">🌙</span>
+      <div><h2>Seu momento atual</h2><p id="momento-txt"></p></div>
+      <img src="/img/hoje/momento.webp" alt="" loading="lazy">
+    </section>
+  </main>
+
+  <aside class="side">
+    <section class="box">
+      <div class="box-head"><span class="ic" aria-hidden="true">✺</span><div><h2>Seu céu hoje</h2><span class="sub">Posição real dos planetas</span></div></div>
+      <ul class="plist" id="plist"></ul>
+      <button class="toggle" id="toggle-ceu" type="button">Ver mapa do dia completo →</button>
+    </section>
+    <section class="box">
+      <h2 style="margin-bottom:12px">Fases da Lua</h2>
+      <div class="moonbox"><div class="moonvis" id="moonvis"><i></i></div><div><b id="lua-fase">—</b><small id="lua-txt"></small></div></div>
+      <h2 style="margin:18px 0 6px">Trânsitos importantes</h2>
+      <ul class="tlist" id="tlist"></ul>
+    </section>
+    <section class="cta">
+      <h2><span aria-hidden="true">♛</span>Quer ir além?</h2>
+      <p>Descubra o que os próximos 6 meses reservam para você, com seu mapa astral completo calculado pela sua data, hora e cidade de nascimento.</p>
+      <a class="btn btn-gold" id="cta-btn" href="/cadastro.html">Ver meu mapa completo →</a>
+    </section>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const SIGNS=[['aries','Áries','♈'],['touro','Touro','♉'],['gemeos','Gêmeos','♊'],['cancer','Câncer','♋'],['leao','Leão','♌'],['virgem','Virgem','♍'],['libra','Libra','♎'],['escorpiao','Escorpião','♏'],['sagitario','Sagitário','♐'],['capricornio','Capricórnio','♑'],['aquario','Aquário','♒'],['peixes','Peixes','♓']];
+  const VS='︎';
+  const ICO_COIN='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 8.6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V11c0 1.4-3.1 2.6-7 2.6S5 12.4 5 11Z"/><path d="M5 13.6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V16c0 1.4-3.1 2.6-7 2.6S5 17.4 5 16Z"/></svg>';
+  const ICO_LOTUS='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 4c1.8 2 2.7 4.3 2.7 6.6 0 2.4-1 4.6-2.7 6.4-1.7-1.8-2.7-4-2.7-6.4C9.3 8.3 10.2 6 12 4Z"/><path d="M4 9.5c2.6.2 4.8 1.4 6.2 3.3.7 1 1.2 2.2 1.4 3.6-2.4-.2-4.5-1.2-5.9-2.9C4.6 12.3 4 11 4 9.5Zm16 0c0 1.5-.6 2.8-1.7 4-1.4 1.7-3.5 2.7-5.9 2.9.2-1.4.7-2.6 1.4-3.6 1.4-1.9 3.6-3.1 6.2-3.3Z"/><path d="M4 17.5c2.2.9 5 1.4 8 1.4s5.8-.5 8-1.4c-1.3 1.6-4.4 2.7-8 2.7s-6.7-1.1-8-2.7Z"/></svg>';
+  const AREAS=[
+    ['amor','Amor e Relacionamentos','♥','#F0477A'],
+    ['trabalho','Trabalho e Carreira','💼','#3B9BF5'],
+    ['dinheiro','Dinheiro e Finanças',ICO_COIN,'#F2A93B'],
+    ['familia','Família e Amigos','👥','#3B9BF5'],
+    ['saude','Saúde e Bem-estar',ICO_LOTUS,'#9B6BF5'],
+    ['espiritualidade','Espiritualidade','★','#9B6BF5'],
+  ];
+  const METERS=[['energia','Energia','⚡','#22C55E'],['amor','Amor','♥','#F0477A'],['trabalho','Trabalho','💼','#3B9BF5'],['financas','Finanças',ICO_COIN,'#F2A93B'],['saude','Saúde',ICO_LOTUS,'#9B6BF5']];
+  const PCOL={'Sol':'#F2A93B','Lua':'#6B8CF5','Mercúrio':'#22C55E','Vênus':'#F0477A','Marte':'#EF4444','Júpiter':'#A86BF5','Saturno':'#6B7A99','Urano':'#3CC6C0','Netuno':'#3B9BF5','Plutão':'#9B6BF5'};
+  const PSYM={'Sol':'☉','Lua':'☽','Mercúrio':'☿','Vênus':'♀','Marte':'♂','Júpiter':'♃','Saturno':'♄','Urano':'♅','Netuno':'♆','Plutão':'♇'};
+  const SGLY=Object.fromEntries(SIGNS.map(s=>[s[1],s[2]]));
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  function signoDaData(iso){
+    if(!iso)return null; const [,m,d]=iso.split('-').map(Number); const v=m*100+d;
+    const t=[[120,'capricornio'],[219,'aquario'],[320,'peixes'],[420,'aries'],[521,'touro'],[621,'gemeos'],[722,'cancer'],[823,'leao'],[923,'virgem'],[1023,'libra'],[1122,'escorpiao'],[1222,'sagitario'],[1232,'capricornio']];
+    for(const [lim,s] of t) if(v<lim) return s; return 'capricornio';
+  }
+  function hojeISO(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date());}
+
+  const params=new URLSearchParams(location.search);
+  const perfil=(window.getActiveProfile&&getActiveProfile())||null;
+  let signo=params.get('signo');
+  if(!SIGNS.some(s=>s[0]===signo)) signo=(perfil&&signoDaData(perfil.birth_date))||(()=>{try{return localStorage.getItem('ba_signo')}catch(e){return null}})()||signoDaData(hojeISO());
+
+  // topo: logada → avatar e CTA para o mapa
+  if(window.BAConta&&BAConta.hasSession()&&perfil){
+    $('top-right').innerHTML=`<a class="btn btn-ghost btn-sm" href="/horoscopo">Meu mapa</a><a class="avatar" href="/horoscopo" aria-label="Minha conta">${esc((perfil.name||perfil.email||'?').charAt(0).toUpperCase())}</a>`;
+    $('cta-btn').href='/horoscopo';
+  }
+
+  // lista de signos
+  $('sign-list').innerHTML=SIGNS.map(([k,n,g])=>`<li><button class="sign-btn" type="button" data-s="${k}" aria-pressed="${k===signo}"><span class="g" aria-hidden="true">${g}${VS}</span>${n}</button></li>`).join('');
+  $('sign-list').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;signo=b.dataset.s;try{localStorage.setItem('ba_signo',signo)}catch(_){}
+    history.replaceState(null,'','?signo='+signo);document.querySelectorAll('.sign-btn').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.s===signo)));b.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});carregar();window.scrollTo({top:0,behavior:'smooth'});});
+
+  const sel=document.querySelector('.sign-btn[aria-pressed="true"]'); if(sel&&window.matchMedia('(max-width:760px)').matches) sel.scrollIntoView({block:'nearest',inline:'center'});
+  let ceuCompleto=false, ultimo=null;
+  $('toggle-ceu').addEventListener('click',()=>{ceuCompleto=!ceuCompleto;if(ultimo)renderCeu(ultimo.ceu);});
+  $('retry').addEventListener('click',()=>carregar());
+
+  function esqueleto(){
+    const s=SIGNS.find(x=>x[0]===signo);
+    $('sign-name').textContent=s[1]; $('sign-glyph').textContent=s[2]+VS;
+    $('hero-art').innerHTML=signo==='leao'?'<img class="hero-art" src="/img/hoje/leao.webp" width="342" height="256" alt="Leão dourado diante da roda do zodíaco">':`<div class="hero-glyph" aria-hidden="true">${s[2]}${VS}</div>`;
+    const d=new Date(hojeISO()+'T12:00:00');
+    const txt=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    $('date').textContent=txt.charAt(0).toUpperCase()+txt.slice(1);
+    $('resumo').innerHTML='<span class="skel" style="display:block;height:76px"></span>';
+    $('meters').innerHTML=METERS.map(()=>'<div class="meter skel" style="height:78px"></div>').join('');
+    $('cards').innerHTML=AREAS.map(()=>'<div class="area skel" style="height:260px"></div>').join('');
+    ['atencao','porque','momento','erro'].forEach(i=>$(i).hidden=true);
+    document.title=`Horóscopo de Hoje: ${s[1]} — Bússola Astral`;
+  }
+
+  function renderCeu(ceu){
+    const lista=ceuCompleto?ceu.planetas:ceu.planetas.slice(0,5);
+    $('plist').innerHTML=lista.map(p=>`<li><span class="pdot" style="background:${PCOL[p.nome]}22;color:${PCOL[p.nome]}" aria-hidden="true">${PSYM[p.nome]}${VS}</span><span>${p.nome} em <b>${p.signo}</b>${p.retrogrado?'<span class="rx">℞ retrógrado</span>':''}</span><span class="grau">${p.grau}° ${SGLY[p.signo]}${VS}</span></li>`).join('');
+    $('toggle-ceu').textContent=ceuCompleto?'Mostrar menos':'Ver mapa do dia completo →';
+    const fase=ceu.lua.fase, il=ceu.lua.iluminacao;
+    $('lua-fase').textContent=fase;
+    const desc={'Lua Nova':'Começos, intenções e plantio de ideias.','Lua Crescente':'Ação, coragem e primeiros passos.','Quarto Crescente':'Decisões e ajustes de rota.','Lua Gibosa Crescente':'Refinar e persistir no que começou.','Lua Cheia':'Emoções à flor da pele e colheita.','Lua Gibosa Minguante':'Gratidão e partilha do que aprendeu.','Quarto Minguante':'Desapego e reorganização.','Lua Minguante':'Introspecção, limpeza e finalizações.'};
+    $('lua-txt').textContent=`${desc[fase]||''} ${il}% iluminada.`;
+    // desenho da Lua: sombra deslocada conforme a iluminação (crescente ilumina à direita)
+    const cresc=/Crescente|Nova/.test(fase)&&!/Minguante/.test(fase);
+    const off=(il/100)*72*(cresc?-1:1);
+    $('moonvis').querySelector('i').style.transform=`translateX(${off}px)`;
+    const tom=t=>/trígono|sextil/.test(t)?['harmonia com','#22C55E','Favorece fluidez e boas oportunidades.']:/quadratura|oposição/.test(t)?['tensão com','#EF4444','Pede paciência e cuidado com reações.']:['conjunção com','#F2A93B','Une as energias desses planetas.'];
+    $('tlist').innerHTML=ceu.aspectos.slice(0,3).map(a=>{const [rot,cor,txt]=tom(a.tipo);return `<li><span class="tdot" style="background:${cor}22;color:${cor}" aria-hidden="true">${PSYM[a.a]}${VS}</span><span><b>${a.a} em ${rot} ${a.b}</b><small>${txt}</small></span></li>`}).join('')||'<li><span></span><small>Nenhum aspecto exato hoje.</small></li>';
+  }
+
+  function render(h){
+    ultimo=h;
+    $('resumo').textContent=h.resumo;
+    $('meters').innerHTML=METERS.map(([k,n,ic,cor])=>`<div class="meter"><span class="ic" style="background:${cor}22;color:${cor}" aria-hidden="true">${ic}</span><div><small>${n}</small><b>${h.niveis[k]}%</b></div><div class="bar"><i style="width:${h.niveis[k]}%;background:${cor}"></i></div></div>`).join('');
+    if(h.atencao){$('atencao-txt').textContent=h.atencao;$('atencao').hidden=false;}
+    $('cards').innerHTML=AREAS.map(([k,n,ic,cor])=>{const a=h.areas[k];return `<article class="area"><div class="area-top"><img src="/img/hoje/${k}.webp" alt="" loading="lazy"><span class="area-ic" style="background:${cor}" aria-hidden="true">${ic}</span></div><div class="area-body"><h3>${n}</h3>${a.titulo?`<span class="tit">${esc(a.titulo)}</span>`:''}<p class="clamp">${esc(a.texto)}</p><button class="more" type="button" aria-expanded="false">Ler previsão completa →</button></div></article>`}).join('');
+    $('cards').querySelectorAll('.more').forEach(b=>b.addEventListener('click',()=>{const p=b.previousElementSibling;const aberto=p.classList.toggle('clamp')===false;b.setAttribute('aria-expanded',String(aberto));b.textContent=aberto?'Mostrar menos':'Ler previsão completa →';}));
+    // botão só quando o texto foi cortado
+    requestAnimationFrame(()=>$('cards').querySelectorAll('.area p.clamp').forEach(p=>{if(p.scrollHeight<=p.clientHeight+2)p.nextElementSibling.hidden=true;}));
+    if(h.porque&&h.porque.texto){$('porque-txt').textContent=h.porque.texto;$('porque-itens').innerHTML=(h.porque.itens||[]).map(i=>`<li>${esc(i)}</li>`).join('');$('porque').hidden=false;}
+    if(h.momento){$('momento-txt').textContent=h.momento;$('momento').hidden=false;}
+    renderCeu(h.ceu);
+  }
+
+  async function carregar(){
+    esqueleto();
+    const pedido=signo;
+    try{
+      const r=await fetch('/api/daily-horoscope?sign='+pedido);
+      const j=await r.json();
+      if(pedido!==signo)return;
+      if(!r.ok)throw new Error(j.error||'erro');
+      render(j);
+    }catch(e){
+      if(pedido!==signo)return;
+      $('resumo').textContent='';$('meters').innerHTML='';$('cards').innerHTML='';
+      $('erro-txt').textContent='Não conseguimos carregar o horóscopo agora. Verifique sua internet e tente de novo.';
+      $('erro').hidden=false;
+    }
+  }
+  carregar();
+})();
+</script>
+</body>
+</html>

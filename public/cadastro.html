@@ -487,7 +487,7 @@ document.getElementById('regForm').addEventListener('submit', async (e) => {
         });
 
         showAlert('✓ Conta criada com sucesso! Redirecionando para seu horóscopo...', 'ok');
-        setTimeout(() => window.location.href = '/horoscopo.html', 1200);
+        setTimeout(() => window.location.href = '/hoje', 1200);
     } catch (err) {
         showAlert(err.message || 'Não foi possível cadastrar no momento.', 'bad');
         btn.disabled = false;
@@ -497,7 +497,7 @@ document.getElementById('regForm').addEventListener('submit', async (e) => {
 
 // Já logado? Redireciona
 if (window.BAConta && window.BAConta.hasSession()) {
-    window.location.href = '/horoscopo.html';
+    window.location.href = '/hoje';
 }
 </script>
 </body>

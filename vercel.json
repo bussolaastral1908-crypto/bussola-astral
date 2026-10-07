@@ -1406,6 +1406,14 @@
       "dest": "/horoscopo.html"
     },
     {
+      "src": "/hoje",
+      "dest": "/hoje.html"
+    },
+    {
+      "src": "/horoscopo-do-dia",
+      "dest": "/hoje.html"
+    },
+    {
       "src": "/obrigado",
       "dest": "/obrigado.html"
     },
