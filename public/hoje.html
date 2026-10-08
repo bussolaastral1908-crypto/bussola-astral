@@ -330,6 +330,63 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 .ilink-title{font-weight:700;font-size:.92rem;margin-bottom:3px;color:var(--text);}
 .ilink-desc{font-size:.78rem;color:var(--muted2);line-height:1.45;}
 .legado .btn-unlock{background:linear-gradient(180deg,#FFD27A,#F2B84B 45%,#E39A2C);color:#2A1704;border:0;border-radius:999px;padding:12px 26px;font-weight:600;cursor:pointer}
+
+/* Meu Mapa (Fase 1) */
+.mp-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:8px}
+.mp-trio-item{background:linear-gradient(180deg,rgba(242,184,75,.12),rgba(242,184,75,.03));border:1px solid var(--line-gold);border-radius:16px;padding:16px;display:grid;gap:2px;justify-items:start}
+.mp-trio-item small{color:var(--muted2);font-size:13px}
+.mp-trio-item b{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold)}
+.mp-sym{font-size:22px;color:var(--gold2);font-family:'Segoe UI Symbol','Noto Sans Symbols',serif}
+.mp-grau{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.mp-h{font-size:22px;color:var(--gold);margin:30px 0 12px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.mp-h small{font-family:'Jost',sans-serif;font-size:13px;color:var(--muted);font-weight:400}
+.mp-aviso{margin-top:14px;background:rgba(242,169,59,.1);border:1px solid rgba(242,169,59,.4);border-radius:14px;padding:14px 16px;color:var(--muted2);font-size:14.5px}
+.mp-angulos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.mp-angulo{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.mp-angulo small{color:var(--muted);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+.mp-angulo b{display:block;font-size:17px;margin:4px 0;color:var(--text)}
+.mp-angulo p{color:var(--muted2);font-size:13.5px}
+.mp-tabela{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.mp-tabela table{width:100%;border-collapse:collapse;font-size:15px}
+.mp-tabela th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:12px 14px;border-bottom:1px solid var(--line)}
+.mp-tabela td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);white-space:nowrap}
+.mp-tabela tr:last-child td{border-bottom:0}
+.mp-num{font-variant-numeric:tabular-nums;color:var(--gold2)}
+.mp-psym{display:inline-block;width:24px;color:var(--gold2);font-family:'Segoe UI Symbol','Noto Sans Symbols',serif}
+.mp-rx{color:#F87171;font-size:13px}
+.mp-dig{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid}
+.mp-dig-domicilio,.mp-dig-exaltação,.mp-dig-exaltacao{color:#86EFAC;border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.08)}
+.mp-dig-exilio,.mp-dig-exílio,.mp-dig-queda{color:#FCA5A5;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.08)}
+.mp-leituras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mp-leitura{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.mp-leitura h3{font-size:17px;margin-bottom:6px;color:var(--text)}
+.mp-leitura p{color:var(--muted2);font-size:14.5px}
+.mp-asps{list-style:none;display:grid;gap:8px}
+.mp-asp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:auto auto auto 1fr;gap:6px 12px;align-items:center}
+.mp-asp p{grid-column:1/-1;color:var(--muted2);font-size:14px}
+.mp-asp-p{font-weight:500}
+.mp-asp-t{font-size:13px;padding:3px 10px;border-radius:999px}
+.mp-tom-harmonia{background:rgba(34,197,94,.12);color:#86EFAC}
+.mp-tom-tensao{background:rgba(239,68,68,.12);color:#FCA5A5}
+.mp-tom-fusao{background:rgba(242,184,75,.14);color:var(--gold2)}
+.mp-forca{justify-self:end;font-size:12.5px;color:var(--muted)}
+.mp-f-3{color:var(--gold2);font-weight:600}
+.mp-mais{margin-top:10px}
+.mp-mais summary{cursor:pointer;color:var(--gold);margin-bottom:10px}
+.mp-elmd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.mp-bar{display:grid;grid-template-columns:80px 1fr 42px;gap:10px;align-items:center;font-size:14px;color:var(--muted2);margin:6px 0}
+.mp-bar i{height:8px;border-radius:8px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+.mp-bar i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--v);border-radius:8px;background:var(--gold)}
+.mp-el0::after{background:#F0803C!important}.mp-el1::after{background:#7AD88A!important}.mp-el2::after{background:#70C8F5!important}.mp-el3::after{background:#7080F8!important}
+.mp-bar b{text-align:right;color:var(--text);font-variant-numeric:tabular-nums}
+.mp-nota{color:var(--muted);font-size:13px;margin-top:8px}
+.mp-casas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mp-casa{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:2px}
+.mp-casa b{color:var(--gold2);font-size:14px}
+.mp-casa span{font-size:15px}
+.mp-casa small{color:var(--muted);font-size:12.5px}
+@media (max-width:900px){.mp-angulos,.mp-casas{grid-template-columns:repeat(2,minmax(0,1fr))}.mp-leituras,.mp-elmd{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.mp-trio{grid-template-columns:minmax(0,1fr)}.mp-asp{grid-template-columns:minmax(0,1fr)}.mp-forca{justify-self:start}}
 </style>
 </head>
 <body>
@@ -433,6 +490,8 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 <datalist id="city-suggestions"></datalist>
 <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2/astronomy.browser.min.js"></script>
 <script src="/js/astro-core.js"></script>
+<script src="/js/astro-casas.js"></script>
+<script src="/js/astro-mapa.js"></script>
 <script>
 (function(){
   const SIGNS=[['aries','Áries','♈'],['touro','Touro','♉'],['gemeos','Gêmeos','♊'],['cancer','Câncer','♋'],['leao','Leão','♌'],['virgem','Virgem','♍'],['libra','Libra','♎'],['escorpiao','Escorpião','♏'],['sagitario','Sagitário','♐'],['capricornio','Capricórnio','♑'],['aquario','Aquário','♒'],['peixes','Peixes','♓']];
@@ -648,7 +707,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
     const data=new Date(conta.birth_date+'T12:00:00').toLocaleDateString('pt-BR');
     $('perfil-resumo').innerHTML=`<span>${esc(conta.name||'')} · ${data}${conta.birth_time?' · '+esc(conta.birth_time.slice(0,5)):''}${conta.birth_city?' · '+esc(conta.birth_city):''}</span><button class="link-btn" type="button" id="pf-editar">Editar dados</button>`;
     $('pf-editar').addEventListener('click',formPerfil);
-    renderMapa();
+    renderMapaCompleto($('panel-mapa'),natalChart,profile);
   }
 
   function renderTransitosAba(){
