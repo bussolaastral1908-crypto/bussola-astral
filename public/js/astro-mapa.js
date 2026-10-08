@@ -99,6 +99,78 @@
     } catch (e) { return false; }
   }
 
+  // ── Roda do mapa (SVG) ──
+  // Ascendente à esquerda e zodíaco no sentido anti-horário, como nos mapas profissionais.
+  // Sem hora/cidade não há casas: a roda começa em 0° de Áries.
+  const COR_EL = ['#F0803C', '#7AD88A', '#70C8F5', '#7080F8'];
+  const COR_TOM = { harmonia: '#4ADE80', tensão: '#F87171' };
+  const R = { z1: 292, z2: 250, glifo: 224, grau: 194, ncasa: 154, asp: 138 };
+
+  function espalhar(itens, min) {
+    // afasta símbolos amontoados mantendo a ordem; d = ângulo exibido, lon = real
+    const v = itens.map((x) => ({ ...x, d: x.lon })).sort((a, b) => a.lon - b.lon);
+    if (v.length < 2) return v;
+    for (let it = 0; it < 80; it++) {
+      let mexeu = false;
+      for (let i = 0; i < v.length; i++) {
+        const a = v[i], b = v[(i + 1) % v.length];
+        const gap = norm(b.d - a.d);
+        if (gap < min) { const s = (min - gap) / 2; a.d -= s; b.d += s; mexeu = true; }
+      }
+      if (!mexeu) break;
+    }
+    return v;
+  }
+
+  function rodaSVG({ planetas, casas, aspectos, base }) {
+    const ang = (lon) => (180 + lon - base) * Math.PI / 180;
+    const pt = (r, lon) => [300 + r * Math.cos(ang(lon)), 300 - r * Math.sin(ang(lon))].map((n) => n.toFixed(1));
+    const linha = (r1, r2, lon, cls) => { const [a, b] = pt(r1, lon), [c, d] = pt(r2, lon); return `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" class="${cls}"/>`; };
+    let s = `<svg class="rd" viewBox="-52 -40 704 680" role="img" aria-label="Roda do seu mapa astral">`;
+    // anel do zodíaco
+    for (let i = 0; i < 12; i++) {
+      const [x1, y1] = pt(R.z1, i * 30), [x2, y2] = pt(R.z1, i * 30 + 30), [x3, y3] = pt(R.z2, i * 30 + 30), [x4, y4] = pt(R.z2, i * 30);
+      s += `<path d="M${x1} ${y1}A${R.z1} ${R.z1} 0 0 0 ${x2} ${y2}L${x3} ${y3}A${R.z2} ${R.z2} 0 0 1 ${x4} ${y4}Z" fill="${COR_EL[i % 4]}" fill-opacity=".09" class="rd-seg"/>`;
+      const [gx, gy] = pt((R.z1 + R.z2) / 2, i * 30 + 15);
+      s += `<text x="${gx}" y="${gy}" class="rd-signo" fill="${COR_EL[i % 4]}"><title>${SIGNOS[i]}</title>${GLIFO[i]}</text>`;
+      s += linha(R.z1, R.z2, i * 30, 'rd-div');
+    }
+    for (let g = 0; g < 360; g += 5) s += linha(R.z2, R.z2 - (g % 10 ? 4 : 7), g, 'rd-tick');
+    s += `<circle cx="300" cy="300" r="${R.z1}" class="rd-aro"/><circle cx="300" cy="300" r="${R.z2}" class="rd-aro"/><circle cx="300" cy="300" r="${R.asp}" class="rd-aro rd-miolo"/>`;
+    // casas
+    if (casas) {
+      casas.cuspides.forEach((c, i) => {
+        const eixo = i % 3 === 0;
+        s += linha(R.asp, eixo ? R.z1 + (i === 0 || i === 9 ? 22 : 8) : R.z2, c, eixo ? 'rd-eixo' : 'rd-casa');
+        const meio = c + norm(casas.cuspides[(i + 1) % 12] - c) / 2;
+        const [nx, ny] = pt(R.ncasa, meio);
+        s += `<text x="${nx}" y="${ny}" class="rd-ncasa">${i + 1}</text>`;
+      });
+      [['ASC', casas.asc, 'asc'], ['MC', casas.mc, 'mc']].forEach(([t, lon, k]) => {
+        const [x, y] = pt(R.z1 + 30, lon);
+        s += `<g class="rd-p" data-k="${k}" tabindex="0" role="button" aria-label="${NOME[k]}"><text x="${x}" y="${y}" class="rd-eixo-t">${t}</text></g>`;
+      });
+    }
+    // aspectos (conjunções não viram linha: os pontos já estão juntos)
+    aspectos.forEach((x, i) => {
+      if (x.asp.tom === 'fusão') return;
+      const [a, b] = pt(R.asp, x.A.lon), [c, d] = pt(R.asp, x.B.lon);
+      const w = Math.max(0.8, 2.6 - x.orbe * 0.28).toFixed(2);
+      s += `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" class="rd-asp" data-a="${i}" data-p="${x.A.k} ${x.B.k}" stroke="${COR_TOM[x.asp.tom]}" stroke-width="${w}"/>`;
+    });
+    // planetas
+    espalhar(planetas, 10).forEach((p) => {
+      const [gx, gy] = pt(R.glifo, p.d), [tx, ty] = pt(R.grau, p.d), [dx, dy] = pt(R.asp, p.lon);
+      const g = Math.floor(norm(p.lon) % 30);
+      s += `<g class="rd-p" data-k="${p.k}" tabindex="0" role="button" aria-label="${NOME[p.k] || 'Nodo Norte'} em ${SIGNOS[signo(p.lon)]} ${g} graus">` +
+        linha(R.z2, R.z2 - 12, p.lon, 'rd-mark') +
+        (Math.abs(p.d - p.lon) > 1.5 ? (() => { const [ax, ay] = pt(R.z2 - 12, p.lon), [bx, by] = pt(R.glifo + 14, p.d); return `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}" class="rd-guia"/>`; })() : '') +
+        `<circle cx="${gx}" cy="${gy}" r="17" class="rd-alvo"/><text x="${gx}" y="${gy}" class="rd-glifo">${p.sym}</text>` +
+        `<text x="${tx}" y="${ty}" class="rd-grau">${g}°${p.rx ? '℞' : ''}</text><circle cx="${dx}" cy="${dy}" r="3" class="rd-ponto"/></g>`;
+    });
+    return s + '</svg>';
+  }
+
   window.renderMapaCompleto = function (el, chart, perfil) {
     const temLocal = !!(chart.cityData && chart.cityData.iana && chart.hasTime && window.AstroCasas);
     const h = temLocal ? AstroCasas.casas(chart.birthDate, chart.cityData.lat, chart.cityData.lng) : null;
@@ -119,10 +191,27 @@
           .map(([k, n, l]) => `<div class="mp-angulo"><small>${n}</small><b>${pos(l)}</b><p>${ANGULO_TXT[k]}</p></div>`).join('') + '</div>';
     }
 
+    // roda
+    const pontos = ORDEM.map((k) => ({ k, lon: P[k].longitude }));
+    if (h) pontos.push({ k: 'asc', lon: h.asc }, { k: 'mc', lon: h.mc });
+    const asp = aspectos(pontos);
+    const rx = Object.fromEntries(ORDEM.map((k) => [k, retrogrado(k, chart.birthDate)]));
+    const naRoda = ORDEM.map((k) => ({ k, lon: P[k].longitude, sym: SIMBOLO[k], rx: rx[k] }));
+    if (nodo !== null) naRoda.push({ k: 'node', lon: nodo, sym: '☊' });
+    const leitura = (k) => {
+      if (k === 'asc' || k === 'mc') { const l = k === 'asc' ? h.asc : h.mc; return { t: `${NOME[k]} em ${SIGNOS[signo(l)]}`, sub: grau(l), p: ANGULO_TXT[k] }; }
+      if (k === 'node') return { t: `☊ Nodo Norte em ${SIGNOS[signo(nodo)]}${h ? ` · Casa ${casa(nodo)}` : ''}`, sub: grau(nodo), p: `O caminho de crescimento: a direção a desenvolver ${ESTILO[signo(nodo)].replace('de forma ', 'com uma postura ')}${h ? `, ${AREA[casa(nodo)]}` : ''}. O Nodo Sul, em ${SIGNOS[signo(nodo + 180)]}, é o terreno conhecido de onde você parte.` };
+      const lon = P[k].longitude, sg = signo(lon), c = casa(lon), dg = dignidade(k, lon);
+      return { t: `${SIMBOLO[k]} ${NOME[k]} em ${SIGNOS[sg]}${c ? ` · Casa ${c}` : ''}`, sub: `${grau(lon)}${rx[k] ? ' · retrógrado' : ''}${dg ? ` · ${dg}` : ''}`, p: `${NOME[k]} fala de ${TEMA[k]}. Em ${SIGNOS[sg]}, isso se expressa ${ESTILO[sg]}${c ? `, e aparece principalmente ${AREA[c]}` : ''}.${dg ? ` ${DIGN_TXT[dg]}` : ''}` };
+    };
+    const leituraAsp = (x) => ({ t: `${SIMBOLO[x.A.k]} ${NOME[x.A.k]} · ${x.asp.nome} · ${SIMBOLO[x.B.k]} ${NOME[x.B.k]}`, sub: `${x.forca} · orbe ${x.orbe.toFixed(1)}°`, p: `${TOM_TXT[x.asp.tom].charAt(0).toUpperCase() + TOM_TXT[x.asp.tom].slice(1)}: ${NOME[x.A.k]} (${TEMA[x.A.k] || ANGULO_TXT[x.A.k]?.toLowerCase() || ''}) com ${NOME[x.B.k]} (${TEMA[x.B.k] || ANGULO_TXT[x.B.k]?.toLowerCase() || ''}).`, tom: x.asp.tom });
+    html += `<h2 class="mp-h">Sua roda do mapa <small>toque num planeta ou numa linha</small></h2><div class="rd-wrap"><div class="rd-box">${rodaSVG({ planetas: naRoda, casas: h, aspectos: asp, base: h ? h.asc : 0 })}</div>` +
+      `<div class="rd-lado"><div class="rd-info" id="rd-info" aria-live="polite"></div><div class="rd-leg"><span><i style="background:${COR_TOM.harmonia}"></i>Harmonia (trígono, sextil)</span><span><i style="background:${COR_TOM['tensão']}"></i>Tensão (quadratura, oposição)</span><span><i class="rd-leg-conj"></i>Conjunção: planetas lado a lado</span>${h ? '<span><i class="rd-leg-eixo"></i>ASC e MC: eixos do mapa</span>' : ''}</div></div></div>`;
+
     // planetas
     const linhas = ORDEM.map((k) => {
-      const lon = P[k].longitude, c = casa(lon), dg = dignidade(k, lon), rx = retrogrado(k, chart.birthDate);
-      return `<tr><td><span class="mp-psym">${SIMBOLO[k]}</span>${NOME[k]}</td><td>${pos(lon)}${rx ? ' <span class="mp-rx" title="retrógrado no nascimento">℞</span>' : ''}</td>${h ? `<td class="mp-num">Casa ${c}</td>` : ''}<td>${dg ? `<span class="mp-dig mp-dig-${dg.replace('í', 'i')}" title="${DIGN_TXT[dg]}">${dg}</span>` : ''}</td></tr>`;
+      const lon = P[k].longitude, c = casa(lon), dg = dignidade(k, lon);
+      return `<tr><td><span class="mp-psym">${SIMBOLO[k]}</span>${NOME[k]}</td><td>${pos(lon)}${rx[k] ? ' <span class="mp-rx" title="retrógrado no nascimento">℞</span>' : ''}</td>${h ? `<td class="mp-num">Casa ${c}</td>` : ''}<td>${dg ? `<span class="mp-dig mp-dig-${dg.replace('í', 'i')}" title="${DIGN_TXT[dg]}">${dg}</span>` : ''}</td></tr>`;
     });
     if (nodo !== null) {
       linhas.push(`<tr><td><span class="mp-psym">☊</span>Nodo Norte</td><td>${pos(nodo)}</td>${h ? `<td class="mp-num">Casa ${casa(nodo)}</td>` : ''}<td></td></tr>`);
@@ -137,9 +226,6 @@
     }).join('') + (nodo !== null ? `<article class="mp-leitura"><h3><span class="mp-psym">☊</span>Nodo Norte em ${SIGNOS[signo(nodo)]}${h ? ` na Casa ${casa(nodo)}` : ''}</h3><p>Os Nodos apontam o caminho de crescimento: o Nodo Norte mostra a direção a desenvolver — ${ESTILO[signo(nodo)].replace('de forma ', 'uma postura ')}${h ? `, ${AREA[casa(nodo)]}` : ''} — e o Nodo Sul, em ${SIGNOS[signo(nodo + 180)]}, o terreno conhecido de onde você parte.</p></article>` : '') + '</div>';
 
     // aspectos
-    const pontos = ORDEM.map((k) => ({ k, lon: P[k].longitude }));
-    if (h) pontos.push({ k: 'asc', lon: h.asc }, { k: 'mc', lon: h.mc });
-    const asp = aspectos(pontos);
     const linhaAsp = (x) => `<li class="mp-asp"><span class="mp-asp-p">${SIMBOLO[x.A.k]} ${NOME[x.A.k]}</span><span class="mp-asp-t mp-tom-${x.asp.tom === 'fusão' ? 'fusao' : x.asp.tom}">${x.asp.nome}</span><span class="mp-asp-p">${SIMBOLO[x.B.k]} ${NOME[x.B.k]}</span><span class="mp-forca mp-f-${x.forca === 'Muito forte' ? 3 : x.forca === 'Forte' ? 2 : 1}">${x.forca} · orbe ${x.orbe.toFixed(1)}°</span><p>${TOM_TXT[x.asp.tom].charAt(0).toUpperCase() + TOM_TXT[x.asp.tom].slice(1)}: ${NOME[x.A.k]} (${TEMA[x.A.k] || ANGULO_TXT[x.A.k]?.toLowerCase() || ''}) com ${NOME[x.B.k]}.</p></li>`;
     html += `<h2 class="mp-h">Aspectos principais <small>${asp.length} no total — mostrando os mais fortes</small></h2><ul class="mp-asps">${asp.slice(0, 8).map(linhaAsp).join('')}</ul>` +
       (asp.length > 8 ? `<details class="mp-mais"><summary>Ver todos os ${asp.length} aspectos</summary><ul class="mp-asps">${asp.slice(8).map(linhaAsp).join('')}</ul></details>` : '');
@@ -152,12 +238,32 @@
     const tot = elc.reduce((a, b) => a + b, 0);
     const barras = (vals, nomes, cls) => vals.map((v, i) => `<div class="mp-bar"><span>${nomes[i]}</span><i class="${cls}${i}" style="--v:${Math.round((v / tot) * 100)}%"></i><b>${Math.round((v / tot) * 100)}%</b></div>`).join('');
     const domEl = ELEMENTO[elc.indexOf(Math.max(...elc))], domMd = MODALIDADE[md.indexOf(Math.max(...md))];
-    html += `<h2 class="mp-h">Elementos e modalidades</h2><div class="mp-elmd"><div>${barras(elc, ELEMENTO, 'mp-el')}</div><div>${barras(md, MODALIDADE, 'mp-md')}</div></div><p class="mp-nota">Predomínio de <b>${domEl}</b> e do modo <b>${domMd}</b>. É uma síntese do mapa (Sol, Lua e Ascendente contam em dobro), não uma medida exata.</p>`;
+    const pc = Array(12).fill(0); if (h) ORDEM.forEach((k) => pc[casa(P[k].longitude) - 1]++);
+    const pcMax = Math.max(1, ...pc);
+    const colunas = h ? `<div><b class="mp-sub">Planetas por casa</b><div class="mp-pc">${pc.map((n, i) => `<div title="Casa ${i + 1}: ${n} planeta${n === 1 ? '' : 's'}"><i style="--v:${(n / pcMax) * 100}%"></i><small>${i + 1}</small></div>`).join('')}</div></div>` : '';
+    html += `<h2 class="mp-h">Elementos e modalidades</h2><div class="mp-elmd${h ? ' tres' : ''}"><div><b class="mp-sub">Elementos</b>${barras(elc, ELEMENTO, 'mp-el')}</div><div><b class="mp-sub">Modalidades</b>${barras(md, MODALIDADE, 'mp-md')}</div>${colunas}</div><p class="mp-nota">Predomínio de <b>${domEl}</b> e do modo <b>${domMd}</b>. É uma síntese do mapa (Sol, Lua e Ascendente contam em dobro), não uma medida exata.</p>`;
 
     // casas
     if (h) html += `<h2 class="mp-h">As 12 casas</h2><div class="mp-casas">${h.cuspides.map((c, i) => `<div class="mp-casa"><b>Casa ${i + 1}</b><span>${pos(c)}</span><small>${AREA[i + 1].replace(/^n[ao]s? /, '')}</small></div>`).join('')}</div>`;
 
     el.innerHTML = html;
+    const info = el.querySelector('#rd-info'), svg = el.querySelector('.rd');
+    const mostra = (L, sel) => {
+      info.innerHTML = L ? `<h3>${esc(L.t)}</h3><span class="rd-sub${L.tom ? ` mp-tom-${L.tom === 'tensão' ? 'tensao' : L.tom}` : ''}">${esc(L.sub)}</span><p>${esc(L.p)}</p>`
+        : `<h3>Seu mapa em um desenho</h3><p>O anel de fora são os 12 signos; ${h ? 'as linhas que saem do centro dividem as 12 casas, com o Ascendente à esquerda' : 'sem hora e cidade de nascimento não dá para desenhar as casas'}. As linhas coloridas no meio são os aspectos: as conversas entre os seus planetas.</p><p class="rd-dica">Toque em qualquer planeta ou linha para ler.</p>`;
+      svg.classList.toggle('sel', !!sel);
+      svg.querySelectorAll('.on').forEach((n) => n.classList.remove('on'));
+      if (sel) sel.forEach((n) => n && n.classList.add('on'));
+    };
+    mostra(null);
+    const escolhe = (t) => {
+      const g = t.closest('[data-k]'), a = t.closest('[data-a]');
+      if (g) { const k = g.dataset.k; mostra(leitura(k), [g, ...svg.querySelectorAll(`.rd-asp`)].filter((n) => n === g || n.dataset.p.split(' ').includes(k))); }
+      else if (a) { const x = asp[+a.dataset.a]; mostra(leituraAsp(x), [a, svg.querySelector(`[data-k="${x.A.k}"]`), svg.querySelector(`[data-k="${x.B.k}"]`)]); }
+      else mostra(null);
+    };
+    svg.addEventListener('click', (e) => escolhe(e.target));
+    svg.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); escolhe(e.target); } });
     const ed = document.getElementById('mp-editar'); if (ed) ed.addEventListener('click', () => document.getElementById('pf-editar')?.click());
   };
 })();

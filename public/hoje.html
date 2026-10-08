@@ -385,6 +385,51 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 .mp-casa b{color:var(--gold2);font-size:14px}
 .mp-casa span{font-size:15px}
 .mp-casa small{color:var(--muted);font-size:12.5px}
+.rd-wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}
+.rd-box{background:radial-gradient(circle at 50% 50%,rgba(124,63,228,.16),transparent 70%);border:1px solid var(--line);border-radius:20px;padding:10px}
+.rd{display:block;width:100%;max-width:620px;margin:0 auto;height:auto;font-family:'Segoe UI Symbol','Noto Sans Symbols','Jost',sans-serif;-webkit-tap-highlight-color:transparent}
+.rd text{text-anchor:middle;dominant-baseline:central}
+.rd-aro{fill:none;stroke:rgba(242,184,75,.45);stroke-width:1.2}
+.rd-miolo{fill:rgba(8,6,26,.55);stroke:rgba(242,184,75,.3)}
+.rd-seg{stroke:none}
+.rd-div{stroke:rgba(242,184,75,.45);stroke-width:1}
+.rd-tick{stroke:rgba(242,184,75,.35);stroke-width:.8}
+.rd-signo{font-size:24px}
+.rd-casa{stroke:rgba(202,192,230,.28);stroke-width:1}
+.rd-eixo{stroke:var(--gold);stroke-width:1.8}
+.rd-eixo-t{font:600 15px 'Jost',sans-serif;fill:var(--gold2);letter-spacing:.06em}
+.rd-ncasa{font:500 12px 'Jost',sans-serif;fill:var(--muted)}
+.rd-mark{stroke:var(--gold2);stroke-width:1.6}
+.rd-guia{stroke:rgba(255,210,122,.35);stroke-width:.8}
+.rd-alvo{fill:transparent}
+.rd-glifo{font-size:24px;fill:var(--gold2)}
+.rd-grau{font:500 13px 'Jost',sans-serif;fill:var(--muted2);font-variant-numeric:tabular-nums}
+.rd-ponto{fill:var(--gold2)}
+.rd-asp{stroke-opacity:.75;stroke-linecap:round;cursor:pointer;transition:stroke-opacity .15s}
+.rd-p{cursor:pointer;outline:none}
+.rd-p:focus-visible .rd-alvo,.rd-p.on .rd-alvo{fill:rgba(242,184,75,.16);stroke:var(--gold);stroke-width:1.2}
+.rd-p:hover .rd-glifo{fill:#fff}
+.rd.sel .rd-asp{stroke-opacity:.12}.rd.sel .rd-asp.on{stroke-opacity:1}
+.rd.sel .rd-p:not(.on){opacity:.45}
+.rd-lado{display:grid;gap:14px}
+.rd-info{background:linear-gradient(180deg,rgba(242,184,75,.1),rgba(242,184,75,.02));border:1px solid var(--line-gold);border-radius:16px;padding:18px;min-height:150px}
+.rd-info h3{font-size:19px;color:var(--gold);margin-bottom:6px;text-wrap:balance}
+.rd-info p{color:var(--muted2);font-size:15px;margin-top:8px}
+.rd-sub{display:inline-block;font-size:13px;color:var(--muted);padding:2px 10px;border-radius:999px;border:1px solid var(--line)}
+.rd-dica{color:var(--gold2)!important;font-size:14px!important}
+.rd-leg{display:grid;gap:8px;font-size:13.5px;color:var(--muted2);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.rd-leg span{display:flex;align-items:center;gap:10px}
+.rd-leg i{width:22px;height:3px;border-radius:3px;flex:none}
+.rd-leg-conj{height:10px!important;width:10px!important;border-radius:50%!important;background:var(--gold2);margin:0 6px}
+.rd-leg-eixo{background:var(--gold)}
+.mp-elmd.tres{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mp-sub{display:block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:6px}
+.mp-pc{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;height:112px;align-items:end}
+.mp-pc div{display:grid;grid-template-rows:1fr auto;height:100%;gap:4px;justify-items:center}
+.mp-pc i{align-self:end;width:100%;max-width:14px;height:var(--v);min-height:2px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--gold2),var(--violet))}
+.mp-pc small{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:900px){.rd-wrap{grid-template-columns:minmax(0,1fr)}.rd-box{padding:4px}.mp-elmd.tres{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.rd-grau{font-size:15px}.rd-glifo{font-size:27px}}
 @media (max-width:900px){.mp-angulos,.mp-casas{grid-template-columns:repeat(2,minmax(0,1fr))}.mp-leituras,.mp-elmd{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.mp-trio{grid-template-columns:minmax(0,1fr)}.mp-asp{grid-template-columns:minmax(0,1fr)}.mp-forca{justify-self:start}}
 </style>
