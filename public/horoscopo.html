@@ -2019,7 +2019,7 @@ async function openPremiumCheckout() {
 
     const res = await fetch('/api/create-checkout', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: Object.assign({ 'Content-Type': 'application/json' }, window.BAConta && BAConta.getToken() ? { Authorization: 'Bearer ' + BAConta.getToken() } : {}),
       body: JSON.stringify({ email, name, plan: 'premium_monthly' })
     });
 

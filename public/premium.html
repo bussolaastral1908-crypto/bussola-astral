@@ -548,7 +548,8 @@ header.nav { position:sticky; top:0; z-index:50; background:rgba(7,5,26,.82); ba
 (async()=>{if(!window.BAConta||!BAConta.hasSession())return;const p=await BAConta.fetchProfile();if(p&&p.is_premium)window.location.href='/horoscopo';})();
 
 async function irParaCheckout(){
-  const resp=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'monthly'})});
+  const headers=Object.assign({'Content-Type':'application/json'},window.BAConta&&BAConta.getToken()?{Authorization:'Bearer '+BAConta.getToken()}:{});
+  const resp=await fetch('/api/create-checkout',{method:'POST',headers,body:JSON.stringify({plan:'monthly'})});
   const json=await resp.json().catch(()=>({}));
   if(json.url){setTimeout(()=>{window.location.href=json.url;},1200);}
   else{document.getElementById('modal-success-view').innerHTML='<p style="color:var(--red);text-align:center">Erro ao criar checkout. Tente novamente ou contate contato@bussolaastral.com</p>';}

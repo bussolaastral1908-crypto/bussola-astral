@@ -1,8 +1,13 @@
 // api/create-checkout.js — Vercel Serverless Function (AbacatePay v2)
+// Se a pessoa está logada, guarda "código do pagamento (bill_…) → conta": o webhook usa isso
+// pra liberar o Premium na conta certa, mesmo que o e-mail digitado no Pix seja outro.
+import { sessao } from './conta.js';
+import { kv } from './_lib/store.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://www.bussolaastral.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -47,6 +52,12 @@ export default async function handler(req, res) {
 
     const url = data?.data?.url;
     if (!url) return res.status(502).json({ error: 'URL não retornada', raw: data });
+
+    try {
+      const conta = await sessao(req);
+      const billId = data?.data?.id;
+      if (conta && billId) await kv.set(`checkout:${billId}`, { email: conta.email, createdAt: new Date().toISOString() }, { ex: 30 * 24 * 3600 });
+    } catch (e) { console.error('[create-checkout] vínculo com a conta', e.message); }
 
     return res.status(200).json({ url });
   } catch (err) {

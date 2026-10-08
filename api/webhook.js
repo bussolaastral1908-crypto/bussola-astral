@@ -71,11 +71,24 @@ export default async function handler(req, res) {
     return Object.fromEntries(Object.entries(o).slice(0, 25).map(([k, v]) => [k, estrutura(v, prof + 1)]));
   }
 
+  // Código do pagamento (bill_…): se o site criou esse checkout pra uma conta logada,
+  // o Premium vai pra essa conta — não pro e-mail digitado no pagamento.
+  function acharBill(o, prof = 0) {
+    if (!o || typeof o !== 'object' || prof > 6) return '';
+    for (const v of Object.values(o)) {
+      if (typeof v === 'string' && /^bill_[A-Za-z0-9]+$/.test(v)) return v;
+      const b = acharBill(v, prof + 1); if (b) return b;
+    }
+    return '';
+  }
   const eventType = event?.event || event?.type;
-  const email = String(acharEmail(event)).trim().toLowerCase();
+  const billId = acharBill(event);
+  const vinculo = billId ? await kv.get(`checkout:${billId}`).catch(() => null) : null;
+  const emailPagamento = String(acharEmail(event)).trim().toLowerCase();
+  const email = (vinculo && vinculo.email) || emailPagamento;
   const subscriptionId = event?.data?.id || event?.data?.checkout?.id || event?.id;
 
-  console.log(`[webhook] tipo=${eventType} status=${event?.data?.status || event?.status || ''} temEmail=${!!email} estrutura=${JSON.stringify(estrutura(event))}`);
+  console.log(`[webhook] contaVinculada=${!!vinculo} tipo=${eventType} status=${event?.data?.status || event?.status || ''} temEmail=${!!email} estrutura=${JSON.stringify(estrutura(event))}`);
 
   if (!email) {
     console.error('[webhook] E-mail não encontrado no evento (ver estrutura acima)');

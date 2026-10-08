@@ -70,7 +70,7 @@ async function publico(conta) {
   return out;
 }
 
-async function sessao(req) {
+export async function sessao(req) {
   const h = req.headers.authorization || '';
   const t = readToken(h.startsWith('Bearer ') ? h.slice(7) : '');
   if (!t) return null;
