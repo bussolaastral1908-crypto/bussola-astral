@@ -10,31 +10,31 @@ import crypto from 'crypto';
 // Por ora usamos comparação direta do secret que o AbacatePay envia no header.
 // Quando tivermos o raw body disponível, migrar para HMAC-SHA256.
 
+// Confere se o aviso veio mesmo da AbacatePay. O segredo (WEBHOOK_SECRET) chega no próprio
+// endereço chamado (?webhookSecret=...) ou num cabeçalho; aceitamos os dois. Sem o segredo
+// certo, o aviso é recusado — antes, aviso sem assinatura passava (qualquer um ganhava Premium).
+function iguais(a, b) {
+  const x = Buffer.from(String(a || '')), y = Buffer.from(String(b || ''));
+  return x.length === y.length && x.length > 0 && crypto.timingSafeEqual(x, y);
+}
+
 function verifySignature(req, rawBody) {
   const secret = process.env.WEBHOOK_SECRET;
-  if (!secret) return true; // se não configurado, passa (não recomendado em produção)
-
-  // AbacatePay v2 envia o secret diretamente ou como HMAC — tentar ambos
-  const headerSig = req.headers['x-abacatepay-signature'] || req.headers['x-webhook-secret'];
-
-  if (!headerSig) {
-    console.warn('[webhook] Header de assinatura ausente');
-    // Em sandbox, pode não vir assinatura — logar e continuar
-    return true;
+  if (!secret) {
+    console.error('[webhook] WEBHOOK_SECRET não configurado — aviso recusado');
+    return false;
   }
-
-  // Tentativa 1: comparação direta do secret
-  if (headerSig === secret) return true;
-
-  // Tentativa 2: HMAC-SHA256 do raw body
-  if (rawBody) {
+  const doEndereco = req.query?.webhookSecret || req.query?.secret;
+  const doCabecalho = req.headers['x-webhook-secret'] || req.headers['x-abacatepay-signature'] || req.headers['x-webhook-signature'];
+  if (iguais(doEndereco, secret) || iguais(doCabecalho, secret)) return true;
+  if (doCabecalho && rawBody) {
     const hmac = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
-    const expectedSig = `sha256=${hmac}`;
-    if (crypto.timingSafeEqual(Buffer.from(headerSig), Buffer.from(expectedSig))) return true;
-    // sem o prefixo sha256=
-    if (crypto.timingSafeEqual(Buffer.from(headerSig), Buffer.from(hmac))) return true;
+    const b64 = crypto.createHmac('sha256', secret).update(rawBody).digest('base64');
+    if (iguais(doCabecalho, hmac) || iguais(doCabecalho, `sha256=${hmac}`) || iguais(doCabecalho, b64)) return true;
   }
-
+  console.error('[webhook] segredo ausente ou errado — recusado', JSON.stringify({
+    segredoNoEndereco: !!doEndereco, cabecalhosDeAssinatura: ['x-webhook-secret', 'x-abacatepay-signature', 'x-webhook-signature'].filter((h) => req.headers[h]),
+  }));
   return false;
 }
 
