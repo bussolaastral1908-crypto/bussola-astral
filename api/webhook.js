@@ -54,22 +54,31 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Assinatura inválida' });
   }
 
-  const event = req.body;
-  console.log('[webhook] Evento recebido:', JSON.stringify(event));
+  const event = req.body || {};
 
-  // AbacatePay v2 event structure:
-  // { event: "subscription.completed", data: { ... }, customer: { email: ... } }
-  // ou: { type: "...", customer: { email: ... }, id: "..." }
+  // Formato do aviso varia entre versões da AbacatePay (v1/v2, checkout/transparente):
+  // procura o e-mail do cliente em qualquer parte do aviso.
+  function acharEmail(o, prof = 0) {
+    if (!o || typeof o !== 'object' || prof > 6) return '';
+    for (const k of ['email', 'customerEmail']) if (typeof o[k] === 'string' && o[k].includes('@')) return o[k];
+    for (const k of ['customer', 'payer', 'billing', 'checkout', 'metadata', 'data']) { const e = acharEmail(o[k], prof + 1); if (e) return e; }
+    for (const v of Object.values(o)) { const e = acharEmail(v, prof + 1); if (e) return e; }
+    return '';
+  }
+  // Estrutura do aviso (só nomes dos campos, sem valores/dados pessoais), pra diagnóstico.
+  function estrutura(o, prof = 0) {
+    if (!o || typeof o !== 'object' || prof > 3) return typeof o;
+    return Object.fromEntries(Object.entries(o).slice(0, 25).map(([k, v]) => [k, estrutura(v, prof + 1)]));
+  }
+
   const eventType = event?.event || event?.type;
-  const email = String(event?.customer?.email
-    || event?.data?.customer?.email
-    || event?.data?.billing?.email || '').trim().toLowerCase();
-  const subscriptionId = event?.data?.id || event?.id;
+  const email = String(acharEmail(event)).trim().toLowerCase();
+  const subscriptionId = event?.data?.id || event?.data?.checkout?.id || event?.id;
 
-  console.log(`[webhook] tipo=${eventType} email=${email}`);
+  console.log(`[webhook] tipo=${eventType} status=${event?.data?.status || event?.status || ''} temEmail=${!!email} estrutura=${JSON.stringify(estrutura(event))}`);
 
   if (!email) {
-    console.error('[webhook] Email não encontrado no evento:', JSON.stringify(event));
+    console.error('[webhook] E-mail não encontrado no evento (ver estrutura acima)');
     return res.status(400).json({ error: 'Email não encontrado no evento' });
   }
 
@@ -78,6 +87,8 @@ export default async function handler(req, res) {
       'subscription.completed',
       'subscription.renewed',
       'checkout.completed',
+      'transparent.completed',
+      'billing.paid',
       'subscription.active',
       'active',
       'PAID',
