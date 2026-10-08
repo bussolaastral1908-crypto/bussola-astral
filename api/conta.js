@@ -15,7 +15,7 @@ import { promisify } from 'util';
 const scrypt = promisify(crypto.scrypt);
 const SESSION_MS = 30 * 24 * 60 * 60 * 1000;
 const SITE = 'https://www.bussolaastral.com';
-const CAMPOS = ['name', 'birth_date', 'birth_time', 'birth_city', 'phone'];
+const CAMPOS = ['name', 'birth_date', 'birth_time', 'birth_city', 'phone', 'birth_lat', 'birth_lng', 'birth_tz'];
 
 const keyConta = (email) => `conta:${email}`;
 const normEmail = (e) => String(e || '').trim().toLowerCase();
@@ -92,6 +92,10 @@ function limpaPerfil(b) {
   if (b.birth_time !== undefined) out.birth_time = /^\d{2}:\d{2}/.test(String(b.birth_time || '')) ? String(b.birth_time).slice(0, 5) : '';
   if (b.birth_city !== undefined) out.birth_city = String(b.birth_city || '').trim().slice(0, 120);
   if (b.phone !== undefined) out.phone = String(b.phone || '').replace(/[^\d+()\s-]/g, '').slice(0, 30);
+  // Local de nascimento já localizado (latitude, longitude e fuso oficial, ex.: America/Sao_Paulo).
+  if (b.birth_lat !== undefined) { const v = Number(b.birth_lat); out.birth_lat = Number.isFinite(v) && Math.abs(v) <= 90 ? v : ''; }
+  if (b.birth_lng !== undefined) { const v = Number(b.birth_lng); out.birth_lng = Number.isFinite(v) && Math.abs(v) <= 180 ? v : ''; }
+  if (b.birth_tz !== undefined) out.birth_tz = /^[A-Za-z_]+(\/[A-Za-z_+-]+){1,2}$/.test(String(b.birth_tz || '')) ? String(b.birth_tz) : '';
   return out;
 }
 

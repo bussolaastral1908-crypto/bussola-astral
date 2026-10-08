@@ -572,8 +572,39 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 
   function temDados(){return !!(conta&&conta.birth_date);}
 
+  // ── Localizar a cidade de nascimento (Open-Meteo, grátis): lat/lng + fuso oficial ──
+  const sugestoes=new Map();
+  function rotulo(r){return [r.name,r.admin1,r.country].filter(Boolean).join(', ');}
+  async function buscarCidades(txt){
+    const q=String(txt||'').split(',')[0].trim(); if(q.length<2)return [];
+    try{
+      const r=await fetch('https://geocoding-api.open-meteo.com/v1/search?count=8&language=pt&name='+encodeURIComponent(q));
+      const j=await r.json(); const lista=(j.results||[]).filter(x=>x.timezone);
+      // Brasil primeiro e cidades maiores antes
+      lista.sort((a,b)=>(b.country_code==='BR')-(a.country_code==='BR')||(b.population||0)-(a.population||0));
+      return lista;
+    }catch(e){return [];}
+  }
+  async function localizar(txt){
+    const alvo=String(txt||'').toLowerCase();
+    if(sugestoes.has(alvo))return sugestoes.get(alvo);
+    const lista=await buscarCidades(txt);
+    // se a pessoa escreveu o estado (ex.: "Ponta Grossa, PR" ou "Paraná"), respeita
+    const partes=alvo.split(',').map(x=>x.trim()).filter(Boolean);
+    const comEstado=partes.length>1?lista.find(r=>{const uf=(r.admin1||'').toLowerCase();return partes.slice(1).some(p=>uf.startsWith(p)||UF[p]===uf);}):null;
+    return comEstado||lista[0]||null;
+  }
+  const UF={ac:'acre',al:'alagoas',ap:'amapá',am:'amazonas',ba:'bahia',ce:'ceará',df:'distrito federal',es:'espírito santo',go:'goiás',ma:'maranhão',mt:'mato grosso',ms:'mato grosso do sul',mg:'minas gerais',pa:'pará',pb:'paraíba',pr:'paraná',pe:'pernambuco',pi:'piauí',rj:'rio de janeiro',rn:'rio grande do norte',rs:'rio grande do sul',ro:'rondônia',rr:'roraima',sc:'santa catarina',sp:'são paulo',se:'sergipe',to:'tocantins'};
+  // Perfis antigos (só o nome da cidade): localiza uma vez e salva.
+  async function garantirLocal(){
+    if(!conta||!conta.birth_city||(conta.birth_lat!==''&&conta.birth_lat!==undefined&&conta.birth_lat!==null))return;
+    const r=await localizar(conta.birth_city);
+    if(r){try{conta=await BAConta.saveProfile({birth_city:rotulo(r),birth_lat:r.latitude,birth_lng:r.longitude,birth_tz:r.timezone});}catch(e){}}
+  }
+
   function prepararMapa(){
-    profile={name:conta.name||'Você',date:conta.birth_date,time:(conta.birth_time||'').slice(0,5),city:conta.birth_city||''};
+    const num=v=>(v===''||v===null||v===undefined)?NaN:Number(v);
+    profile={name:conta.name||'Você',date:conta.birth_date,time:(conta.birth_time||'').slice(0,5),city:conta.birth_city||'',lat:num(conta.birth_lat),lng:num(conta.birth_lng),tz:conta.birth_tz||''};
     natalChart=getNatalChart(profile);
   }
 
@@ -594,9 +625,19 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
       e.preventDefault();
       const dados={name:$('pf-nome').value.trim(),birth_date:$('pf-data').value,birth_time:$('pf-hora').value,birth_city:$('pf-cidade').value.trim()};
       if(!dados.birth_date){$('pf-msg').textContent='Informe a data de nascimento.';return;}
+      if(dados.birth_city){
+        $('pf-msg').textContent='Localizando a cidade…';
+        const r=await localizar(dados.birth_city);
+        if(!r){$('pf-msg').textContent='Não encontramos essa cidade. Confira o nome (ex.: Ponta Grossa, PR).';return;}
+        Object.assign(dados,{birth_city:rotulo(r),birth_lat:r.latitude,birth_lng:r.longitude,birth_tz:r.timezone});
+        $('pf-msg').textContent='';
+      }
       try{conta=await BAConta.saveProfile(dados);$('perfil-box').innerHTML='';renderAba(abaAtual());}
       catch(err){$('pf-msg').textContent=err.message||'Não deu certo agora. Tente de novo.';}
     });
+    // sugestões de cidade enquanto digita
+    let t=null; const inp=$('pf-cidade'), dl=document.getElementById('city-suggestions');
+    inp.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(async()=>{const lista=await buscarCidades(inp.value);dl.innerHTML='';lista.forEach(r=>{const k=rotulo(r);sugestoes.set(k.toLowerCase(),r);const o=document.createElement('option');o.value=k;dl.appendChild(o);});},300);});
     const cancelar=$('pf-cancelar'); if(cancelar)cancelar.addEventListener('click',()=>{$('perfil-box').innerHTML='';renderAba('mapa');});
   }
 
@@ -636,9 +677,10 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
     renderPrevisao6Meses();
   }
 
-  function renderAba(aba){
+  async function renderAba(aba){
     if(aba==='hoje')return;
     if(!contaCarregada){$('panel-'+aba).innerHTML='<div class="skel" style="height:220px"></div>';return;}
+    await garantirLocal();
     if(aba==='mapa')renderMapaAba();
     if(aba==='transitos')renderTransitosAba();
     if(aba==='previsao')renderPrevisaoAba();

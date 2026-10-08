@@ -340,7 +340,7 @@ function calcAscendant(date,lat,lng){
   }
   const ramc=((gast+lng/15)*15%360+360)%360;
   const eps=23.4393*Math.PI/180,latr=lat*Math.PI/180,ramcr=ramc*Math.PI/180;
-  const y=-Math.cos(ramcr),x=Math.sin(ramcr)*Math.cos(eps)+Math.tan(latr)*Math.sin(eps);
+  const y=Math.cos(ramcr),x=-(Math.sin(ramcr)*Math.cos(eps)+Math.tan(latr)*Math.sin(eps)); // antes devolvia o Descendente
   return normLon(Math.atan2(y,x)*180/Math.PI);
 }
 function normCity(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z\s]/g,'').trim()}

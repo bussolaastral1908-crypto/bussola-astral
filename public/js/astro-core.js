@@ -162,6 +162,19 @@ function getPlanetPositions(date) {
 }
 
 // Ascendant from birth datetime + lat/lng
+// Diferença (minutos) entre o horário local de um fuso IANA e o UTC naquela data —
+// usa o histórico oficial do navegador, então respeita horários de verão antigos.
+function tzOffsetMinutes(timeZone, y, m, d, h, mi) {
+  const parts = (ms) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date(ms)).map((x) => [x.type, x.value]));
+  const alvo = Date.UTC(y, m - 1, d, h, mi);
+  let off = 0;
+  for (let i = 0; i < 2; i++) {
+    const p = parts(alvo - off * 60000);
+    off = (Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute) - (alvo - off * 60000)) / 60000;
+  }
+  return off;
+}
+
 function calcAscendant(date, lat, lng) {
   const AE = window.Astronomy;
   let gast;
@@ -177,8 +190,10 @@ function calcAscendant(date, lat, lng) {
   const eps  = 23.4393 * Math.PI / 180;
   const latr = lat * Math.PI / 180;
   const ramcr = ramc * Math.PI / 180;
-  const y = -Math.cos(ramcr);
-  const x =  Math.sin(ramcr)*Math.cos(eps) + Math.tan(latr)*Math.sin(eps);
+  // Ascendente = atan2(cos RAMC, −(sen RAMC·cos ε + tan φ·sen ε)).
+  // A fórmula antiga tinha os sinais trocados e devolvia o DESCENDENTE (signo oposto).
+  const y =  Math.cos(ramcr);
+  const x = -(Math.sin(ramcr)*Math.cos(eps) + Math.tan(latr)*Math.sin(eps));
   return normLon(Math.atan2(y, x) * 180 / Math.PI);
 }
 
@@ -227,6 +242,17 @@ function getNatalChart(p) {
   const positions = getPlanetPositions(birthDate);
   let asc = null;
   let cityData = null;
+
+  // Local localizado de verdade (lat/lng + fuso oficial com histórico de horário de verão).
+  if (p.time && Number.isFinite(p.lat) && Number.isFinite(p.lng) && p.tz) {
+    const [yr, mo, dy] = p.date.split('-').map(Number);
+    const [hr, mn] = p.time.split(':').map(Number);
+    const offMin = tzOffsetMinutes(p.tz, yr, mo, dy, hr, mn);
+    const birthUTC = new Date(Date.UTC(yr, mo-1, dy, hr, mn) - offMin * 60000);
+    cityData = { lat: p.lat, lng: p.lng, tz: offMin / 60, display: p.city, iana: p.tz };
+    asc = calcAscendant(birthUTC, p.lat, p.lng);
+    return { positions: getPlanetPositions(birthUTC), asc, cityData, birthDate: birthUTC, hasTime: true };
+  }
 
   if (p.time && p.city) {
     cityData = findCity(p.city);
