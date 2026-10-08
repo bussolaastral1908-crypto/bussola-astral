@@ -46,7 +46,8 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:600;transition:transform .15s}
 .btn:hover{transform:translateY(-1px)}
 .btn-gold{background:linear-gradient(180deg,var(--gold2),var(--gold) 45%,var(--gold3));color:#2A1704;box-shadow:0 8px 24px rgba(242,184,75,.25)}
-.btn-ghost{border:1px solid var(--line-gold);color:var(--gold2)}
+.btn-ghost{border:1px solid var(--line-gold);color:var(--gold2);background:transparent}
+.avatar{border:0;color:var(--text);cursor:pointer}
 .btn-sm{padding:8px 16px;font-size:14px}
 
 /* layout */
@@ -157,6 +158,178 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 }
 @media (max-width:520px){.cards,.meters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.meter:last-child{grid-column:1/-1}.cards{grid-template-columns:minmax(0,1fr)}.top-right .btn-ghost{display:none}}
 @media (prefers-reduced-motion:reduce){.skel{animation:none}.btn{transition:none}}
+
+/* abas da área única */
+.tabs{display:flex;gap:6px;padding-block:14px 0;overflow-x:auto;scrollbar-width:none}
+.tab{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted2);padding:10px 18px;border-radius:999px;font-size:15px;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:linear-gradient(180deg,rgba(242,184,75,.22),rgba(242,184,75,.08));border-color:var(--line-gold);color:var(--gold2);font-weight:600}
+.tab .lock{font-size:12px;margin-left:6px;opacity:.8}
+.aba{padding-block:22px 48px;max-width:1100px}
+.aba-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.aba-head h1{font-size:clamp(26px,3vw,34px);color:var(--gold)}
+.aba-head p{color:var(--muted2)}
+.aviso{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;text-align:center;display:grid;gap:12px;justify-items:center}
+.aviso h2{font-size:24px;color:var(--gold)}
+.aviso p{color:var(--muted2);max-width:52ch}
+.aviso .acoes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.perfil-form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:14px;max-width:640px}
+.perfil-form h2{font-size:22px;color:var(--gold)}
+.perfil-form .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.perfil-form label{display:grid;gap:6px;font-size:13px;color:var(--muted2)}
+.perfil-form input{font:inherit;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.3);color:var(--text)}
+.perfil-form small{color:var(--muted);font-size:12.5px}
+.perfil-form .msg{color:#FCA5A5;font-size:14px;min-height:1em}
+.perfil-resumo{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted2);font-size:14px}
+.link-btn{background:none;border:0;color:var(--gold);text-decoration:underline;text-underline-offset:3px;font-size:14px}
+.premium-ok{display:inline-flex;gap:8px;align-items:center;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#86EFAC;border-radius:999px;padding:6px 14px;font-size:14px}
+@media (max-width:620px){.perfil-form .grid2{grid-template-columns:1fr}}
+
+/* conteúdo reaproveitado da tela antiga (mapa, trânsitos, 6 meses), com as cores novas */
+.legado{--bg:#08061A;--bg2:#0D0A24;--card:rgba(20,15,44,.82);--card2:rgba(28,20,58,.9);--border:rgba(150,110,255,.2);--border2:rgba(150,110,255,.32);--purple:#7c3fe4;--purple2:#9b5cf0;--purple3:#c4a0ff;--gold:#F2B84B;--gold2:#FFD27A;--gold3:#FFE6A8;--green:#22C55E;--yellow:#F2A93B;--red:#EF4444;--blue:#3B9BF5;--text:#EEE9FF;--text2:#CAC0E6;--muted:#8C80AD;--muted2:#CAC0E6;--fire:#f0803c;--earth:#7ad88a;--air:#70c8f5;--water:#7080f8;--shadow:0 4px 24px rgba(0,0,0,.4);--shadow-card:0 2px 12px rgba(0,0,0,.35);--shadow-hover:0 8px 32px rgba(124,63,228,.2);--radius:16px;--radius-sm:10px;font-family:'Jost',system-ui,sans-serif}
+.legado h1,.legado h2,.legado h3{font-family:'Playfair Display',Georgia,serif}
+.legado .mapa-header,.legado .prev-header{display:none}
+.aspect-item{padding:9px 18px;border-bottom:1px solid var(--border);font-size:.78rem;}
+.aspect-item:last-child{border-bottom:none;}
+.aspect-name{color:var(--text);font-weight:600;}
+.aspect-type{font-size:.7rem;padding:2px 8px;border-radius:5px;margin-left:6px;font-weight:700;}
+.ae-badge{font-size:.6rem;color:var(--green);background:rgba(63,207,142,.1);border:1px solid rgba(63,207,142,.25);border-radius:4px;padding:1px 6px;margin-left:4px;font-weight:700;}
+.summary-box.positive{border-color:rgba(63,207,142,.2);background:rgba(63,207,142,.03);}
+.summary-box.caution{border-color:rgba(240,187,58,.2);background:rgba(240,187,58,.03);}
+.summary-box.positive .summary-box-title{color:var(--green);}
+.summary-box.caution .summary-box-title{color:var(--yellow);}
+.summary-box.positive .summary-list li::before{color:var(--green);}
+.summary-box.caution .summary-list li::before{color:var(--yellow);}
+.accordion-item{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;margin-bottom:8px;box-shadow:var(--shadow-card);transition:all .2s;}
+.accordion-item:hover{border-color:rgba(124,63,228,.2);}
+.accordion-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;transition:background .2s;user-select:none;}
+.accordion-header:hover{background:rgba(124,63,228,.04);}
+.acc-icon{width:38px;height:38px;min-width:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.acc-title{font-size:.92rem;font-weight:700;flex:1;letter-spacing:.01em;}
+.acc-chevron{color:var(--muted);font-size:.8rem;transition:transform .3s;}
+.accordion-item.open .acc-chevron{transform:rotate(180deg);}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;}
+.accordion-item.open .accordion-body{max-height:600px;}
+.accordion-content{padding:0 20px 20px;font-size:.88rem;line-height:1.8;color:var(--muted2);border-top:1px solid var(--border);}
+.accordion-content p{margin-bottom:10px;padding-top:16px;}
+.accordion-content p:last-child{margin-bottom:0;}
+.transits-count{font-size:.82rem;color:var(--muted);margin-bottom:16px;}
+.transits-count span{color:var(--purple3);font-weight:800;}
+.transit-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);padding:20px;margin-bottom:12px;transition:all .2s;box-shadow:var(--shadow-card);}
+.transit-card:hover{border-color:rgba(124,63,228,.25);box-shadow:var(--shadow-hover);}
+.transit-card-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;}
+.transit-icon{width:42px;height:42px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.transit-icon.positive{background:rgba(63,207,142,.1);border:1px solid rgba(63,207,142,.2);}
+.transit-icon.negative{background:rgba(224,90,90,.1);border:1px solid rgba(224,90,90,.2);}
+.transit-icon.neutral{background:rgba(79,168,240,.1);border:1px solid rgba(79,168,240,.2);}
+.transit-title{font-size:.98rem;font-weight:800;color:var(--text);margin-bottom:3px;}
+.transit-period{font-size:.76rem;color:var(--muted);}
+.transit-technical{font-size:.78rem;color:var(--purple3);background:rgba(155,92,240,.07);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-style:italic;border-left:2px solid rgba(155,92,240,.3);}
+.transit-desc{font-size:.86rem;color:var(--muted2);line-height:1.7;}
+.read-more{font-size:.78rem;color:var(--purple3);cursor:pointer;margin-top:8px;display:inline-block;font-weight:700;}
+.read-more:hover{color:var(--purple2);}
+.semester-overview{background:linear-gradient(135deg,rgba(124,63,228,.1),rgba(63,207,142,.05));border:1px solid rgba(63,207,142,.25);border-radius:16px;padding:18px;margin-bottom:20px;}
+.semester-overview h3{font-family:'Playfair Display SC',serif;font-size:.95rem;margin-bottom:12px;letter-spacing:.04em;}
+.sem-row{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:var(--muted2);margin-bottom:10px;line-height:1.6;}
+.sem-row:last-child{margin-bottom:0;}
+.sem-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.sem-event-title{font-weight:700;color:var(--text);}
+.month-dates-section{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.month-dates-title{font-size:.68rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.month-date-row{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--muted2);margin-bottom:6px;}
+.moon-icon{font-size:.9rem;flex-shrink:0;}
+.tarot-section{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.tarot-card-mini{width:38px;height:58px;border-radius:6px;background:linear-gradient(135deg,#1a0533,#2d1060);border:1px solid rgba(124,63,228,.5);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.tarot-info{flex:1;}
+.tarot-arcano{font-size:.73rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.tarot-msg{font-size:.8rem;color:var(--muted2);line-height:1.6;}
+.prev-header{text-align:center;padding:14px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+.prev-header h2{font-family:'Playfair Display SC',serif;font-size:1.08rem;letter-spacing:.04em;margin-bottom:4px;}
+.prev-header p{font-size:.78rem;color:var(--muted);}
+.month-card{background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
+.month-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px;}
+.month-card.energy-positive::before{background:linear-gradient(180deg,#3fcf8e,#16a34a);}
+.month-card.energy-negative::before{background:linear-gradient(180deg,#f06060,#dc2626);}
+.month-card.energy-mixed::before{background:linear-gradient(180deg,#f59e0b,#d97706);}
+.month-card.energy-neutral::before{background:linear-gradient(180deg,#7c3fe4,#6d28d9);}
+.month-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.month-name{font-family:'Playfair Display SC',serif;font-size:1rem;font-weight:700;letter-spacing:.03em;}
+.month-energy-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;}
+.badge-positive{background:rgba(63,207,142,.15);color:var(--green);border:1px solid rgba(63,207,142,.3);}
+.badge-negative{background:rgba(240,96,96,.12);color:#f06060;border:1px solid rgba(240,96,96,.25);}
+.badge-mixed{background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.25);}
+.badge-neutral{background:rgba(124,63,228,.12);color:var(--purple3);border:1px solid rgba(124,63,228,.25);}
+.month-narrative{font-size:.87rem;color:var(--muted2);line-height:1.78;margin-bottom:14px;}
+.month-transits{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.month-transit-row{display:flex;align-items:flex-start;gap:9px;font-size:.8rem;color:var(--muted2);}
+.month-transit-row .mt-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.month-transit-row strong{color:var(--text);font-weight:700;}
+.month-areas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.area-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.area-label{font-size:.68rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.area-value{font-size:.78rem;color:var(--text);font-weight:600;}
+.area-stars{font-size:.65rem;margin-top:2px;letter-spacing:1px;}
+.prev-lock{background:linear-gradient(135deg,var(--card2),rgba(124,63,228,.06));border:1px solid rgba(63,207,142,.2);border-radius:16px;padding:30px 20px;text-align:center;}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--card2);border:1px solid var(--border);color:var(--muted);font-size:1rem;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:var(--border);color:var(--text);}
+.modal-planet-icon{font-size:2.4rem;margin-bottom:10px;display:block;}
+.modal-title{font-family:'Playfair Display SC',serif;font-size:1.12rem;font-weight:700;margin-bottom:6px;letter-spacing:.03em;line-height:1.35;}
+.modal-tech{font-size:.74rem;color:var(--purple3);background:rgba(155,92,240,.09);border-radius:8px;padding:7px 12px;margin-bottom:20px;font-weight:600;}
+.modal-section{margin-bottom:18px;}
+.modal-section h4{font-size:.74rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.modal-section p{font-size:.88rem;color:var(--muted2);line-height:1.8;}
+.modal-divider{height:1px;background:var(--border);margin:16px 0;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.modal-tag{padding:5px 13px;border-radius:20px;font-size:.72rem;font-weight:600;background:var(--card2);border:1px solid var(--border);color:var(--muted2);}
+.modal-tag.positive{border-color:rgba(63,207,142,.4);color:var(--green);}
+.modal-tag.negative{border-color:rgba(240,80,80,.3);color:#f06060;}
+.modal-tag.neutral{border-color:rgba(124,63,228,.35);color:var(--purple3);}
+.mapa-header{text-align:center;padding:14px 0 18px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.mapa-header h2{font-family:'Playfair Display SC',serif;font-size:1.08rem;letter-spacing:.04em;margin-bottom:4px;}
+.mapa-header p{font-size:.78rem;color:var(--muted);}
+.mapa-asc-card{background:linear-gradient(135deg,rgba(124,63,228,.12),rgba(63,207,142,.06));border:1px solid rgba(63,207,142,.3);border-radius:14px;padding:16px;margin-bottom:18px;text-align:center;}
+.mapa-asc-card .asc-title{font-size:.72rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.mapa-asc-card .asc-value{font-size:1.22rem;font-weight:800;letter-spacing:.04em;}
+.mapa-asc-card .asc-sub{font-size:.76rem;color:var(--muted);margin-top:5px;}
+.mapa-section-title{font-size:.72rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
+.mapa-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px;}
+.mapa-planet-row{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;}
+.mapa-p-icon{font-size:1.25rem;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(155,92,240,.09);flex-shrink:0;}
+.mapa-p-info{min-width:0;}
+.mapa-p-name{font-size:.8rem;font-weight:700;color:var(--text);}
+.mapa-p-sign{font-size:.74rem;color:var(--purple3);font-weight:600;}
+.mapa-p-deg{font-size:.68rem;color:var(--muted);margin-top:1px;}
+.mapa-el-section{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;}
+.mapa-el-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.mapa-el-row:last-child{margin-bottom:0;}
+.mapa-el-bar{flex:1;height:6px;border-radius:3px;background:var(--border);}
+.mapa-el-fill{height:100%;border-radius:3px;}
+.mapa-aspects-title{font-size:.72rem;color:var(--purple3);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 10px;}
+.mapa-aspect-row{display:flex;align-items:center;justify-content:space-between;font-size:.77rem;color:var(--muted2);padding:7px 0;border-bottom:1px solid var(--border);}
+.mapa-aspect-row:last-child{border-bottom:none;}
+.mapa-aspect-type{padding:2px 9px;border-radius:20px;font-size:.68rem;font-weight:700;}
+.lock-banner{background:linear-gradient(135deg,var(--card2),rgba(124,63,228,.06));border:1px solid rgba(63,207,142,.2);border-radius:var(--radius);padding:30px 24px;text-align:center;margin-top:12px;box-shadow:var(--shadow-card);}
+.lock-banner .lock-icon{font-size:2.8rem;margin-bottom:14px;}
+.lock-banner h3{font-family:'Playfair Display SC',serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;letter-spacing:.04em;}
+.lock-banner p{font-size:.86rem;color:var(--muted2);margin-bottom:18px;line-height:1.7;}
+.btn-unlock{padding:14px 32px;background:linear-gradient(135deg,#15803d,#16a34a);border:none;border-radius:var(--radius-sm);color:white;font-size:.95rem;font-weight:800;cursor:pointer;box-shadow:0 4px 18px rgba(34,197,94,.3);transition:all .2s;font-family:'Lora', serif;letter-spacing:.03em;}
+.btn-unlock:hover{filter:brightness(1.1);transform:translateY(-1px);}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.no-data-msg{text-align:center;padding:52px 20px;color:var(--muted);}
+.no-data-msg .nd-icon{font-size:3rem;margin-bottom:14px;display:block;}
+@keyframes zodiac-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.internal-links-section{max-width:1100px;margin:0 auto 48px;padding:0 20px;}
+.internal-links-section h2{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:20px;text-align:center;letter-spacing:.01em;}
+.internal-links-section h2 span{color:var(--purple);}
+.ilinks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;}
+.ilink-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);padding:18px 20px;text-decoration:none;color:var(--text);transition:box-shadow .2s,border-color .2s;display:flex;align-items:flex-start;gap:13px;}
+.ilink-card:hover{box-shadow:0 4px 20px rgba(124,63,228,.18);border-color:rgba(124,63,228,.35);}
+.ilink-icon{font-size:1.5rem;flex-shrink:0;margin-top:1px;}
+.ilink-info{}
+.ilink-title{font-weight:700;font-size:.92rem;margin-bottom:3px;color:var(--text);}
+.ilink-desc{font-size:.78rem;color:var(--muted2);line-height:1.45;}
+.legado .btn-unlock{background:linear-gradient(180deg,#FFD27A,#F2B84B 45%,#E39A2C);color:#2A1704;border:0;border-radius:999px;padding:12px 26px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -165,10 +338,10 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
   <div class="wrap top-row">
     <a class="logo" href="/"><img src="/logotipo.png" alt="" width="34" height="34"><span>Bússola Astral</span></a>
     <nav class="top-nav" aria-label="Seções">
-      <a href="/hoje" aria-current="page">Horóscopo</a>
+      <a href="/hoje" aria-current="page" data-ir="hoje">Horóscopo</a>
       <a href="/tarot">Tarot</a>
       <a href="/compatibilidade">Compatibilidade</a>
-      <a href="/horoscopo">Mapa Astral</a>
+      <a href="/hoje?aba=mapa" data-ir="mapa">Mapa Astral</a>
       <a href="/numeros-anjos">Números</a>
     </nav>
     <div class="top-right" id="top-right">
@@ -178,7 +351,14 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
   </div>
 </header>
 
-<div class="wrap layout">
+<nav class="wrap tabs" role="tablist" aria-label="Minha área">
+  <button class="tab" role="tab" data-aba="hoje" aria-selected="true">Hoje</button>
+  <button class="tab" role="tab" data-aba="mapa" aria-selected="false">Meu Mapa</button>
+  <button class="tab" role="tab" data-aba="transitos" aria-selected="false">Trânsitos</button>
+  <button class="tab" role="tab" data-aba="previsao" aria-selected="false">Próximos 6 meses<span class="lock" id="tab-lock" aria-hidden="true">🔒</span></button>
+</nav>
+
+<div class="wrap layout" id="aba-hoje">
   <aside class="signs" aria-label="Escolha o signo">
     <h2>SEU SIGNO</h2>
     <ul id="sign-list"></ul>
@@ -234,6 +414,25 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
   </aside>
 </div>
 
+<section class="wrap aba" id="aba-mapa" hidden>
+  <div class="aba-head"><div><h1>Meu Mapa Astral</h1><p>Seu céu no momento em que você nasceu, calculado com sua data, hora e cidade.</p></div><div class="perfil-resumo" id="perfil-resumo"></div></div>
+  <div id="perfil-box"></div>
+  <div class="legado" id="panel-mapa"></div>
+</section>
+
+<section class="wrap aba" id="aba-transitos" hidden>
+  <div class="aba-head"><div><h1>Trânsitos no seu mapa</h1><p>Como os planetas de hoje tocam os pontos do seu mapa natal — calculado agora.</p></div></div>
+  <div class="legado" id="panel-transitos"></div>
+</section>
+
+<section class="wrap aba" id="aba-previsao" hidden>
+  <div class="aba-head"><div><h1>Próximos 6 meses</h1><p>Mês a mês: trânsitos sobre o seu mapa, fases da Lua, Mercúrio retrógrado, eclipses e o arcano do mês.</p></div><span class="premium-ok" id="premium-ok" hidden>⭐ Premium ativo</span></div>
+  <div class="legado" id="panel-previsao"></div>
+</section>
+
+<datalist id="city-suggestions"></datalist>
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2/astronomy.browser.min.js"></script>
+<script src="/js/astro-core.js"></script>
 <script>
 (function(){
   const SIGNS=[['aries','Áries','♈'],['touro','Touro','♉'],['gemeos','Gêmeos','♊'],['cancer','Câncer','♋'],['leao','Leão','♌'],['virgem','Virgem','♍'],['libra','Libra','♎'],['escorpiao','Escorpião','♏'],['sagitario','Sagitário','♐'],['capricornio','Capricórnio','♑'],['aquario','Aquário','♒'],['peixes','Peixes','♓']];
@@ -269,8 +468,8 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 
   // topo: logada → avatar e CTA para o mapa
   if(window.BAConta&&BAConta.hasSession()&&perfil){
-    $('top-right').innerHTML=`<a class="btn btn-ghost btn-sm" href="/horoscopo">Meu mapa</a><a class="avatar" href="/horoscopo" aria-label="Minha conta">${esc((perfil.name||perfil.email||'?').charAt(0).toUpperCase())}</a>`;
-    $('cta-btn').href='/horoscopo';
+    $('top-right').innerHTML=`<button class="btn btn-ghost btn-sm" type="button" data-ir="mapa">Meu mapa</button><button class="avatar" type="button" id="btn-conta" aria-label="Minha conta: sair">${esc((perfil.name||perfil.email||'?').charAt(0).toUpperCase())}</button>`;
+    $('cta-btn').href='?aba=previsao';
   }
 
   // lista de signos
@@ -344,6 +543,125 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
     }
   }
   carregar();
+})();
+</script>
+<script>
+/* ── Área única: abas Hoje / Meu Mapa / Trânsitos / Próximos 6 meses ── */
+(function(){
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ABAS=['hoje','mapa','transitos','previsao'];
+  let conta=null, contaCarregada=false;
+
+  function abaAtual(){const a=new URLSearchParams(location.search).get('aba');return ABAS.includes(a)?a:'hoje';}
+
+  function irPara(aba){
+    if(!ABAS.includes(aba))aba='hoje';
+    ABAS.forEach(a=>{ $('aba-'+a).hidden = a!==aba; });
+    document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.aba===aba)));
+    document.querySelectorAll('.top-nav a').forEach(l=>{const alvo=l.getAttribute('href');const ativo=(aba==='mapa'&&alvo==='/hoje?aba=mapa')||(aba!=='mapa'&&alvo==='/hoje');if(ativo)l.setAttribute('aria-current','page');else l.removeAttribute('aria-current');});
+    const q=new URLSearchParams(location.search); if(aba==='hoje')q.delete('aba'); else q.set('aba',aba);
+    history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:''));
+    renderAba(aba);
+    window.scrollTo({top:0});
+  }
+
+  function avisoConta(el,oque){
+    el.innerHTML=`<div class="aviso"><h2>Crie sua conta grátis</h2><p>Para ver ${oque}, precisamos da sua data, hora e cidade de nascimento — é assim que o seu mapa é calculado só para você.</p><div class="acoes"><a class="btn btn-gold btn-sm" href="/cadastro.html">Criar conta grátis</a><a class="btn btn-ghost btn-sm" href="/login.html">Já tenho conta</a></div></div>`;
+  }
+
+  function temDados(){return !!(conta&&conta.birth_date);}
+
+  function prepararMapa(){
+    profile={name:conta.name||'Você',date:conta.birth_date,time:(conta.birth_time||'').slice(0,5),city:conta.birth_city||''};
+    natalChart=getNatalChart(profile);
+  }
+
+  function formPerfil(){
+    const p=conta||{};
+    $('perfil-box').innerHTML=`<form class="perfil-form" id="perfil-form" novalidate>
+      <h2>${temDados()?'Editar dados de nascimento':'Complete seus dados de nascimento'}</h2>
+      <label>Nome<input id="pf-nome" value="${esc(p.name||'')}" autocomplete="name"></label>
+      <div class="grid2">
+        <label>Data de nascimento<input id="pf-data" type="date" value="${esc(p.birth_date||'')}" required></label>
+        <label>Hora de nascimento<input id="pf-hora" type="time" value="${esc((p.birth_time||'').slice(0,5))}"><small>Opcional, mas sem ela não dá para calcular o Ascendente.</small></label>
+      </div>
+      <label>Cidade de nascimento<input id="pf-cidade" list="city-suggestions" autocomplete="off" value="${esc(p.birth_city||'')}" placeholder="Ex.: São Paulo, SP"></label>
+      <p class="msg" id="pf-msg" role="alert"></p>
+      <div><button class="btn btn-gold btn-sm" type="submit">Salvar e ver meu mapa</button>${temDados()?' <button class="link-btn" type="button" id="pf-cancelar">Cancelar</button>':''}</div>
+    </form>`;
+    $('perfil-form').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const dados={name:$('pf-nome').value.trim(),birth_date:$('pf-data').value,birth_time:$('pf-hora').value,birth_city:$('pf-cidade').value.trim()};
+      if(!dados.birth_date){$('pf-msg').textContent='Informe a data de nascimento.';return;}
+      try{conta=await BAConta.saveProfile(dados);$('perfil-box').innerHTML='';renderAba(abaAtual());}
+      catch(err){$('pf-msg').textContent=err.message||'Não deu certo agora. Tente de novo.';}
+    });
+    const cancelar=$('pf-cancelar'); if(cancelar)cancelar.addEventListener('click',()=>{$('perfil-box').innerHTML='';renderAba('mapa');});
+  }
+
+  function renderMapaAba(){
+    if(!conta){$('perfil-resumo').innerHTML='';$('perfil-box').innerHTML='';avisoConta($('panel-mapa'),'o seu mapa astral');return;}
+    if(!temDados()){$('panel-mapa').innerHTML='';formPerfil();return;}
+    prepararMapa();
+    const data=new Date(conta.birth_date+'T12:00:00').toLocaleDateString('pt-BR');
+    $('perfil-resumo').innerHTML=`<span>${esc(conta.name||'')} · ${data}${conta.birth_time?' · '+esc(conta.birth_time.slice(0,5)):''}${conta.birth_city?' · '+esc(conta.birth_city):''}</span><button class="link-btn" type="button" id="pf-editar">Editar dados</button>`;
+    $('pf-editar').addEventListener('click',formPerfil);
+    renderMapa();
+  }
+
+  function renderTransitosAba(){
+    const el=$('panel-transitos');
+    if(!conta){avisoConta(el,'os trânsitos no seu mapa');return;}
+    if(!temDados()){el.innerHTML=`<div class="aviso"><h2>Falta sua data de nascimento</h2><p>Complete seus dados em “Meu Mapa” para ver os trânsitos.</p><button class="btn btn-gold btn-sm" type="button" data-ir="mapa">Completar meus dados</button></div>`;return;}
+    prepararMapa();
+    const t=getRealTransits(natalChart.positions,getPlanetPositions(new Date()));
+    currentTransits=t;
+    if(!t.length){el.innerHTML=`<div class="aviso"><h2>Céu tranquilo no seu mapa</h2><p>Hoje nenhum planeta faz aspecto exato com o seu mapa natal. Volte amanhã — os trânsitos mudam todos os dias.</p></div>`;return;}
+    el.innerHTML=`<p class="transits-count">Você tem <span>${t.length} influências ativas</span> no seu mapa agora</p>`+t.map((x,i)=>`
+      <div class="transit-card">
+        <div class="transit-card-header"><div class="transit-icon ${x.type}">${x.icon}</div><div><div class="transit-title">${esc(x.title)}</div><div class="transit-period">📅 ${esc(x.period)}</div></div></div>
+        <div class="transit-technical">${esc(x.tech)}</div>
+        <div class="transit-desc">${esc(x.desc)}</div>
+        <span class="read-more" role="button" tabindex="0" data-transit-idx="${i}">${isPremium?'🔍 Ler interpretação completa ›':'🔒 Interpretação completa no Premium ›'}</span>
+      </div>`).join('');
+  }
+
+  function renderPrevisaoAba(){
+    const el=$('panel-previsao');
+    $('premium-ok').hidden=!isPremium;
+    if(!conta){avisoConta(el,'a sua previsão dos próximos 6 meses');return;}
+    if(!temDados()){el.innerHTML=`<div class="aviso"><h2>Falta sua data de nascimento</h2><p>A previsão é calculada sobre o seu mapa. Complete seus dados em “Meu Mapa”.</p><button class="btn btn-gold btn-sm" type="button" data-ir="mapa">Completar meus dados</button></div>`;return;}
+    prepararMapa();
+    renderPrevisao6Meses();
+  }
+
+  function renderAba(aba){
+    if(aba==='hoje')return;
+    if(!contaCarregada){$('panel-'+aba).innerHTML='<div class="skel" style="height:220px"></div>';return;}
+    if(aba==='mapa')renderMapaAba();
+    if(aba==='transitos')renderTransitosAba();
+    if(aba==='previsao')renderPrevisaoAba();
+  }
+
+  document.addEventListener('click',e=>{
+    const tab=e.target.closest('.tab[data-aba]'); if(tab){irPara(tab.dataset.aba);return;}
+    const ir=e.target.closest('[data-ir]'); if(ir){e.preventDefault();irPara(ir.dataset.ir);return;}
+    if(e.target.closest('#btn-conta')){if(confirm('Sair da sua conta neste aparelho?'))BAConta.logout();return;}
+    if(e.target.id==='transit-modal-overlay'){e.target.remove();return;}
+    const rm=e.target.closest('.read-more');
+    if(rm){e.preventDefault();if(isPremium){const t=currentTransits[+rm.dataset.transitIdx];if(t)openTransitModal(t);}else openPremiumCheckout();return;}
+    if(e.target.closest('.btn-unlock,.btn-premium')){e.preventDefault();openPremiumCheckout();}
+  });
+
+  (async()=>{
+    irPara(abaAtual());
+    if(window.BAConta&&BAConta.hasSession()){conta=await BAConta.fetchProfile();}
+    isPremium=!!(conta&&conta.is_premium);
+    $('tab-lock').hidden=isPremium;
+    contaCarregada=true;
+    renderAba(abaAtual());
+  })();
 })();
 </script>
 </body>

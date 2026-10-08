@@ -486,7 +486,7 @@ header.nav { position:sticky; top:0; z-index:50; background:rgba(7,5,26,.82); ba
     <span>© 2026 Bússola Astral</span>
     <nav aria-label="Links do rodapé">
       <a href="/hoje">Horóscopo de Hoje</a>
-      <a href="/horoscopo">Meu Mapa</a>
+      <a href="/hoje?aba=mapa">Meu Mapa</a>
       <a href="/compatibilidade">Compatibilidade</a>
       <a href="/numeros-anjos">Números Anjos</a>
       <a href="/celebridades">Celebridades</a>
@@ -536,7 +536,7 @@ header.nav { position:sticky; top:0; z-index:50; background:rgba(7,5,26,.82); ba
         <div class="s-icon">⭐</div>
         <h3>Você já é Premium!</h3>
         <p>Sua conta já tem acesso completo. Acesse seu mapa astral agora.</p>
-        <a href="/horoscopo" class="btn-submit" style="display:inline-block;text-decoration:none">Acessar meu mapa →</a>
+        <a href="/hoje?aba=previsao" class="btn-submit" style="display:inline-block;text-decoration:none">Acessar meu mapa →</a>
       </div>
     </div>
   </div>
@@ -545,7 +545,7 @@ header.nav { position:sticky; top:0; z-index:50; background:rgba(7,5,26,.82); ba
 <!-- ═══════════════════ SCRIPTS ════════════════════════════ -->
 <script>
 /* ── QUEM JÁ É PREMIUM VAI DIRETO PRO HORÓSCOPO ── */
-(async()=>{if(!window.BAConta||!BAConta.hasSession())return;const p=await BAConta.fetchProfile();if(p&&p.is_premium)window.location.href='/horoscopo';})();
+(async()=>{if(!window.BAConta||!BAConta.hasSession())return;const p=await BAConta.fetchProfile();if(p&&p.is_premium)window.location.href='/hoje';})();
 
 async function irParaCheckout(){
   const headers=Object.assign({'Content-Type':'application/json'},window.BAConta&&BAConta.getToken()?{Authorization:'Bearer '+BAConta.getToken()}:{});

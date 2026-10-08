@@ -2,6 +2,13 @@
   "version": 2,
   "routes": [
     {
+      "src": "/horoscopo(\\.html)?",
+      "status": 308,
+      "headers": {
+        "Location": "/hoje?aba=mapa"
+      }
+    },
+    {
       "src": "/horoscopo-mensal/aries-janeiro-2026",
       "dest": "/horoscopo-mensal/aries-janeiro-2026.html"
     },
@@ -1400,10 +1407,6 @@
     {
       "src": "/login",
       "dest": "/login.html"
-    },
-    {
-      "src": "/horoscopo",
-      "dest": "/horoscopo.html"
     },
     {
       "src": "/hoje",
