@@ -31,10 +31,12 @@ export default async function handler(req, res) {
   };
 
   try {
-    // Try PIX+CARD first; fall back to CARD-only in sandbox
+    // Pix + cartão; se a loja não tiver um dos métodos habilitado (ex.: "CARD is not
+    // available for this store"), tenta só com o outro.
     let { status, data } = await tryCreate(['PIX', 'CARD']);
-
-    if (!data.success && data.error && data.error.includes('PIX')) {
+    if (!data.success && /CARD/i.test(String(data.error || ''))) {
+      ({ status, data } = await tryCreate(['PIX']));
+    } else if (!data.success && /PIX/i.test(String(data.error || ''))) {
       ({ status, data } = await tryCreate(['CARD']));
     }
 
