@@ -430,6 +430,66 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 .mp-pc small{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 @media (max-width:900px){.rd-wrap{grid-template-columns:minmax(0,1fr)}.rd-box{padding:4px}.mp-elmd.tres{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.rd-grau{font-size:15px}.rd-glifo{font-size:27px}}
+.rd-aro-t{stroke:rgba(196,181,253,.25);stroke-dasharray:2 4}
+.rd-glifo-t{fill:#C4B5FD;font-size:22px}.rd-grau-t{fill:#B9ACE6;font-size:12px}.rd-ponto-t{fill:#C4B5FD}.rd-mark-t{stroke:#C4B5FD}
+.rd-cruz{stroke-dasharray:6 4;stroke-opacity:.85}
+.cy-carregando p{color:var(--muted);font-size:14px;margin-top:10px}
+.cy-resumo{display:grid;grid-template-columns:1.6fr repeat(3,minmax(0,1fr));gap:12px}
+.cy-resumo>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:grid;gap:2px}
+.cy-resumo small{color:var(--muted);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase}
+.cy-resumo b{font-size:19px;color:var(--gold2);font-variant-numeric:tabular-nums}
+.cy-data{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:8px}
+.cy-data label{color:var(--muted2);font-size:14px}.cy-data label b{color:var(--gold2)}
+.cy-data input{width:100%;accent-color:var(--gold)}
+.cy-data-bts{display:flex;justify-content:flex-end}
+.cy-ativos{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cy-ativos .mp-sub{width:100%}
+.cy-chip{font:500 13px 'Jost',sans-serif;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted2);cursor:pointer}
+.cy-chip-harmonia{border-color:rgba(74,222,128,.45);color:#86EFAC}.cy-chip-tensao{border-color:rgba(248,113,113,.45);color:#FCA5A5}.cy-chip-fusao{border-color:var(--line-gold);color:var(--gold2)}
+.cy-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cy-card{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;cursor:pointer;transition:border-color .15s}
+.cy-card:hover,.cy-card:focus-visible{border-color:var(--line-gold)}
+.cy-ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-family:'Segoe UI Symbol','Noto Sans Symbols',serif;border:1px solid}
+.cy-ic-ouro{color:var(--gold2);border-color:var(--line-gold);background:rgba(242,184,75,.1)}.cy-ic-verde{color:#86EFAC;border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.08)}
+.cy-ic-verm{color:#FCA5A5;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)}.cy-ic-ambar{color:#FCD34D;border-color:rgba(252,211,77,.4);background:rgba(252,211,77,.08)}
+.cy-tit{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cy-tit h3{font-size:18px;color:var(--text)}
+.cy-rel{color:var(--gold2);font-size:14.5px;margin-top:2px}
+.cy-datas{color:var(--muted);font-size:13px;margin-top:4px}.cy-datas b{color:var(--muted2);font-weight:500}
+.cy-chamada{color:var(--text);font-style:italic;font-size:14.5px;margin-top:8px}
+.cy-txt{color:var(--muted2);font-size:14.5px;margin-top:4px}
+.cy-lock{opacity:.75}.cy-lock .cy-txt{color:var(--gold)}
+.cy-selo{font-size:11.5px;padding:2px 9px;border-radius:999px;border:1px solid;white-space:nowrap;letter-spacing:.02em}
+.cy-selo-ouro{color:var(--gold2);border-color:var(--line-gold);background:rgba(242,184,75,.1)}.cy-selo-verde{color:#86EFAC;border-color:rgba(74,222,128,.4)}
+.cy-selo-verm{color:#FCA5A5;border-color:rgba(248,113,113,.4)}.cy-selo-ambar{color:#FCD34D;border-color:rgba(252,211,77,.4)}
+.cy-selo-roxo{color:#D8B4FE;border-color:rgba(216,180,254,.45);background:rgba(155,107,245,.12)}.cy-selo-lua{color:#BFDBFE;border-color:rgba(191,219,254,.35)}
+.cy-gate{margin-top:16px;text-align:center;background:linear-gradient(180deg,rgba(242,184,75,.12),rgba(242,184,75,.03));border:1px solid var(--line-gold);border-radius:18px;padding:22px;display:grid;gap:10px;justify-items:center}
+.cy-gate h3{font-size:22px;color:var(--gold)}.cy-gate p{color:var(--muted2);max-width:60ch}.cy-gate small{color:var(--muted)}
+.cy-tl-box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;overflow-x:auto}
+.cy-tl{position:relative;min-width:620px;display:grid;gap:6px;--lbl:230px}
+.cy-row{display:grid;grid-template-columns:var(--lbl) minmax(0,1fr);gap:12px;align-items:center}
+.cy-row[data-ev]{cursor:pointer}.cy-row[data-ev]:hover .cy-lbl{color:var(--gold2)}
+.cy-lbl{font-size:13px;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cy-trilho{position:relative;height:16px;border-radius:8px;background:rgba(255,255,255,.04)}
+.cy-trilho-mes{background:none;height:18px}
+.cy-mes{position:absolute;top:0;font-size:12px;color:var(--muted);border-left:1px solid var(--line);padding-left:4px}
+.cy-bar{position:absolute;top:3px;height:10px;border-radius:6px}
+.cy-bar-ouro{background:linear-gradient(90deg,rgba(242,184,75,.5),var(--gold))}.cy-bar-verde{background:rgba(74,222,128,.6)}.cy-bar-verm{background:rgba(248,113,113,.6)}.cy-bar-ambar{background:rgba(252,211,77,.55)}.cy-bar-rx{background:repeating-linear-gradient(45deg,rgba(252,211,77,.55) 0 6px,rgba(252,211,77,.2) 6px 12px)}
+.cy-dot{position:absolute;top:1px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#fff;border:3px solid var(--gold);box-shadow:0 0 0 2px rgba(8,6,26,.8)}
+.cy-marco{position:absolute;top:2px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#BFDBFE}
+.cy-marco-ec{background:#0d0a24;border:3px solid #D8B4FE;box-shadow:0 0 10px rgba(216,180,254,.6)}
+.cy-agora{position:absolute;top:0;bottom:0;left:calc(var(--lbl) + 12px + (100% - var(--lbl) - 12px) * var(--sel-n));width:2px;background:var(--gold2);opacity:.7;pointer-events:none}
+.cy-datas-lista{display:grid;gap:10px}
+.cy-mesbloco{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 16px}
+.cy-mesbloco summary{cursor:pointer;padding:12px 0;font-family:'Playfair Display',serif;font-size:19px;color:var(--gold)}
+.cy-mesbloco summary small{font-family:'Jost',sans-serif;font-size:13px;color:var(--muted);margin-left:8px}
+.cy-mesbloco ul{list-style:none;display:grid;gap:2px;padding-bottom:12px}
+.cy-mesbloco li{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:start;padding:10px 0;border-top:1px solid rgba(255,255,255,.05)}
+.cy-mesbloco li b{font-weight:500;color:var(--text);font-size:15px}
+.cy-mesbloco li p{color:var(--muted2);font-size:14px}
+.cy-dia{display:grid;justify-items:center;font-size:22px;color:var(--gold2);line-height:1;font-variant-numeric:tabular-nums}.cy-dia small{font-size:12px;color:var(--muted);margin-top:2px}
+@media (max-width:900px){.cy-cards{grid-template-columns:minmax(0,1fr)}.cy-resumo{grid-template-columns:repeat(3,minmax(0,1fr))}.cy-resumo>div:first-child{grid-column:1/-1}}
+@media (max-width:520px){.cy-mesbloco li{grid-template-columns:40px minmax(0,1fr)}.cy-mesbloco li .cy-selo{grid-column:2;justify-self:start}.cy-tl{--lbl:150px;min-width:520px}}
 @media (max-width:900px){.mp-angulos,.mp-casas{grid-template-columns:repeat(2,minmax(0,1fr))}.mp-leituras,.mp-elmd{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.mp-trio{grid-template-columns:minmax(0,1fr)}.mp-asp{grid-template-columns:minmax(0,1fr)}.mp-forca{justify-self:start}}
 </style>
@@ -528,7 +588,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 </section>
 
 <section class="wrap aba" id="aba-previsao" hidden>
-  <div class="aba-head"><div><h1>Próximos 6 meses</h1><p>Mês a mês: trânsitos sobre o seu mapa, fases da Lua, Mercúrio retrógrado, eclipses e o arcano do mês.</p></div><span class="premium-ok" id="premium-ok" hidden>⭐ Premium ativo</span></div>
+  <div class="aba-head"><div><h1>Próximos 6 meses</h1><p>Os trânsitos reais sobre o seu mapa, com início, pico e fim — e os eclipses, luas e retrógrados que caem nas suas casas.</p></div><span class="premium-ok" id="premium-ok" hidden>⭐ Premium ativo</span></div>
   <div class="legado" id="panel-previsao"></div>
 </section>
 
@@ -537,6 +597,8 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 <script src="/js/astro-core.js"></script>
 <script src="/js/astro-casas.js"></script>
 <script src="/js/astro-mapa.js"></script>
+<script src="/js/astro-eventos.js"></script>
+<script src="/js/astro-ciclo.js"></script>
 <script>
 (function(){
   const SIGNS=[['aries','Áries','♈'],['touro','Touro','♉'],['gemeos','Gêmeos','♊'],['cancer','Câncer','♋'],['leao','Leão','♌'],['virgem','Virgem','♍'],['libra','Libra','♎'],['escorpiao','Escorpião','♏'],['sagitario','Sagitário','♐'],['capricornio','Capricórnio','♑'],['aquario','Aquário','♒'],['peixes','Peixes','♓']];
@@ -778,7 +840,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
     if(!conta){avisoConta(el,'a sua previsão dos próximos 6 meses');return;}
     if(!temDados()){el.innerHTML=`<div class="aviso"><h2>Falta sua data de nascimento</h2><p>A previsão é calculada sobre o seu mapa. Complete seus dados em “Meu Mapa”.</p><button class="btn btn-gold btn-sm" type="button" data-ir="mapa">Completar meus dados</button></div>`;return;}
     prepararMapa();
-    renderPrevisao6Meses();
+    renderCiclo(el,natalChart,isPremium);
   }
 
   async function renderAba(aba){

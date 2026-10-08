@@ -104,7 +104,9 @@
   // Sem hora/cidade não há casas: a roda começa em 0° de Áries.
   const COR_EL = ['#F0803C', '#7AD88A', '#70C8F5', '#7080F8'];
   const COR_TOM = { harmonia: '#4ADE80', tensão: '#F87171' };
-  const R = { z1: 292, z2: 250, glifo: 224, grau: 194, ncasa: 154, asp: 138 };
+  const R1 = { z1: 292, z2: 250, glifo: 224, grau: 194, ncasa: 154, asp: 138 };
+  // roda dupla: céu da data no anel de fora, mapa natal por dentro
+  const R2 = { z1: 292, z2: 250, tglifo: 228, tgrau: 204, glifo: 172, grau: 147, ncasa: 124, asp: 110 };
 
   function espalhar(itens, min) {
     // afasta símbolos amontoados mantendo a ordem; d = ângulo exibido, lon = real
@@ -122,7 +124,8 @@
     return v;
   }
 
-  function rodaSVG({ planetas, casas, aspectos, base }) {
+  function rodaSVG({ planetas, casas, aspectos, base, transito = null, cruz = [] }) {
+    const R = transito ? R2 : R1;
     const ang = (lon) => (180 + lon - base) * Math.PI / 180;
     const pt = (r, lon) => [300 + r * Math.cos(ang(lon)), 300 - r * Math.sin(ang(lon))].map((n) => n.toFixed(1));
     const linha = (r1, r2, lon, cls) => { const [a, b] = pt(r1, lon), [c, d] = pt(r2, lon); return `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" class="${cls}"/>`; };
@@ -151,25 +154,44 @@
         s += `<g class="rd-p" data-k="${k}" tabindex="0" role="button" aria-label="${NOME[k]}"><text x="${x}" y="${y}" class="rd-eixo-t">${t}</text></g>`;
       });
     }
+    if (transito) s += `<circle cx="300" cy="300" r="${(R.tgrau + R.glifo) / 2 + 6}" class="rd-aro rd-aro-t"/>`;
     // aspectos (conjunções não viram linha: os pontos já estão juntos)
-    aspectos.forEach((x, i) => {
+    if (!transito) aspectos.forEach((x, i) => {
       if (x.asp.tom === 'fusão') return;
       const [a, b] = pt(R.asp, x.A.lon), [c, d] = pt(R.asp, x.B.lon);
       const w = Math.max(0.8, 2.6 - x.orbe * 0.28).toFixed(2);
       s += `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" class="rd-asp" data-a="${i}" data-p="${x.A.k} ${x.B.k}" stroke="${COR_TOM[x.asp.tom]}" stroke-width="${w}"/>`;
     });
     // planetas
+    const mk = transito ? (R.tgrau + R.glifo) / 2 + 6 : R.z2;
     espalhar(planetas, 10).forEach((p) => {
       const [gx, gy] = pt(R.glifo, p.d), [tx, ty] = pt(R.grau, p.d), [dx, dy] = pt(R.asp, p.lon);
       const g = Math.floor(norm(p.lon) % 30);
       s += `<g class="rd-p" data-k="${p.k}" tabindex="0" role="button" aria-label="${NOME[p.k] || 'Nodo Norte'} em ${SIGNOS[signo(p.lon)]} ${g} graus">` +
-        linha(R.z2, R.z2 - 12, p.lon, 'rd-mark') +
-        (Math.abs(p.d - p.lon) > 1.5 ? (() => { const [ax, ay] = pt(R.z2 - 12, p.lon), [bx, by] = pt(R.glifo + 14, p.d); return `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}" class="rd-guia"/>`; })() : '') +
+        linha(mk, mk - (transito ? 6 : 12), p.lon, 'rd-mark') +
+        (Math.abs(p.d - p.lon) > 1.5 ? (() => { const [ax, ay] = pt(mk - (transito ? 6 : 12), p.lon), [bx, by] = pt(R.glifo + 14, p.d); return `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}" class="rd-guia"/>`; })() : '') +
         `<circle cx="${gx}" cy="${gy}" r="17" class="rd-alvo"/><text x="${gx}" y="${gy}" class="rd-glifo">${p.sym}</text>` +
         `<text x="${tx}" y="${ty}" class="rd-grau">${g}°${p.rx ? '℞' : ''}</text><circle cx="${dx}" cy="${dy}" r="3" class="rd-ponto"/></g>`;
     });
+    if (transito) {
+      // linhas tracejadas: planeta do céu → ponto natal que ele ativa
+      cruz.forEach((x, i) => {
+        const [a, b] = pt(R.asp, x.tlon), [c, d] = pt(R.asp, x.nlon);
+        s += `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" class="rd-asp rd-cruz" data-c="${i}" data-p="t-${x.tk} ${x.nk}" stroke="${x.tom === 'fusão' ? '#FFD27A' : COR_TOM[x.tom]}" stroke-width="${Math.max(1, 2.6 - x.orbe).toFixed(2)}"/>`;
+      });
+      espalhar(transito, 9).forEach((p) => {
+        const [gx, gy] = pt(R.tglifo, p.d), [tx, ty] = pt(R.tgrau, p.d), [dx, dy] = pt(R.asp, p.lon);
+        const g = Math.floor(norm(p.lon) % 30);
+        s += `<g class="rd-p rd-t" data-k="t-${p.k}" tabindex="0" role="button" aria-label="${NOME[p.k]} no céu, em ${SIGNOS[signo(p.lon)]} ${g} graus">` +
+          linha(R.z2, R.z2 + 0.01 - 9, p.lon, 'rd-mark rd-mark-t') +
+          `<circle cx="${gx}" cy="${gy}" r="15" class="rd-alvo"/><text x="${gx}" y="${gy}" class="rd-glifo rd-glifo-t">${p.sym}</text>` +
+          `<text x="${tx}" y="${ty}" class="rd-grau rd-grau-t">${g}°${p.rx ? '℞' : ''}</text><circle cx="${dx}" cy="${dy}" r="2.6" class="rd-ponto rd-ponto-t"/></g>`;
+      });
+    }
     return s + '</svg>';
   }
+
+  window.AstroMapa = { rodaSVG, espalhar, SIGNOS, GLIFO, SIMBOLO, NOME, TEMA, ESTILO, AREA, ANGULO_TXT, COR_TOM, signo, grau, esc, retrogrado };
 
   window.renderMapaCompleto = function (el, chart, perfil) {
     const temLocal = !!(chart.cityData && chart.cityData.iana && chart.hasTime && window.AstroCasas);
