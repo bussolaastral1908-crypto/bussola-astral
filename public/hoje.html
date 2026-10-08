@@ -488,7 +488,20 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 .cy-mesbloco li b{font-weight:500;color:var(--text);font-size:15px}
 .cy-mesbloco li p{color:var(--muted2);font-size:14px}
 .cy-dia{display:grid;justify-items:center;font-size:22px;color:var(--gold2);line-height:1;font-variant-numeric:tabular-nums}.cy-dia small{font-size:12px;color:var(--muted);margin-top:2px}
-@media (max-width:900px){.cy-cards{grid-template-columns:minmax(0,1fr)}.cy-resumo{grid-template-columns:repeat(3,minmax(0,1fr))}.cy-resumo>div:first-child{grid-column:1/-1}}
+.cy-areas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}.cy-area{grid-column:span 2}.cy-area:nth-child(n+4){grid-column:span 3}
+.cy-area{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.cy-area-top{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.cy-area-top h3{font-size:17px;color:var(--text);margin-bottom:3px}
+.cy-nota{font-size:30px;color:var(--gold2);font-variant-numeric:tabular-nums;line-height:1}.cy-nota small{font-size:14px;color:var(--muted);font-weight:400}
+.cy-nota-bar{height:8px;border-radius:8px;background:rgba(255,255,255,.06);overflow:hidden}
+.cy-nota-bar i{display:block;height:100%;border-radius:8px}
+.cy-nb-verde{background:linear-gradient(90deg,#22C55E,#86EFAC)}.cy-nb-ambar{background:linear-gradient(90deg,#E39A2C,#FCD34D)}.cy-nb-verm{background:linear-gradient(90deg,#DC2626,#FCA5A5)}
+.cy-area-tit{color:var(--gold2);font-size:15px;font-weight:500}.cy-area-tit:empty{display:none}
+.cy-fases{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}.cy-fases b{color:var(--muted2);font-weight:500}
+.cy-porque summary{cursor:pointer;color:var(--gold);font-size:13.5px}
+.cy-porque ul{list-style:none;display:grid;gap:4px;margin-top:8px;font-size:13.5px}
+.cy-porque li.pos{color:#86EFAC}.cy-porque li.neg{color:#FCA5A5}
+@media (max-width:900px){.cy-areas{grid-template-columns:minmax(0,1fr)}.cy-area,.cy-area:nth-child(n+4){grid-column:auto}.cy-cards{grid-template-columns:minmax(0,1fr)}.cy-resumo{grid-template-columns:repeat(3,minmax(0,1fr))}.cy-resumo>div:first-child{grid-column:1/-1}}
 @media (max-width:520px){.cy-mesbloco li{grid-template-columns:40px minmax(0,1fr)}.cy-mesbloco li .cy-selo{grid-column:2;justify-self:start}.cy-tl{--lbl:150px;min-width:520px}}
 @media (max-width:900px){.mp-angulos,.mp-casas{grid-template-columns:repeat(2,minmax(0,1fr))}.mp-leituras,.mp-elmd{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.mp-trio{grid-template-columns:minmax(0,1fr)}.mp-asp{grid-template-columns:minmax(0,1fr)}.mp-forca{justify-self:start}}
@@ -598,6 +611,7 @@ header.top{position:sticky;top:0;z-index:20;background:rgba(8,6,26,.86);backdrop
 <script src="/js/astro-casas.js"></script>
 <script src="/js/astro-mapa.js"></script>
 <script src="/js/astro-eventos.js"></script>
+<script src="/js/astro-areas.js"></script>
 <script src="/js/astro-ciclo.js"></script>
 <script>
 (function(){

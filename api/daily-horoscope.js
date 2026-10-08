@@ -10,6 +10,7 @@
 // carrega na Vercel e o require dinâmico deixava o pacote fora do deploy.
 import A from './_lib/astronomy.cjs';
 import { kv } from './_lib/store.js';
+import { gerarJSON } from './_lib/ia.js';
 
 const SIGNS = ['aries', 'touro', 'gemeos', 'cancer', 'leao', 'virgem', 'libra', 'escorpiao', 'sagitario', 'capricornio', 'aquario', 'peixes'];
 const SIGN_NAMES = ['Áries', 'Touro', 'Gêmeos', 'Câncer', 'Leão', 'Virgem', 'Libra', 'Escorpião', 'Sagitário', 'Capricórnio', 'Aquário', 'Peixes'];
@@ -100,32 +101,6 @@ Responda SOMENTE com este JSON (sem markdown):
 Regras: português do Brasil; trate a pessoa só por "você" (nunca "amiga", "amigo", "querida" ou apelidos do signo); use linguagem neutra de gênero (evite palavras flexionadas como "cansada", "mesma", "sozinha" — reescreva a frase sem elas); específico para ${signo}; níveis coerentes com o texto (variados, não todos altos); tom positivo mas honesto; nada de promessas de dinheiro, cura ou certeza do futuro.`;
 }
 
-async function gerarGemini(texto) {
-  const key = process.env.GEMINI_API_KEY;
-  if (!key) throw new Error('sem GEMINI_API_KEY');
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${key}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents: [{ parts: [{ text: texto }] }], generationConfig: { responseMimeType: 'application/json', temperature: 0.8 } }),
-  });
-  if (!r.ok) throw new Error(`gemini ${r.status}`);
-  const j = await r.json();
-  return JSON.parse(j.candidates[0].content.parts.map((p) => p.text || '').join(''));
-}
-
-async function gerarOpenAI(texto) {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key) throw new Error('sem OPENAI_API_KEY');
-  const r = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: texto }], response_format: { type: 'json_object' }, temperature: 0.8, max_tokens: 1400 }),
-  });
-  if (!r.ok) throw new Error(`openai ${r.status}`);
-  const j = await r.json();
-  return JSON.parse(j.choices[0].message.content);
-}
-
 const pct = (v) => Math.max(5, Math.min(98, Math.round(Number(v) || 50)));
 
 function valida(h) {
@@ -160,10 +135,7 @@ export default async function handler(req, res) {
   const ceu = ceuDoDia(date);
   const [y, m, d] = date.split('-');
   const texto = prompt(SIGN_NAMES[idx], `${d}/${m}/${y}`, ceu);
-  let horo;
-  for (const gerar of [gerarGemini, gerarOpenAI]) {
-    try { horo = valida(await gerar(texto)); break; } catch (e) { console.error('[daily-horoscope]', gerar.name, e.message); }
-  }
+  const horo = await gerarJSON(texto, valida, 'daily-horoscope');
   if (!horo) return res.status(502).json({ error: 'Não conseguimos gerar o horóscopo agora. Tente de novo em instantes.' });
 
   const out = { signo: SIGN_NAMES[idx], sign, date, ...horo, ceu };

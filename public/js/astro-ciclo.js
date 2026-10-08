@@ -165,6 +165,66 @@
     }).join('');
   }
 
+
+  // ── Áreas da vida (notas de astro-areas.js; texto pela IA a partir dos fatores) ──
+  const AREA_GLIFO = { amor: '♀', trabalho: '♄', dinheiro: '♃', saude: '☉', espiritualidade: '♆' };
+  const faixa = (n) => (n >= 7 ? ['Favorável', 'verde'] : n >= 4 ? ['Equilibrado', 'ambar'] : ['Pede ajuste', 'verm']);
+  const FAIXA_TXT = {
+    'Favorável': 'Fase de fluidez: as coisas tendem a andar com menos esforço.',
+    'Equilibrado': 'Fase de altos e baixos: há apoio e há desafio, e o resultado depende das suas escolhas.',
+    'Pede ajuste': 'Fase de ajuste: o céu pede revisão, paciência e escolhas conscientes antes de avançar.',
+  };
+  const mesTxt = (m) => (m ? `${MES_LONGO[m.mes].toLowerCase()}${m.ano !== new Date().getFullYear() ? ' ' + m.ano : ''}` : '');
+
+  function fatorTxt(C, f, ano) {
+    const { M } = C;
+    if (f.tipo === 'transito') return `${M.NOME[f.ev.tp]} ${C.relacao(f.ev.nome, f.ev.np).replace(/^Em /, 'em ')} (${fdc(f.ev.inicio, ano)} a ${fdc(f.ev.fim, ano)})`;
+    if (f.tipo === 'eclipse') return `Eclipse ${f.l.eclipse.tipo} na sua Casa ${f.l.casa} (${fdc(f.l.data, ano)})`;
+    if (f.tipo === 'retro') return `${RX_NOME[f.x.planeta]} retrógrado na sua Casa ${f.x.casa} (${fdc(f.x.inicio, ano)} a ${fdc(f.x.fim, ano)})`;
+    if (f.tipo === 'ingresso') return `${M.NOME[f.x.planeta]} entra na sua Casa ${f.x.casa} (${fdc(f.x.data, ano)})`;
+    return '';
+  }
+
+  function areasDoCiclo(C, r, h) {
+    const ano = r.inicio.getFullYear();
+    return window.AstroAreas.calcular(r, !!h).map((a) => {
+      const [fx, cls] = faixa(a.nota);
+      const fatores = a.fatores.map((f) => ({ txt: fatorTxt(C, f, ano), pos: f.c > 0 }));
+      const top = fatores.find((f) => f.pos === (a.net >= 0)) || fatores[0];
+      return { ...a, faixa: fx, cls, fatores, texto: `${FAIXA_TXT[fx]}${top ? ` O que mais pesa: ${top.txt}.` : ''}` };
+    });
+  }
+
+  function cardArea(a, bloqueado) {
+    return `<article class="cy-area" data-area="${a.id}">
+      <div class="cy-area-top"><span class="cy-ic cy-ic-${a.cls === 'verm' ? 'verm' : a.cls === 'verde' ? 'verde' : 'ambar'}">${AREA_GLIFO[a.id]}</span><div><h3>${a.nome}</h3><span class="cy-selo cy-selo-${a.cls}">${a.faixa}</span></div>
+      <b class="cy-nota">${bloqueado ? '?' : a.nota}<small>/10</small></b></div>
+      <div class="cy-nota-bar"><i style="width:${bloqueado ? 0 : a.nota * 10}%" class="cy-nb-${a.cls}"></i></div>
+      ${bloqueado ? '<p class="cy-txt">🔒 Nota e leitura no Premium</p>' : `<p class="cy-area-tit" data-tit></p><p class="cy-txt" data-txt>${a.texto}</p>
+      <p class="cy-fases">${a.melhor ? `<span>Mais favorável: <b>${mesTxt(a.melhor)}</b></span>` : ''}${a.atencao ? `<span>Pede atenção: <b>${mesTxt(a.atencao)}</b></span>` : ''}<span>Movimento: <b>${a.movimento}</b></span></p>
+      ${a.fatores.length ? `<details class="cy-porque"><summary>Por que essa nota</summary><ul>${a.fatores.map((f) => `<li class="${f.pos ? 'pos' : 'neg'}">${f.pos ? '+' : '−'} ${f.txt}</li>`).join('')}</ul></details>` : ''}`}
+    </article>`;
+  }
+
+  async function textosIA(el, areas, r) {
+    if (!window.BAConta || !BAConta.getToken()) return;
+    const ciclo = `${MES[r.inicio.getMonth()]} ${r.inicio.getFullYear()} – ${MES[r.fim.getMonth()]} ${r.fim.getFullYear()}`;
+    try {
+      const resp = await fetch('/api/ciclo-areas', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BAConta.getToken() },
+        body: JSON.stringify({ ciclo, areas: areas.map((a) => ({ id: a.id, nome: a.nome, nota: a.nota, faixa: a.faixa, melhor: mesTxt(a.melhor), atencao: mesTxt(a.atencao), fatores: a.fatores.map((f) => (f.pos ? '(favorece) ' : '(desafia) ') + f.txt) })) }),
+      });
+      if (!resp.ok) return;
+      const j = await resp.json();
+      for (const [id, t] of Object.entries(j.areas || {})) {
+        const card = el.querySelector(`.cy-area[data-area="${id}"]`); if (!card) continue;
+        const tit = card.querySelector('[data-tit]'), tx = card.querySelector('[data-txt]');
+        if (tit && t.titulo) tit.textContent = t.titulo;
+        if (tx && t.texto) tx.textContent = t.texto;
+      }
+    } catch (e) { /* fica o texto calculado */ }
+  }
+
   function desenhar(el, C, chart, h, natal, r, premium) {
     const { M } = C;
     // os trânsitos que contam: planetas de Marte para fora (os rápidos aparecem nas datas)
@@ -175,10 +235,12 @@
 
     if (!premium) {
       el.innerHTML = resumo + `<h2 class="mp-h">Os grandes trânsitos do seu ciclo</h2><div class="cy-cards">${top.slice(0, 1).map((ev, i) => cardEvento(C, ev, r, i, false)).join('')}${top.slice(1, 6).map((ev, i) => cardEvento(C, ev, r, i + 1, true)).join('')}</div>
+        <h2 class="mp-h">Áreas da vida no seu ciclo</h2><div class="cy-areas">${areasDoCiclo(C, r, h).map((a) => cardArea(a, true)).join('')}</div>
         <div class="cy-gate"><h3>Veja o ciclo completo</h3><p>A roda com o céu de cada dia sobre o seu mapa, a linha do tempo com início, pico e fim de cada trânsito, e todas as datas do semestre — eclipses, luas e retrógrados nas suas casas.</p><button class="btn btn-gold btn-sm btn-unlock" type="button">Liberar por R$ 9,90</button><small>Pagamento único · acesso por 6 meses</small></div>`;
       return;
     }
 
+    const areasCalc = areasDoCiclo(C, r, h);
     let sel = Date.now();
     el.innerHTML = resumo +
       `<h2 class="mp-h">O céu sobre o seu mapa <small>arraste para ver qualquer dia do ciclo</small></h2>
@@ -188,6 +250,7 @@
         <div class="cy-ativos" id="cy-ativos"></div>
       </div></div>
       <h2 class="mp-h">Os grandes trânsitos do seu ciclo <small>ordenados por relevância para o seu mapa</small></h2><div class="cy-cards">${top.map((ev, i) => cardEvento(C, ev, r, i, false)).join('')}</div>
+      <h2 class="mp-h">Áreas da vida no seu ciclo <small>fluidez de 1 a 10, calculada pelos trânsitos de cada área</small></h2><div class="cy-areas" id="cy-areas">${areasCalc.map((a) => cardArea(a, false)).join('')}</div>
       <h2 class="mp-h">Linha do tempo <small>barra = período ativo · ponto = dia exato</small></h2><div class="cy-tl-box" id="cy-tl"></div>
       <h2 class="mp-h">Datas do seu ciclo <small>eclipses, luas, retrógrados e mudanças de casa</small></h2><div class="cy-datas-lista">${datasDoCiclo(C, r, top)}</div>`;
 
@@ -254,5 +317,6 @@
     });
     el.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.cy-card[data-ev]')) { e.preventDefault(); e.target.click(); } });
     render();
+    textosIA(el, areasCalc, r);
   }
 })();
