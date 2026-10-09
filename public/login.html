@@ -386,7 +386,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     try {
         await loginUser(email, pass);
         showAlert('✓ Login realizado com sucesso! Redirecionando...', 'ok');
-        setTimeout(() => window.location.href = '/hoje', 1000);
+        setTimeout(() => window.location.href = destino(), 1000);
     } catch (err) {
         showAlert(err.message || 'E-mail ou senha incorretos.', 'bad');
         btn.disabled = false;
@@ -394,9 +394,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
+// Para onde ir depois de entrar: ?next=/caminho (só caminhos do próprio site), senão /hoje
+function destino() {
+    const n = new URLSearchParams(location.search).get('next') || '';
+    return /^\/[a-zA-Z0-9_\-\/.?=&]*$/.test(n) && !n.startsWith('//') ? n : '/hoje';
+}
+
 // Já logado? Redireciona
 if (window.BAConta && window.BAConta.hasSession()) {
-    window.location.href = '/hoje';
+    window.location.href = destino();
 }
 
 function openReset() {

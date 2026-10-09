@@ -33,7 +33,7 @@ export const kv = {
   // Lista por prefixo (ex.: 'conta:'), para o painel administrativo.
   async list(prefix, limit = 500) {
     const r = await db().query(
-      `SELECT key, value, updated_at FROM kv WHERE key LIKE $1 AND (expires_at IS NULL OR expires_at > now())
+      `SELECT key, value, updated_at, expires_at FROM kv WHERE key LIKE $1 AND (expires_at IS NULL OR expires_at > now())
        ORDER BY updated_at DESC LIMIT $2`,
       [prefix.replace(/[%_]/g, '\\$&') + '%', limit]
     );

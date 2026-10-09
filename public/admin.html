@@ -124,7 +124,7 @@ tr:hover td{background:rgba(124,63,228,0.04)}
   <div style="font-size:3rem;margin-bottom:16px">🔒</div>
   <h2 style="color:var(--red);margin-bottom:8px">Acesso Negado</h2>
   <p style="color:var(--muted)">Esta área é restrita ao administrador.</p>
-  <button onclick="window.location.href='/login.html'" style="margin-top:20px;padding:10px 24px;background:var(--purple3);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:0.9rem">← Voltar ao Login</button>
+  <button onclick="window.location.href='/login.html?next=/admin.html'" style="margin-top:20px;padding:10px 24px;background:var(--purple3);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:0.9rem">← Voltar ao Login</button>
 </div>
 
 <!-- Error -->
@@ -277,22 +277,26 @@ tr:hover td{background:rgba(124,63,228,0.04)}
     </div>  </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/js/conta-client.js"></script>
 <script>
-const SUPA_URL = 'https://jnjdkfmzkppzqafhjsbl.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuamRrZm16a3BwenFhZmhqc2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDg1MTEsImV4cCI6MjA5NzU4NDUxMX0.xpBcvJ2y6Mj3mL5HrO_XVuj-YD3RIW3P1dMWY_H16y4';
-const ADMIN_EMAIL = 'zaikapablo@gmail.com';
+// Acesso pela conta do site; a API (/api/admin) confere se o e-mail está em ADMIN_EMAILS.
+async function api(acao, opts = {}) {
+  const r = await fetch('/api/admin?acao=' + acao, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + BAConta.getToken() } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || 'Erro ' + r.status), { status: r.status });
+  return j;
+}
 
 const PRODUCT_NAMES = {
   'prod_A2q221TZx3ZYSBxdEyZLaAK3': 'Premium Mensal',
   'prod_AAXUHsMDf04QwwndReKyFaPK':  'Premium Anual',
 };
 
-const db = supabase.createClient(SUPA_URL, SUPA_KEY);
-let currentSession = null;
+let pagosSemConta = [];
 let allUsers = [];
 let allPayments = [];
 
+function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function fmt(date) {
   if (!date) return '—';
   return new Date(date).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
@@ -305,46 +309,41 @@ function fmtBRL(cents) {
   return 'R$ ' + (cents / 100).toFixed(2).replace('.', ',');
 }
 
-// ── Auth Check ──────────────────────────────────────────
+// ── Acesso ───────────────────────────────────────────────
+function irParaLogin() { window.location.href = '/login.html?next=/admin.html'; }
 (async () => {
-  const { data: { session } } = await db.auth.getSession();
-  if (!session) { window.location.href = '/login.html'; return; }
-  if (session.user.email !== ADMIN_EMAIL) {
+  if (!window.BAConta || !BAConta.hasSession()) { irParaLogin(); return; }
+  try {
+    const d = await api('dados');
+    document.getElementById('admin-email-display').textContent = d.admin;
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    aplicarDados(d);
+    await loadPayments();
+    updateStats();
+    document.getElementById('last-updated').textContent = `Última atualização: ${new Date().toLocaleString('pt-BR')}`;
+  } catch (e) {
+    if (e.status === 401) { irParaLogin(); return; }
     document.getElementById('loading').style.display = 'none';
     document.getElementById('access-denied').style.display = 'block';
-    return;
   }
-  currentSession = session;
-  document.getElementById('admin-email-display').textContent = session.user.email;
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  loadData();
 })();
 
-async function logout() {
-  await db.auth.signOut();
-  window.location.href = '/login.html';
-}
+function logout() { BAConta.logout(); }
 
-// ── Load All Data ────────────────────────────────────────
+// ── Dados ────────────────────────────────────────────────
+function aplicarDados(d) {
+  allUsers = d.usuarios || [];
+  pagosSemConta = d.pagosSemConta || [];
+  renderUsers(allUsers);
+  renderPending();
+}
 async function loadData() {
-  await Promise.all([loadUsers(), loadPayments(), loadPending()]);
-  updateStats();
-  const now = new Date().toLocaleString('pt-BR');
-  document.getElementById('last-updated').textContent = `Última atualização: ${now}`;
-}
-
-// ── Users ────────────────────────────────────────────────
-async function loadUsers() {
-  document.getElementById('users-tbody').innerHTML = '<tr><td colspan="8" class="empty-state">Carregando...</td></tr>';
-  try {
-    const { data, error } = await db.rpc('admin_get_all_users');
-    if (error) throw new Error(error.message);
-    allUsers = data || [];
-    renderUsers(allUsers);
-  } catch (e) {
+  try { aplicarDados(await api('dados')); } catch (e) {
     document.getElementById('users-tbody').innerHTML = `<tr><td colspan="8" class="empty-state" style="color:var(--red)">Erro: ${e.message}</td></tr>`;
   }
+  updateStats();
+  document.getElementById('last-updated').textContent = `Última atualização: ${new Date().toLocaleString('pt-BR')}`;
 }
 
 function renderUsers(users) {
@@ -358,14 +357,14 @@ function renderUsers(users) {
     const isPrem = u.is_premium;
     const expDate = u.premium_expires_at ? new Date(u.premium_expires_at) : null;
     const isLifetime = expDate && expDate.getFullYear() >= 2090;
-    const expStr = isLifetime ? '♾️ Vitalício' : (expDate ? fmtDate(u.premium_expires_at) : '—');
+    const expStr = isLifetime ? '♾️ Vitalício' : (expDate ? fmtDate(u.premium_expires_at) + (u.premium_origem === 'manual' ? ' <small style="color:var(--muted)">(manual)</small>' : '') : '—');
     return `<tr>
       <td>
         <div class="user-cell">
           <div class="avatar-sm">${initial}</div>
           <div>
-            <div class="user-name">${u.name || '(sem nome)'}</div>
-            <div class="user-email">${u.email}</div>
+            <div class="user-name">${esc(u.name) || '(sem nome)'}</div>
+            <div class="user-email">${esc(u.email)}</div>
           </div>
         </div>
       </td>
@@ -381,8 +380,8 @@ function renderUsers(users) {
       <td>${expStr}</td>
       <td>
         ${isPrem
-          ? `<button class="btn-toggle btn-revoke" onclick="togglePremium('${u.email}', false)">Revogar</button>`
-          : `<button class="btn-toggle btn-grant"  onclick="togglePremium('${u.email}', true)">Conceder</button>`
+          ? `<button class="btn-toggle btn-revoke" onclick="togglePremium('${esc(u.email)}', false)">Retirar</button>`
+          : `<button class="btn-toggle btn-grant"  onclick="togglePremium('${esc(u.email)}', true)">Conceder</button>`
         }
       </td>
     </tr>`;
@@ -398,13 +397,10 @@ function filterUsers() {
 }
 
 async function togglePremium(email, grant) {
-  const action = grant ? 'conceder' : 'revogar';
-  if (!confirm(`${grant ? '⭐ Conceder' : '❌ Revogar'} acesso Premium para ${email}?`)) return;
+  if (!confirm(`${grant ? '⭐ Conceder Premium (6 meses)' : '❌ Retirar o Premium'} para ${email}?`)) return;
   try {
-    const { data, error } = await db.rpc('admin_set_premium', { target_email: email, grant_premium: grant });
-    if (error) throw new Error(error.message);
-    await loadUsers();
-    updateStats();
+    await api('premium', { method: 'POST', body: JSON.stringify({ email, conceder: grant }) });
+    await loadData();
   } catch (e) {
     alert('Erro: ' + e.message);
   }
@@ -414,12 +410,7 @@ async function togglePremium(email, grant) {
 async function loadPayments() {
   document.getElementById('payments-tbody').innerHTML = '<tr><td colspan="7" class="empty-state">Carregando...</td></tr>';
   try {
-    const token = currentSession.access_token;
-    const res = await fetch('/api/admin-payments', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error || 'Erro desconhecido');
+    const json = await api('pagamentos');
     allPayments = json.payments || [];
     renderPayments(allPayments);
   } catch (e) {
@@ -485,33 +476,21 @@ function updateStats() {
   document.getElementById('stat-mrr').textContent = (activePrem * 9.90).toFixed(2).replace('.', ',');
 }
 
-// ── Pending Premiums ───────────────────────────────────────
-async function loadPending() {
-  try {
-    const { data, error } = await db.from('pending_premiums').select('*').order('granted_at', { ascending: false });
-    if (error) throw new Error(error.message);
-    const rows = data || [];
-    document.getElementById('stat-pending').textContent = rows.length;
-    document.getElementById('pending-count').textContent = rows.length;
-    if (!rows.length) {
-      document.getElementById('pending-tbody').innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum grant pendente ✅</td></tr>';
-      return;
-    }
-    document.getElementById('pending-tbody').innerHTML = rows.map(r => `<tr>
-      <td>${r.email}</td>
-      <td style="font-size:.8rem">${fmt(r.granted_at)}</td>
-      <td style="font-size:.8rem">${fmt(r.expires_at)}</td>
-      <td><button class="btn-toggle btn-revoke" style="font-size:.72rem" onclick="deletePending('${r.email}')">Remover</button></td>
-    </tr>`).join('');
-  } catch(e) {
-    document.getElementById('pending-tbody').innerHTML = `<tr><td colspan="4" class="empty-state" style="color:var(--red)">Erro: ${e.message}</td></tr>`;
+// ── Pagos sem conta (Premium ativo para um e-mail que não tem conta) ──
+function renderPending() {
+  const rows = pagosSemConta;
+  document.getElementById('stat-pending').textContent = rows.length;
+  document.getElementById('pending-count').textContent = rows.length;
+  if (!rows.length) {
+    document.getElementById('pending-tbody').innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum pagamento sem conta ✅</td></tr>';
+    return;
   }
-}
-
-async function deletePending(email) {
-  if (!confirm(`Remover grant pendente de ${email}?`)) return;
-  await db.from('pending_premiums').delete().eq('email', email);
-  loadPending();
+  document.getElementById('pending-tbody').innerHTML = rows.map(r => `<tr>
+    <td>${esc(r.email)}</td>
+    <td style="font-size:.8rem">${fmt(r.granted_at)}</td>
+    <td style="font-size:.8rem">${fmt(r.expires_at)}</td>
+    <td><button class="btn-toggle btn-revoke" style="font-size:.72rem" onclick="togglePremium('${esc(r.email)}', false)">Retirar</button></td>
+  </tr>`).join('');
 }
 
 // ── Export CSV ────────────────────────────────────────────

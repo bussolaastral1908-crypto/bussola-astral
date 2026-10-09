@@ -120,6 +120,8 @@ const ACOES = {
     if (!conta || !(await checkPass(b.password, conta.passHash))) {
       return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
     }
+    // último acesso (painel administrativo); falha aqui não impede o login
+    try { await kv.set(keyConta(email), { ...conta, lastLogin: new Date().toISOString() }); } catch (e) { console.error('[conta] lastLogin', e.message); }
     return res.status(200).json({ token: makeToken(email, conta.ver || 0), profile: await publico(conta) });
   },
 
